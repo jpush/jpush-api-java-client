@@ -1,4 +1,4 @@
-package cn.jpush.api.domain;
+package cn.jpush.api;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,41 +10,18 @@ import org.codehaus.jackson.map.ObjectMapper;
 /*
  * 自定义类型的消息内容
  */
-public class CustomMessageParams extends BaseMessageParams {
-	
-	public CustomMessageParams() {
-	}
-		
-	public class CustomMsgContent extends BaseMessageParams.MsgContent {
-		//自定义消息的内容。
-		private String message = "";
-		
+public class CustomMessageParams extends MessageParams {
+	public class CustomMsgContent extends MessageParams.MsgContent {
 		//message 里的内容类型
 		private String contentType = "";
-		
-		//消息标题
-		private String title = "";
-		
 		//更多的附属信息
 		private Map<String, Object> extra;
 		
-		public String getMessage() {
-			return message;
-		}
-		public void setMessage(String message) {
-			this.message = message;
-		}
 		public String getContentType() {
 			return contentType;
 		}
 		public void setContentType(String contentType) {
 			this.contentType = contentType;
-		}
-		public String getTitle() {
-			return title;
-		}
-		public void setTitle(String title) {
-			this.title = title;
 		}
 		public Map<String, Object> getExtra() {
 			return extra;
@@ -57,16 +34,15 @@ public class CustomMessageParams extends BaseMessageParams {
 			StringBuffer buffer = new StringBuffer();
 			try {
 				buffer.append("{");
-				buffer.append("\"message\":\"" + this.message + "\"");
-				if (null != this.contentType) {
-					buffer.append(",\"content_type\":\"" + this.contentType + "\"");
+				buffer.append("\"message\":\"" + this.getMessage() + "\"");
+				if (null != this.getContentType()) {
+					buffer.append(",\"content_type\":\"" + this.getContentType() + "\"");
 				}
-				if (null != this.title) {
-					buffer.append(",\"title\":\"" + this.title + "\"");
+				if (null != this.getTitle()) {
+					buffer.append(",\"title\":\"" + this.getTitle() + "\"");
 				}
-				if (null != this.extra) {
-					buffer.append(",\"extra\":\"" + new ObjectMapper().writeValueAsString(this.extra) + "\"");
-				}
+				String extraJson = new ObjectMapper().writeValueAsString(this.extra);
+				buffer.append(",\"extra\":\"" + ((null != extraJson) ? "{}":"") + "\"");
 				buffer.append("}");
 			} catch (JsonGenerationException e) {
 				e.printStackTrace();

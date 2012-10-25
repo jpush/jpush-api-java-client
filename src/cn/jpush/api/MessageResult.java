@@ -1,4 +1,4 @@
-package cn.jpush.api.domain;
+package cn.jpush.api;
 
 import java.io.IOException;
 import java.util.Map;

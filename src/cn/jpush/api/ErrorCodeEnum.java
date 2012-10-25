@@ -1,4 +1,4 @@
-package cn.jpush.api.domain;
+package cn.jpush.api;
 
 public enum ErrorCodeEnum {
 	//系统内部错误

@@ -1,4 +1,4 @@
-package cn.jpush.api.domain;
+package cn.jpush.api;
 
 /*
  * 发送消息回调的数据格式

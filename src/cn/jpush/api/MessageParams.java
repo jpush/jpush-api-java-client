@@ -1,9 +1,9 @@
-package cn.jpush.api.domain;
+package cn.jpush.api;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class BaseMessageParams {
+public class MessageParams {
 	/*
 	 * 发送编号。由开发者自己维护，标识一次发送请求
 	 */
@@ -13,13 +13,13 @@ public class BaseMessageParams {
 	 * 待发送的应用程序列表 (appKey)，多个使用逗号隔开。
 	 * 如果不填，则会向所有的应用发送。
 	 */
-	private Set<String> appKeys = new HashSet<String>();
+	private String appKeys = "";
 	
 	/*
 	 * 接收者类型。都支持多个。
 	 * 枚举类定义 ReceiverTypeEnum
 	 */
-	private Set<Integer> receiverType = new HashSet<Integer>();
+	private Set<ReceiverTypeEnum> receiverType = new HashSet<ReceiverTypeEnum>();
 	
 	/*
 	 * 发送范围值，与 receiver_type 相对应。
@@ -36,7 +36,7 @@ public class BaseMessageParams {
 	/*
 	 * 目标用户中断手机的平台类型，如：android, ios
 	 */
-	private Set<String> platform = new HashSet<String>();
+	private Set<DeviceEnum> platform = new HashSet<DeviceEnum>();
 	
 	/*
 	 * 发送消息的内容。
@@ -45,15 +45,27 @@ public class BaseMessageParams {
 	private MsgContent msgContent = new MsgContent();
 	
 	public class MsgContent {
+		private String title = "";
+		private String message = "";
+		
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getMessage() {
+			return message;
+		}
+		public void setMessage(String message) {
+			this.message = message;
+		}
+		
 		@Override
 		public String toString() {
 			return "";
 		}
 	}
-	
-	public BaseMessageParams() {
-	}
-		
 	
 	public MsgContent getMsgContent() {
 		return this.msgContent;
@@ -65,15 +77,19 @@ public class BaseMessageParams {
 		this.sendNo = sendNo;
 	}
 	public String getAppKeys() {
-		return fromStringSet(this.appKeys);
+		return this.appKeys;
 	}
-	public void addAppKeys(String appKey) {
-		this.appKeys.add(appKey);
+	public void setAppKeys(String appKeys) {
+		this.appKeys = appKeys;
 	}
 	public String getReceiverType() {
-		return fromIntegerSet(this.receiverType);
+		String keys = "";
+		for (ReceiverTypeEnum key : this.receiverType) {
+			keys += (key.value() + ",");
+		}
+		return keys.length() > 0 ? keys.substring(0, keys.length()-1) : "";
 	}
-	public void addReceiverType(int receiverType) {
+	public void addReceiverType(ReceiverTypeEnum receiverType) {
 		this.receiverType.add(receiverType);
 	}
 	public String getReceiverValue() {
@@ -89,21 +105,16 @@ public class BaseMessageParams {
 		this.sendDescription = sendDescription;
 	}
 	public String getPlatform() {
-		return fromStringSet(this.platform);
+		String keys = "";
+		for (DeviceEnum key : this.platform) {
+			keys += (key.value() + ",");
+		}
+		return keys.length() > 0 ? keys.substring(0, keys.length()-1) : "";
 	}
-	public void addPlatform(String platform) {
+	public void addPlatform(DeviceEnum platform) {
 		this.platform.add(platform);
 	}
 	
-	private String fromIntegerSet(Set<Integer> sets) {
-		String keys = "";
-		for (Object key : sets) {
-			keys += (key + ",");
-		}
-		return keys.length() > 0
-				? keys.substring(0, keys.length()-1)
-				: "";
-	}
 	private String fromStringSet(Set<String> sets) {
 		String keys = "";
 		for (Object key : sets) {
