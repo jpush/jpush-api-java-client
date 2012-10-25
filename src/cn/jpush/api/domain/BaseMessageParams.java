@@ -1,19 +1,9 @@
-package com.jpush.helper;
+package cn.jpush.api.domain;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class MessageParam {
-	/*
-	 * 开发者注册帐号
-	 */
-	private String userName = "";
-	
-	/*
-	 * 开发者注册密码
-	 */
-	private String password = "";
-	
+public class BaseMessageParams {
 	/*
 	 * 发送编号。由开发者自己维护，标识一次发送请求
 	 */
@@ -44,11 +34,6 @@ public class MessageParam {
 	private String sendDescription = "";
 	
 	/*
-	 * 回调 HTTP URL。
-	 */
-	private String callbackUrl = "";
-	
-	/*
 	 * 目标用户中断手机的平台类型，如：android, ios
 	 */
 	private Set<String> platform = new HashSet<String>();
@@ -66,29 +51,12 @@ public class MessageParam {
 		}
 	}
 	
-	public MessageParam() {
+	public BaseMessageParams() {
+	}
 		
-	}
-	
-	public MessageParam(String username, String password) {
-		this.userName  = username;
-		this.password = password;
-	}
 	
 	public MsgContent getMsgContent() {
 		return this.msgContent;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public int getSendNo() {
 		return sendNo;
@@ -119,12 +87,6 @@ public class MessageParam {
 	}
 	public void setSendDescription(String sendDescription) {
 		this.sendDescription = sendDescription;
-	}
-	public String getCallbackUrl() {
-		return callbackUrl;
-	}
-	public void setCallbackUrl(String callbackUrl) {
-		this.callbackUrl = callbackUrl;
 	}
 	public String getPlatform() {
 		return fromStringSet(this.platform);

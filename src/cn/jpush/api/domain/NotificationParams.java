@@ -1,18 +1,14 @@
-package com.jpush.helper;
+package cn.jpush.api.domain;
 
 /*
  * 通知类型的消息内容
  */
-public class NotifyMessageParam extends MessageParam {
-	public NotifyMessageParam() {
-		
+public class NotificationParams extends BaseMessageParams {
+
+	public NotificationParams() {
 	}
 	
-	public NotifyMessageParam(String username, String password) {
-		super(username, password);
-	}
-	
-	public class NotifyMsgContent extends MessageParam.MsgContent {
+	public class NotificationContent extends BaseMessageParams.MsgContent {
 		//不填则默认为 0，使用 极光Push SDK 的默认通知样式。
 		private String builderId = "";
 		
@@ -56,8 +52,8 @@ public class NotifyMessageParam extends MessageParam {
 			return buffer.toString();
 		}
 	}
-	private NotifyMsgContent msgContent = new NotifyMsgContent();
-	public NotifyMsgContent getMsgContent() {
+	private NotificationContent msgContent = new NotificationContent();
+	public NotificationContent getMsgContent() {
 		return this.msgContent;
 	}
 }

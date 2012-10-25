@@ -1,4 +1,4 @@
-package com.jpush.helper;
+package cn.jpush.api.domain;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,16 +10,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 /*
  * 自定义类型的消息内容
  */
-public class CustomMessageParam extends MessageParam {
-	public CustomMessageParam() {
+public class CustomMessageParams extends BaseMessageParams {
+	
+	public CustomMessageParams() {
+	}
 		
-	}
-	
-	public CustomMessageParam(String username, String password) {
-		super(username, password);
-	}
-	
-	public class CustomMsgContent extends MessageParam.MsgContent {
+	public class CustomMsgContent extends BaseMessageParams.MsgContent {
 		//自定义消息的内容。
 		private String message = "";
 		

@@ -1,4 +1,4 @@
-package com.jpush.helper;
+package cn.jpush.api.domain;
 
 public enum ReceiverTypeEnum {
 	//指定的 IMEI。此时必须指定 appKeys。

@@ -1,4 +1,4 @@
-package com.jpush.helper;
+package cn.jpush.api.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
