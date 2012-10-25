@@ -8,8 +8,8 @@ import cn.jpush.api.MessageResult;
 
 public class JpushClientTest {
 	
-	private static final String username = "admin";
-	private static final String password = "12345";
+	private static final String username = "username";
+	private static final String password = "password";
 	private static final String callbackUrl = "http://dev.kktalk.cn/apps/callback.jsp";
 	private static JPushClient client = new JPushClient(username, password, callbackUrl);
 	
