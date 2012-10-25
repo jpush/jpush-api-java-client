@@ -41,10 +41,8 @@ public class JpushExample {
 		 */
 		CustomMessageParam customMessage = new CustomMessageParam("username", "password");
 		customMessage.setSendNo(0);
-		
 		customMessage.addReceiverType(ReceiverTypeEnum.TAG.value());
 		customMessage.addReceiverValue("receiver tag value");
-		
 		customMessage.setCallbackUrl("your callback");
 		customMessage.setSendDescription("send description");
 		customMessage.addAppKeys("your appkeys");
