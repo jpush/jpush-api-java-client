@@ -2,6 +2,7 @@
 
 # Package Files #
 # *.jar
+test-output/
 *.DS_Store
 *.war
 *.ear
