@@ -14,9 +14,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class JPushClient {
+	private final boolean DEBUG_MODE = true;
+	
 	private final String hostname = "api.jpush.cn:8800";
 	private static final String CHARSET = "UTF-8";
+	
+	//设置连接超时时间
 	private static final int DEFAULT_CONNECTION_TIMEOUT = (10 * 1000); // milliseconds
+	//设置读取超时时间
 	private static final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 	private String username;
@@ -28,6 +33,7 @@ public class JPushClient {
 		this.username = username;
 		this.password = password;
 		this.callbackUrl = callbackUrl;
+		
 		
 		setSocketTimeout(DEFAULT_SOCKET_TIMEOUT);
 		
@@ -65,7 +71,7 @@ public class JPushClient {
 		MessageParams p = new CustomMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.IMEI);
 		p.addReceiverValue(imei);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -82,7 +88,7 @@ public class JPushClient {
 		MessageParams p = new NotifyMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.TAG);
 		p.addReceiverValue(tag);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -99,7 +105,7 @@ public class JPushClient {
 		MessageParams p = new CustomMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.TAG);
 		p.addReceiverValue(tag);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -116,7 +122,7 @@ public class JPushClient {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.ALIAS);
 		p.addReceiverValue(alias);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -133,7 +139,7 @@ public class JPushClient {
 		MessageParams p = new CustomMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.ALIAS);
 		p.addReceiverValue(alias);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -149,7 +155,7 @@ public class JPushClient {
 					DeviceEnum ...devices) {
 		MessageParams p = new NotifyMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -165,7 +171,7 @@ public class JPushClient {
 					DeviceEnum ...devices) {
 		MessageParams p = new CustomMessageParams();
 		p.addReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendMessage(p);
+		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
 	/*
@@ -216,6 +222,14 @@ public class JPushClient {
 		if (null != obj) {
 			post.setEntity(toEntity(obj));
 		}
+		if (DEBUG_MODE) {
+			try {
+				System.out.println("==请求的参数==");
+				System.out.println(EntityUtils.toString(post.getEntity()).replace("&", "\n"));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 		HttpResponse response = execute(post);
 		HttpEntity responseEntity = response.getEntity();
 		try {
@@ -254,16 +268,37 @@ public class JPushClient {
 	protected HttpResponse execute(HttpRequestBase method) {
 		try {
 			method.setHeader(new BasicHeader("Accept", "application/json"));
-			HttpResponse resp = getHttpClient().execute(method);
-			StatusLine status = resp.getStatusLine();
-			if (status.getStatusCode() == 404) {
-				throw new NotFoundException(status.getReasonPhrase());
-			}
-			return resp;
+			HttpResponse response = getHttpClient().execute(method);
+			checkResponse(method, response);
+			return response;
 		} catch (RuntimeException rtex) {
 			throw rtex;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
+		}
+	}
+	
+	protected void checkResponse(HttpRequest request, HttpResponse response) {
+		StatusLine status = response.getStatusLine();
+		int statusCode = status.getStatusCode();
+		if (statusCode == 404) {
+			throw new NotFoundException(status.getReasonPhrase());
+		} else if ( (statusCode < 200) || (statusCode > 299) ) {
+			StringBuilder msg = new StringBuilder();
+			msg.append("statusCode=" + statusCode);
+			msg.append("\n");
+			msg.append("method=" + request.getRequestLine().getMethod());
+			msg.append("\n");
+			msg.append(request.getRequestLine().getUri());
+			HttpEntity responseEntity = response.getEntity();
+			try {
+				String responseBody = EntityUtils.toString(responseEntity);
+				msg.append("\n");
+				msg.append("responseBody=" + responseBody);
+			} catch (Exception ignored) {
+				// ignored
+			}
+			throw new RuntimeException("unexpected response\n" + msg);
 		}
 	}
 	
@@ -278,14 +313,14 @@ public class JPushClient {
 	private HttpPost createHttpPost(final String path) {
 		String url = getUrlForPath(path);
 		HttpPost post = new HttpPost(url);
-		post.setHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.2)");
-		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
+//		post.setHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.2)");
+//		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
+//		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		return post;
 	}
 	
 	protected String getUrlForPath(final String path) {
-		if (path.startsWith("http://")) {
+		if (path.startsWith("http://") || path.startsWith("https://")) {
 			return path;
 		} else {
 			return "http://"
@@ -299,6 +334,7 @@ public class JPushClient {
 	}
 	
 	public CallbackMessage getCallbackMessage() {
+		//unimplements
 		return null;
 	}
 	
@@ -326,7 +362,7 @@ public class JPushClient {
 		nvps.add(new BasicNameValuePair("send_description", message.getSendDescription()));
 		nvps.add(new BasicNameValuePair("callback_url", this.getCallbackUrl()));
 		nvps.add(new BasicNameValuePair("platform", message.getPlatform()));
-		System.out.println(message.getMsgContent().toString());
+		
 		try {
 			return new UrlEncodedFormEntity(nvps, CHARSET);
 		} catch (UnsupportedEncodingException e) {
