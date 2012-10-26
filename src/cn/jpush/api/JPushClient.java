@@ -20,7 +20,7 @@ public class JPushClient {
 	private static final String CHARSET = "UTF-8";
 	
 	//设置连接超时时间
-	private static final int DEFAULT_CONNECTION_TIMEOUT = (10 * 1000); // milliseconds
+	private static final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
 	//设置读取超时时间
 	private static final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 

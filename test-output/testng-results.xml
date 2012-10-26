@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="10" passed="10">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="4458" started-at="2012-10-26T05:31:37Z" finished-at="2012-10-26T05:31:42Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="4458" started-at="2012-10-26T05:31:37Z" finished-at="2012-10-26T05:31:42Z">
+      <class name="cn.jpush.test.JpushClientTest">
+        <test-method status="PASS" signature="init()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="init" is-config="true" duration-ms="59" started-at="2012-10-26T13:31:37Z" finished-at="2012-10-26T13:31:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- init -->
+        <test-method status="PASS" signature="testSendCustomMessage()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendCustomMessage" duration-ms="1115" started-at="2012-10-26T13:31:37Z" finished-at="2012-10-26T13:31:38Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendCustomMessage -->
+        <test-method status="PASS" signature="testSendCustomMessageWithAlias()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendCustomMessageWithAlias" duration-ms="417" started-at="2012-10-26T13:31:38Z" finished-at="2012-10-26T13:31:39Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendCustomMessageWithAlias -->
+        <test-method status="PASS" signature="testSendCustomMessageWithAppKey()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendCustomMessageWithAppKey" duration-ms="325" started-at="2012-10-26T13:31:39Z" finished-at="2012-10-26T13:31:39Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendCustomMessageWithAppKey -->
+        <test-method status="PASS" signature="testSendCustomMessageWithImei()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendCustomMessageWithImei" duration-ms="312" started-at="2012-10-26T13:31:39Z" finished-at="2012-10-26T13:31:39Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendCustomMessageWithImei -->
+        <test-method status="PASS" signature="testSendCustomMessageWithTag()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendCustomMessageWithTag" duration-ms="414" started-at="2012-10-26T13:31:39Z" finished-at="2012-10-26T13:31:40Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendCustomMessageWithTag -->
+        <test-method status="PASS" signature="testSendNotificationWithImei()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendNotificationWithImei" duration-ms="314" started-at="2012-10-26T13:31:40Z" finished-at="2012-10-26T13:31:40Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendNotificationWithImei -->
+        <test-method status="PASS" signature="testSendNotifyMessage()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendNotifyMessage" duration-ms="319" started-at="2012-10-26T13:31:40Z" finished-at="2012-10-26T13:31:40Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendNotifyMessage -->
+        <test-method status="PASS" signature="testSendNotifyMessageWithAlias()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendNotifyMessageWithAlias" duration-ms="436" started-at="2012-10-26T13:31:40Z" finished-at="2012-10-26T13:31:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendNotifyMessageWithAlias -->
+        <test-method status="PASS" signature="testSendNotifyMessageWithAppKey()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendNotifyMessageWithAppKey" duration-ms="326" started-at="2012-10-26T13:31:41Z" finished-at="2012-10-26T13:31:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendNotifyMessageWithAppKey -->
+        <test-method status="PASS" signature="testSendNotifyMessageWithTag()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="testSendNotifyMessageWithTag" duration-ms="394" started-at="2012-10-26T13:31:41Z" finished-at="2012-10-26T13:31:42Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSendNotifyMessageWithTag -->
+        <test-method status="PASS" signature="shutdown()[pri:0, instance:cn.jpush.test.JpushClientTest@10ad8659]" name="shutdown" is-config="true" duration-ms="1" started-at="2012-10-26T13:31:42Z" finished-at="2012-10-26T13:31:42Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- shutdown -->
+      </class> <!-- cn.jpush.test.JpushClientTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
