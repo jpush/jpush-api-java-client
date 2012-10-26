@@ -36,10 +36,10 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendNotificationWithImei(imei,
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android,
-											DeviceEnum.IOS);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android,
+									DeviceEnum.IOS);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -52,9 +52,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendCustomMessageWithImei(imei, 
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -66,9 +66,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendNotificationWithAppKey(
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -80,9 +80,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendCustomMessageWithAppKey(
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -95,9 +95,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendNotificationWithTag(tag,
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -110,9 +110,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendCustomMessageWithTag(tag,
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -125,9 +125,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendNotificationWithAlias(alias,
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
@@ -140,9 +140,9 @@ public class JpushClientTest {
 		String msgTitle = "title";
 		String msgContent = "write something...";
 		MessageResult msgResult = client.sendCustomMessageWithAlias(alias,
-											appKey, sendNo, sendDescription,
-											msgTitle, msgContent,
-											DeviceEnum.Android);
+									appKey, sendNo, sendDescription,
+									msgTitle, msgContent,
+									DeviceEnum.Android);
 		Assert.assertEquals(msgResult.getErrcode(), 0);
 	}
 	
