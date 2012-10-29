@@ -32,7 +32,10 @@ public enum ErrorCodeEnum {
 	InvalidAppKey(1009),
 	
 	//msg_content不合法
-	InvalidMsgContentValue(1010);
+	InvalidMsgContentValue(1010),
+	
+	//没有满足条件的推送目标
+	InvalidPush(1011);
 	
 	private final int value;
 	private ErrorCodeEnum(final int value) {

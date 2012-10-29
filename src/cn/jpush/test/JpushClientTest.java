@@ -14,7 +14,7 @@ public class JpushClientTest {
 	
 	private final String username = "username";
 	private final String password = "password";
-	private final String callbackUrl = "callbackUrl";
+	private final String callbackUrl = "url";
 	private JPushClient client = null;
 	
 	@BeforeTest

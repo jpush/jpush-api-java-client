@@ -14,8 +14,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class JPushClient {
-	private final boolean DEBUG_MODE = true;
-	
 	private final String hostname = "api.jpush.cn:8800";
 	private static final String CHARSET = "UTF-8";
 	
@@ -221,14 +219,6 @@ public class JPushClient {
 		HttpPost post = createHttpPost(path);
 		if (null != obj) {
 			post.setEntity(toEntity(obj));
-		}
-		if (DEBUG_MODE) {
-			try {
-				System.out.println("==请求的参数==");
-				System.out.println(EntityUtils.toString(post.getEntity()).replace("&", "\n"));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
 		}
 		HttpResponse response = execute(post);
 		HttpEntity responseEntity = response.getEntity();
