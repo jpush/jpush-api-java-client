@@ -1,6 +1,9 @@
 package cn.jpush.api;
 
 public enum ErrorCodeEnum {
+	//没有错误，发送成功
+	NOERROR(0),
+	
 	//系统内部错误
 	SystemError(10),
 	

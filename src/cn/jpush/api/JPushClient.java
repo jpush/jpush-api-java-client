@@ -296,7 +296,6 @@ public class JPushClient {
 		if (null == json) {
 			return null;
 		}
-		
 		return MessageResult.fromValue(String.valueOf(json));
 	}
 	
@@ -321,11 +320,6 @@ public class JPushClient {
 	
 	protected String getHostname() {
 		return this.hostname;
-	}
-	
-	public CallbackMessage getCallbackMessage() {
-		//unimplements
-		return null;
 	}
 	
 	public HttpEntity toEntity(MessageParams message) {

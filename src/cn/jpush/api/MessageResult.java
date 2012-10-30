@@ -40,17 +40,19 @@ public class MessageResult {
 	public static MessageResult fromValue(String result) {
 		MessageResult messageResult = null;
 		try {
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map = new ObjectMapper().readValue(result.toString(), Map.class);
-			messageResult = new MessageResult();
-			if (null != map.get("sendno")) {
-				messageResult.setSendno(Integer.parseInt(String.valueOf(map.get("sendno"))));
-			}
-			if (null != map.get("errcode")) {
-				messageResult.setErrcode(Integer.parseInt(String.valueOf(map.get("errcode"))));
-			}
-			if (null != map.get("errmsg")) {
-				messageResult.setErrmsg(String.valueOf(map.get("errmsg")));
+			if ( (null != result) && (!"".equals(result)) ) {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> map = new ObjectMapper().readValue(result, Map.class);
+				messageResult = new MessageResult();
+				if (null != map.get("sendno")) {
+					messageResult.setSendno(Integer.parseInt(String.valueOf(map.get("sendno"))));
+				}
+				if (null != map.get("errcode")) {
+					messageResult.setErrcode(Integer.parseInt(String.valueOf(map.get("errcode"))));
+				}
+				if (null != map.get("errmsg")) {
+					messageResult.setErrmsg(String.valueOf(map.get("errmsg")));
+				}
 			}
 		} catch (JsonParseException e) {
 			e.printStackTrace();

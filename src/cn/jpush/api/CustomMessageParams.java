@@ -1,10 +1,6 @@
 package cn.jpush.api;
 
-import java.io.IOException;
 import java.util.Map;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /*
@@ -44,11 +40,7 @@ public class CustomMessageParams extends MessageParams {
 				String extraJson = new ObjectMapper().writeValueAsString(this.extra);
 				buffer.append(",\"extra\":\"" + ((null != extraJson) ? "{}":"") + "\"");
 				buffer.append("}");
-			} catch (JsonGenerationException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return buffer.toString();
