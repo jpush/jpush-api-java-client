@@ -30,9 +30,9 @@ public class JpushClientExample {
 		String imei = "860949003474563";
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendNotificationWithImei(imei,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -46,9 +46,9 @@ public class JpushClientExample {
 		String imei = "860949003474563";
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendCustomMessageWithImei(imei, 
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -60,9 +60,9 @@ public class JpushClientExample {
 	public static void testSendNotifyMessageWithAppKey() {
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendNotificationWithAppKey(
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -74,9 +74,9 @@ public class JpushClientExample {
 	public static void testSendCustomMessageWithAppKey() {
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendCustomMessageWithAppKey(
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -89,9 +89,9 @@ public class JpushClientExample {
 		String tag = "fruit";
 		String appKey = "fa1fa9091f2e5c786a87ecae";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendNotificationWithTag(tag,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -104,9 +104,9 @@ public class JpushClientExample {
 		String tag = "fruit";
 		String appKey = "fa1fa9091f2e5c786a87ecae";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendCustomMessageWithTag(tag,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -119,9 +119,9 @@ public class JpushClientExample {
 		String alias = "alias1";
 		String appKey = "fa1fa9091f2e5c786a87ecae";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendNotificationWithAlias(alias,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -134,9 +134,9 @@ public class JpushClientExample {
 		String alias = "alias1";
 		String appKey = "fa1fa9091f2e5c786a87ecae";
 		int sendNo = 1;
-		String sendDescription = "title";
-		String msgTitle = "title";
-		String msgContent = "write something...";
+		String sendDescription = "此次发送的描述，不会发送到客户端";
+		String msgTitle = "标题";
+		String msgContent = "消息/通知内容";
 		MessageResult msgResult = client.sendCustomMessageWithAlias(alias,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -149,13 +149,13 @@ public class JpushClientExample {
 		NotifyMessageParams params = new NotifyMessageParams();
 		params.setAppKeys("466f7032ac604e02fb7bda89");
 		params.setSendNo(1);
-		params.setSendDescription("description");
+		params.setSendDescription("此次发送的描述，不会发送到客户端");
 		params.addReceiverType(ReceiverTypeEnum.IMEI);
 		params.addReceiverValue("860949003474563");
 		params.addPlatform(DeviceEnum.Android);
 		params.addPlatform(DeviceEnum.IOS);
-		params.getMsgContent().setTitle("notification title");
-		params.getMsgContent().setMessage("notification message");
+		params.getMsgContent().setTitle("通知标题");
+		params.getMsgContent().setMessage("通知正文");
 		params.getMsgContent().setBuilderId("0");
 		
 		MessageResult msgResult = client.sendNotification(params);
@@ -168,13 +168,13 @@ public class JpushClientExample {
 		//请不要省略以下参数
 		params.setAppKeys("466f7032ac604e02fb7bda89");
 		params.setSendNo(1);
-		params.setSendDescription("description");
+		params.setSendDescription("此次发送的描述，不会发送到客户端");
 		params.addReceiverType(ReceiverTypeEnum.IMEI);
 		params.addReceiverValue("860949003474563");
 		params.addPlatform(DeviceEnum.Android);
 		params.addPlatform(DeviceEnum.IOS);
-		params.getMsgContent().setTitle("notification title");
-		params.getMsgContent().setMessage("notification message");
+		params.getMsgContent().setTitle("消息标题");
+		params.getMsgContent().setMessage("消息正文");
 		params.getMsgContent().setContentType("0");
 		//extra是推送给客户端的json数据，开发者根据自己的需求定义
 		params.getMsgContent().setExtra(new java.util.HashMap<String, Object>());
