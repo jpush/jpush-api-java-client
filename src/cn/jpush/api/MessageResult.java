@@ -1,11 +1,6 @@
 package cn.jpush.api;
 
-import java.io.IOException;
-import java.util.Map;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.google.gson.Gson;
 
 /*
  * 发送消息立即返回的状态定义
@@ -39,28 +34,15 @@ public class MessageResult {
 	
 	public static MessageResult fromValue(String result) {
 		MessageResult messageResult = null;
-		try {
-			if ( (null != result) && (!"".equals(result)) ) {
-				@SuppressWarnings("unchecked")
-				Map<String, Object> map = new ObjectMapper().readValue(result, Map.class);
-				messageResult = new MessageResult();
-				if (null != map.get("sendno")) {
-					messageResult.setSendno(Integer.parseInt(String.valueOf(map.get("sendno"))));
-				}
-				if (null != map.get("errcode")) {
-					messageResult.setErrcode(Integer.parseInt(String.valueOf(map.get("errcode"))));
-				}
-				if (null != map.get("errmsg")) {
-					messageResult.setErrmsg(String.valueOf(map.get("errmsg")));
-				}
-			}
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if ( (null != result) && (!"".equals(result)) ) {
+			messageResult = new Gson().fromJson(result, MessageResult.class);
 		}
 		return messageResult;
+	}
+	
+	@Override
+	public String toString() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 }

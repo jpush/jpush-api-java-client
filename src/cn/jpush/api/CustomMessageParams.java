@@ -1,7 +1,8 @@
 package cn.jpush.api;
 
+import java.util.HashMap;
 import java.util.Map;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.google.gson.Gson;
 
 /*
  * 自定义类型的消息内容
@@ -11,7 +12,7 @@ public class CustomMessageParams extends MessageParams {
 		//message 里的内容类型
 		private String contentType = "";
 		//更多的附属信息
-		private Map<String, Object> extra;
+		private Map<String, Object> extra = new HashMap<String, Object>();
 		
 		public String getContentType() {
 			return contentType;
@@ -27,23 +28,14 @@ public class CustomMessageParams extends MessageParams {
 		}
 		@Override
 		public String toString() {
-			StringBuffer buffer = new StringBuffer();
-			try {
-				buffer.append("{");
-				buffer.append("\"message\":\"" + this.getMessage() + "\"");
-				if (null != this.getContentType()) {
-					buffer.append(",\"content_type\":\"" + this.getContentType() + "\"");
-				}
-				if (null != this.getTitle()) {
-					buffer.append(",\"title\":\"" + this.getTitle() + "\"");
-				}
-				String extraJson = new ObjectMapper().writeValueAsString(this.extra);
-				buffer.append(",\"extra\":\"" + ((null != extraJson) ? "{}":"") + "\"");
-				buffer.append("}");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return buffer.toString();
+			Gson gson = new Gson();
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("title", this.getTitle());
+			params.put("message", this.getMessage());
+			params.put("content_type", this.getContentType());
+			params.put("extra", gson.toJson(this.getExtra()));
+			
+			return gson.toJson(params);
 		}
 	}
 	

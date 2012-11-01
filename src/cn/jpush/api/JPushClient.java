@@ -1,17 +1,16 @@
 package cn.jpush.api;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
-import org.apache.http.client.params.AllClientPNames;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import com.google.gson.Gson;
 
 public class JPushClient {
 	private final String hostname = "api.jpush.cn:8800";
@@ -22,173 +21,247 @@ public class JPushClient {
 	//设置读取超时时间
 	private static final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
-	private String username;
-	private String password;
-	private String callbackUrl;
-	private HttpClient httpClient;
+	private String username = "";
+	private String password = "";
+	private String appKey = "";
+	private String callbackUrl = "";
+	private Integer sendNo = 0;//发送的编号
+	private String sendDescription = "";//发送的描述
+	private Set<DeviceEnum> devices = new HashSet<DeviceEnum>();//默认发送android和ios
 
-	public JPushClient(String username, String password, String callbackUrl) {
+	public JPushClient(String username, String password, String appKey) {
 		this.username = username;
 		this.password = password;
+		this.appKey = appKey;
+	}
+	
+	public JPushClient(String username, String password, String appKey, DeviceEnum device) {
+		this.username = username;
+		this.password = password;
+		this.appKey = appKey;
+		devices.add(device);
+	}
+	
+	public JPushClient(String username, String password, String appKey, String callbackUrl) {
+		this.username = username;
+		this.password = password;
+		this.appKey = appKey;
 		this.callbackUrl = callbackUrl;
-		
-		setSocketTimeout(DEFAULT_SOCKET_TIMEOUT);
-		setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
+	}
+	
+	public JPushClient(String username, String password, String appKey, String callbackUrl, DeviceEnum device) {
+		this.username = username;
+		this.password = password;
+		this.appKey = appKey;
+		this.callbackUrl = callbackUrl;
+		this.devices.add(device);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
 	 * @description 发送带IMEI的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithImei(String imei, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new NotifyMessageParams();
+	public MessageResult sendNotificationWithImei(String imei, String msgTitle, String msgContent) {
+		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendNotification(p, msgTitle, msgContent, 0);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params builderId通知栏样式
+	 * @description 发送带IMEI的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithImei(String imei, String msgTitle, String msgContent, int builderId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
+		return sendNotification(p, msgTitle, msgContent, builderId);
+	}
+	
+	/*
 	 * @description 发送带IMEI的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithImei(String imei, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new CustomMessageParams();
+	public MessageResult sendCustomMessageWithImei(String imei, String msgTitle, String msgContent) {
+		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendCustomMessage(p, msgTitle, msgContent, null, null);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带IMEI的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithImei(String imei, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
+		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+	}
+	
+	/*
 	 * @description 发送带TAG的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithTag(String tag, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new NotifyMessageParams();
+	public MessageResult sendNotificationWithTag(String tag, String msgTitle, String msgContent) {
+		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendNotification(p, msgTitle, msgContent, 0);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params builderId通知栏样式
+	 * @description 发送带TAG的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithTag(String tag, String msgTitle, String msgContent, int builderId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
+		return sendNotification(p, msgTitle, msgContent, builderId);
+	}
+	
+	/*
 	 * @description 发送带TAG的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithTag(String tag, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new CustomMessageParams();
+	public MessageResult sendCustomMessageWithTag(String tag, String msgTitle, String msgContent) {
+		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendCustomMessage(p, msgTitle, msgContent, null, null);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带TAG的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithTag(String tag, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
+		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+	}
+	
+	/*
 	 * @description 发送带ALIAS的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAlias(String alias, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
+	public MessageResult sendNotificationWithAlias(String alias, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendNotification(p, msgTitle, msgContent, 0);
 	}
-	
+
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params builderId通知栏样式
+	 * @description 发送带ALIAS的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithAlias(String alias, String msgTitle, String msgContent, int builderId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
+		return sendNotification(p, msgTitle, msgContent, builderId);
+	}
+
+	/*
 	 * @description 发送带ALIAS的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAlias(String alias, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new CustomMessageParams();
+	public MessageResult sendCustomMessageWithAlias(String alias, String msgTitle, String msgContent) {
+		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendCustomMessage(p, msgTitle, msgContent, null, null);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带ALIAS的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithAlias(String alias, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
+		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+	}
+	
+	/*
 	 * @description 发送带AppKey的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAppKey(String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new NotifyMessageParams();
+	public MessageResult sendNotificationWithAppKey(String msgTitle, String msgContent) {
+		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendNotification(p, msgTitle, msgContent, 0);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 参数说明@see MessageParams
+	 * @params builderId通知栏样式
+	 * @description 发送带AppKey的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithAppKey(String msgTitle, String msgContent, int builderId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
+		return sendNotification(p, msgTitle, msgContent, builderId);
+	}
+	
+	/*
 	 * @description 发送带AppKey的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAppKey(String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		MessageParams p = new CustomMessageParams();
+	public MessageResult sendCustomMessageWithAppKey(String msgTitle, String msgContent) {
+		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
+		return sendCustomMessage(p, msgTitle, msgContent, null, null);
 	}
 	
 	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 详见方法参数
-	 * @description 由于还有更多组合的情况，手动封装NotifyMessage
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带AppKey的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotification(NotifyMessageParams p) {
-		return sendMessage(p);
+	public MessageResult sendCustomMessageWithAppKey(String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
+		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
 	}
 	
-	/*
-	 * @author ace
-	 * @createDate 2012/10/25
-	 * @param 详见方法参数
-	 * @description 由于还有更多组合的情况，手动封装CustomMessage
-	 * @return MessageResult
-	 */
-	public MessageResult sendCustomMessage(CustomMessageParams p) {
+	
+	protected MessageResult sendCustomMessage(CustomMessageParams p, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+		if (null != msgContentType) {
+			p.getMsgContent().setContentType(msgContentType);
+		}
+		if (null != extra) {
+			p.getMsgContent().setExtra(extra);
+		}
+		return sendMessage(p, msgTitle, msgContent);
+	}
+	
+	protected MessageResult sendNotification(NotifyMessageParams p, String msgTitle, String msgContent, int builderId) {
+		p.getMsgContent().setBuilderId(builderId);
+		return sendMessage(p, msgTitle, msgContent);
+	}
+	
+	protected MessageResult sendMessage(MessageParams p,String msgTitle, String msgContent) {
+		p.setAppKeys(this.getAppKey());
+		p.setSendNo(this.getSendNo());
+		p.setSendDescription(this.getSendDescription());
+		for (DeviceEnum device : this.getDevices()) {
+			p.addPlatform(device);
+		}
+		p.getMsgContent().setTitle(msgTitle);
+		p.getMsgContent().setMessage(msgContent);
 		return sendMessage(p);
 	}
 	
@@ -196,134 +269,57 @@ public class JPushClient {
 		return post("/sendmsg/sendmsg", p);
 	}
 	
-	protected MessageResult sendMessage(MessageParams p, String appKey,
-					int sendNo, String sendDescription,
-					String msgTitle, String msgContent,
-					DeviceEnum ...devices) {
-		p.setAppKeys(appKey);
-		p.setSendNo(sendNo);
-		p.setSendDescription(sendDescription);
-		p.getMsgContent().setTitle(msgTitle);
-		p.getMsgContent().setMessage(msgContent);
-		if (null != devices) {
-			for (DeviceEnum device : devices) {
-				p.addPlatform(device);
+	protected MessageResult post(final String path, final MessageParams messageParams) {
+		HttpURLConnection conn = null;
+		DataOutputStream outStream = null;
+		MessageResult messageResult = null;
+		try {
+			URL url = new URL(getUrlForPath(path));
+			byte[] data = parse(messageParams).getBytes(CHARSET);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
+			conn.setReadTimeout(DEFAULT_SOCKET_TIMEOUT);
+			conn.setUseCaches(false);
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty("Charset", CHARSET);
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			conn.setRequestProperty("Content-Length", String.valueOf(data.length));
+			outStream = new DataOutputStream(conn.getOutputStream());
+			outStream.write(data);
+			outStream.flush();
+			
+			if (conn.getResponseCode() == 200) {
+				InputStream in = conn.getInputStream();
+				StringBuffer sb = new StringBuffer();
+				InputStreamReader reader = new InputStreamReader(in, CHARSET);
+				char[] buff = new char[1024];
+				int len;
+				while ((len = reader.read(buff)) > 0) {
+					sb.append(buff, 0, len);
+				}
+				if(!"".equals(sb.toString())){
+					messageResult = new Gson().fromJson(sb.toString(), MessageResult.class);
+				}
+			} else {
+				throw new Exception("ResponseCode=" + conn.getResponseCode());
 			}
-		}
-		return sendMessage(p);
-	}
-
-	protected MessageResult post(final String path, final MessageParams obj) {
-		HttpPost post = createHttpPost(path);
-		if (null != obj) {
-			post.setEntity(toEntity(obj));
-		}
-		HttpResponse response = execute(post);
-		HttpEntity responseEntity = response.getEntity();
-		try {
-			return fromJson(EntityUtils.toString(responseEntity));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	protected HttpClient getHttpClient() {
-		if (null == this.httpClient) {
-			this.httpClient = createHttpClient();
-		}
-		return this.httpClient;
-	}
-	
-	protected HttpClient createHttpClient() {
-		DefaultHttpClient client = new DefaultHttpClient();
-//		SSLContext ctx = null;
-//		try {
-//			ctx = SSLContext.getInstance("TLS");
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-//		X509TrustManager tm = new X509TrustManager() {
-//			public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
-//			public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
-//			public X509Certificate[] getAcceptedIssuers() {
-//				return new X509Certificate[]{};
-//			}
-//		};
-//		try {
-//			ctx.init(null, new TrustManager[]{tm}, null);
-//		} catch (KeyManagementException e) {
-//			e.printStackTrace();
-//		}
-//		SSLSocketFactory ssf = new SSLSocketFactory(ctx, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-//		ClientConnectionManager ccm = client.getConnectionManager();
-//		SchemeRegistry sr = ccm.getSchemeRegistry();
-//		sr.register(new Scheme("https", 443, ssf));
-//		client = new DefaultHttpClient(ccm, client.getParams());
-		
-		return client;
-	}
-	
-	protected String getUsername() {
-		return this.username;
-	}
-	
-	protected String getPassword() {
-		return this.password;
-	}
-	
-	protected String getCallbackUrl() {
-		return this.callbackUrl;
-	}
-	
-	protected HttpResponse execute(HttpRequestBase method) {
-		try {
-			method.setHeader(new BasicHeader("Accept", "application/json"));
-			HttpResponse response = getHttpClient().execute(method);
-			checkResponse(method, response);
-			return response;
-		} catch (RuntimeException rtex) {
-			throw rtex;
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-	}
-	
-	protected void checkResponse(HttpRequest request, HttpResponse response) {
-		StatusLine status = response.getStatusLine();
-		int statusCode = status.getStatusCode();
-		if (statusCode == 404) {
-			throw new NotFoundException(status.getReasonPhrase());
-		} else if ( (statusCode < 200) || (statusCode > 299) ) {
-			StringBuilder msg = new StringBuilder();
-			msg.append("statusCode=" + statusCode);
-			msg.append("\n");
-			msg.append("method=" + request.getRequestLine().getMethod());
-			msg.append("\n");
-			msg.append(request.getRequestLine().getUri());
-			HttpEntity responseEntity = response.getEntity();
-			try {
-				String responseBody = EntityUtils.toString(responseEntity);
-				msg.append("\n");
-				msg.append("responseBody=" + responseBody);
-			} catch (Exception ignored) {
-				// ignored
+			ex.printStackTrace();
+		} finally {
+			if (null != outStream) {
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			throw new RuntimeException("unexpected response\n" + msg);
+			if (null != conn) {
+				conn.disconnect();
+			}
 		}
-	}
-	
-	protected MessageResult fromJson(final Object json) {
-		if (null == json) {
-			return null;
-		}
-		return MessageResult.fromValue(String.valueOf(json));
-	}
-	
-	private HttpPost createHttpPost(final String path) {
-		String url = getUrlForPath(path);
-		HttpPost post = new HttpPost(url);
-		return post;
+		return messageResult;
 	}
 	
 	protected String getUrlForPath(final String path) {
@@ -340,7 +336,7 @@ public class JPushClient {
 		return this.hostname;
 	}
 	
-	public HttpEntity toEntity(MessageParams message) {
+	protected String parse(MessageParams message) {
 		String md5SecretKey = StringUtils.toMD5(this.getPassword()); 
 		String input = this.getUsername() + message.getSendNo() + message.getReceiverType().value() + message.getReceiverValue() + md5SecretKey;
 		int msgType = 0;
@@ -350,44 +346,67 @@ public class JPushClient {
 			msgType = MsgTypeEnum.CUSTOM.value();
 		}
 		
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("username", this.getUsername()));
-		nvps.add(new BasicNameValuePair("sendno", String.valueOf(message.getSendNo())));
-		nvps.add(new BasicNameValuePair("appkeys", message.getAppKeys()));
-		nvps.add(new BasicNameValuePair("receiver_type", String.valueOf(message.getReceiverType().value())));
-		if (!"".equals(message.getReceiverValue())) {
-			nvps.add(new BasicNameValuePair("receiver_value", message.getReceiverValue()));
-		}
-		nvps.add(new BasicNameValuePair("verification_code", StringUtils.toMD5(input)));
-		nvps.add(new BasicNameValuePair("msg_type", String.valueOf(msgType)));
-		nvps.add(new BasicNameValuePair("msg_content", message.getMsgContent().toString()));
-		nvps.add(new BasicNameValuePair("send_description", message.getSendDescription()));
-		nvps.add(new BasicNameValuePair("callback_url", this.getCallbackUrl()));
-		nvps.add(new BasicNameValuePair("platform", message.getPlatform()));
+		Map<String, String> nvPair = new HashMap<String, String>();
+		nvPair.put("username", this.getUsername());
+		nvPair.put("sendno", String.valueOf(message.getSendNo()));
+		nvPair.put("appkeys", message.getAppKeys());
+		nvPair.put("receiver_type", String.valueOf(message.getReceiverType().value()));
+		nvPair.put("receiver_value", message.getReceiverValue());
+		nvPair.put("verification_code", StringUtils.toMD5(input));
+		nvPair.put("msg_type", String.valueOf(msgType));
+		nvPair.put("msg_content", message.getMsgContent().toString());
+		nvPair.put("send_description", message.getSendDescription());
+		nvPair.put("callback_url", this.getCallbackUrl());
+		nvPair.put("platform", message.getPlatform());
 		
-		try {
-			return new UrlEncodedFormEntity(nvps, CHARSET);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		StringBuilder builder = new StringBuilder();
+		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
+			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
+			System.out.println(entry.getKey() + " - " + entry.getValue());
 		}
-		return null;
+		return builder.toString();
 	}
 	
-	public void shutdown() {
-		if (this.getHttpClient() != null) {
-			try {
-				this.getHttpClient().getConnectionManager().shutdown();
-			} catch (Exception ignored) {
-				// ignored
-			}
-		}
+	protected String getUsername() {
+		return this.username;
 	}
 	
-	public void setConnectionTimeout(int milliseconds) {
-		getHttpClient().getParams().setIntParameter(AllClientPNames.CONNECTION_TIMEOUT, milliseconds);
+	protected String getPassword() {
+		return this.password;
+	}
+	
+	protected String getCallbackUrl() {
+		return this.callbackUrl;
+	}
+	
+	protected String getAppKey() {
+		return this.appKey;
+	}
+	
+	protected Integer getSendNo() {
+		return ++this.sendNo;
 	}
 
-	public void setSocketTimeout(int milliseconds) {
-		getHttpClient().getParams().setIntParameter(AllClientPNames.SO_TIMEOUT, milliseconds);
+	protected String getSendDescription() {
+		return this.sendDescription;
 	}
+
+	protected Set<DeviceEnum> getDevices() {
+		if (null == this.devices) {
+			this.devices = new HashSet<DeviceEnum>();
+		}
+		if (this.devices.size() == 0) {
+			this.devices.add(DeviceEnum.Android);
+			this.devices.add(DeviceEnum.IOS);
+		}
+		return this.devices;
+	}
+
+	protected MessageResult fromJson(final Object json) {
+		if (null == json) {
+			return null;
+		}
+		return MessageResult.fromValue(String.valueOf(json));
+	}
+	
 }
