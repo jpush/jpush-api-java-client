@@ -20,13 +20,13 @@ public class JpushClientExample {
 		client = new JPushClient(username, password, callbackUrl);
 		
 		//发送消息或者通知
-		testSendNotificationWithImei();
+		testSendNotifyMessageWithAppKey();
 
 		//连接池概念，根据相应需求释放链接资源
 		client.shutdown();
 	}
 	
-	public static void testSendNotificationWithImei() {
+	public static void testSendNotifyMessageWithImei() {
 		String imei = "860949003474563";
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
