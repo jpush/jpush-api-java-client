@@ -59,8 +59,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new NotifyMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.IMEI);
-		p.addReceiverValue(imei);
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -76,8 +76,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new CustomMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.IMEI);
-		p.addReceiverValue(imei);
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -93,8 +93,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new NotifyMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.TAG);
-		p.addReceiverValue(tag);
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -110,8 +110,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new CustomMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.TAG);
-		p.addReceiverValue(tag);
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -127,8 +127,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		NotifyMessageParams p = new NotifyMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.ALIAS);
-		p.addReceiverValue(alias);
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -144,8 +144,8 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new CustomMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.ALIAS);
-		p.addReceiverValue(alias);
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -161,7 +161,7 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new NotifyMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.APPKEYS);
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -177,7 +177,7 @@ public class JPushClient {
 					String msgTitle, String msgContent,
 					DeviceEnum ...devices) {
 		MessageParams p = new CustomMessageParams();
-		p.addReceiverType(ReceiverTypeEnum.APPKEYS);
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
 		return sendMessage(p, appKey, sendNo, sendDescription, msgTitle, msgContent, devices);
 	}
 	
@@ -353,7 +353,7 @@ public class JPushClient {
 	
 	public HttpEntity toEntity(MessageParams message) {
 		String md5SecretKey = StringUtils.toMD5(this.getPassword()); 
-		String input = this.getUsername() + message.getSendNo() + message.getReceiverType() + message.getReceiverValue() + md5SecretKey;
+		String input = this.getUsername() + message.getSendNo() + message.getReceiverType().value() + message.getReceiverValue() + md5SecretKey;
 		int msgType = 0;
 		if (message instanceof NotifyMessageParams) {
 			msgType = MsgTypeEnum.NOTIFY.value();
@@ -365,7 +365,7 @@ public class JPushClient {
 		nvps.add(new BasicNameValuePair("username", this.getUsername()));
 		nvps.add(new BasicNameValuePair("sendno", String.valueOf(message.getSendNo())));
 		nvps.add(new BasicNameValuePair("appkeys", message.getAppKeys()));
-		nvps.add(new BasicNameValuePair("receiver_type", message.getReceiverType()));
+		nvps.add(new BasicNameValuePair("receiver_type", String.valueOf(message.getReceiverType().value())));
 		if (!"".equals(message.getReceiverValue())) {
 			nvps.add(new BasicNameValuePair("receiver_value", message.getReceiverValue()));
 		}

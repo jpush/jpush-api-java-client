@@ -20,7 +20,7 @@ public class JpushClientExample {
 		client = new JPushClient(username, password, callbackUrl);
 		
 		//发送消息或者通知
-		testSendNotifyMessageWithAppKey();
+		testSendNotificationWithImei();
 
 		//连接池概念，根据相应需求释放链接资源
 		client.shutdown();
@@ -150,8 +150,8 @@ public class JpushClientExample {
 		params.setAppKeys("466f7032ac604e02fb7bda89");
 		params.setSendNo(1);
 		params.setSendDescription("此次发送的描述，不会发送到客户端");
-		params.addReceiverType(ReceiverTypeEnum.IMEI);
-		params.addReceiverValue("860949003474563");
+		params.setReceiverType(ReceiverTypeEnum.IMEI);
+		params.setReceiverValue("860949003474563");
 		params.addPlatform(DeviceEnum.Android);
 		params.addPlatform(DeviceEnum.IOS);
 		params.getMsgContent().setTitle("通知标题");
@@ -169,8 +169,8 @@ public class JpushClientExample {
 		params.setAppKeys("466f7032ac604e02fb7bda89");
 		params.setSendNo(1);
 		params.setSendDescription("此次发送的描述，不会发送到客户端");
-		params.addReceiverType(ReceiverTypeEnum.IMEI);
-		params.addReceiverValue("860949003474563");
+		params.setReceiverType(ReceiverTypeEnum.IMEI);
+		params.setReceiverValue("860949003474563");
 		params.addPlatform(DeviceEnum.Android);
 		params.addPlatform(DeviceEnum.IOS);
 		params.getMsgContent().setTitle("消息标题");

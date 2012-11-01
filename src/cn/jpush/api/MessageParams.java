@@ -16,16 +16,15 @@ public class MessageParams {
 	private String appKeys = "";
 	
 	/*
-	 * 接收者类型。都支持多个。
 	 * 枚举类定义 ReceiverTypeEnum
 	 */
-	private Set<ReceiverTypeEnum> receiverType = new HashSet<ReceiverTypeEnum>();
+	private ReceiverTypeEnum receiverType;
 	
 	/*
-	 * 发送范围值，与 receiver_type 相对应。
-	 * receiver_type = 4 无该字段
+	 * 发送范围值，与 receiverType 相对应。
+	 * receiverType = 4 不用设置
 	 */
-	private Set<String> receiverValue = new HashSet<String>();
+	private String receiverValue = "";
 	
 	/*
 	 * 描述此次发送调用。
@@ -82,21 +81,17 @@ public class MessageParams {
 	public void setAppKeys(String appKeys) {
 		this.appKeys = appKeys;
 	}
-	public String getReceiverType() {
-		String keys = "";
-		for (ReceiverTypeEnum key : this.receiverType) {
-			keys += (key.value() + ",");
-		}
-		return keys.length() > 0 ? keys.substring(0, keys.length()-1) : "";
+	public ReceiverTypeEnum getReceiverType() {
+		return this.receiverType;
 	}
-	public void addReceiverType(ReceiverTypeEnum receiverType) {
-		this.receiverType.add(receiverType);
+	public void setReceiverType(ReceiverTypeEnum receiverType) {
+		this.receiverType = receiverType;
 	}
 	public String getReceiverValue() {
-		return fromStringSet(this.receiverValue);
+		return this.receiverValue;
 	}
-	public void addReceiverValue(String receiverValue) {
-		this.receiverValue.add(receiverValue);
+	public void setReceiverValue(String receiverValue) {
+		this.receiverValue = receiverValue;
 	}
 	public String getSendDescription() {
 		return sendDescription;
@@ -113,15 +108,5 @@ public class MessageParams {
 	}
 	public void addPlatform(DeviceEnum platform) {
 		this.platform.add(platform);
-	}
-	
-	private String fromStringSet(Set<String> sets) {
-		String keys = "";
-		for (Object key : sets) {
-			keys += (key + ",");
-		}
-		return keys.length() > 0
-				? keys.substring(0, keys.length()-1)
-				: "";
 	}
 }
