@@ -10,8 +10,8 @@ import cn.jpush.api.ReceiverTypeEnum;
 
 public class JpushClientExample {
 	
-	private static final String username = "username";
-	private static final String password = "password";
+	private static final String username = "admin";
+	private static final String password = "12345";
 	private static final String callbackUrl = "";//没有的话，填写空字符串
 	private static JPushClient client = null;
 	
@@ -20,6 +20,7 @@ public class JpushClientExample {
 		client = new JPushClient(username, password, callbackUrl);
 		
 		//发送消息或者通知
+//		testSendCustomMessageWithAppKey();
 		testSendNotifyMessageWithAppKey();
 
 		//连接池概念，根据相应需求释放链接资源
@@ -32,7 +33,7 @@ public class JpushClientExample {
 		int sendNo = 1;
 		String sendDescription = "此次发送的描述，不会发送到客户端";
 		String msgTitle = "标题";
-		String msgContent = "消息/通知内容";
+		String msgContent = "{a:\"消息/通知内容\"}";
 		MessageResult msgResult = client.sendNotificationWithImei(imei,
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -62,7 +63,7 @@ public class JpushClientExample {
 		int sendNo = 1;
 		String sendDescription = "此次发送的描述，不会发送到客户端";
 		String msgTitle = "标题";
-		String msgContent = "消息/通知内容";
+		String msgContent = "{\\\"a\\\":\\\"a\\\"}";
 		MessageResult msgResult = client.sendNotificationWithAppKey(
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,
@@ -74,9 +75,9 @@ public class JpushClientExample {
 	public static void testSendCustomMessageWithAppKey() {
 		String appKey = "466f7032ac604e02fb7bda89";
 		int sendNo = 1;
-		String sendDescription = "此次发送的描述，不会发送到客户端";
-		String msgTitle = "标题";
-		String msgContent = "消息/通知内容";
+		String sendDescription = "";
+		String msgTitle = "Toast";
+		String msgContent = "Toast test";
 		MessageResult msgResult = client.sendCustomMessageWithAppKey(
 									appKey, sendNo, sendDescription,
 									msgTitle, msgContent,

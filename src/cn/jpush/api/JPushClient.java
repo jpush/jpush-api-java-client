@@ -1,31 +1,20 @@
 package cn.jpush.api;
 
 import java.io.UnsupportedEncodingException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import org.apache.http.*;
 import org.apache.http.client.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.params.AllClientPNames;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class JPushClient {
-	private final String hostname = "api.jpush.cn";
+	private final String hostname = "api.jpush.cn:8800";
 	private static final String CHARSET = "UTF-8";
 	
 	//设置连接超时时间
@@ -248,29 +237,29 @@ public class JPushClient {
 	
 	protected HttpClient createHttpClient() {
 		DefaultHttpClient client = new DefaultHttpClient();
-		SSLContext ctx = null;
-		try {
-			ctx = SSLContext.getInstance("TLS");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		X509TrustManager tm = new X509TrustManager() {
-			public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
-			public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
-			public X509Certificate[] getAcceptedIssuers() {
-				return new X509Certificate[]{};
-			}
-		};
-		try {
-			ctx.init(null, new TrustManager[]{tm}, null);
-		} catch (KeyManagementException e) {
-			e.printStackTrace();
-		}
-		SSLSocketFactory ssf = new SSLSocketFactory(ctx, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-		ClientConnectionManager ccm = client.getConnectionManager();
-		SchemeRegistry sr = ccm.getSchemeRegistry();
-		sr.register(new Scheme("https", 443, ssf));
-		client = new DefaultHttpClient(ccm, client.getParams());
+//		SSLContext ctx = null;
+//		try {
+//			ctx = SSLContext.getInstance("TLS");
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
+//		X509TrustManager tm = new X509TrustManager() {
+//			public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
+//			public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {}
+//			public X509Certificate[] getAcceptedIssuers() {
+//				return new X509Certificate[]{};
+//			}
+//		};
+//		try {
+//			ctx.init(null, new TrustManager[]{tm}, null);
+//		} catch (KeyManagementException e) {
+//			e.printStackTrace();
+//		}
+//		SSLSocketFactory ssf = new SSLSocketFactory(ctx, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+//		ClientConnectionManager ccm = client.getConnectionManager();
+//		SchemeRegistry sr = ccm.getSchemeRegistry();
+//		sr.register(new Scheme("https", 443, ssf));
+//		client = new DefaultHttpClient(ccm, client.getParams());
 		
 		return client;
 	}
@@ -341,7 +330,7 @@ public class JPushClient {
 		if (path.startsWith("http://") || path.startsWith("https://")) {
 			return path;
 		} else {
-			return "https://"
+			return "http://"
 					+ getHostname()
 					+ path;
 		}
