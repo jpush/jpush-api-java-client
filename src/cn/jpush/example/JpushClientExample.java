@@ -1,8 +1,5 @@
 package cn.jpush.example;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cn.jpush.api.ErrorCodeEnum;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.MessageResult;
@@ -17,7 +14,6 @@ public class JpushClientExample {
 	public static void main(String[] args) {
 		//初始化,默认发送给android和ios
 		client = new JPushClient(username, password, appKey);
-		
 		/*
 		 * 只发送给android
 		 * client = new JPushClient(username, password, appKey, DeviceEnum.Android);
@@ -26,11 +22,6 @@ public class JpushClientExample {
 		/*
 		 * 带有回调的初始化，并且只发送给android
 		 * client = new JPushClient(username, password, appKey, callbackUrl, DeviceEnum.Android);
-		 */
-		
-		/*
-		 * 带有回调的初始化，默认发送给android和ios
-		 * client = new JPushClient(username, password, appKey, callbackUrl);
 		 */
 		
 		//发送消息或者通知

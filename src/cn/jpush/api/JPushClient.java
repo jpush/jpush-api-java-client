@@ -42,13 +42,6 @@ public class JPushClient {
 		devices.add(device);
 	}
 	
-	public JPushClient(String username, String password, String appKey, String callbackUrl) {
-		this.username = username;
-		this.password = password;
-		this.appKey = appKey;
-		this.callbackUrl = callbackUrl;
-	}
-	
 	public JPushClient(String username, String password, String appKey, String callbackUrl, DeviceEnum device) {
 		this.username = username;
 		this.password = password;
