@@ -26,29 +26,15 @@ public class JpushClientExample {
 		
 		//发送消息或者通知
 		testSendNotificationWithAppKey();
-		//testSendCustomMessageWithAppKey();
 	}
 	
 	private static void testSendNotificationWithAppKey() {
-		String msgTitle = "标题";
-		String msgContent = "内容";
-		MessageResult msgResult = client.sendNotificationWithImei("355302046376167", msgTitle, msgContent);
-		System.out.println("服务器返回数据: " + msgResult.toString());
+		String msgTitle = "";
+		String msgContent = "";
+		String imei = "";
+		MessageResult msgResult = client.sendNotificationWithImei(imei, msgTitle, msgContent);
 		if (null != msgResult) {
-			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
-				System.out.println("发送成功， sendNo=" + msgResult.getSendno());
-			} else {
-				System.out.println("发送失败， 错误代码=" + msgResult.getErrcode() + ", 错误消息=" + msgResult.getErrmsg());
-			}
-		}
-	}
-	
-	private static void testSendCustomMessageWithAppKey() {
-		String msgTitle = "标题";
-		String msgContent = "{\"key\":\"value\"}";
-		MessageResult msgResult = client.sendCustomMessageWithTag("fruit", msgTitle, msgContent);
-		System.out.println("服务器返回数据: " + msgResult.toString());
-		if (null != msgResult) {
+			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
 				System.out.println("发送成功， sendNo=" + msgResult.getSendno());
 			} else {

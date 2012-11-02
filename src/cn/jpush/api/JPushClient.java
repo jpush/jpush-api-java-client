@@ -355,7 +355,6 @@ public class JPushClient {
 		StringBuilder builder = new StringBuilder();
 		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
 			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
-			System.out.println(entry.getKey() + " - " + entry.getValue());
 		}
 		return builder.toString();
 	}
