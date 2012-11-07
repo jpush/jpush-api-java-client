@@ -10,16 +10,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.TrustManager;
 import com.google.gson.Gson;
 
 public class JPushClient {
-	private final String hostname = "api.jpush.cn:8800";
-	private static final String CHARSET = "UTF-8";
+	private final String hostnameWithSSL = "https://api.jpush.cn:443";
+	private final String hostname = "http://api.jpush.cn:8800";
+	private final String CHARSET = "UTF-8";
+	private boolean enableSSL = false;
 	
 	//设置连接超时时间
-	private static final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
+	private final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
 	//设置读取超时时间
-	private static final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
+	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 	private String username = "";
 	private String password = "";
@@ -48,6 +53,13 @@ public class JPushClient {
 		this.appKey = appKey;
 		this.callbackUrl = callbackUrl;
 		this.devices.add(device);
+	}
+	
+	/*
+	 * @description 是否使用ssl安全连接
+	 */
+	public void setEnableSSL(boolean enableSSL) {
+		this.enableSSL = enableSSL;
 	}
 	
 	/*
@@ -230,7 +242,6 @@ public class JPushClient {
 		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
 	}
 	
-	
 	protected MessageResult sendCustomMessage(CustomMessageParams p, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		if (null != msgContentType) {
 			p.getMsgContent().setContentType(msgContentType);
@@ -267,6 +278,9 @@ public class JPushClient {
 		DataOutputStream outStream = null;
 		MessageResult messageResult = null;
 		try {
+			if (this.enableSSL) {
+				initSSL();
+			}
 			URL url = new URL(getUrlForPath(path));
 			byte[] data = parse(messageParams).getBytes(CHARSET);
 			conn = (HttpURLConnection) url.openConnection();
@@ -315,18 +329,27 @@ public class JPushClient {
 		return messageResult;
 	}
 	
-	protected String getUrlForPath(final String path) {
-		if (path.startsWith("http://") || path.startsWith("https://")) {
-			return path;
-		} else {
-			return "http://"
-					+ getHostname()
-					+ path;
+	protected void initSSL() {
+		try {
+			TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
+			tmCerts[0] = new SimpleTrustManager();
+			javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
+			sc.init(null, tmCerts, null);
+			javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+			HostnameVerifier hv = new SimpleHostnameVerifier();
+			HttpsURLConnection.setDefaultHostnameVerifier(hv);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
+	protected String getUrlForPath(final String path) {
+		return getHostname() + path;
+	}
+	
 	protected String getHostname() {
-		return this.hostname;
+		return this.enableSSL? 
+				this.hostnameWithSSL : this.hostname;
 	}
 	
 	protected String parse(MessageParams message) {
