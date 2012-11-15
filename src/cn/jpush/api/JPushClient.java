@@ -20,7 +20,7 @@ public class JPushClient {
 	private final String hostname = "http://api.jpush.cn:8800";
 	private final String CHARSET = "UTF-8";
 	private boolean enableSSL = false;
-	
+
 	//设置连接超时时间
 	private final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
 	//设置读取超时时间
@@ -30,7 +30,6 @@ public class JPushClient {
 	private String password = "";
 	private String appKey = "";
 	private String callbackUrl = "";
-	private Integer sendNo = 0;//发送的编号
 	private String sendDescription = "";//发送的描述
 	private Set<DeviceEnum> devices = new HashSet<DeviceEnum>();//默认发送android和ios
 
@@ -66,11 +65,11 @@ public class JPushClient {
 	 * @description 发送带IMEI的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithImei(String imei, String msgTitle, String msgContent) {
+	public MessageResult sendNotificationWithImei(int sendNo, String imei, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendNotification(p, msgTitle, msgContent, 0);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0);
 	}
 	
 	/*
@@ -78,22 +77,22 @@ public class JPushClient {
 	 * @description 发送带IMEI的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithImei(String imei, String msgTitle, String msgContent, int builderId) {
+	public MessageResult sendNotificationWithImei(int sendNo, String imei, String msgTitle, String msgContent, int builderId) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendNotification(p, msgTitle, msgContent, builderId);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId);
 	}
 	
 	/*
 	 * @description 发送带IMEI的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithImei(String imei, String msgTitle, String msgContent) {
+	public MessageResult sendCustomMessageWithImei(int sendNo, String imei, String msgTitle, String msgContent) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendCustomMessage(p, msgTitle, msgContent, null, null);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, null, null);
 	}
 	
 	/*
@@ -101,22 +100,22 @@ public class JPushClient {
 	 * @description 发送带IMEI的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithImei(String imei, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+	public MessageResult sendCustomMessageWithImei(int sendNo, String imei, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 	
 	/*
 	 * @description 发送带TAG的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithTag(String tag, String msgTitle, String msgContent) {
+	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendNotification(p, msgTitle, msgContent, 0);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0);
 	}
 	
 	/*
@@ -124,22 +123,22 @@ public class JPushClient {
 	 * @description 发送带TAG的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithTag(String tag, String msgTitle, String msgContent, int builderId) {
+	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendNotification(p, msgTitle, msgContent, builderId);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId);
 	}
 	
 	/*
 	 * @description 发送带TAG的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithTag(String tag, String msgTitle, String msgContent) {
+	public MessageResult sendCustomMessageWithTag(int sendNo, String tag, String msgTitle, String msgContent) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendCustomMessage(p, msgTitle, msgContent, null, null);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, null, null);
 	}
 	
 	/*
@@ -147,22 +146,22 @@ public class JPushClient {
 	 * @description 发送带TAG的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithTag(String tag, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+	public MessageResult sendCustomMessageWithTag(int sendNo, String tag, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 	
 	/*
 	 * @description 发送带ALIAS的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAlias(String alias, String msgTitle, String msgContent) {
+	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendNotification(p, msgTitle, msgContent, 0);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0);
 	}
 
 	/*
@@ -170,22 +169,22 @@ public class JPushClient {
 	 * @description 发送带ALIAS的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAlias(String alias, String msgTitle, String msgContent, int builderId) {
+	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendNotification(p, msgTitle, msgContent, builderId);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId);
 	}
 
 	/*
 	 * @description 发送带ALIAS的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAlias(String alias, String msgTitle, String msgContent) {
+	public MessageResult sendCustomMessageWithAlias(int sendNo, String alias, String msgTitle, String msgContent) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendCustomMessage(p, msgTitle, msgContent, null, null);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, null, null);
 	}
 	
 	/*
@@ -193,21 +192,21 @@ public class JPushClient {
 	 * @description 发送带ALIAS的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAlias(String alias, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+	public MessageResult sendCustomMessageWithAlias(int sendNo, String alias, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 	
 	/*
 	 * @description 发送带AppKey的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAppKey(String msgTitle, String msgContent) {
+	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendNotification(p, msgTitle, msgContent, 0);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0);
 	}
 	
 	/*
@@ -215,20 +214,20 @@ public class JPushClient {
 	 * @description 发送带AppKey的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAppKey(String msgTitle, String msgContent, int builderId) {
+	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendNotification(p, msgTitle, msgContent, builderId);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId);
 	}
 	
 	/*
 	 * @description 发送带AppKey的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAppKey(String msgTitle, String msgContent) {
+	public MessageResult sendCustomMessageWithAppKey(int sendNo, String msgTitle, String msgContent) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendCustomMessage(p, msgTitle, msgContent, null, null);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, null, null);
 	}
 	
 	/*
@@ -236,30 +235,30 @@ public class JPushClient {
 	 * @description 发送带AppKey的自定义消息
 	 * @return MessageResult
 	 */
-	public MessageResult sendCustomMessageWithAppKey(String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+	public MessageResult sendCustomMessageWithAppKey(int sendNo, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendCustomMessage(p, msgTitle, msgContent, msgContentType, extra);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 	
-	protected MessageResult sendCustomMessage(CustomMessageParams p, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
+	protected MessageResult sendCustomMessage(CustomMessageParams p, int sendNo, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		if (null != msgContentType) {
 			p.getMsgContent().setContentType(msgContentType);
 		}
 		if (null != extra) {
 			p.getMsgContent().setExtra(extra);
 		}
-		return sendMessage(p, msgTitle, msgContent);
+		return sendMessage(p, sendNo, msgTitle, msgContent);
 	}
 	
-	protected MessageResult sendNotification(NotifyMessageParams p, String msgTitle, String msgContent, int builderId) {
+	protected MessageResult sendNotification(NotifyMessageParams p, int sendNo, String msgTitle, String msgContent, int builderId) {
 		p.getMsgContent().setBuilderId(builderId);
-		return sendMessage(p, msgTitle, msgContent);
+		return sendMessage(p, sendNo, msgTitle, msgContent);
 	}
 	
-	protected MessageResult sendMessage(MessageParams p,String msgTitle, String msgContent) {
+	protected MessageResult sendMessage(MessageParams p, int sendNo, String msgTitle, String msgContent) {
+		p.setSendNo(sendNo);
 		p.setAppKeys(this.getAppKey());
-		p.setSendNo(this.getSendNo());
 		p.setSendDescription(this.getSendDescription());
 		for (DeviceEnum device : this.getDevices()) {
 			p.addPlatform(device);
@@ -398,10 +397,10 @@ public class JPushClient {
 		return this.appKey;
 	}
 	
-	protected Integer getSendNo() {
-		return ++this.sendNo;
+	public void setSendDescription(String description) {
+		this.sendDescription = description;
 	}
-
+	
 	protected String getSendDescription() {
 		return this.sendDescription;
 	}

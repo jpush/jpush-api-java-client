@@ -19,11 +19,11 @@ public enum ErrorCodeEnum {
 	//验证失败
 	ValidateFailed(1004),
 	
-	//用户名或者密码错误
-	InvalidUsernameOrPassword(1005),
-	
 	//消息体太大
-	DataTooBig(1006),
+	DataTooBig(1005),
+	
+	//用户名或者密码错误
+	InvalidUsernameOrPassword(1006),
 	
 	//IMEI不合法
 	InvalidIMEI(1007),

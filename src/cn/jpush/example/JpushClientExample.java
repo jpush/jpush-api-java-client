@@ -5,8 +5,8 @@ import cn.jpush.api.JPushClient;
 import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
-	private static final String username = "username";//必填,开发者注册帐号
-	private static final String password = "password";//必填，开发者注册密码
+	private static final String username = "";//必填,开发者注册帐号
+	private static final String password = "";//必填，开发者注册密码，不支持email
 	private static final String appKey = "";//必填，例如466f7032ac604e02fb7bda89
 	private static final String callbackUrl = "";//没有的话，填写空字符串
 	private static JPushClient jpush = null;
@@ -25,23 +25,27 @@ public class JpushClientExample {
 		jpush = new JPushClient(username, password, appKey);
 		
 		
-		/* 是否启用ssl安全连接; 优点:安全，缺点:速度慢，资源消耗多
+		/* 是否启用ssl安全连接, 可选
 		 * 参数：启用true， 禁用false，默认为非ssl连接
 		 * 
 		 * Example:
 		 * jpush.setEnableSSL(true);
 		 */
-		//jpush.setEnableSSL(true);
-		
+
 		
 		//测试发送消息或者通知
-		testSendNotification();
+		testSend();
 	}
 	
-	private static void testSendNotification() {
+	private static void testSend() {
 		String msgTitle = "标题";
-		String msgContent = "消息内容";
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(msgTitle, msgContent);
+		String msgContent = "通知内容";
+		
+		//此次发送的描述，可选
+		//jpush.setSendDescription("此次发送的描述");
+		
+		//开发者自己维护sendNo，相同的sendNo可以覆盖上一次消息/通知。
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(1, msgTitle, msgContent);
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
