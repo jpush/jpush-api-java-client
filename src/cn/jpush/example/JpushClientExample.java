@@ -31,21 +31,19 @@ public class JpushClientExample {
 		 * Example:
 		 * jpush.setEnableSSL(true);
 		 */
-
+		
 		
 		//测试发送消息或者通知
 		testSend();
 	}
 	
 	private static void testSend() {
+		//开发者自己维护sendNo，sendNo的作用请参考文档。
+		int sendNo = 100;
 		String msgTitle = "标题";
 		String msgContent = "通知内容";
 		
-		//此次发送的描述，可选
-		//jpush.setSendDescription("此次发送的描述");
-		
-		//开发者自己维护sendNo，相同的sendNo可以覆盖上一次消息/通知。
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(1, msgTitle, msgContent);
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
@@ -53,6 +51,8 @@ public class JpushClientExample {
 			} else {
 				System.out.println("发送失败， 错误代码=" + msgResult.getErrcode() + ", 错误消息=" + msgResult.getErrmsg());
 			}
+		} else {
+			System.out.println("无法获取数据，检查网络是否超时");
 		}
 	}
 }

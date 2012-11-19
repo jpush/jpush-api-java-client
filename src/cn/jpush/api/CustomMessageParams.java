@@ -33,7 +33,7 @@ public class CustomMessageParams extends MessageParams {
 			params.put("title", this.getTitle());
 			params.put("message", this.getMessage());
 			params.put("content_type", this.getContentType());
-			params.put("extra", gson.toJson(this.getExtra()));
+			params.put("extras", gson.toJson(this.getExtra()));
 			
 			return gson.toJson(params);
 		}

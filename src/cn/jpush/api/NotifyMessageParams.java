@@ -12,7 +12,7 @@ public class NotifyMessageParams extends MessageParams {
 		//不填则默认为 0，使用 极光Push SDK 的默认通知样式。
 		private int builderId = 0;
 		
-		//private Map<String, Object> extra = new HashMap<String, Object>();
+		private Map<String, Object> extra = new HashMap<String, Object>();
 		
 		public int getBuilderId() {
 			return builderId;
@@ -20,12 +20,12 @@ public class NotifyMessageParams extends MessageParams {
 		public void setBuilderId(int builderId) {
 			this.builderId = builderId;
 		}
-		/*public Map<String, Object> getExtra() {
+		public Map<String, Object> getExtra() {
 			return extra;
 		}
 		public void setExtra(Map<String, Object> extra) {
 			this.extra = extra;
-		}*/
+		}
 		
 		@Override
 		public String toString() {
@@ -34,7 +34,8 @@ public class NotifyMessageParams extends MessageParams {
 			params.put("n_content", this.getMessage());
 			params.put("n_builder_id", String.valueOf(this.getBuilderId()));
 			params.put("n_title", this.getTitle());
-			//params.put("extra", gson.toJson(this.getExtra()));
+			params.put("n_extras", gson.toJson(this.getExtra()));
+			
 			return gson.toJson(params);
 		}
 	}
