@@ -1,30 +1,28 @@
 package cn.jpush.example;
 
-import java.util.HashMap;
-
 import cn.jpush.api.ErrorCodeEnum;
-import cn.jpush.api.IOSExtra;
-import cn.jpush.api.JPushClient;
-import cn.jpush.api.MessageResult;
 
-public class JpushClientExample {
+import cn.jpush.api.MessageResult;
+import cn.jpush.api.SimpleJPushClient;
+
+public class SimpleJpushClientExample {
 	
 	private static final String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
 	private static final String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
-	private static JPushClient jpush = null;
+	private static SimpleJPushClient  simpleJpush = null;
 	
 	public static void main(String[] args) {
 		/*
 		 * Example1: 初始化,默认发送给android和ios
-		 * jpush = new JPushClient(username, password, appKey);
+		 * jpush = new JPushClient(masterSecret, appKey);
 		 * 
 		 * Example2: 只发送给android
-		 * jpush = new JPushClient(username, password, appKey, DeviceEnum.Android);
+		 * jpush = new JPushClient(masterSecret, appKey, DeviceEnum.Android);
 		 * 
 		 * Example3: 带有回调的初始化，并且只发送给android
-		 * jpush = new JPushClient(username, password, appKey, callbackUrl, DeviceEnum.Android);
+		 * jpush = new JPushClient(masterSecret, appKey, DeviceEnum.Android);
 		 */
-		jpush = new JPushClient(masterSecret,appKey,0);
+		simpleJpush = new SimpleJPushClient(masterSecret,appKey);
 
 		
 		
@@ -53,14 +51,11 @@ public class JpushClientExample {
 		 8. = URL 中指定参数的值 %3D */
 		int sendNo = 103;
 		String msgTitle = "标题+++";
-		String msgContent = "/通#知?内&容%<可>;=====";
+		String txt = "/通#知?内&容%<可>;=====";
 		String alias = "alias";
 		String tag = "tag";
-		HashMap hashMap = new HashMap();
-		hashMap.put("kk", 1);
-		IOSExtra iosExtra = new IOSExtra(2);
-		
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent);
+
+		MessageResult msgResult = simpleJpush.sendNotificationWithAppKey(sendNo, txt);
 		
 //		MessageResult msgResult = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
 		

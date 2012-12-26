@@ -1,5 +1,7 @@
-package cn.jpush.api;
+package com.jpush.api.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 
 public class StringUtils {
@@ -34,5 +36,16 @@ public class StringUtils {
 			ex.printStackTrace();
 		}
 		return resultString;
+	}
+	
+	
+	public static String encodeParam(String param){
+		String encodeParam = null;
+		try {
+			encodeParam = URLEncoder.encode(param,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return encodeParam;
 	}
 }

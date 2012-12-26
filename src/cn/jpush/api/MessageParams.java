@@ -10,10 +10,10 @@ public class MessageParams {
 	private int sendNo = 0;
 	
 	/*
-	 * 待发送的应用程序列表 (appKey)，多个使用逗号隔开。
+	 *  (appKey)，只能填写一个。
 	 * 如果不填，则会向所有的应用发送。
 	 */
-	private String appKeys = "";
+	private String appKey = "";
 	
 	/*
 	 * 枚举类定义 ReceiverTypeEnum
@@ -27,6 +27,17 @@ public class MessageParams {
 	private String receiverValue = "";
 	
 	/*
+	 * 从消息推送时起，保存离线的时长。秒为单位。
+	 * 不设置默认保存一天
+	 */
+	private int timeToLive; 
+	
+	/*
+	 * 每个应用对应一个masterSecret，用来校验
+	 */
+	private String masterSecret;
+	
+	/*
 	 * 描述此次发送调用。
 	 * 不会发到用户。
 	 */
@@ -37,6 +48,18 @@ public class MessageParams {
 	 */
 	private Set<DeviceEnum> platform = new HashSet<DeviceEnum>();
 	
+	/*
+	 * 推送介意接口消息内容 
+	 */
+	private String txt;
+	private String targetPath;
+	
+	public String getTargetPath() {
+		return targetPath;
+	}
+	public void setTargetPath(String targetPath) {
+		this.targetPath = targetPath;
+	}
 	/*
 	 * 发送消息的内容。
 	 * 与 msg_type 相对应的值。
@@ -75,11 +98,23 @@ public class MessageParams {
 	public void setSendNo(int sendNo) {
 		this.sendNo = sendNo;
 	}
-	public String getAppKeys() {
-		return this.appKeys;
+	public String getAppKey() {
+		return this.appKey;
 	}
-	public void setAppKeys(String appKeys) {
-		this.appKeys = appKeys;
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
+	public int getTimeToLive() {
+		return timeToLive;
+	}
+	public void setTimeToLive(int timeToLive) {
+		this.timeToLive = timeToLive;
+	}
+	public String getMasterSecret() {
+		return masterSecret;
+	}
+	public void setMasterSecret(String masterSecret) {
+		this.masterSecret = masterSecret;
 	}
 	public ReceiverTypeEnum getReceiverType() {
 		return this.receiverType;
@@ -108,5 +143,12 @@ public class MessageParams {
 	}
 	public void addPlatform(DeviceEnum platform) {
 		this.platform.add(platform);
+	}
+	
+	public String getTxt() {
+		return txt;
+	}
+	public void setTxt(String txt) {
+		this.txt = txt;
 	}
 }
