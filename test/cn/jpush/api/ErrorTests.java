@@ -21,7 +21,7 @@ public class ErrorTests {
 
 	public ErrorTests(){
 		jpush = new JPushClient(masterSecret, appKey);
-		jpush = new JPushClient(masterSecret, appKey,timeToLive);
+		//jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
 	
 	/*
