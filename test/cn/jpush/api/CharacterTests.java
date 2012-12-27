@@ -1,9 +1,10 @@
 package cn.jpush.api;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
+/** 
+ * 测试特殊字符
+ */
 public class CharacterTests {
 
     @Test
