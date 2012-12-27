@@ -26,7 +26,7 @@ public class JPushClient extends BaseClient{
 		devices.add(device);
 	}
 
-	public JPushClient(String masterSecret, String appKey, int timeToLive, DeviceEnum device) {
+	public JPushClient(String masterSecret, String appKey,  DeviceEnum device,int timeToLive) {
 
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;

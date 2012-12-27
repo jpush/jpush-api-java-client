@@ -6,8 +6,7 @@ import com.google.gson.Gson;
  * 发送消息立即返回的状态定义
  */
 public class MessageResult {
-	//调用参数
-	private Object msgcontent;
+	
 	//发送序号
 	private int sendno = -1;
 	//错误码，详见ErrorCodeEnum
@@ -33,12 +32,7 @@ public class MessageResult {
 	public void setErrmsg(String errmsg) {
 		this.errmsg = errmsg;
 	}
-	public Object getMsgcontent() {
-		return msgcontent;
-	}
-	public void setMsgcontent(Object msgcontent) {
-		this.msgcontent = msgcontent;
-	}
+	
 	public static MessageResult fromValue(String result) {
 		MessageResult messageResult = null;
 		if ( (null != result) && (!"".equals(result)) ) {

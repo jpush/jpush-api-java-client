@@ -27,7 +27,7 @@ public class SimpleJPushClient extends BaseClient{
 		devices.add(device);
 	}
 	
-	public SimpleJPushClient(String masterSecret, String appKey, int timeToLive, DeviceEnum device) {
+	public SimpleJPushClient(String masterSecret, String appKey,DeviceEnum device, int timeToLive) {
 	
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;

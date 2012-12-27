@@ -43,12 +43,6 @@ public  class  BaseClient {
 		return this.devices;
 	}
 
-	protected MessageResult fromJson(final Object json) {
-		if (null == json) {
-			return null;
-		}
-		return MessageResult.fromValue(String.valueOf(json));
-	}
 	/*
 	 * @description 是否使用ssl安全连接
 	 */

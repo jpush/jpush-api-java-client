@@ -21,9 +21,12 @@ public class IOSExtra {
 		this.badge = badge;
 	}
 	
+	/*
+	 * Badge Notification,默认是(1)
+	 */
 	private int badge = 1;
 	/*
-	 * 当前软件里面的所拥有的铃声名称. 不设置，手机默认铃声
+	 * 当前软件里面的所拥有的铃声名称. 不设置，手机默认铃声(haapy)
 	 */
 	private String sound = "happy"; 
 	

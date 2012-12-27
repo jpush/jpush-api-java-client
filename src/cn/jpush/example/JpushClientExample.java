@@ -1,71 +1,73 @@
 package cn.jpush.example;
-
-import java.util.HashMap;
-
 import cn.jpush.api.ErrorCodeEnum;
 import cn.jpush.api.IOSExtra;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
+
+	private static final String appKey = "47b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
 	
-	private static final String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	private static final String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	private static final String masterSecret ="8cc138f8dc04cbf16240daa92d8d50e2" ; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	
+	
 	private static JPushClient jpush = null;
-	
+	/*
+	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
+	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
+	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
+	 */
+	private static int timeToLive =  60 * 60 * 24;  
+
 	public static void main(String[] args) {
 		/*
-		 * Example1: 初始化,默认发送给android和ios
-		 * jpush = new JPushClient(username, password, appKey);
+		 * Example1: 初始化,默认发送给android和ios，同时设置离线消息存活时间
+		 * jpush = new JPushClient(masterSecret, appKey,timeToLive);
 		 * 
 		 * Example2: 只发送给android
-		 * jpush = new JPushClient(username, password, appKey, DeviceEnum.Android);
+		 * jpush = new JPushClient(masterSecret, appKey, DeviceEnum.Android);
 		 * 
-		 * Example3: 带有回调的初始化，并且只发送给android
-		 * jpush = new JPushClient(username, password, appKey, callbackUrl, DeviceEnum.Android);
+		 * Example3: 只发送给IOS
+		 * jpush = new JPushClient(masterSecret, appKey,  DeviceEnum.IOS);
+		 * 
+		 * Example4: 只发送给android,同时设置离线消息存活时间
+		 * jpush = new JPushClient(masterSecret, appKey, DeviceEnum.Android);
 		 */
-		jpush = new JPushClient(masterSecret,appKey,0);
 
-		
-		
-		
-		/* 是否启用ssl安全连接, 可选
+		jpush = new JPushClient(masterSecret,appKey);
+
+		/* 
+		 * 是否启用ssl安全连接, 可选
 		 * 参数：启用true， 禁用false，默认为非ssl连接
 		 * 
 		 * Example:
 		 * jpush.setEnableSSL(true);
 		 */
-		
-		
-		//测试发送消息或者通知
-		testSend();
-	}
 	
+	
+		//测试发送消息或者通知
+	testSend();
+	}
+
 	private static void testSend() {
-		//开发者自己维护sendNo，sendNo的作用请参考文档。
-		/*1. + URL 中+号表示空格 %2B
-		 2. 空格 URL中的空格可以用+号或者编码 %20
-		 3. / 分隔目录和子目录 %2F
-		 4. ? 分隔实际的 URL 和参数 %3F
-		 5. % 指定特殊字符 %25
-		 6. # 表示书签 %23
-		 7. & URL 中指定的参数间的分隔符 %26
-		 8. = URL 中指定参数的值 %3D */
+
 		int sendNo = 103;
 		String msgTitle = "标题+++";
-		String msgContent = "/通#知?内&容%<可>;=====";
-		String alias = "alias";
+		String msgContent = "+/通#知?内&容%<可>;=====";
+
+		/* String alias = "alias";
 		String tag = "tag";
 		HashMap hashMap = new HashMap();
-		hashMap.put("kk", 1);
+		//IOS扩展参数，
 		IOSExtra iosExtra = new IOSExtra(2);
-		
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent);
-		
-//		MessageResult msgResult = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
-		
-//		MessageResult msgResult = jpush.sendNotificationWithAlias(sendNo, tag, msgTitle, msgContent);
-		
+		 */
+
+		MessageResult msgResult =jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent,0,null,new IOSExtra(20,"happy"));
+
+	   //  jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent,1,null,new IOSExtra(3));
+		//		jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
+		//		jpush.sendNotificationWithAlias(sendNo, tag, msgTitle, msgContent);
+
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {

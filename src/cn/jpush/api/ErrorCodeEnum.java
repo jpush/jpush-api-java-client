@@ -22,20 +22,12 @@ public enum ErrorCodeEnum {
 	//消息体太大
 	DataTooBig(1005),
 	
-	//用户名或者密码错误
-	InvalidUsernameOrPassword(1006),
-	
 	//IMEI不合法
 	InvalidIMEI(1007),
 	
-	//receiver_type=1时，必须填写appkeys
-	MissingAppKeyValue(1008),
-	
 	//appkeys不合法
-	InvalidAppKey(1009),
-	
-	//msg_content不合法
-	InvalidMsgContentValue(1010),
+	InvalidAppKey(1008),
+
 	
 	//没有满足条件的推送目标
 	InvalidPush(1011);

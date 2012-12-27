@@ -64,6 +64,7 @@ public class HttpPostClient {
 			if (enableSSL) {
 				initSSL();
 			}
+			
 			URL url = new URL(BaseURL.getUrlForPath(path, enableSSL));	
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
@@ -88,8 +89,9 @@ public class HttpPostClient {
 				while ((len = reader.read(buff)) > 0) {
 					sb.append(buff, 0, len);
 				}
+			System.out.println("send params = "+sb.toString());
 				if(!"".equals(sb.toString())){
-					messageResult = new Gson().fromJson(sb.toString(), MessageResult.class);
+					messageResult = MessageResult.fromValue(sb.toString());
 				}
 			} else {
 				throw new Exception("ResponseCode=" + conn.getResponseCode());
@@ -174,7 +176,6 @@ public class HttpPostClient {
 		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
 			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
 		}
-		System.err.println("-----"+builder.toString());
 		return builder.toString();
 	}
 
