@@ -1,7 +1,7 @@
 package cn.jpush.api;
 
-import com.jpush.api.utils.HttpPostClient;
-import com.jpush.api.utils.StringUtils;
+import cn.jpush.api.utils.HttpPostClient;
+import cn.jpush.api.utils.StringUtils;
 
 /*
  *  API 简易接口

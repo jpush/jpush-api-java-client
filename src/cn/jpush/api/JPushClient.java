@@ -1,8 +1,9 @@
 package cn.jpush.api;
 
 import java.util.Map;
-import com.jpush.api.utils.HttpPostClient;
-import com.jpush.api.utils.StringUtils;
+
+import cn.jpush.api.utils.HttpPostClient;
+import cn.jpush.api.utils.StringUtils;
 
 public class JPushClient extends BaseClient{
 
