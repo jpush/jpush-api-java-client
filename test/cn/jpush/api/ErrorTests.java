@@ -1,11 +1,12 @@
 package cn.jpush.api;
-
-
-import junit.framework.TestCase;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-public class JpushClientTest extends TestCase{
+/**
+ * 测试错误码 
+ *
+ */
+public class ErrorTests {
 
 	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
 	private String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
@@ -17,11 +18,12 @@ public class JpushClientTest extends TestCase{
 	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
 	 */
 	private static int timeToLive =  60 * 60 * 24;  
-	
-	public JpushClientTest(){
+
+	public ErrorTests(){
 		jpush = new JPushClient(masterSecret, appKey);
 		jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
+	
 	/*
 	 * 参数值不合法 1003
 	 */
@@ -30,20 +32,21 @@ public class JpushClientTest extends TestCase{
 		String appKey = "9cc138f8dc04cbf16240daa92d8d50e21";
 		jpush = new JPushClient(masterSecret, appKey);
 
+
 		int erroCode = ErrorCodeEnum.InvalidParameter.value();
 		String msgTitle = "jpush";
 		String msgContent = "junit-jpush-invalidParam";
 
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
-
 	}
+	
 	/*
 	 * 消息体太大 1005
 	 */
 	@Test
 	public void testSendNotificationWithAppKeyBigMessage(){
-		int erroCode = 1005;
+		int erroCode = ErrorCodeEnum.DataTooBig.value();
 		String msgTitle = "jpush";
 		String msgContent = "jpush jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" +
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
@@ -55,12 +58,14 @@ public class JpushClientTest extends TestCase{
 
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
-
 	}
 
-	/*
-	 * 1007 verification_code 验证失败
-	 */
+
+	
+    /*
+     * 1004 verification_code 验证失败
+     */
+
 	@Test
 	public void testSendNotificationWithAppKeyValidateFailed (){
 		String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e21";
@@ -72,11 +77,11 @@ public class JpushClientTest extends TestCase{
 
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
-
 	}
 
+
 	/*
-	 * 1004 IMEI不存在  验证失败
+	 * 1007 IMEI不存在  验证失败
 	 */
 	@Test
 	public void testSendNotificationWithAppKeyInvalidIMEI(){
@@ -109,7 +114,7 @@ public class JpushClientTest extends TestCase{
 	
 	
 	/*
-	 * 1011  appkey不存在  验证失败
+	 * 1008  appkey不存在  验证失败
 	 */
 	@Test
 	public void testSendNotificationWithAppKeyInvalidAppKey(){
@@ -126,10 +131,7 @@ public class JpushClientTest extends TestCase{
 	}
 
 
-	//不支持GET请求
-	//NotSupportGetMethod(1001),
-
-	//缺少必须参数
-	//MissingRequiredParameters(1002),
 
 }
+
+
