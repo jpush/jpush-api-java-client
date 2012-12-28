@@ -81,7 +81,7 @@ public class ErrorTests {
 
 
 	/*
-	 * 1007 IMEI不存在  验证失败
+	 * 1007 IMEI不合法   验证失败
 	 */
 	@Test
 	public void testSendNotificationWithAppKeyInvalidIMEI(){
@@ -89,15 +89,16 @@ public class ErrorTests {
 		int erroCode = ErrorCodeEnum.InvalidIMEI.value();
 		String msgTitle = "jpush";
 		String msgContent = "jpush";
-		String imei = "3749242-2323-2";//不存在的IMEI
+		String imei = "37492423";//不存在的IMEI
 
 		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent);
+		System.err.println(result);
 		assertEquals(erroCode, result.getErrcode());
 
 	}
 	
 	/*
-	 * 1011  tag不存在  验证失败
+	 * 1011  tag，algin、imei不存在  验证失败
 	 */
 	@Test
 	public void testSendNotificationWithAppKeyInvalidPush(){
@@ -131,6 +132,21 @@ public class ErrorTests {
 	}
 
 
+	
+	
+	/*
+	 * 特殊字符测试
+	 */
+	@Test
+	public void testSendNotificationWithAppKeyWithSpecialCharacter(){
+		
+		int erroCode = ErrorCodeEnum.NOERROR.value();
+		String msgTitle = "jpush";
+		String msgContent = "+j|u@n!i~t-j#p$u%s^h&-i*n(v)a_l=i?d>P<a,r.a;m；a[b]{c}";
+
+		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		assertEquals(erroCode, result.getErrcode());
+	}
 
 }
 

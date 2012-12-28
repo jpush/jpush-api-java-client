@@ -126,10 +126,8 @@ public class HttpPostClient {
 		}
 	}
 
-	protected String parse(MessageParams message) {
-		String md5SecretKey = StringUtils.toMD5(message.getMasterSecret()); 
-		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + md5SecretKey;
-		
+	protected String parse(MessageParams message) { 
+		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + message.getMasterSecret();
 		int msgType = 0;
 		if (message instanceof NotifyMessageParams) {
 			msgType = MsgTypeEnum.NOTIFY.value();
@@ -154,9 +152,7 @@ public class HttpPostClient {
 	}
 
 	public String simpleParse(MessageParams message){
-		String md5SecretKey = StringUtils.toMD5(message.getMasterSecret()); 
-		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + md5SecretKey;
-		
+		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + message.getMasterSecret();
 		Map<String, String> nvPair = new HashMap<String, String>();
 		nvPair.put("sendno", String.valueOf(message.getSendNo()));
 		nvPair.put("app_key", message.getAppKey());

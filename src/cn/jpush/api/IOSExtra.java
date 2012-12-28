@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- *  IOS 发送通知 扩展字段
- *  只针对 通知消息
+ *  IOS 发送通知 附加扩展类
+ *   只针对 通知消息
  * 
  */
 public class IOSExtra {
@@ -26,7 +26,8 @@ public class IOSExtra {
 	 */
 	private int badge = 1;
 	/*
-	 * 当前软件里面的所拥有的铃声名称. 不设置，手机默认铃声(haapy)
+	 *  当前软件里面的所拥有的铃声名称（如：message.wav)。
+	 *  不设置，手机默认通知铃声
 	 */
 	private String sound = "happy"; 
 	

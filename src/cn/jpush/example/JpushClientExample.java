@@ -1,4 +1,7 @@
 package cn.jpush.example;
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.jpush.api.ErrorCodeEnum;
 import cn.jpush.api.IOSExtra;
 import cn.jpush.api.JPushClient;
@@ -6,12 +9,10 @@ import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
 
-	private static final String appKey = "47b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	
-	private static final String masterSecret ="8cc138f8dc04cbf16240daa92d8d50e2" ; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
-	
-	
+	private static final String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
+	private static final String masterSecret ="9cc138f8dc04cbf16240daa92d8d50e2" ; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private static JPushClient jpush = null;
+
 	/*
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
 	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
@@ -43,31 +44,37 @@ public class JpushClientExample {
 		 * Example:
 		 * jpush.setEnableSSL(true);
 		 */
-	
-	
+
+
 		//测试发送消息或者通知
-	testSend();
+		testSend();
 	}
 
 	private static void testSend() {
 
 		int sendNo = 103;
-		String msgTitle = "标题+++";
-		String msgContent = "+/通#知?内&容%<可>;=====";
+		String msgTitle = "IOS标题";
+		String msgContent = "+/通#知?内&容%<可>;=";
 
-		/* String alias = "alias";
-		String tag = "tag";
-		HashMap hashMap = new HashMap();
-		//IOS扩展参数，
-		IOSExtra iosExtra = new IOSExtra(2);
+		/*
+	       String alias = "alias";
+	    
 		 */
+		String tag = "tag";
+		//IOS 扩展参数，Badge，sound
+		IOSExtra iosExtra = new IOSExtra(2,"message.wav");
+		//自定义消息 android/ios
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hey", "test");
+		map.put("you", "test");
+		
+		MessageResult msgResult = //jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent,0,map,iosExtra);
 
-		MessageResult msgResult =jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent,0,null,new IOSExtra(20,"happy"));
-
-	   //  jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent,1,null,new IOSExtra(3));
-		//		jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
+		//  jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent,1,null,new IOSExtra(3));
+				jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
 		//		jpush.sendNotificationWithAlias(sendNo, tag, msgTitle, msgContent);
 
+		
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
