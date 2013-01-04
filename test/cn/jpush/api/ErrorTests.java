@@ -1,5 +1,7 @@
 package cn.jpush.api;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -8,8 +10,8 @@ import org.junit.Test;
  */
 public class ErrorTests {
 
-	private String appKey = "47b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	private String masterSecret = "8cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
+	private String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private  JPushClient jpush = null;
 	private int sendNo = 11111;
 	/*
@@ -19,7 +21,8 @@ public class ErrorTests {
 	 */
 	private static int timeToLive =  60 * 60 * 24;  
 
-	public ErrorTests(){
+	@Before
+	public void before(){
 		jpush = new JPushClient(masterSecret, appKey);
 		//jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
@@ -53,6 +56,25 @@ public class ErrorTests {
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
 		"sddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeeeee" +
+		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeee" +
+		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddcontenteeeeeeeeeeee";
+
+		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		assertEquals(erroCode, result.getErrcode());
+	}
+	
+	/*
+	 * 消息体太大 1005
+	 */
+	@Test
+	public void testSendNotificationWithAppKeyBigMessageTitle(){
+		int erroCode = ErrorCodeEnum.DataTooBig.value();
+		String msgContent = "jpush";
+		String msgTitle = "jpushjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" +
+		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
+		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
+		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
+		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeeeee" +
 		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeee" +
 		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddcontenteeeeeeeeeeee";
 
@@ -162,21 +184,7 @@ public class ErrorTests {
 		assertEquals(erroCode, result.getErrcode());
 
 	}
-	
-	
-	/*
-	 * 特殊字符测试
-	 */
-	@Test
-	public void testSendNotificationWithAppKeyWithSpecialCharacter(){
-		
-		int erroCode = ErrorCodeEnum.NOERROR.value();
-		String msgTitle = "jpush";
-		String msgContent = "+j|u@n!i~t-j#p$u%s^h&-i*n(v)a_l=i?d>P<a,r.a;m；a[b]{c}";
 
-		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
-		assertEquals(erroCode, result.getErrcode());
-	}
 
 }
 
