@@ -18,6 +18,7 @@ public class SimpleClientFucntionTests {
 	private String alias = "alias";
 	private String tag = "tag";
 	private String imei = "358794047517434";
+	
 	/*
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
 	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
@@ -41,6 +42,7 @@ public class SimpleClientFucntionTests {
 		assertEquals(resultCode, result.getErrcode());
 		
 	}
+	
 	/*
 	 * 发送Alias可以自定义消息
 	 */
@@ -50,6 +52,7 @@ public class SimpleClientFucntionTests {
 		assertEquals(resultCode, result.getErrcode());
 	}
 	
+	
 	/*
 	 * 发送Tag可以自定义消息
 	 */
@@ -58,6 +61,7 @@ public class SimpleClientFucntionTests {
 		MessageResult result = jpush.sendNotificationWithTag(sendNo, tag, txt);
 		assertEquals(resultCode, result.getErrcode());
 	}
+	
 	
 	/*
 	 * 发送Tag可以自定义消息
@@ -70,7 +74,7 @@ public class SimpleClientFucntionTests {
 	
 	
 	/*
-	 * =========================自定义消息==========================
+	 * =============================================自定义消息==========================
 	 */
 	
 	/*

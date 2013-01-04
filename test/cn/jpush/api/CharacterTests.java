@@ -10,9 +10,8 @@ import org.junit.Test;
  */
 public class CharacterTests {
 
-
-	private String appKey = "47b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	private String masterSecret = "8cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
+	private String masterSecret = "5cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private  JPushClient jpush = null;
 	private int sendNo = 11111;
 
@@ -29,9 +28,6 @@ public class CharacterTests {
 		//jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter(){
 
@@ -43,9 +39,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter1(){
 
@@ -57,9 +51,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter2(){
 
@@ -71,9 +63,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter3(){
 
@@ -85,9 +75,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter4(){
 
@@ -99,9 +87,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter6(){
 
@@ -113,9 +99,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter8(){
 
@@ -127,9 +111,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter7(){
 
@@ -141,9 +123,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter9(){
 
@@ -154,9 +134,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter11(){
 
@@ -167,9 +145,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter12(){
 
@@ -180,9 +156,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter13(){
 
@@ -193,9 +167,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter14(){
 
@@ -206,9 +178,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter15(){
 
@@ -219,9 +189,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter16(){
 
@@ -232,9 +200,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter17(){
 
@@ -245,9 +211,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter18(){
 
@@ -258,9 +222,7 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter19(){
 
@@ -272,9 +234,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter20(){
 
@@ -286,9 +246,7 @@ public class CharacterTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 
-	/*
-	 * 特殊字符测试
-	 */
+	
 	@Test
 	public void testSendNotificationWithAppKeyWithSpecialCharacter21(){
 

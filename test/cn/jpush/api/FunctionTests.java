@@ -94,7 +94,7 @@ public class FunctionTests {
 		extra.put("jpush-key","jpush-value");
 		IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
 		
-		MessageResult result = jpush.sendNotificationWithAlias(sendNo, tag, msgTitle, msgContent, 0, extra, iosExtra);
+		MessageResult result = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent, 0, extra, iosExtra);
 		assertEquals(resultCode, result.getErrcode());
 	}
 	
