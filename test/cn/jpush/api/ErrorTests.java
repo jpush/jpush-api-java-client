@@ -48,7 +48,7 @@ public class ErrorTests {
 	public void testSendNotificationWithAppKeyBigMessage(){
 		int erroCode = ErrorCodeEnum.DataTooBig.value();
 		String msgTitle = "jpush";
-		String msgContent = "jpush jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" +
+		String msgContent = "jpushjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" +
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
 		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
@@ -68,7 +68,7 @@ public class ErrorTests {
 
 	@Test
 	public void testSendNotificationWithAppKeyValidateFailed (){
-		String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e21";
+		String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e21"; //错误的masterSeret
 		jpush = new JPushClient(masterSecret, appKey);
 
 		int erroCode = ErrorCodeEnum.ValidateFailed.value();
@@ -98,20 +98,52 @@ public class ErrorTests {
 	}
 	
 	/*
-	 * 1011  tag，algin、imei不存在  验证失败
+	 * 1011  tag，不存在  验证失败
 	 */
 	@Test
-	public void testSendNotificationWithAppKeyInvalidPush(){
+	public void testSendNotificationWithAppKeyInvalidPushByTag(){
 		
 		int erroCode = ErrorCodeEnum.InvalidPush.value();
 		String msgTitle = "jpush";
 		String msgContent = "jpush";
-		String tag = "and 1=1";//不存在tag
+		String tag = "and 1=1";
 
 		MessageResult result = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 
 	}
+	/*
+	 * 1011 imei不存在  验证失败
+	 */
+	@Test
+	public void testSendNotificationWithAppKeyInvalidPushByImei(){
+		
+		int erroCode = ErrorCodeEnum.InvalidPush.value();
+		String msgTitle = "jpush";
+		String msgContent = "jpush";
+		String imei = "11111111111111111111111111111111";
+
+		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent);
+		assertEquals(erroCode, result.getErrcode());
+
+	}
+	
+	/*
+	 * 1011  algin不存在  验证失败
+	 */
+	@Test
+	public void testSendNotificationWithAppKeyInvalidPushByAlgin(){
+		
+		int erroCode = ErrorCodeEnum.InvalidPush.value();
+		String msgTitle = "jpush";
+		String msgContent = "jpush";
+		String align = "1111";
+
+		MessageResult result = jpush.sendNotificationWithAlias(sendNo, align, msgTitle, msgContent);
+		assertEquals(erroCode, result.getErrcode());
+
+	}
+	
 	
 	
 	/*
@@ -130,8 +162,6 @@ public class ErrorTests {
 		assertEquals(erroCode, result.getErrcode());
 
 	}
-
-
 	
 	
 	/*

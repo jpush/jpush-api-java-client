@@ -9,8 +9,12 @@ import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
 
-	private static final String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	private static final String masterSecret ="9cc138f8dc04cbf16240daa92d8d50e2" ; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	private static final String appKey ="57b9ef19d4be5de08df12aa0";
+	//	"7b8b1fa5a06f6432514f74cd";
+	//必填，例如466f7032ac604e02fb7bda89
+	private static final String masterSecret =	"9cc138f8dc04cbf16240daa92d8d50e2"
+		//"8ea2862c9af1835d69e8b761";
+ ; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private static JPushClient jpush = null;
 
 	/*
@@ -68,10 +72,10 @@ public class JpushClientExample {
 		map.put("hey", "test");
 		map.put("you", "test");
 		
-		MessageResult msgResult = //jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent,0,map,iosExtra);
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo,msgTitle,msgContent,0,map,iosExtra);
 
 		//  jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent,1,null,new IOSExtra(3));
-				jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
+			//	jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent);
 		//		jpush.sendNotificationWithAlias(sendNo, tag, msgTitle, msgContent);
 
 		

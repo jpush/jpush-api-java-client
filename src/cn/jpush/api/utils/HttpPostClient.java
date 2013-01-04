@@ -66,6 +66,7 @@ public class HttpPostClient {
 			}
 			
 			URL url = new URL(BaseURL.getUrlForPath(path, enableSSL));	
+			System.out.println(BaseURL.getUrlForPath(path, enableSSL));
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
 			conn.setReadTimeout(DEFAULT_SOCKET_TIMEOUT);
@@ -147,7 +148,7 @@ public class HttpPostClient {
 		nvPair.put("platform", message.getPlatform());
 		if(message.getTimeToLive() >=0) 
 			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
-
+System.out.println(nvPair.toString());
 		return mapWithParms(nvPair);
 	}
 
