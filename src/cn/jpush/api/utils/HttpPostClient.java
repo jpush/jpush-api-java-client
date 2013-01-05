@@ -24,8 +24,6 @@ import cn.jpush.api.SimpleHostnameVerifier;
 import cn.jpush.api.SimpleTrustManager;
 
 
-import com.google.gson.Gson;
-
 
 public class HttpPostClient {
 
