@@ -63,24 +63,7 @@ public class ErrorTests {
 		assertEquals(erroCode, result.getErrcode());
 	}
 	
-	/*
-	 * 消息体太大 1005
-	 */
-	@Test
-	public void testSendNotificationWithAppKeyBigMessageTitle(){
-		int erroCode = ErrorCodeEnum.DataTooBig.value();
-		String msgContent = "jpush";
-		String msgTitle = "jpushjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" +
-		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-		"ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeeeee" +
-		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeee" +
-		"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddcontenteeeeeeeeeeee";
-
-		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
-		assertEquals(erroCode, result.getErrcode());
-	}
+	
 
 
 	
@@ -143,7 +126,7 @@ public class ErrorTests {
 		int erroCode = ErrorCodeEnum.InvalidPush.value();
 		String msgTitle = "jpush";
 		String msgContent = "jpush";
-		String imei = "11111111111111111111111111111111";
+		String imei = "11111111111";
 
 		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());

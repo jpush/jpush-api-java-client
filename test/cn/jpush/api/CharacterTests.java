@@ -11,7 +11,7 @@ import org.junit.Test;
 public class CharacterTests {
 
 	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
-	private String masterSecret = "5cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
+	private String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e2"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private  JPushClient jpush = null;
 	private int sendNo = 11111;
 

@@ -90,7 +90,7 @@ public class HttpPostClient {
 				while ((len = reader.read(buff)) > 0) {
 					sb.append(buff, 0, len);
 				}
-			System.out.println("send params = "+sb.toString());
+				System.out.println("send params = "+sb.toString());
 				if(!"".equals(sb.toString())){
 					messageResult = MessageResult.fromValue(sb.toString());
 				}
@@ -148,7 +148,7 @@ public class HttpPostClient {
 		nvPair.put("platform", message.getPlatform());
 		if(message.getTimeToLive() >=0) 
 			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
-System.out.println(nvPair.toString());
+	
 		return mapWithParms(nvPair);
 	}
 
@@ -173,6 +173,7 @@ System.out.println(nvPair.toString());
 		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
 			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
 		}
+		System.out.println("params - "+builder.toString());
 		return builder.toString();
 	}
 
