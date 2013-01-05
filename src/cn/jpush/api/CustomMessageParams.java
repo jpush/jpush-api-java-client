@@ -29,11 +29,11 @@ public class CustomMessageParams extends MessageParams {
 		@Override
 		public String toString() {
 			Gson gson = new Gson();
-			Map<String, String> params = new HashMap<String, String>();
+			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("title", this.getTitle());
 			params.put("message", this.getMessage());
 			params.put("content_type", this.getContentType());
-			params.put("extras", gson.toJson(this.getExtra()));
+			params.put("extras", this.getExtra());
 			
 			return gson.toJson(params);
 		}
