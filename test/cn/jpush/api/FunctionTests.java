@@ -17,7 +17,7 @@ public class FunctionTests {
 	private int resultCode = 0;
 	private String msgTitle = "jpush-title";
 	private String msgContent = "jpush-content";
-	private String alias = "alias";
+	private String alias = "aaa";
 	private String tag = "tag";
 	private String imei = "358794047517434";
 	/*
