@@ -1,55 +1,47 @@
 package cn.jpush.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /*
  *  IOS 发送通知 附加扩展类
- *   只针对 通知消息
- * 
  */
 public class IOSExtra {
 	
-	public IOSExtra(int badge,String sound){
+	public IOSExtra(int badge, String sound) {
 		this.badge = badge;
 		this.sound = sound;
 	}
-	public IOSExtra(String sound){
+	
+	public IOSExtra(String sound) {
 		this.sound = sound;
 	}
-	public IOSExtra(int badge){
+	
+	public IOSExtra(int badge) {
 		this.badge = badge;
 	}
 	
 	/*
-	 * Badge Notification,默认是(1)
+	 * Badge Notification,默认是(0)
 	 */
-	private int badge = 1;
+	private int badge = 0;
 	/*
 	 *  当前软件里面的所拥有的铃声名称（如：message.wav)。
 	 *  不设置，手机默认通知铃声
 	 */
-	private String sound = "happy"; 
+	private String sound = ""; 
 	
 	public int getBadge() {
 		return badge;
 	}
+	
 	public void setBadge(int badge) {
 		this.badge = badge;
 	}
+	
 	public String getSound() {
 		return sound;
 	}
+	
 	public void setSound(String sound) {
 		this.sound = sound;
 	} 
 	
-	public Map<String,Object> getIOSExtraMap(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("badge", this.badge);
-		params.put("sound", this.sound);
-		return params;
-	}
-	
-
 }

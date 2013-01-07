@@ -2,7 +2,7 @@
 /.settings
 
 *.class
-
+*.project
 # Package Files #
 # *.jar
 test-output/

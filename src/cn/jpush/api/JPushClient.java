@@ -2,9 +2,6 @@ package cn.jpush.api;
 
 import java.util.Map;
 
-import cn.jpush.api.utils.HttpPostClient;
-import cn.jpush.api.utils.StringUtils;
-
 public class JPushClient extends BaseClient{
 
 	protected static HttpPostClient httpClient = new HttpPostClient();
@@ -13,12 +10,12 @@ public class JPushClient extends BaseClient{
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 	}
-	public JPushClient(String masterSecret, String appKey,int timeToLive) {
+	
+	public JPushClient(String masterSecret, String appKey, long timeToLive) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
 	}
-
 
 	public JPushClient(String masterSecret, String appKey, DeviceEnum device) {
 		this.masterSecret = masterSecret;
@@ -26,8 +23,7 @@ public class JPushClient extends BaseClient{
 		devices.add(device);
 	}
 
-	public JPushClient(String masterSecret, String appKey,  DeviceEnum device,int timeToLive) {
-
+	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
@@ -42,7 +38,7 @@ public class JPushClient extends BaseClient{
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null,null);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
 	}
 
 	/*
@@ -50,11 +46,11 @@ public class JPushClient extends BaseClient{
 	 * @description 发送带IMEI的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithImei(int sendNo, String imei, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,IOSExtra iosExtra) {
+	public MessageResult sendNotificationWithImei(int sendNo, String imei, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
-		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra,iosExtra);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
 
 	/*
@@ -88,7 +84,7 @@ public class JPushClient extends BaseClient{
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null,null);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
 	}
 
 	/*
@@ -96,11 +92,11 @@ public class JPushClient extends BaseClient{
 	 * @description 发送带TAG的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,IOSExtra iosExtra) {
+	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
-		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra,iosExtra);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
 
 	/*
@@ -134,7 +130,7 @@ public class JPushClient extends BaseClient{
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null,null);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
 	}
 
 	/*
@@ -142,11 +138,11 @@ public class JPushClient extends BaseClient{
 	 * @description 发送带ALIAS的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,IOSExtra iosExtra) {
+	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
-		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra,iosExtra);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
 
 	/*
@@ -179,7 +175,7 @@ public class JPushClient extends BaseClient{
 	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null,null);
+		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
 	}
 
 	/*
@@ -187,10 +183,10 @@ public class JPushClient extends BaseClient{
 	 * @description 发送带AppKey的通知
 	 * @return MessageResult
 	 */
-	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,IOSExtra iosExtra) {
+	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		NotifyMessageParams p = new NotifyMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
-		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra,iosExtra);
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
 
 	/*
@@ -224,13 +220,10 @@ public class JPushClient extends BaseClient{
 		return sendMessage(p, sendNo, msgTitle, msgContent);
 	}
 
-	protected MessageResult sendNotification(NotifyMessageParams p, int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,IOSExtra iosExtra) {
+	protected MessageResult sendNotification(NotifyMessageParams p, int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		p.getMsgContent().setBuilderId(builderId);
 		if (null != extra) {
 			p.getMsgContent().setExtra(extra);
-		}
-		if(null != iosExtra){
-			p.getMsgContent().setIosExtra(iosExtra);
 		}
 		return sendMessage(p, sendNo, msgTitle, msgContent);
 	}
@@ -250,15 +243,11 @@ public class JPushClient extends BaseClient{
 		}
 		p.getMsgContent().setMessage(StringUtils.encodeParam(msgContent));
 
-
 		return sendMessage(p);
 	}
 
 	protected MessageResult sendMessage(MessageParams params) {
-		return httpClient.post(BaseURL.ALL_PATH,this.enableSSL,params);
+		return httpClient.post(BaseURL.ALL_PATH, this.enableSSL, params);
 	}
-
-
-
 
 }

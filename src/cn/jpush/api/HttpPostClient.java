@@ -1,4 +1,4 @@
-package cn.jpush.api.utils;
+package cn.jpush.api;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -14,17 +14,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.TrustManager;
 
-import cn.jpush.api.BaseURL;
-import cn.jpush.api.CustomMessageParams;
-import cn.jpush.api.MessageParams;
-import cn.jpush.api.MessageResult;
-import cn.jpush.api.MsgTypeEnum;
-import cn.jpush.api.NotifyMessageParams;
-import cn.jpush.api.SimpleHostnameVerifier;
-import cn.jpush.api.SimpleTrustManager;
-
-
-
 public class HttpPostClient {
 
 	private final String CHARSET = "UTF-8";
@@ -34,20 +23,10 @@ public class HttpPostClient {
 	//设置读取超时时间
 	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
-	public  MessageResult post(final String path, final boolean enableSSL, final MessageParams messageParams) {
+	public MessageResult post(final String path, final boolean enableSSL, final MessageParams messageParams) {
 		byte[] data = null;
 		try {
 			data = parse(messageParams).getBytes(CHARSET);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return sendPost(path, enableSSL, data);
-	}
-
-	public  MessageResult simplePost(final String path, final boolean enableSSL, final MessageParams messageParams) {
-		byte[] data = null;
-		try {
-			data = simpleParse(messageParams).getBytes(CHARSET);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -63,8 +42,7 @@ public class HttpPostClient {
 				initSSL();
 			}
 			
-			URL url = new URL(BaseURL.getUrlForPath(path, enableSSL));	
-			//System.out.println(BaseURL.getUrlForPath(path, enableSSL));
+			URL url = new URL(BaseURL.getUrlForPath(path, enableSSL));
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
 			conn.setReadTimeout(DEFAULT_SOCKET_TIMEOUT);
@@ -88,7 +66,6 @@ public class HttpPostClient {
 				while ((len = reader.read(buff)) > 0) {
 					sb.append(buff, 0, len);
 				}
-			//	System.out.println("send params = "+sb.toString());
 				if(!"".equals(sb.toString())){
 					messageResult = MessageResult.fromValue(sb.toString());
 				}
@@ -142,27 +119,11 @@ public class HttpPostClient {
 		nvPair.put("verification_code", StringUtils.toMD5(input));
 		nvPair.put("msg_type", String.valueOf(msgType));
 		nvPair.put("msg_content", message.getMsgContent().toString());
-		nvPair.put("send_description", message.getSendDescription());
+		//nvPair.put("send_description", message.getSendDescription());
 		nvPair.put("platform", message.getPlatform());
-		if(message.getTimeToLive() >=0) 
+		if (message.getTimeToLive() >=0) {
 			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
-	
-		return mapWithParms(nvPair);
-	}
-
-	public String simpleParse(MessageParams message){
-		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + message.getMasterSecret();
-		Map<String, String> nvPair = new HashMap<String, String>();
-		nvPair.put("sendno", String.valueOf(message.getSendNo()));
-		nvPair.put("app_key", message.getAppKey());
-		nvPair.put("receiver_type", String.valueOf(message.getReceiverType().value()));
-		nvPair.put("receiver_value", message.getReceiverValue());
-		nvPair.put("verification_code", StringUtils.toMD5(input));
-		nvPair.put("txt", message.getTxt());
-		nvPair.put("platform", message.getPlatform());
-		if(message.getTimeToLive() >=0) 
-			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
-
+		}
 		return mapWithParms(nvPair);
 	}
 
@@ -173,8 +134,5 @@ public class HttpPostClient {
 		}
 		return builder.toString();
 	}
-
-
-
 
 }

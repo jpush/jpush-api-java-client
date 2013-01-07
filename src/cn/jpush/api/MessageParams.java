@@ -27,10 +27,11 @@ public class MessageParams {
 	private String receiverValue = "";
 	
 	/*
-	 * 从消息推送时起，保存离线的时长。秒为单位。
-	 * 不设置默认保存一天
+	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
+	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
+	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
 	 */
-	private int timeToLive; 
+	private long timeToLive; 
 	
 	/*
 	 * 每个应用对应一个masterSecret，用来校验
@@ -104,10 +105,10 @@ public class MessageParams {
 	public void setAppKey(String appKey) {
 		this.appKey = appKey;
 	}
-	public int getTimeToLive() {
+	public long getTimeToLive() {
 		return timeToLive;
 	}
-	public void setTimeToLive(int timeToLive) {
+	public void setTimeToLive(long timeToLive) {
 		this.timeToLive = timeToLive;
 	}
 	public String getMasterSecret() {

@@ -1,13 +1,8 @@
 package cn.jpush.api;
 
 import static org.junit.Assert.*;
-
 import java.util.HashMap;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -30,7 +25,7 @@ public class FunctionTests {
 	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
 	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
 	 */
-	private static int timeToLive =  60 * 60 * 24;  
+	private static long timeToLive =  60 * 60 * 24;  
 
 	@Before
 	public void before(){
@@ -53,8 +48,9 @@ public class FunctionTests {
 		HashMap<String,Object> extra = new HashMap<String,Object>();
 		extra.put("jpush-key","jpush-value");
 		IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+		extra.put("ios", iosExtra);
 		
-		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra, null);
+		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
 		assertEquals(resultCode, result.getErrcode());
 	}
 
@@ -73,8 +69,9 @@ public class FunctionTests {
 		HashMap extra = new HashMap();
 		extra.put("jpush-key","jpush-value");
 		IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+		extra.put("ios", iosExtra);
 		
-		MessageResult result = jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent, 0, extra, iosExtra);
+		MessageResult result = jpush.sendNotificationWithAlias(sendNo, alias, msgTitle, msgContent, 0, extra);
 		assertEquals(resultCode, result.getErrcode());
 	}
 	
@@ -93,8 +90,9 @@ public class FunctionTests {
 		HashMap extra = new HashMap();
 		extra.put("jpush-key","jpush-value");
 		IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+		extra.put("ios", iosExtra);
 		
-		MessageResult result = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent, 0, extra, iosExtra);
+		MessageResult result = jpush.sendNotificationWithTag(sendNo, tag, msgTitle, msgContent, 0, extra);
 		assertEquals(resultCode, result.getErrcode());
 	}
 	
@@ -112,7 +110,7 @@ public class FunctionTests {
 	@Test
 	public void sendNotificationWithIMEIByExtra(){
 		
-		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent,0,null,null);
+		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent);
 		assertEquals(resultCode, result.getErrcode());
 	}
 	

@@ -11,11 +11,6 @@ public class NotifyMessageParams extends MessageParams {
 	public class NotifyMsgContent extends MessageParams.MsgContent {
 		//不填则默认为 0，使用 极光Push SDK 的默认通知样式。
 		private int builderId = 0;
-		private IOSExtra iosExtra = new IOSExtra(1, "happy");
-		
-		public void setIosExtra(IOSExtra iosExtra) {
-			this.iosExtra = iosExtra;
-		}
 
 		private Map<String, Object> extra = new HashMap<String, Object>();
 		
@@ -26,13 +21,11 @@ public class NotifyMessageParams extends MessageParams {
 			this.builderId = builderId;
 		}
 		public Map<String, Object> getExtra() {
-			extra.put("ios", iosExtra.getIOSExtraMap());
 			return extra;
 		}
 		public void setExtra(Map<String, Object> extra) {
 			this.extra = extra;
 		}
-		
 		
 		@Override
 		public String toString() {

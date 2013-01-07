@@ -25,12 +25,17 @@ public enum ErrorCodeEnum {
 	//IMEI不合法
 	InvalidIMEI(1007),
 	
-	//appkeys不合法
+	//appkey不合法
 	InvalidAppKey(1008),
-
+	
+	//msg_content不合法
+	InvalidMsgContent(1010),
 	
 	//没有满足条件的推送目标
-	InvalidPush(1011);
+	InvalidPush(1011),
+	
+	//IOS不支持自定义消息
+	CustomMessgaeNotSupportIOS(1012);
 	
 	private final int value;
 	private ErrorCodeEnum(final int value) {

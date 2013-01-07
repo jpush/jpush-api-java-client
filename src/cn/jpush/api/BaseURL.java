@@ -8,7 +8,6 @@ public class BaseURL {
 	protected static final String SIMPLE_CUSTOM_PATH = "/sendmsg/v2/custom_message"; //简易接口，自定义消息
 	protected static final String SIMPLE_NOTIFICATION_PATH = "/sendmsg/v2/notification"; //简易接口，自定义通知
 	
-	
 	private static String getHostname(boolean enableSSL) {
 		return enableSSL? HOST_NAME_SSL :HOST_NAME;
 	}
@@ -17,5 +16,4 @@ public class BaseURL {
 		return getHostname(enableSSL) + path;
 	}
 	
-
 }
