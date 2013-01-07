@@ -1,9 +1,7 @@
-jpush-java-library
-==================
+JPush server library v2.0 for Java
+==================================
 
-JPush server library for Java
-
-文档参考：http://docs.jpush.cn/display/dev/Java-JEE
+API2.0参数介绍：http://docs.jpush.cn/pages/viewpage.action?pageId=2621796
 
 Change List:
-添加了https链接方式
+http://docs.jpush.cn/pages/viewpage.action?pageId=3309737
