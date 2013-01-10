@@ -1,6 +1,7 @@
 /bin
 /.settings
 
+/.metadata/
 *.class
 *.project
 # Package Files #
