@@ -1,6 +1,7 @@
 package cn.jpush.api;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 

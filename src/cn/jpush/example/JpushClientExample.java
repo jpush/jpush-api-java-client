@@ -51,8 +51,8 @@ public class JpushClientExample {
 
 	private static void testSend() {
 		int sendNo = 101;
-		String msgTitle = "";
-		String msgContent = ";w";
+		String msgTitle = "+;//jpush\"\"";
+		String msgContent = "\\&;w\"\"";
 		
 		/*
 		 * IOS设备扩展参数,
@@ -61,8 +61,9 @@ public class JpushClientExample {
 		Map<String, Object> extra = new HashMap<String, Object>();
 		IOSExtra iosExtra = new IOSExtra(42, "Windows Logon Sound.wav");
 		extra.put("ios", iosExtra);
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
 		
+		MessageResult msgResult = //jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
+		jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
 		//对所有用户发送通知, 更多方法请参考文档
 		//MessageResult msgResult = jpush.sendNotificationWithAlias(sendNo, "user_5835350", msgTitle, msgContent);
 		

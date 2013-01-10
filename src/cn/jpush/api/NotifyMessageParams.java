@@ -36,7 +36,7 @@ public class NotifyMessageParams extends MessageParams {
 			params.put("n_title", this.getTitle());
 			params.put("n_extras", this.getExtra());
 
-			return gson.toJson(params);
+			return StringUtils.encodeParam(gson.toJson(params));
 		}
 	}
 	

@@ -239,9 +239,9 @@ public class JPushClient extends BaseClient{
 		}
 
 		if (null != msgTitle) {
-			p.getMsgContent().setTitle(StringUtils.fix(msgTitle));
+			p.getMsgContent().setTitle(msgTitle);
 		}
-		p.getMsgContent().setMessage(StringUtils.fix(msgContent));
+		p.getMsgContent().setMessage(msgContent);
 
 		return sendMessage(p);
 	}

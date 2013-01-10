@@ -280,6 +280,18 @@ public class CharacterTests {
 		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		assertEquals(erroCode, result.getErrcode());
 	}
+	
+
+	@Test
+	public void testSendNotificationWithAppKeyWithSpecialCharacter24(){
+
+		int erroCode = ErrorCodeEnum.NOERROR.value();
+		String msgTitle = "jpush";
+		String msgContent = "jpush\"\"";
+
+		MessageResult result = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		assertEquals(erroCode, result.getErrcode());
+	}
 
 
 

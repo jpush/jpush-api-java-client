@@ -27,6 +27,7 @@ public class HttpPostClient {
 		byte[] data = null;
 		try {
 			data = parse(messageParams).getBytes(CHARSET);
+			System.out.println(data.length);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -132,6 +133,7 @@ public class HttpPostClient {
 		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
 			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
 		}
+		System.out.println("request params = "+builder.toString());
 		return builder.toString();
 	}
 
