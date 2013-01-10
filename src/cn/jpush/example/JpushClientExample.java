@@ -52,7 +52,7 @@ public class JpushClientExample {
 	private static void testSend() {
 		int sendNo = 101;
 		String msgTitle = "";
-		String msgContent = "+w";
+		String msgContent = ";w";
 		
 		/*
 		 * IOS设备扩展参数,
