@@ -47,4 +47,10 @@ public class StringUtils {
 		return encodeParam;
 	}
 	
+	public static String fix(String str) {
+		return   str.replace(";", "\u003B")
+					.replace("+", "%2B")
+					.replace("&", "\u0026");
+	}
+	
 }

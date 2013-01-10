@@ -10,9 +10,9 @@ import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
 
-	private static final String appKey = "63986b34f01a9b947bdb77a7";//"63986b34f01a9b947bdb77a7";//"57b9ef19d4be5de08df12aa0";	//必填，例如466f7032ac604e02fb7bda89
+	private static final String appKey = "57b9ef19d4be5de08df12aa0";//"57b9ef19d4be5de08df12aa0";	//必填，例如466f7032ac604e02fb7bda89
 
-	private static final String masterSecret = "4de8d4d6db66bf6d822b8e11";//"4de8d4d6db66bf6d822b8e11";//"13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
+	private static final String masterSecret = "13ac09b17715bd117163d8a1";//"13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
 
 	private static JPushClient jpush = null;
 
@@ -50,9 +50,9 @@ public class JpushClientExample {
 	}
 
 	private static void testSend() {
-		int sendNo = 100;
-		String msgTitle = "标题";
-		String msgContent = "内容";
+		int sendNo = 101;
+		String msgTitle = "";
+		String msgContent = "+w";
 		
 		/*
 		 * IOS设备扩展参数,
@@ -64,7 +64,7 @@ public class JpushClientExample {
 		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
 		
 		//对所有用户发送通知, 更多方法请参考文档
-		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		//MessageResult msgResult = jpush.sendNotificationWithAlias(sendNo, "user_5835350", msgTitle, msgContent);
 		
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
@@ -76,5 +76,7 @@ public class JpushClientExample {
 		} else {
 			System.out.println("无法获取数据");
 		}
+		
+		
 	}
 }
