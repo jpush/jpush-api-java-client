@@ -50,7 +50,7 @@ public class StringUtils {
 	public static String fix(String str) {
 		return   str.replace(";", "%3B")
 					.replace("+", "%2B")
-					.replace("&", "\u0026");
+					.replace("&", "%26");
 	}
 	
 }
