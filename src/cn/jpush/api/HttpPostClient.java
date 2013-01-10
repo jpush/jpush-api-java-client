@@ -132,7 +132,6 @@ public class HttpPostClient {
 		for (Map.Entry<String, String> entry : nvPair.entrySet()) {
 			builder.append(entry.getKey() + "=" + entry.getValue() + "&");
 		}
-		System.out.println(builder.toString());
 		return builder.toString();
 	}
 
