@@ -1,7 +1,6 @@
 package cn.jpush.api;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 
@@ -47,11 +46,4 @@ public class StringUtils {
 		}
 		return encodeParam;
 	}
-	
-	public static String fix(String str) {
-		return   str.replace(";", "%3B")
-					.replace("+", "%2B")
-					.replace("&", "%26");
-	}
-	
 }
