@@ -10,10 +10,10 @@ import cn.jpush.api.MessageResult;
 
 public class JpushClientExample {
 
-	private static final String appKey = "57b9ef19d4be5de08df12aa0";//"57b9ef19d4be5de08df12aa0";	//必填，例如466f7032ac604e02fb7bda89
-
+	private static final String appKey ="57b9ef19d4be5de08df12aa0";//"57b9ef19d4be5de08df12aa0";	//必填，例如466f7032ac604e02fb7bda89
+	
 	private static final String masterSecret = "13ac09b17715bd117163d8a1";//"13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
-
+	
 	private static JPushClient jpush = null;
 
 	/*
@@ -59,11 +59,11 @@ public class JpushClientExample {
 		 * 设置badge，设置声音
 		 */
 		Map<String, Object> extra = new HashMap<String, Object>();
-		IOSExtra iosExtra = new IOSExtra(42, "Windows Logon Sound.wav");
+		IOSExtra iosExtra = new IOSExtra(10, "WindowsLogonSound.wav");
 		extra.put("ios", iosExtra);
 		
-		MessageResult msgResult = //jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
-		jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra);
+		
 		//对所有用户发送通知, 更多方法请参考文档
 		//MessageResult msgResult = jpush.sendNotificationWithAlias(sendNo, "user_5835350", msgTitle, msgContent);
 		
