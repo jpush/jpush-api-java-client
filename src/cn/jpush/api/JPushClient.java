@@ -2,7 +2,11 @@ package cn.jpush.api;
 
 import java.util.Map;
 
-public class JPushClient extends BaseClient{
+/**
+ * The entrance of JPush API library.
+ *
+ */
+public class JPushClient extends BaseClient {
 
 	protected static HttpPostClient httpClient = new HttpPostClient();
 

@@ -2,9 +2,8 @@ package cn.jpush.example;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.jpush.api.IOSExtra;
-import cn.jpush.api.DeviceEnum;
 import cn.jpush.api.ErrorCodeEnum;
+import cn.jpush.api.IOSExtra;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.MessageResult;
 
@@ -50,7 +49,9 @@ public class JpushClientExample {
 	}
 
 	private static void testSend() {
-		int sendNo = 101;
+	    // 在实际业务中，建议 sendNo 是一个你自己的业务可以处理的一个自增数字。
+	    // 除非需要覆盖，请确保不要重复使用。详情请参考 API 文档相关说明。
+	    int sendNo = getRandomSendNo();
 		String msgTitle = "+;//jpush\"\"";
 		String msgContent = "\\&;w\"\"a";
 		
@@ -81,4 +82,17 @@ public class JpushClientExample {
 		
 		
 	}
+	
+    public static final int MAX = Integer.MAX_VALUE;
+	public static final int MIN = (int) MAX/2;
+	
+	/**
+	 * 保持 sendNo 的唯一性是有必要的
+	 * It is very important to keep sendNo unique.
+	 * @return sendNo
+	 */
+	public static int getRandomSendNo() {
+	    return (int) (MIN + Math.random() * (MAX - MIN));
+	}
+	
 }
