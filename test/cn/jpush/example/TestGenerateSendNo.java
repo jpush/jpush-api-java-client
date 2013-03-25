@@ -29,7 +29,7 @@ public class TestGenerateSendNo {
     @Test
     public void testGetRandomSendNo() {
         System.out.println("max int: " + Integer.MAX_VALUE);
-        long sendNo = JpushClientExample.getRandomSendNo();
+        long sendNo = JPushClientExample.getRandomSendNo();
         System.out.println("sendNo: " + sendNo + ", len: " + (sendNo + "").length());
         Assert.assertTrue("", sendNo > 0);
     }

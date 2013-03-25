@@ -7,7 +7,7 @@ import cn.jpush.api.IOSExtra;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.MessageResult;
 
-public class JpushClientExample {
+public class JPushClientExample {
 
 	private static final String appKey ="57b9ef19d4be5de08df12aa0";//"57b9ef19d4be5de08df12aa0";	//必填，例如466f7032ac604e02fb7bda89
 	
