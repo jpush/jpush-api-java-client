@@ -13,7 +13,15 @@ public class MessageResult {
 	private int errcode;
 	//错误消息
 	private String errmsg;
+	//消息唯一ID，msgId从response中获取。
+	private String msg_id;
 	
+	public String getMsgid() {
+		return msg_id;
+	}
+	public void setMsgId(String msgid) {
+		this.msg_id = msgid;
+	}
 	public int getSendno() {
 		return sendno;
 	}
@@ -34,6 +42,7 @@ public class MessageResult {
 	}
 	
 	public static MessageResult fromValue(String result) {
+		System.out.println("-----------"+result);
 		MessageResult messageResult = null;
 		if ( (null != result) && (!"".equals(result)) ) {
 			messageResult = new Gson().fromJson(result, MessageResult.class);

@@ -25,7 +25,7 @@ public class HttpPostClient {
 
 	public MessageResult post(final String path, final boolean enableSSL, final MessageParams messageParams) {
 		byte[] data = null;
-		try {
+		try {			
 			data = parse(messageParams).getBytes(CHARSET);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -123,6 +123,9 @@ public class HttpPostClient {
 		nvPair.put("platform", message.getPlatform());
 		if (message.getTimeToLive() >=0) {
 			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
+		}
+		if(null != message.getOverrideMsgId() && !"".equals(message.getOverrideMsgId())){
+			nvPair.put("override_msg_id", message.getOverrideMsgId());
 		}
 		return mapWithParms(nvPair);
 	}

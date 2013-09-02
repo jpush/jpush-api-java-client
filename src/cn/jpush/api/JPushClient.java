@@ -14,7 +14,7 @@ public class JPushClient extends BaseClient {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 	}
-	
+
 	public JPushClient(String masterSecret, String appKey, long timeToLive) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
@@ -57,6 +57,22 @@ public class JPushClient extends BaseClient {
 		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
 
+
+	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params builderId通知栏样式
+	 * @description 发送带IMEI的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithImei(int sendNo, String imei, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
+		p.setOverrideMsgId(overrideMsgId);
+
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
+	}
+
 	/*
 	 * @description 发送带IMEI的自定义消息
 	 * @return MessageResult
@@ -77,6 +93,21 @@ public class JPushClient extends BaseClient {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.IMEI);
 		p.setReceiverValue(imei);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
+	}
+
+	/*
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 *  @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @description 发送带IMEI的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithImei(int sendNo, String imei, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra,String overrideMsgId) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.IMEI);
+		p.setReceiverValue(imei);
+		p.setOverrideMsgId(overrideMsgId);
+
 		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 
@@ -104,6 +135,21 @@ public class JPushClient extends BaseClient {
 	}
 
 	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params builderId通知栏样式
+	 * @description 发送带TAG的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
+		p.setOverrideMsgId(overrideMsgId);
+
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
+	}
+
+	/*
 	 * @description 发送带TAG的自定义消息
 	 * @return MessageResult
 	 */
@@ -123,6 +169,21 @@ public class JPushClient extends BaseClient {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
+	}
+
+	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带TAG的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithTag(int sendNo, String tag, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra,String overrideMsgId) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.TAG);
+		p.setReceiverValue(tag);
+		p.setOverrideMsgId(overrideMsgId);
+
 		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 
@@ -150,6 +211,21 @@ public class JPushClient extends BaseClient {
 	}
 
 	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params builderId通知栏样式
+	 * @description 发送带ALIAS的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
+		p.setOverrideMsgId(overrideMsgId);
+
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
+	}
+
+	/*
 	 * @description 发送带ALIAS的自定义消息
 	 * @return MessageResult
 	 */
@@ -173,6 +249,22 @@ public class JPushClient extends BaseClient {
 	}
 
 	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带ALIAS的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithAlias(int sendNo, String alias, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra,String overrideMsgId) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.ALIAS);
+		p.setReceiverValue(alias);
+		p.setOverrideMsgId(overrideMsgId);
+
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
+	}
+
+
+	/*
 	 * @description 发送带AppKey的通知
 	 * @return MessageResult
 	 */
@@ -194,6 +286,20 @@ public class JPushClient extends BaseClient {
 	}
 
 	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params builderId通知栏样式
+	 * @description 发送带AppKey的通知
+	 * @return MessageResult
+	 */
+	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
+		NotifyMessageParams p = new NotifyMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
+		p.setOverrideMsgId(overrideMsgId);
+
+		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
+	}
+
+	/*
 	 * @description 发送带AppKey的自定义消息
 	 * @return MessageResult
 	 */
@@ -211,6 +317,20 @@ public class JPushClient extends BaseClient {
 	public MessageResult sendCustomMessageWithAppKey(int sendNo, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra) {
 		CustomMessageParams p = new CustomMessageParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
+		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
+	}
+
+	/*
+	 * @params overrideMsgId 待覆盖的上一条消息的 ID
+	 * @params msgContentType消息的类型，extra附属JSON信息
+	 * @description 发送带AppKey的自定义消息
+	 * @return MessageResult
+	 */
+	public MessageResult sendCustomMessageWithAppKey(int sendNo, String msgTitle, String msgContent, String msgContentType, Map<String, Object> extra,String overrideMsgId) {
+		CustomMessageParams p = new CustomMessageParams();
+		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
+		p.setOverrideMsgId(overrideMsgId);
+
 		return sendCustomMessage(p, sendNo, msgTitle, msgContent, msgContentType, extra);
 	}
 

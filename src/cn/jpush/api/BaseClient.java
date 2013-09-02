@@ -7,7 +7,7 @@ public class BaseClient {
 	protected String masterSecret = "";
 	protected String appKey = "";
 	protected String sendDescription = "";                              //发送的描述
-	protected long timeToLive = -1;                                      //保存离线的时长。秒为单位。默认为保存1天的离线消息
+	protected long timeToLive = -1;                                     //保存离线的时长。秒为单位。默认为保存1天的离线消息
 	protected boolean enableSSL = false;
 	protected Set<DeviceEnum> devices = new HashSet<DeviceEnum>();      //默认发送android和ios
 

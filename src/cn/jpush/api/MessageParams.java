@@ -8,53 +8,59 @@ public class MessageParams {
 	 * 发送编号。由开发者自己维护，标识一次发送请求
 	 */
 	private int sendNo = 0;
-	
+
+	/*
+	 * 待覆盖的上一条消息的 ID。
+	 * 指明此参数，并且经确认该 msg_id 的确是该 AppKey 之前曾经使用过的，那么：Android 通知展示时会覆盖之前的。
+	 */
+	private String overrideMsgId;
+
 	/*
 	 *  (appKey)，只能填写一个。
 	 * 如果不填，则会向所有的应用发送。
 	 */
 	private String appKey = "";
-	
+
 	/*
 	 * 枚举类定义 ReceiverTypeEnum
 	 */
 	private ReceiverTypeEnum receiverType;
-	
+
 	/*
 	 * 发送范围值，与 receiverType 相对应。
 	 * receiverType = 4 不用设置
 	 */
 	private String receiverValue = "";
-	
+
 	/*
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
 	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
 	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
 	 */
 	private long timeToLive; 
-	
+
 	/*
 	 * 每个应用对应一个masterSecret，用来校验
 	 */
 	private String masterSecret;
-	
+
 	/*
 	 * 描述此次发送调用。
 	 * 不会发到用户。
 	 */
 	private String sendDescription = "";
-	
+
 	/*
 	 * 目标用户中断手机的平台类型，如：android, ios
 	 */
 	private Set<DeviceEnum> platform = new HashSet<DeviceEnum>();
-	
+
 	/*
 	 * 推送介意接口消息内容 
 	 */
 	private String txt;
 	private String targetPath;
-	
+
 	public String getTargetPath() {
 		return targetPath;
 	}
@@ -66,11 +72,11 @@ public class MessageParams {
 	 * 与 msg_type 相对应的值。
 	 */
 	private MsgContent msgContent = new MsgContent();
-	
+
 	public class MsgContent {
 		private String title = "";
 		private String message = "";
-		
+
 		public String getTitle() {
 			return title;
 		}
@@ -83,13 +89,18 @@ public class MessageParams {
 		public void setMessage(String message) {
 			this.message = message;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "";
 		}
 	}
-	
+	public String getOverrideMsgId() {
+		return overrideMsgId;
+	}
+	public void setOverrideMsgId(String overrideMsgId) {
+		this.overrideMsgId = overrideMsgId;
+	}
 	public MsgContent getMsgContent() {
 		return this.msgContent;
 	}
@@ -145,11 +156,12 @@ public class MessageParams {
 	public void addPlatform(DeviceEnum platform) {
 		this.platform.add(platform);
 	}
-	
+
 	public String getTxt() {
 		return txt;
 	}
 	public void setTxt(String txt) {
 		this.txt = txt;
 	}
+
 }
