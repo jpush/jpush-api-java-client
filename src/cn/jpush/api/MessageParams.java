@@ -1,8 +1,12 @@
 package cn.jpush.api;
-
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ *  接口更多参数的详解请参考 :http://docs.jpush.cn/display/dev/Push+API+v2 
+ *  
+ */
 public class MessageParams {
 	/*
 	 * 发送编号。由开发者自己维护，标识一次发送请求

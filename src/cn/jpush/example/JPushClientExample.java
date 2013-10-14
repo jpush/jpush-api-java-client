@@ -65,11 +65,10 @@ public class JPushClientExample {
 		Map<String, Object> extra = new HashMap<String, Object>();
 		IOSExtra iosExtra = new IOSExtra(10, "WindowsLogonSound.wav");
 		extra.put("ios", iosExtra);
-		msgContent = "override tag-7";
-
-		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,"297353974");
-		MessageResult msgResult = jpush.sendNotificationWithAlias(sendNo, "alias", msgTitle, msgContent, 0, extra, "565796796");
-
+		msgContent = "override tag-7-1";
+	
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,"297353974");		
+	
 		//覆盖指定msgId的消息,msgId可以从msgResult.getMsgid()获取。
 		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,"overriceMsgId");
 
