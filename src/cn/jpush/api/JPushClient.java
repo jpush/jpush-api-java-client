@@ -284,12 +284,11 @@ public class JPushClient extends BaseClient {
 		for (DeviceEnum device : this.getDevices()) {
 			p.addPlatform(device);
 		}
-
 		if (null != msgTitle) {
 			p.getMsgContent().setTitle(msgTitle);
 		}
 		p.getMsgContent().setMessage(msgContent);
-
+	
 		return sendMessage(p);
 	}
 

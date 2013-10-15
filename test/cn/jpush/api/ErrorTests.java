@@ -88,7 +88,7 @@ public class ErrorTests {
 	/*
 	 * 1007 IMEI不合法   验证失败
 	 */
-	@Test
+	/*	@Test
 	public void testSendNotificationWithAppKeyInvalidIMEI(){
 
 		int erroCode = ErrorCodeEnum.InvalidIMEI.value();
@@ -101,7 +101,7 @@ public class ErrorTests {
 		assertEquals(erroCode, result.getErrcode());
 
 	}
-	
+	*/
 	/*
 	 * 1011  tag，不存在  验证失败
 	 */
@@ -120,7 +120,7 @@ public class ErrorTests {
 	/*
 	 * 1011 imei不存在  验证失败
 	 */
-	@Test
+/*	@Test
 	public void testSendNotificationWithAppKeyInvalidPushByImei(){
 		
 		int erroCode = ErrorCodeEnum.InvalidPush.value();
@@ -132,7 +132,7 @@ public class ErrorTests {
 		assertEquals(erroCode, result.getErrcode());
 
 	}
-	
+	*/
 	/*
 	 * 1011  algin不存在  验证失败
 	 */

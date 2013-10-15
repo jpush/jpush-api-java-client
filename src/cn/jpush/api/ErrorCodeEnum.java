@@ -1,7 +1,7 @@
 package cn.jpush.api;
 
 public enum ErrorCodeEnum {
-	//没有错误，发送成功
+	//发送成功
 	NOERROR(0),
 	
 	//系统内部错误
@@ -36,7 +36,7 @@ public enum ErrorCodeEnum {
 	
 	//IOS不支持自定义消息
 	CustomMessgaeNotSupportIOS(1012);
-	
+
 	private final int value;
 	private ErrorCodeEnum(final int value) {
 		this.value = value;

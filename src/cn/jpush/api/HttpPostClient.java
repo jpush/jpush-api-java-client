@@ -24,6 +24,9 @@ public class HttpPostClient {
 	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 	public MessageResult post(final String path, final boolean enableSSL, final MessageParams messageParams) {
+		MessageResult messageResult = ValidateRequestParams.vidateParams(messageParams);
+		if(messageResult != null) return messageResult;
+		
 		byte[] data = null;
 		try {			
 			data = parse(messageParams).getBytes(CHARSET);
@@ -41,7 +44,7 @@ public class HttpPostClient {
 			if (enableSSL) {
 				initSSL();
 			}
-			
+
 			URL url = new URL(BaseURL.getUrlForPath(path, enableSSL));
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
@@ -88,6 +91,7 @@ public class HttpPostClient {
 		}
 		return messageResult;
 	}
+	
 	protected void initSSL() {
 		try {
 			TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
@@ -127,6 +131,7 @@ public class HttpPostClient {
 		if(null != message.getOverrideMsgId() && !"".equals(message.getOverrideMsgId())){
 			nvPair.put("override_msg_id", message.getOverrideMsgId());
 		}
+		
 		return mapWithParms(nvPair);
 	}
 

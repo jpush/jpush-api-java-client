@@ -84,6 +84,7 @@ public class FunctionTests {
 	}
 	
 	//发送带tag、自定义参数的通知
+
 	@Test
 	public void sendNotificationWithTagByExtra(){
 		
@@ -97,7 +98,7 @@ public class FunctionTests {
 	}
 	
 
-	//发送带IMEI、自定义参数的通知
+/*	//发送带IMEI、自定义参数的通知
 	@Test
 	public void sendNotificationWithIMEI(){
 		
@@ -113,7 +114,7 @@ public class FunctionTests {
 		MessageResult result = jpush.sendNotificationWithImei(sendNo, imei, msgTitle, msgContent);
 		assertEquals(resultCode, result.getErrcode());
 	}
-	
+	*/
 	
 	
 	/*
@@ -155,7 +156,7 @@ public class FunctionTests {
 
 	}
 	
-	//发送带imei的自定义消息
+/*	//发送带imei的自定义消息
 	@Test
 	public void sendCustomMessageWithImei(){
 		MessageResult result = jpush.sendCustomMessageWithImei(sendNo, imei, msgTitle, msgContent);
@@ -175,7 +176,7 @@ public class FunctionTests {
 
 	}
 	
-	
+	*/
 
 }
 
