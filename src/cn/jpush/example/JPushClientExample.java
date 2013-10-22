@@ -77,7 +77,7 @@ public class JPushClientExample {
 		MessageResult msgResult = jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
 
 		//覆盖指定msgId的消息,msgId可以从msgResult.getMsgid()获取。
-		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,"overriceMsgId");
+		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,msgResult.getMsgid());
 
 
 		if (null != msgResult) {
