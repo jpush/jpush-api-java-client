@@ -39,5 +39,5 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-	<version>0.1-SNAPSHOT</version>	
+	<version>0.1</version>	
 </project>
