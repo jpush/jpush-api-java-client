@@ -1,8 +1,11 @@
-package cn.jpush.api;
+package cn.jpush.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+
+import cn.jpush.http.Base64;
+
 
 public class StringUtils {
 	private final static String[] hexDigits = { "0", "1", "2", "3", "4", "5",
@@ -45,5 +48,23 @@ public class StringUtils {
 			e.printStackTrace();
 		}
 		return encodeParam;
+	}
+	
+	public static String arrayToString(String[] vlaues){
+		StringBuffer buffer = new StringBuffer(vlaues.length);
+		if(vlaues != null){
+			for(int i = 0; i<vlaues.length; i++){
+				buffer.append(vlaues[i]).append(",");
+			}
+		}
+		if(buffer.length() > 0)
+			return buffer.toString().substring(0,buffer.length()-1);
+		return "";
+	}
+
+	// Authorization base64 code for receive api
+	public static String getAuthorizationBase64(String appKey,String  masterSecret){
+		String encodeKey = appKey +":"+masterSecret;
+		return String.valueOf(Base64.encode(encodeKey.getBytes())); 
 	}
 }

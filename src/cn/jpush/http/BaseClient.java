@@ -1,15 +1,17 @@
-package cn.jpush.api;
+package cn.jpush.http;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import cn.jpush.api.DeviceEnum;
+
 public class BaseClient {
-	protected String masterSecret = "";
-	protected String appKey = "";
-	protected String sendDescription = "";                  //发送的描述
-	protected long timeToLive = -1;                        //保存离线的时长。秒为单位。默认为保存1天的离线消息
-	protected boolean enableSSL = false;
-	protected Set<DeviceEnum> devices = new HashSet<DeviceEnum>();   //默认发送android和ios
+	public String masterSecret = "";
+	public String appKey = "";
+	public String sendDescription = "";                  //发送的描述
+	public long timeToLive = -1;                        //保存离线的时长。秒为单位。默认为保存1天的离线消息
+	public boolean enableSSL = false;
+	public Set<DeviceEnum> devices = new HashSet<DeviceEnum>();   //默认发送android和ios
 
 	public String getMasterSecret() {
 		return masterSecret;
@@ -19,7 +21,7 @@ public class BaseClient {
 		return timeToLive;
 	}
 
-	protected String getAppKey() {
+	public String getAppKey() {
 		return this.appKey;
 	}
 
@@ -27,11 +29,11 @@ public class BaseClient {
 		this.sendDescription = description;
 	}
 
-	protected String getSendDescription() {
+	public String getSendDescription() {
 		return this.sendDescription;
 	}
 
-	protected Set<DeviceEnum> getDevices() {
+	public Set<DeviceEnum> getDevices() {
 		if (null == this.devices) {
 			this.devices = new HashSet<DeviceEnum>();
 		}

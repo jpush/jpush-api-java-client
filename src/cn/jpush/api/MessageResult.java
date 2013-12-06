@@ -17,11 +17,16 @@ public class MessageResult {
 	//发送序号
 	private int sendno = -1;
 	//错误码，详见ErrorCodeEnum
-	private int errcode;
+	private int errcode = 10;
 	//错误消息
 	private String errmsg;
 	//消息唯一ID，msgId从response中获取。
 	private String msg_id;
+
+	private int response_status = 200;
+	public int getResponse_status() {
+		return response_status;
+	}
 
 	public String getMsgid() {
 		return msg_id;

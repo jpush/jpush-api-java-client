@@ -35,7 +35,15 @@ public enum ErrorCodeEnum {
 	InvalidPush(1011),
 	
 	//IOS不支持自定义消息
-	CustomMessgaeNotSupportIOS(1012);
+	CustomMessgaeNotSupportIOS(1012),
+	
+	//connection timeout
+	CONNECTIONTIMEOUT(12),
+
+	//Connection refused
+	CONNECTIONREFUSED(13),
+	
+	UnknownHostException(14);
 
 	private final int value;
 	private ErrorCodeEnum(final int value) {
@@ -43,5 +51,22 @@ public enum ErrorCodeEnum {
 	}
 	public int value() {
 		return this.value;
+	}
+	
+	public static String errorMsg(final int value){
+		String errMsg = null;
+		switch (value) {
+		case 400:
+			errMsg = "msg_ids  request param is required.";
+			break;
+		case 401:
+			errMsg = "Basic authentication failed";
+			break;
+		case 500:
+			errMsg = "server internal errror";
+		default:
+			break;
+		}
+		return errMsg;
 	}
 }

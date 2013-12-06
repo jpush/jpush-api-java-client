@@ -2,6 +2,9 @@ package cn.jpush.api;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import cn.jpush.http.StringUtils;
+
 import com.google.gson.Gson;
 
 /*

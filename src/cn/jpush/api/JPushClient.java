@@ -1,6 +1,11 @@
 package cn.jpush.api;
 
+import java.net.HttpURLConnection;
 import java.util.Map;
+
+import cn.jpush.http.BaseClient;
+import cn.jpush.http.BaseURL;
+import cn.jpush.http.HttpClient;
 
 /**
  * The entrance of JPush API library.
@@ -8,7 +13,7 @@ import java.util.Map;
  */
 public class JPushClient extends BaseClient {
 
-	protected static HttpPostClient httpClient = new HttpPostClient();
+	protected static HttpClient httpClient = new HttpClient();
 
 	public JPushClient(String masterSecret, String appKey) {
 		this.masterSecret = masterSecret;
@@ -292,8 +297,10 @@ public class JPushClient extends BaseClient {
 		return sendMessage(p);
 	}
 
+
 	protected MessageResult sendMessage(MessageParams params) {
-		return httpClient.post(BaseURL.ALL_PATH, this.enableSSL, params);
+		return httpClient.sendPush(BaseURL.ALL_PATH, enableSSL, params);
 	}
+	
 
 }
