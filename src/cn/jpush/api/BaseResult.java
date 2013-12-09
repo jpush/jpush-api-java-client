@@ -11,17 +11,17 @@ public class BaseResult {
 		this.errmsg = error;	
 		this.response_status = responseStatus;
 	}
-	protected String msg_id;
+	protected Long msg_id;
 	
 	protected Integer response_status = 200;
 	
 	protected String errmsg;
 
-	public String getMsg_id() {
+	public Long getMsg_id() {
 		return msg_id;
 	}
 
-	public void setMsg_id(String msg_id) {
+	public void setMsg_id(Long msg_id) {
 		this.msg_id = msg_id;
 	}
 
