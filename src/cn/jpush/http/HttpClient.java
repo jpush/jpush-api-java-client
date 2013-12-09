@@ -18,6 +18,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.TrustManager;
 
+import cn.jpush.api.BaseResult;
 import cn.jpush.api.CustomMessageParams;
 import cn.jpush.api.ErrorCodeEnum;
 import cn.jpush.api.MessageParams;
@@ -63,7 +64,7 @@ public class HttpClient {
 		return sendRequest(path, enableSSL, params, "POST", reqeustType,authCode);
 	}
 
-	private String  sendRequest(String path, final boolean enableSSL, String params,String method,Integer reqeustType,String authCode){
+	private String sendRequest(String path, final boolean enableSSL, String params,String method,Integer reqeustType,String authCode){
 		HttpURLConnection conn = null;
 		DataOutputStream outStream = null;
 		StringBuffer sb = new StringBuffer();
@@ -85,7 +86,7 @@ public class HttpClient {
 			if(authCode != null && !authCode.isEmpty()){
 				conn.setRequestProperty("Authorization", authCode);
 			}
-		
+
 			if(method.equals("POST")){
 				byte[] data = params.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -106,61 +107,45 @@ public class HttpClient {
 				}
 			} else {		
 				logger.log(Level.WARNING,"Sorry!The request was fault. response " +
-							"status = "+conn.getResponseCode()+",errormsg = "+conn.getHeaderField(0));
-				
-				sb.append("{response_status:").append(conn.getResponseCode())
-				.append(",errmsg:");
+						"status = "+conn.getResponseCode()+",errormsg = "+conn.getHeaderField(0));
+
+				String errmsg = "";
 				if(reqeustType == RequestTypeEnum.RECEIVE.value()){
-					String errmsg = ErrorCodeEnum.errorMsg(conn.getResponseCode());
+					errmsg = ErrorCodeEnum.errorMsg(conn.getResponseCode());
 					errmsg = errmsg == null ? conn.getHeaderField(0) : errmsg;
-					sb.append("\""+errmsg+"\"");
 				}else{
-					sb.append("\""+conn.getHeaderField(0)+"\"");
+					errmsg = conn.getHeaderField(0);
 				}
-				sb.append("}");				
+				BaseResult result = new BaseResult(errmsg,conn.getResponseCode());
+				return result.toString();
 			}
 
-		}catch (IOException e) {
+		}
+		catch (SocketTimeoutException e) {		
+			logger.log(Level.SEVERE,"God! the server throw SocketTimeout Exception." +
+					"please check it out the error message:"+e.getMessage());
+			BaseResult baseResult = new BaseResult(e.getMessage().toString(),ErrorCodeEnum.CONNECTIONTIMEOUT.value());
+			return baseResult.toString();
+		}
+		catch (ConnectException e) {
+			logger.log(Level.SEVERE,"God! the server throw Connect Exception ." +
+					"please check it out the error message:"+e.getMessage());
+			BaseResult baseResult = new BaseResult(e.getMessage().toString(),ErrorCodeEnum.CONNECTIONREFUSED.value());
+			return baseResult.toString();
+		}
+		catch (UnknownHostException e) {
+			logger.log(Level.SEVERE,"God! the server throw UnknownHost Exception ." +
+					"please check it out the error message:"+e.getMessage());
+			BaseResult baseResult = new BaseResult(e.getMessage().toString(),ErrorCodeEnum.CONNECTIONREFUSED.value());
+			return baseResult.toString();
+		}
+		catch (Exception e) {
 			logger.log(Level.SEVERE,"God! the server throw exception." +
-						"please check it out the error message:"+e.getMessage());
-			
-			StringBuilder codesb = new StringBuilder("{response_status:");
-			if ( e instanceof SocketTimeoutException) {
-				codesb.append(ErrorCodeEnum.CONNECTIONTIMEOUT.value())
-				.append(",errmsg:").append("\""+e.getMessage().toString()+"\"")
-				.append("}");
-				return codesb.toString();
-			}
-			
-			if(e instanceof ConnectException){
-				codesb.append(ErrorCodeEnum.CONNECTIONREFUSED.value())
-				.append(",errmsg:").append("\""+e.getMessage().toString()+"\"")
-				.append("}");
-				
-				return codesb.toString();
-			}
-			
-			if(e instanceof UnknownHostException){
-				codesb.append(ErrorCodeEnum.UnknownHostException.value())
-				.append(",errmsg:").append("\""+e.getMessage().toString()+"\"")
-				.append("}");
-				
-				return codesb.toString();
-			}
-
-			if (conn != null) {
-				try {
-					codesb.append(conn.getResponseCode()).append("}");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-			codesb.append("}");
-			return codesb.toString();
-
-		}catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
+					"please check it out the error message:"+e.getMessage());
+			BaseResult baseResult = new BaseResult(e.getMessage().toString(),ErrorCodeEnum.UnknownException.value());
+			return baseResult.toString();
+		} 
+		finally {		
 			if (null != outStream) {
 				try {
 					outStream.close();
@@ -174,8 +159,6 @@ public class HttpClient {
 		}
 		return sb.toString();
 	}
-
-
 
 	protected void initSSL() {
 		try {
@@ -208,7 +191,6 @@ public class HttpClient {
 		nvPair.put("verification_code", StringUtils.toMD5(input));
 		nvPair.put("msg_type", String.valueOf(msgType));
 		nvPair.put("msg_content", message.getMsgContent().toString());
-		//nvPair.put("send_description", message.getSendDescription());
 		nvPair.put("platform", message.getPlatform());
 		if (message.getTimeToLive() >=0) {
 			nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));

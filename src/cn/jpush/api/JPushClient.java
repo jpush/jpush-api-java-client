@@ -1,8 +1,10 @@
 package cn.jpush.api;
 
-import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Map;
 
+import cn.jpush.api.receive.ReceiveManager;
+import cn.jpush.api.receive.ReceiveResult;
 import cn.jpush.http.BaseClient;
 import cn.jpush.http.BaseURL;
 import cn.jpush.http.HttpClient;
@@ -14,22 +16,29 @@ import cn.jpush.http.HttpClient;
 public class JPushClient extends BaseClient {
 
 	protected static HttpClient httpClient = new HttpClient();
+	protected ReceiveManager receiveManager = new ReceiveManager();
 
 	public JPushClient(String masterSecret, String appKey) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
+		receiveManager.appKey = appKey;
+		receiveManager.masterSecret = masterSecret;
 	}
 
 	public JPushClient(String masterSecret, String appKey, long timeToLive) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
+		receiveManager.appKey = appKey;
+		receiveManager.masterSecret = masterSecret;
 	}
 
 	public JPushClient(String masterSecret, String appKey, DeviceEnum device) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		devices.add(device);
+		receiveManager.appKey = appKey;
+		receiveManager.masterSecret = masterSecret;
 	}
 
 	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device) {
@@ -37,6 +46,8 @@ public class JPushClient extends BaseClient {
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
 		this.devices.add(device);
+		receiveManager.appKey = appKey;
+		receiveManager.masterSecret = masterSecret;
 	}
 	
 	/*
@@ -297,10 +308,26 @@ public class JPushClient extends BaseClient {
 		return sendMessage(p);
 	}
 
-
+		
 	protected MessageResult sendMessage(MessageParams params) {
 		return httpClient.sendPush(BaseURL.ALL_PATH, enableSSL, params);
 	}
+	
+	
+	/*
+	 * 获取多条送达数据
+	 */
+	public List<ReceiveResult>  getReceiveds(String[] msgIds){	
+		return receiveManager.getReceiveds(msgIds);
+	}
+	
+	/*
+	 * 获取一条送达数据
+	 */
+	public ReceiveResult  getReceived(String msgId){
+		return receiveManager.getReceived(msgId);
+	}
+
 	
 
 }

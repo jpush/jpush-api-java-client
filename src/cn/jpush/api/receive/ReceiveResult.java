@@ -1,37 +1,16 @@
-package cn.jpush.receive.api;
+package cn.jpush.api.receive;
 
-import cn.jpush.api.ErrorCodeEnum;
+import cn.jpush.api.BaseResult;
 
 import com.google.gson.Gson;
 
-/**
- * @author zengzhiwu
- *
- */
-public class ReceiveResult {
+
+public class ReceiveResult extends BaseResult{
 	
 	private Integer android_received;
 	
 	private Integer ios_apns_sent;
 	
-	private String msg_id;
-	
-	private Integer response_status = 200;
-	
-	private String errmsg;
-
-	public String getErrmsg() {
-		return errmsg;
-	}
-
-	public int getResponse_status() {
-		return response_status;
-	}
-
-	public void setResponse_status(int response_status) {
-		this.response_status = response_status;
-	}
-
 	public Integer getAndroid_received() {
 		return android_received;
 	}
@@ -48,13 +27,7 @@ public class ReceiveResult {
 		this.ios_apns_sent = ios_apns_sent;
 	}
 
-	public String getMsg_id() {
-		return msg_id;
-	}
-
-	public void setMsg_id(String msg_id) {
-		this.msg_id = msg_id;
-	}
+	
 	@Override
 	public String toString() {
 		if(this.response_status == 200)

@@ -1,11 +1,10 @@
-package cn.jpush.receive.api;
+package cn.jpush.api.receive;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import cn.jpush.http.BaseClient;
 import cn.jpush.http.BaseURL;
 import cn.jpush.http.HttpClient;
 import cn.jpush.http.StringUtils;
@@ -13,17 +12,13 @@ import cn.jpush.http.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class ReceiveClient extends BaseClient{
-
+public class ReceiveManager {
 	protected static HttpClient httpClient = new HttpClient();
 	private static Gson gson = new Gson();
 	private static final Logger log = Logger.getLogger(ReceiveResult.class.getName());
+	public String appKey = "";
+	public String masterSecret = "";
 	
-	public ReceiveClient(String masterSecret, String appKey) {
-		this.masterSecret = masterSecret;
-		this.appKey = appKey;
-	}
-
 	public ReceiveResult getReceived(String msgId) {
 		String sendResult  = sendRequest(msgId);
 		try{
@@ -62,7 +57,7 @@ public class ReceiveClient extends BaseClient{
 	}
 
 	protected String sendRequest(String msgId){
-		String authCode = StringUtils.getAuthorizationBase64(this.getAppKey(), this.getMasterSecret());
+		String authCode = StringUtils.getAuthorizationBase64(this.appKey, this.masterSecret);
 		return httpClient.sendReceived(BaseURL.RECEIVE_PATH, true, msgId,authCode);
 	}
 }

@@ -1,6 +1,8 @@
 package cn.jpush.example;
-import cn.jpush.receive.api.ReceiveClient;
-import cn.jpush.receive.api.ReceiveResult;
+import java.util.List;
+
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.receive.ReceiveResult;
 
 
 public class ReceiveClientExample {
@@ -11,14 +13,14 @@ public class ReceiveClientExample {
 	
 	
 	public static void main(String[] args) {
-		ReceiveClient receiveClient = new ReceiveClient(masterSecret, appKey);
+		JPushClient JPushClient = new JPushClient(masterSecret, appKey);
 		
 		String msgId = "1236722141";
 		
 		String[] msgIds = {"1236722141","910981248","911034889"};
 		
 		//获取一条
-		ReceiveResult receiveResult =  receiveClient.getReceived(msgId);
+		ReceiveResult receiveResult =  JPushClient.getReceived(msgId);
 		if(receiveResult == null){
 			System.out.println("获取receive 数据失败！"+receiveResult);
 		}else{
@@ -27,13 +29,13 @@ public class ReceiveClientExample {
 		}
 	
 	
-	/*	// 获取多条
-		List<ReceiveResult> receiveResults = receiveClient.getReceiveds(msgIds);
+		// 获取多条
+		List<ReceiveResult> receiveResults = JPushClient.getReceiveds(msgIds);
 		if(receiveResults == null ){
 			System.out.println("获取receive 数据失败！");
 		}else{
 			System.out.println("成功获取了："+receiveResults);
-		}*/
+		}
 	
 	}
 }

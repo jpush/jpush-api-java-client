@@ -84,7 +84,7 @@ public class JPushClientExample {
 		if (null != msgResult) {
 			System.out.println("服务器返回数据: " + msgResult.toString());
 			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
-				System.out.println(String.format("发送成功， sendNo= %s,messageId= %s",msgResult.getSendno(),msgResult.getMsgid()));
+				System.out.println(String.format("发送成功， sendNo= %s,messageId= %s",msgResult.getSendno(),msgResult.getMsg_id()));
 			} else {
 				System.out.println("发送失败， 错误代码=" + msgResult.getErrcode() + ", 错误消息=" + msgResult.getErrmsg());
 			}

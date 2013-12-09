@@ -5,35 +5,22 @@ import com.google.gson.Gson;
 /*
  * 发送消息立即返回的状态定义
  */
-public class MessageResult {
-	public MessageResult() {}
+public class MessageResult extends BaseResult {
+	public MessageResult() {super();}
 	
-	public MessageResult(int sendNo,int errcode,String errormsg){
+	public MessageResult(int sendNo,int errcode,String errormsg){		
 		this.sendno = sendNo;
 		this.errcode = errcode;
 		this.errmsg = errormsg;
+		
 	}
 	
 	//发送序号
 	private int sendno = -1;
 	//错误码，详见ErrorCodeEnum
 	private int errcode = 10;
-	//错误消息
-	private String errmsg;
-	//消息唯一ID，msgId从response中获取。
-	private String msg_id;
+	
 
-	private int response_status = 200;
-	public int getResponse_status() {
-		return response_status;
-	}
-
-	public String getMsgid() {
-		return msg_id;
-	}
-	public void setMsgId(String msgid) {
-		this.msg_id = msgid;
-	}
 	public int getSendno() {
 		return sendno;
 	}
@@ -46,13 +33,7 @@ public class MessageResult {
 	public void setErrcode(int errcode) {
 		this.errcode = errcode;
 	}
-	public String getErrmsg() {
-		return errmsg;
-	}
-	public void setErrmsg(String errmsg) {
-		this.errmsg = errmsg;
-	}
-
+	
 	public static MessageResult fromValue(String result) {	
 		MessageResult messageResult = null;
 		if ( (null != result) && (!"".equals(result)) ) {

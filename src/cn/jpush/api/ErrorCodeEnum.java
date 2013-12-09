@@ -43,7 +43,10 @@ public enum ErrorCodeEnum {
 	//Connection refused
 	CONNECTIONREFUSED(13),
 	
-	UnknownHostException(14);
+	UnknownHostException(14),
+	
+	//Unknown exception
+	UnknownException(-1);
 
 	private final int value;
 	private ErrorCodeEnum(final int value) {
