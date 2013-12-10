@@ -14,7 +14,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="Service Pack 1"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="E:\work\code4\jpush-api-java-client"/>
+    <property name="user.dir" value="E:\work\code5\jpush-api-java-client"/>
     <property name="java.runtime.version" value="1.6.0_26-b03"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="C:\Java\jdk1.6.0_26\jre\lib\endorsed"/>
@@ -27,7 +27,7 @@
     <property name="os.name" value="Windows 7"/>
     <property name="classworlds.conf" value="E:\work\maven\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="GBK"/>
-    <property name="java.library.path" value="C:\Java\jdk1.6.0_26\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\NetSarang;E:\app\quentin\product\11.2.0\dbhome_1\bin;E:\soft\app\quentin\product\11.2.0\client_1;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;E:\soft\Git\cmd;E:\soft\Git\bin;C:\Python27;C:\Python26\Scripts;E:\soft\GnuPG\pub;C:\Program Files (x86)\GNU\GnuPG\pub;C:\Program Files (x86)\SSH Communications Security\SSH Secure Shell;C:\Java\jdk1.6.0_26\bin;C:\Java\jre6\bin;C:\Python27;C:\Python26\Scripts;E:\soft\app\quentin\product\product\11.2.0\client_1bin;E:\work\maven\bin;."/>
+    <property name="java.library.path" value="C:\Java\jdk1.6.0_26\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\NetSarang;E:\app\quentin\product\11.2.0\dbhome_1\bin;E:\soft\app\quentin\product\11.2.0\client_1;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;E:\soft\Git\cmd;E:\soft\Git\bin;C:\Python27;C:\Python26\Scripts;E:\soft\GnuPG\pub;C:\Program Files (x86)\GNU\GnuPG\pub;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\SSH Communications Security\SSH Secure Shell;C:\Java\jdk1.6.0_26\bin;C:\Java\jre6\bin;C:\Python27;C:\Python26\Scripts;E:\soft\app\quentin\product\product\11.2.0\client_1bin;E:\work\maven\bin;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="50.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -43,7 +43,7 @@
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Java\jdk1.6.0_26\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -s C:\Users\quentin\AppData\Local\Temp\release-settings3699474984625962905.xml clean verify --no-plugin-updates -Psonatype-oss-release -P sign"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -s C:\Users\quentin\AppData\Local\Temp\release-settings6948975769382932969.xml clean verify --no-plugin-updates -Psonatype-oss-release -P sign"/>
     <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
     <property name="user.language" value="zh"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
