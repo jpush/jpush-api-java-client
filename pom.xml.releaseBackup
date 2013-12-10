@@ -1,7 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.jpush.api</groupId>
-	<artifactId>cn.jpush.api.sdk</artifactId>
+	<artifactId>jpush-client</artifactId>  
+	<packaging>jar</packaging>    
+	<name>Jpush Client</name>	
+	<description>jpush client</description>
+    <url>https://github.com/jpush/jpush-api-java-client</url>
+	  <licenses>
+	    <license>
+	      <name>The Apache Software License, Version 2.0</name>
+	      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	      <distribution>repo</distribution>
+	    </license>
+	  </licenses>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -52,10 +64,18 @@
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
 		<url>scm:git:git@github.com:jpush/jpush-api-java-client.git</url>
 	</scm>
+	  <developers>
+    <developer>
+      <id>xinxin</id>
+      <name>xinxin</name>
+      <email>xinxin@jpush.cn</email>
+    </developer>
+  </developers>
+	
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-	<version>2.2-SNAPSHOT</version>	
+	<version>2.1-SNAPSHOT</version>	
 </project>

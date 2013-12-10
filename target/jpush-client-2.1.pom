@@ -77,5 +77,5 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-	<version>2.2-SNAPSHOT</version>	
+	<version>2.1</version>	
 </project>
