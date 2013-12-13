@@ -72,11 +72,19 @@ public class JPushClientExample {
 		Map<String, Object> extra = new HashMap<String, Object>();
 		IOSExtra iosExtra = new IOSExtra(10, "WindowsLogonSound.wav");
 		extra.put("ios", iosExtra);
+		
+		/*
+		 * 通知、消息  两者区别。请参考：http://docs.jpush.cn/pages/viewpage.action?pageId=3309701
+		 */
 
-		//对所有用户发送通知, 更多方法请参考文档
-		MessageResult msgResult = jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
-		//MessageResult msgResult  = jpush.sendNotificationWithAlias(sendNo, "a", msgTitle, msgContent);
-
+		
+		//对所有用户发送通知。
+		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		
+		//对所有用户发送消息。
+		//MessageResult msgResult = jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
+		
+		
 		//覆盖指定msgId的消息,msgId可以从msgResult.getMsgid()获取。
 		//MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent, 0, extra,msgResult.getMsgid());
 
