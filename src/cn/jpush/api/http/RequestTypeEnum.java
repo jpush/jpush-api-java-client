@@ -1,4 +1,4 @@
-package cn.jpush.http;
+package cn.jpush.api.http;
 
 public enum RequestTypeEnum {
 	PUSH(0),

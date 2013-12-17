@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.utils;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

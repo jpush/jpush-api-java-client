@@ -1,10 +1,8 @@
-package cn.jpush.http;
+package cn.jpush.api.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-
-import cn.jpush.http.Base64;
 
 
 public class StringUtils {
@@ -62,9 +60,4 @@ public class StringUtils {
 		return "";
 	}
 
-	// Authorization base64 code for receive api
-	public static String getAuthorizationBase64(String appKey,String  masterSecret){
-		String encodeKey = appKey +":"+masterSecret;
-		return String.valueOf(Base64.encode(encodeKey.getBytes())); 
-	}
 }

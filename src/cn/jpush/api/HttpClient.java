@@ -1,4 +1,4 @@
-package cn.jpush.http;
+package cn.jpush.api;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,16 +18,16 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.TrustManager;
 
-import cn.jpush.api.BaseResult;
-import cn.jpush.api.CustomMessageParams;
-import cn.jpush.api.ErrorCodeEnum;
-import cn.jpush.api.MessageParams;
-import cn.jpush.api.MessageResult;
-import cn.jpush.api.MsgTypeEnum;
-import cn.jpush.api.NotifyMessageParams;
-import cn.jpush.api.SimpleHostnameVerifier;
-import cn.jpush.api.SimpleTrustManager;
-import cn.jpush.api.ValidateRequestParams;
+import cn.jpush.api.http.BaseURL;
+import cn.jpush.api.http.RequestTypeEnum;
+import cn.jpush.api.push.CustomMessageParams;
+import cn.jpush.api.push.MessageParams;
+import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.MsgTypeEnum;
+import cn.jpush.api.push.NotificationParams;
+import cn.jpush.api.utils.SimpleHostnameVerifier;
+import cn.jpush.api.utils.SimpleTrustManager;
+import cn.jpush.api.utils.StringUtils;
 
 import com.google.gson.Gson;
 
@@ -37,6 +37,7 @@ public class HttpClient {
 
 	//设置连接超时时间
 	private final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
+	
 	//设置读取超时时间
 	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
@@ -177,7 +178,7 @@ public class HttpClient {
 	protected String parse(MessageParams message) { 
 		String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + message.getMasterSecret();
 		int msgType = 0;
-		if (message instanceof NotifyMessageParams) {
+		if (message instanceof NotificationParams) {
 			msgType = MsgTypeEnum.NOTIFY.value();
 		} else if (message instanceof CustomMessageParams)  {
 			msgType = MsgTypeEnum.CUSTOM.value();

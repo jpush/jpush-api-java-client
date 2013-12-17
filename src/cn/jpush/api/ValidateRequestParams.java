@@ -1,6 +1,10 @@
 package cn.jpush.api;
 import java.util.regex.Pattern;
 
+import cn.jpush.api.push.MessageParams;
+import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.ReceiverTypeEnum;
+
 public class ValidateRequestParams {
 	private final static int sendNo = -1;
 	private final static Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");

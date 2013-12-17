@@ -1,4 +1,4 @@
-package cn.jpush.example;
+package cn.jpush.api;
 
 import junit.framework.Assert;
 
@@ -7,6 +7,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import cn.jpush.api.example.JPushClientExample;
 
 public class TestGenerateSendNo {
 

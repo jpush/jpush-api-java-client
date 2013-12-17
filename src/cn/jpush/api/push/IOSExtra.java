@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 
 /*
  *  IOS 发送通知 附加扩展类

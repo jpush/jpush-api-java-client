@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 
 public enum MsgTypeEnum {
 	//通知类型消息
@@ -8,6 +8,7 @@ public enum MsgTypeEnum {
 	CUSTOM(2);
 	
 	private final int value;
+	
 	private MsgTypeEnum(final int value) {
 		this.value = value;
 	}

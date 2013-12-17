@@ -3,18 +3,18 @@ package cn.jpush.api;
 import com.google.gson.Gson;
 
 public class BaseResult {
+    protected static Gson _gson = new Gson();
 	
 	public BaseResult() {
-		// TODO Auto-generated constructor stub
 	}
-	public BaseResult(String error,Integer responseStatus){
-		this.errmsg = error;	
+	
+    public BaseResult(String error, Integer responseStatus) {
+		this.errmsg = error;
 		this.response_status = responseStatus;
 	}
+	
 	protected Long msg_id;
-	
 	protected Integer response_status = 200;
-	
 	protected String errmsg;
 
 	public Long getMsg_id() {
@@ -43,7 +43,7 @@ public class BaseResult {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return _gson.toJson(this);
 	}
 
 }

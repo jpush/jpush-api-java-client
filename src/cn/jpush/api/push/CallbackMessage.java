@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 
 /*
  * 发送消息回调的数据格式
@@ -9,14 +9,19 @@ package cn.jpush.api;
 public class CallbackMessage {
 	//发送序号
 	private int sendno;
+	
 	//错误码，详见ErrorCodeEnum
 	private int errcode;
+	
 	//错误说明
 	private String errmsg;
+	
 	//本次推送满足条件的用户数
 	private int total_user;
+	
 	//本次推送成功发送的用户数
 	private int send_cnt;
+	
 	
 	public int getSendno() {
 		return sendno;

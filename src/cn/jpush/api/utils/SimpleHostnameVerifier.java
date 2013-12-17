@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.utils;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;

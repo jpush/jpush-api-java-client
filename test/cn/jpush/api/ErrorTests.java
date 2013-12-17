@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import cn.jpush.api.push.JPushSendClient;
+import cn.jpush.api.push.MessageResult;
+
 /**
  * 测试错误码 
  *
@@ -12,7 +15,7 @@ public class ErrorTests {
 
 	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
 	private String masterSecret = "13ac09b17715bd117163d8a1"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
-	private  JPushClient jpush = null;
+	private  JPushSendClient jpush = null;
 	private int sendNo = 11111;
 	/*
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
@@ -23,7 +26,7 @@ public class ErrorTests {
 
 	@Before
 	public void before(){
-		jpush = new JPushClient(masterSecret, appKey);
+		jpush = new JPushSendClient(masterSecret, appKey);
 		//jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
 	
@@ -33,7 +36,7 @@ public class ErrorTests {
 	@Test
 	public void testSendNotificationWithAppKeyInvalidParameter(){
 		String appKey = "9cc138f8dc04cbf16240daa92d8d50e21";
-		jpush = new JPushClient(masterSecret, appKey);
+		jpush = new JPushSendClient(masterSecret, appKey);
 
 
 		int erroCode = ErrorCodeEnum.InvalidParameter.value();
@@ -74,7 +77,7 @@ public class ErrorTests {
 	@Test
 	public void testSendNotificationWithAppKeyValidateFailed (){
 		String masterSecret = "9cc138f8dc04cbf16240daa92d8d50e21"; //错误的masterSeret
-		jpush = new JPushClient(masterSecret, appKey);
+		jpush = new JPushSendClient(masterSecret, appKey);
 
 		int erroCode = ErrorCodeEnum.ValidateFailed.value();
 		String msgTitle = "jpush";
@@ -157,7 +160,7 @@ public class ErrorTests {
 	@Test
 	public void testSendNotificationWithAppKeyInvalidAppKey(){
 		String appkey = "57b9ef19d4be5de08df12ac1";
-		jpush = new JPushClient(appkey, appkey);
+		jpush = new JPushSendClient(appkey, appkey);
 		
 		int erroCode = ErrorCodeEnum.InvalidAppKey.value();
 		String msgTitle = "jpush1";

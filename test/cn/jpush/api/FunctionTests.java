@@ -1,9 +1,15 @@
 package cn.jpush.api;
 
 import static org.junit.Assert.*;
+
 import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import cn.jpush.api.push.IOSExtra;
+import cn.jpush.api.push.JPushSendClient;
+import cn.jpush.api.push.MessageResult;
 
 /**
  * 测试正常的功能点
@@ -12,7 +18,7 @@ public class FunctionTests {
 
 	private String appKey = "57b9ef19d4be5de08df12aa0";//必填，例如466f7032ac604e02fb7bda89
 	private String masterSecret = "13ac09b17715bd117163d8a1"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
-	private  JPushClient jpush = null;
+	private  JPushSendClient jpush = null;
 	private int sendNo = 11111;
 	private int resultCode = 0;
 	private String msgTitle = "jpush-title";
@@ -29,7 +35,7 @@ public class FunctionTests {
 
 	@Before
 	public void before(){
-		jpush = new JPushClient(masterSecret, appKey);
+		jpush = new JPushSendClient(masterSecret, appKey);
 		//jpush = new JPushClient(masterSecret, appKey,timeToLive);
 	}
 	

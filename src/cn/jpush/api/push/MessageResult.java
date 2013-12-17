@@ -1,18 +1,19 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 
-import com.google.gson.Gson;
+import cn.jpush.api.BaseResult;
 
 /*
  * 发送消息立即返回的状态定义
  */
 public class MessageResult extends BaseResult {
-	public MessageResult() {super();}
+    public MessageResult() {
+        super();
+    }
 	
 	public MessageResult(int sendNo,int errcode,String errormsg){		
 		this.sendno = sendNo;
 		this.errcode = errcode;
 		this.errmsg = errormsg;
-		
 	}
 	
 	//发送序号
@@ -37,14 +38,13 @@ public class MessageResult extends BaseResult {
 	public static MessageResult fromValue(String result) {	
 		MessageResult messageResult = null;
 		if ( (null != result) && (!"".equals(result)) ) {
-			messageResult = new Gson().fromJson(result, MessageResult.class);
+			messageResult = _gson.fromJson(result, MessageResult.class);
 		}
 		return messageResult;
 	}
 
 	@Override
 	public String toString() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		return _gson.toJson(this);
 	}
 }

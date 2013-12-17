@@ -1,4 +1,4 @@
-package cn.jpush.http;
+package cn.jpush.api.http;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,7 @@ import cn.jpush.api.DeviceEnum;
 public class BaseClient {
 	public String masterSecret = "";
 	public String appKey = "";
-	public String sendDescription = "";                  //发送的描述
+	public String sendDescription = "";                 //发送的描述
 	public long timeToLive = -1;                        //保存离线的时长。秒为单位。默认为保存1天的离线消息
 	public boolean enableSSL = false;
 	public Set<DeviceEnum> devices = new HashSet<DeviceEnum>();   //默认发送android和ios

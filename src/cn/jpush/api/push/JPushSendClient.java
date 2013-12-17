@@ -1,53 +1,42 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 
-import java.util.List;
 import java.util.Map;
 
-import cn.jpush.api.receive.ReceiveManager;
-import cn.jpush.api.receive.ReceiveResult;
-import cn.jpush.http.BaseClient;
-import cn.jpush.http.BaseURL;
-import cn.jpush.http.HttpClient;
+import cn.jpush.api.DeviceEnum;
+import cn.jpush.api.HttpClient;
+import cn.jpush.api.http.BaseClient;
+import cn.jpush.api.http.BaseURL;
 
 /**
  * The entrance of JPush API library.
  *
  */
-public class JPushClient extends BaseClient {
+public class JPushSendClient extends BaseClient {
 
 	protected static HttpClient httpClient = new HttpClient();
-	protected ReceiveManager receiveManager = new ReceiveManager();
 
-	public JPushClient(String masterSecret, String appKey) {
+	public JPushSendClient(String masterSecret, String appKey) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
-		receiveManager.appKey = appKey;
-		receiveManager.masterSecret = masterSecret;
 	}
 
-	public JPushClient(String masterSecret, String appKey, long timeToLive) {
+	public JPushSendClient(String masterSecret, String appKey, long timeToLive) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
-		receiveManager.appKey = appKey;
-		receiveManager.masterSecret = masterSecret;
 	}
 
-	public JPushClient(String masterSecret, String appKey, DeviceEnum device) {
+	public JPushSendClient(String masterSecret, String appKey, DeviceEnum device) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		devices.add(device);
-		receiveManager.appKey = appKey;
-		receiveManager.masterSecret = masterSecret;
 	}
 
-	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device) {
+	public JPushSendClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
 		this.devices.add(device);
-		receiveManager.appKey = appKey;
-		receiveManager.masterSecret = masterSecret;
 	}
 	
 	/*
@@ -55,7 +44,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
 		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
@@ -67,7 +56,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
 		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
@@ -80,7 +69,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithTag(int sendNo, String tag, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.TAG);
 		p.setReceiverValue(tag);
 		p.setOverrideMsgId(overrideMsgId);
@@ -131,7 +120,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
 		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
@@ -143,7 +132,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
 		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
@@ -156,7 +145,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAlias(int sendNo, String alias, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.ALIAS);
 		p.setReceiverValue(alias);
 		p.setOverrideMsgId(overrideMsgId);
@@ -208,7 +197,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
 		return sendNotification(p, sendNo, msgTitle, msgContent, 0, null);
 	}
@@ -219,7 +208,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
 		return sendNotification(p, sendNo, msgTitle, msgContent, builderId, extra);
 	}
@@ -231,7 +220,7 @@ public class JPushClient extends BaseClient {
 	 * @return MessageResult
 	 */
 	public MessageResult sendNotificationWithAppKey(int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra,String overrideMsgId) {
-		NotifyMessageParams p = new NotifyMessageParams();
+		NotificationParams p = new NotificationParams();
 		p.setReceiverType(ReceiverTypeEnum.APPKEYS);
 		p.setOverrideMsgId(overrideMsgId);
 
@@ -283,7 +272,7 @@ public class JPushClient extends BaseClient {
 		return sendMessage(p, sendNo, msgTitle, msgContent);
 	}
 
-	protected MessageResult sendNotification(NotifyMessageParams p, int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
+	protected MessageResult sendNotification(NotificationParams p, int sendNo, String msgTitle, String msgContent, int builderId, Map<String, Object> extra) {
 		p.getMsgContent().setBuilderId(builderId);
 		if (null != extra) {
 			p.getMsgContent().setExtra(extra);
@@ -313,21 +302,6 @@ public class JPushClient extends BaseClient {
 		return httpClient.sendPush(BaseURL.ALL_PATH, enableSSL, params);
 	}
 	
-	
-	/*
-	 * 获取多条送达数据
-	 */
-	public List<ReceiveResult>  getReceiveds(String[] msgIds){	
-		return receiveManager.getReceiveds(msgIds);
-	}
-	
-	/*
-	 * 获取一条送达数据
-	 */
-	public ReceiveResult  getReceived(String msgId){
-		return receiveManager.getReceived(msgId);
-	}
-
-	
-
 }
+
+

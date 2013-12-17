@@ -1,19 +1,19 @@
-package cn.jpush.example;
+package cn.jpush.api.example;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.jpush.api.ErrorCodeEnum;
-import cn.jpush.api.IOSExtra;
-import cn.jpush.api.JPushClient;
-import cn.jpush.api.MessageResult;
+import cn.jpush.api.push.IOSExtra;
+import cn.jpush.api.push.JPushSendClient;
+import cn.jpush.api.push.MessageResult;
 
 public class JPushClientExample {
 
 	private static final String appKey ="3af172b794896c3e1de43fe7";	//必填，例如466f7032ac604e02fb7bda89
-
 	private static final String masterSecret = "57c45646c772983eb0e7c455";//"13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
 
-	private static JPushClient jpush = null;
+	private static JPushSendClient _client = null;
 
 	/**
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
@@ -44,7 +44,7 @@ public class JPushClientExample {
 		 */
 
 
-		jpush = new JPushClient(masterSecret, appKey, timeToLive);
+		_client = new JPushSendClient(masterSecret, appKey, timeToLive);
 
 		/*
 		 * 是否启用ssl安全连接, 可选
@@ -59,7 +59,6 @@ public class JPushClientExample {
 
 	private static void testSend() {
 		// 在实际业务中，建议 sendNo 是一个你自己的业务可以处理的一个自增数字。
-		// 除非需要覆盖，请确保不要重复使用。详情请参考 API 文档相关说明。
 		int sendNo = getRandomSendNo();
 		String msgTitle = "+;//jpush\"\"";
 		String msgContent = "\\&;w\"\"a--【\npush】";
@@ -68,7 +67,6 @@ public class JPushClientExample {
 		 * IOS设备扩展参数,
 		 * 设置badge，设置声音
 		 */
-
 		Map<String, Object> extra = new HashMap<String, Object>();
 		IOSExtra iosExtra = new IOSExtra(10, "WindowsLogonSound.wav");
 		extra.put("ios", iosExtra);
@@ -79,7 +77,7 @@ public class JPushClientExample {
 
 		
 		//对所有用户发送通知。
-		MessageResult msgResult = jpush.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		MessageResult msgResult = _client.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
 		
 		//对所有用户发送消息。
 		//MessageResult msgResult = jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
