@@ -11,7 +11,7 @@ public enum ReceiverTypeEnum {
 	ALIAS(3),
 	
 	//对指定appkeys 的所有用户推送消息。
-	APPKEYS(4);
+	APP_KEY(4);
 	
 	private final int value;
 	private ReceiverTypeEnum(final int value) {

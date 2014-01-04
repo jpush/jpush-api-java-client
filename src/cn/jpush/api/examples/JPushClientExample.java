@@ -1,19 +1,26 @@
-package cn.jpush.api.example;
+package cn.jpush.api.examples;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.jpush.api.ErrorCodeEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.CustomMessageParams;
 import cn.jpush.api.push.IOSExtra;
-import cn.jpush.api.push.JPushSendClient;
 import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.report.ReceivedsResult;
 
 public class JPushClientExample {
+    protected static final Logger LOG = LoggerFactory.getLogger(JPushClientExample.class);
 
-	private static final String appKey ="3af172b794896c3e1de43fe7";	//必填，例如466f7032ac604e02fb7bda89
-	private static final String masterSecret = "57c45646c772983eb0e7c455";//"13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
-
-	private static JPushSendClient _client = null;
+    // demo App defined in resources/jpush-api.conf 
+	private static final String appKey ="dd1066407b044738b6479275";
+	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
+	
+	private static JPushClient _client = null;
 
 	/**
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。
@@ -44,7 +51,7 @@ public class JPushClientExample {
 		 */
 
 
-		_client = new JPushSendClient(masterSecret, appKey, timeToLive);
+		_client = new JPushClient(masterSecret, appKey);
 
 		/*
 		 * 是否启用ssl安全连接, 可选
@@ -60,8 +67,8 @@ public class JPushClientExample {
 	private static void testSend() {
 		// 在实际业务中，建议 sendNo 是一个你自己的业务可以处理的一个自增数字。
 		int sendNo = getRandomSendNo();
-		String msgTitle = "+;//jpush\"\"";
-		String msgContent = "\\&;w\"\"a--【\npush】";
+		String msgTitle = "Test from javen";
+		String msgContent = "Test Test";
 
 		/*
 		 * IOS设备扩展参数,
@@ -75,9 +82,12 @@ public class JPushClientExample {
 		 * 通知、消息  两者区别。请参考：http://docs.jpush.cn/pages/viewpage.action?pageId=3309701
 		 */
 
+		String regID = "050ffb64f67";
 		
-		//对所有用户发送通知。
-		MessageResult msgResult = _client.sendNotificationWithAppKey(sendNo, msgTitle, msgContent);
+		CustomMessageParams params = new CustomMessageParams();
+		params.setReceiverType(ReceiverTypeEnum.TAG);
+		params.setReceiverValue("nexus7_0986b893");
+		MessageResult msgResult = _client.sendCustomMessage(msgTitle, msgContent, params, null);
 		
 		//对所有用户发送消息。
 		//MessageResult msgResult = jpush.sendCustomMessageWithAppKey(sendNo,msgTitle, msgContent);
@@ -88,16 +98,15 @@ public class JPushClientExample {
 
 
 		if (null != msgResult) {
+		    LOG.info("content - " + msgResult.responseResult.responseContent);
 			System.out.println("服务器返回数据: " + msgResult.toString());
-			if (msgResult.getErrcode() == ErrorCodeEnum.NOERROR.value()) {
-				System.out.println(String.format("发送成功， sendNo= %s,messageId= %s",msgResult.getSendno(),msgResult.getMsg_id()));
-			} else {
-				System.out.println("发送失败， 错误代码=" + msgResult.getErrcode() + ", 错误消息=" + msgResult.getErrmsg());
-			}
 		} else {
 			System.out.println("无法获取数据");
 		}
 
+		ReceivedsResult rrr = _client.getReportReceiveds("1708010723,1774452771");
+        LOG.info("content - " + rrr.responseResult.responseContent);
+		LOG.debug("Received - " + rrr);
 	}
 
 	public static final int MAX = Integer.MAX_VALUE;

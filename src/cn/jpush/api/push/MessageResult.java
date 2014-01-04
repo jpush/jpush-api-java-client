@@ -1,50 +1,32 @@
 package cn.jpush.api.push;
 
-import cn.jpush.api.BaseResult;
+import cn.jpush.api.common.ResponseResult;
 
-/*
- * 发送消息立即返回的状态定义
- */
-public class MessageResult extends BaseResult {
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
+public class MessageResult {
+    protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    
+    public ResponseResult responseResult;
+    
+    @Expose public Long msg_id;
+    @Expose public int sendno;
+    @Expose public int errcode = -1;
+    @Expose public String errmsg;
+
     public MessageResult() {
-        super();
     }
-	
-	public MessageResult(int sendNo,int errcode,String errormsg){		
-		this.sendno = sendNo;
-		this.errcode = errcode;
-		this.errmsg = errormsg;
-	}
-	
-	//发送序号
-	private int sendno = -1;
-	//错误码，详见ErrorCodeEnum
-	private int errcode = 10;
-	
-
-	public int getSendno() {
-		return sendno;
-	}
-	public void setSendno(int sendno) {
-		this.sendno = sendno;
-	}
-	public int getErrcode() {
-		return errcode;
-	}
-	public void setErrcode(int errcode) {
-		this.errcode = errcode;
-	}
-	
-	public static MessageResult fromValue(String result) {	
-		MessageResult messageResult = null;
-		if ( (null != result) && (!"".equals(result)) ) {
-			messageResult = _gson.fromJson(result, MessageResult.class);
-		}
-		return messageResult;
-	}
-
+    
+    public int getErrcode() {
+        return this.errcode;
+    }
+    
 	@Override
 	public String toString() {
 		return _gson.toJson(this);
 	}
+	
 }
+

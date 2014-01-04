@@ -48,16 +48,30 @@ public class StringUtils {
 		return encodeParam;
 	}
 	
-	public static String arrayToString(String[] vlaues){
-		StringBuffer buffer = new StringBuffer(vlaues.length);
-		if(vlaues != null){
-			for(int i = 0; i<vlaues.length; i++){
-				buffer.append(vlaues[i]).append(",");
-			}
-		}
-		if(buffer.length() > 0)
-			return buffer.toString().substring(0,buffer.length()-1);
-		return "";
-	}
+    public static String arrayToString(String[] vlaues) {
+        StringBuffer buffer = new StringBuffer(vlaues.length);
+        if (vlaues != null) {
+            for (int i = 0; i < vlaues.length; i++) {
+                buffer.append(vlaues[i]).append(",");
+            }
+        }
+        if (buffer.length() > 0) {
+            return buffer.toString().substring(0, buffer.length() - 1);
+        }
+        return "";
+    }
+    
+    public static boolean isEmpty(String s) {
+        return s == null || s.length() == 0;
+    }
+
+    public static boolean isTrimedEmpty(String s) {
+        return s == null || s.trim().length() == 0;
+    }
+
+    public static boolean isNotEmpty(String s) {
+        return s != null && s.length() > 0;
+    }
+
 
 }

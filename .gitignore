@@ -11,3 +11,4 @@ test-output/
 *.war
 *.ear
 
+/target

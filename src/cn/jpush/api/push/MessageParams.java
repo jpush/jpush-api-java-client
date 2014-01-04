@@ -3,7 +3,7 @@ package cn.jpush.api.push;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.jpush.api.DeviceEnum;
+import cn.jpush.api.common.DeviceEnum;
 
 import com.google.gson.Gson;
 
@@ -11,12 +11,16 @@ import com.google.gson.Gson;
  *  接口更多参数的详解请参考 :http://docs.jpush.cn/display/dev/Push+API+v2 
  */
 public class MessageParams {
+    public static final int DEFAULT_TIME_TO_LIVE = 86400;   //s
+    public static final int NO_TIME_TO_LIVE = -1;
+    public static final int DEFAULT_ANDROID_BUILDER_ID = 0;
+    
     protected Gson _gson = new Gson();
     
 	/*
 	 * 发送编号。由开发者自己维护，标识一次发送请求
 	 */
-	private int sendNo = 0;
+	private int sendNo = 1;
 
 	/*
 	 * 待覆盖的上一条消息的 ID。
@@ -46,7 +50,7 @@ public class MessageParams {
 	 * 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。
 	 * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒）。	
 	 */
-	private long timeToLive; 
+	private long timeToLive = -1; 
 
 	/*
 	 * 每个应用对应一个masterSecret，用来校验
@@ -54,28 +58,13 @@ public class MessageParams {
 	private String masterSecret;
 
 	/*
-	 * 描述此次发送调用。
-	 * 不会发到用户。
-	 */
-	private String sendDescription = "";
-
-	/*
 	 * 目标用户中断手机的平台类型，如：android, ios
 	 */
 	private Set<DeviceEnum> platform = new HashSet<DeviceEnum>();
+	
+    // 0: development env  1: production env
+	private int apnsProduction;
 
-	/*
-	 * 推送介意接口消息内容 
-	 */
-	private String txt;
-	private String targetPath;
-
-	public String getTargetPath() {
-		return targetPath;
-	}
-	public void setTargetPath(String targetPath) {
-		this.targetPath = targetPath;
-	}
 	/*
 	 * 发送消息的内容。
 	 * 与 msg_type 相对应的值。
@@ -124,7 +113,7 @@ public class MessageParams {
 	public String getAppKey() {
 		return this.appKey;
 	}
-	public void setAppKey(String appKey) {
+	void setAppKey(String appKey) {
 		this.appKey = appKey;
 	}
 	public long getTimeToLive() {
@@ -136,7 +125,7 @@ public class MessageParams {
 	public String getMasterSecret() {
 		return masterSecret;
 	}
-	public void setMasterSecret(String masterSecret) {
+	void setMasterSecret(String masterSecret) {
 		this.masterSecret = masterSecret;
 	}
 	public ReceiverTypeEnum getReceiverType() {
@@ -151,13 +140,9 @@ public class MessageParams {
 	public void setReceiverValue(String receiverValue) {
 		this.receiverValue = receiverValue;
 	}
-	public String getSendDescription() {
-		return sendDescription;
-	}
-	public void setSendDescription(String sendDescription) {
-		this.sendDescription = sendDescription;
-	}
 	public String getPlatform() {
+	    if (this.platform == null) return "";
+	    
 		String keys = "";
 		for (DeviceEnum key : this.platform) {
 			keys += (key.value() + ",");
@@ -168,11 +153,12 @@ public class MessageParams {
 		this.platform.add(platform);
 	}
 
-	public String getTxt() {
-		return txt;
-	}
-	public void setTxt(String txt) {
-		this.txt = txt;
-	}
+    public int getApnsProduction() {
+        return apnsProduction;
+    }
 
+    public void setApnsProduction(int apnsProduction) {
+        this.apnsProduction = apnsProduction;
+    }
+	
 }

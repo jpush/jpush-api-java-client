@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.common;
 
 public enum ErrorCodeEnum {
 	//发送成功
@@ -17,7 +17,7 @@ public enum ErrorCodeEnum {
 	InvalidParameter(1003),
 	
 	//验证失败
-	ValidateFailed(1004),
+	VerificationFailed(1004),
 	
 	//消息体太大
 	DataTooBig(1005),
@@ -32,7 +32,7 @@ public enum ErrorCodeEnum {
 	InvalidMsgContent(1010),
 	
 	//没有满足条件的推送目标
-	InvalidPush(1011),
+	NoTarget(1011),
 	
 	//IOS不支持自定义消息
 	CustomMessgaeNotSupportIOS(1012),

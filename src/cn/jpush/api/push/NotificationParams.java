@@ -9,9 +9,11 @@ import cn.jpush.api.utils.StringUtils;
  * 通知内容
  */
 public class NotificationParams extends MessageParams {
+    public static final int DEFAULT_N_BUILDER_ID = 0;
     
 	public class NotificationContent extends MessageParams.MsgContent {
-		//不填则默认为 0，使用 极光Push SDK 的默认通知样式。
+	    
+		// Android notification builder id - default is 0
 		private int builderId = 0;
 		
 		private Map<String, Object> extra = new HashMap<String, Object>();
@@ -22,6 +24,7 @@ public class NotificationParams extends MessageParams {
 		public void setBuilderId(int builderId) {
 			this.builderId = builderId;
 		}
+		
 		public Map<String, Object> getExtra() {
 			return extra;
 		}
@@ -44,4 +47,14 @@ public class NotificationParams extends MessageParams {
 	public NotificationContent getMsgContent() {
 		return this.msgContent;
 	}
+	
+	public void setAndroidBuilderId(int builderId) {
+	    this.getMsgContent().setBuilderId(builderId);
+	}
+	
+	public void setAndroidNotificationTitle(String title) {
+	    this.getMsgContent().setTitle(title);
+	}
+	
 }
+

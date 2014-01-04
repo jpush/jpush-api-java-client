@@ -1,4 +1,4 @@
-package cn.jpush.api;
+package cn.jpush.api.common;
 
 public enum DeviceEnum {
     
