@@ -3,16 +3,11 @@ package cn.jpush.api.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jpush.api.common.ResponseResult;
+import cn.jpush.api.common.BaseResult;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
-public class ReceivedsResult {
-    protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-
-    public ResponseResult responseResult;
+public class ReceivedsResult extends BaseResult {
     @Expose public List<Received> receivedList = new ArrayList<Received>();
 	
 	public static class Received {

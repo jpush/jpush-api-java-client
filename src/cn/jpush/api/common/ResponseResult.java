@@ -12,7 +12,7 @@ public class ResponseResult {
     public int responseCode;
     public String responseContent;
     
-    public Error error;     // error for non-200 response, used by new API
+    public ErrorObject error;     // error for non-200 response, used by new API
     
     public int rateLimitQuota;
     public int rateLimitRemaining;
@@ -34,7 +34,7 @@ public class ResponseResult {
     }
     
     public void setErrorObject() {
-        error = _gson.fromJson(responseContent, Error.class);
+        error = _gson.fromJson(responseContent, ErrorObject.class);
     }
 
 	@Override
@@ -42,7 +42,7 @@ public class ResponseResult {
 		return _gson.toJson(this);
 	}
 
-	public class Error {
+	public class ErrorObject {
 	    public int code;
 	    public String message;
 	}
