@@ -1,14 +1,12 @@
-/bin
-/.settings
+bin/
+.settings/
+.metadata/
+target/
+test-output/
 
-/.metadata/
 *.class
 *.project
-# Package Files #
-# *.jar
-test-output/
 *.DS_Store
 *.war
 *.ear
 
-/target
