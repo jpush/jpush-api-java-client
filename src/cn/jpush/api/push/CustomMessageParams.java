@@ -15,7 +15,7 @@ public class CustomMessageParams extends MessageParams {
 		//message 里的内容类型
 		private String contentType = "";
 		//更多的附属信息
-		private Map<String, Object> extra = new HashMap<String, Object>();
+		private Map<String, Object> extras = new HashMap<String, Object>();
 		
 		public String getContentType() {
 			return contentType;
@@ -23,11 +23,11 @@ public class CustomMessageParams extends MessageParams {
 		public void setContentType(String contentType) {
 			this.contentType = contentType;
 		}
-		public Map<String, Object> getExtra() {
-			return extra;
+		public Map<String, Object> getExtras() {
+			return extras;
 		}
-		public void setExtra(Map<String, Object> extra) {
-			this.extra = extra;
+		public void setExtras(Map<String, Object> extras) {
+			this.extras = extras;
 		}
 		@Override
 		public String toString() {
@@ -36,7 +36,7 @@ public class CustomMessageParams extends MessageParams {
 			params.put("title", this.getTitle());
 			params.put("message", this.getMessage());
 			params.put("content_type", this.getContentType());
-			params.put("extras", this.getExtra());
+			params.put("extras", this.getExtras());
 			
 			return StringUtils.encodeParam(gson.toJson(params));
 		}

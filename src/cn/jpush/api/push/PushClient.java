@@ -31,19 +31,19 @@ public class PushClient extends BaseHttpClient {
 	}
 
 
-	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extra) {
-		if (null != extra) {
-			params.getMsgContent().setExtra(extra);
+	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extras) {
+		if (null != extras) {
+			params.getMsgContent().setExtras(extras);
 		}
 		return sendMessage(notificationContent, params);
 	}
 	
-	public MessageResult sendCustomMessage(String msgTitle, String msgContent, CustomMessageParams params, Map<String, Object> extra) {
+	public MessageResult sendCustomMessage(String msgTitle, String msgContent, CustomMessageParams params, Map<String, Object> extras) {
 	    if (null != msgTitle) {
 	        params.getMsgContent().setTitle(msgTitle);
 	    }
-        if (null != extra) {
-            params.getMsgContent().setExtra(extra);
+        if (null != extras) {
+            params.getMsgContent().setExtras(extras);
         }
         return sendMessage(msgContent, params);
     }

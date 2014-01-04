@@ -29,12 +29,12 @@ public class JPushClient {
 	    _reportClient = new ReportClient(masterSecret, appKey);
 	}
 	
-	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extra) {
-	    return _pushClient.sendNotification(notificationContent, params, extra);
+	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extras) {
+	    return _pushClient.sendNotification(notificationContent, params, extras);
 	}
 
-	public MessageResult sendCustomMessage(String msgTitle, String msgContent, CustomMessageParams params, Map<String, Object> extra) {
-	    return _pushClient.sendCustomMessage(msgTitle, msgContent, params, extra);
+	public MessageResult sendCustomMessage(String msgTitle, String msgContent, CustomMessageParams params, Map<String, Object> extras) {
+	    return _pushClient.sendCustomMessage(msgTitle, msgContent, params, extras);
 	}
 	
 	

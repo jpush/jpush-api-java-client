@@ -16,7 +16,7 @@ public class NotificationParams extends MessageParams {
 		// Android notification builder id - default is 0
 		private int builderId = 0;
 		
-		private Map<String, Object> extra = new HashMap<String, Object>();
+		private Map<String, Object> extras = new HashMap<String, Object>();
 		
 		public int getBuilderId() {
 			return builderId;
@@ -25,11 +25,11 @@ public class NotificationParams extends MessageParams {
 			this.builderId = builderId;
 		}
 		
-		public Map<String, Object> getExtra() {
-			return extra;
+		public Map<String, Object> getExtras() {
+			return extras;
 		}
-		public void setExtra(Map<String, Object> extra) {
-			this.extra = extra;
+		public void setExtras(Map<String, Object> extras) {
+			this.extras = extras;
 		}
 		
 		@Override
@@ -38,7 +38,7 @@ public class NotificationParams extends MessageParams {
 			params.put("n_content", this.getMessage());
 			params.put("n_builder_id", String.valueOf(this.getBuilderId()));
 			params.put("n_title", this.getTitle());
-			params.put("n_extras", this.getExtra());
+			params.put("n_extras", this.getExtras());
 			return StringUtils.encodeParam(_gson.toJson(params));
 		}
 	}
