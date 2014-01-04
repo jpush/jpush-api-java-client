@@ -1,20 +1,20 @@
 package cn.jpush.api.push;
 
 /*
- *  IOS 发送通知 附加扩展类
+ * Should be set into Notification extras with key "ios"
  */
-public class IOSExtra {
+public class IosExtras {
 	
-	public IOSExtra(int badge, String sound) {
+	public IosExtras(int badge, String sound) {
 		this.badge = badge;
 		this.sound = sound;
 	}
 	
-	public IOSExtra(String sound) {
+	public IosExtras(String sound) {
 		this.sound = sound;
 	}
 	
-	public IOSExtra(int badge) {
+	public IosExtras(int badge) {
 		this.badge = badge;
 	}
 	
@@ -22,6 +22,7 @@ public class IOSExtra {
 	 * Badge Notification,默认是(0)
 	 */
 	private int badge = 0;
+	
 	/*
 	 *  当前软件里面的所拥有的铃声名称（如：message.wav)。
 	 *  不设置，手机默认通知铃声

@@ -1,17 +1,11 @@
 package cn.jpush.api.push;
 
 public enum ReceiverTypeEnum {
-	//指定的 IMEI。此时必须指定 appKeys。
 	IMEI(1),
-	
-	//指定的 tag。
 	TAG(2),
-	
-	//指定的 alias。
 	ALIAS(3),
-	
-	//对指定appkeys 的所有用户推送消息。
-	APP_KEY(4);
+	APP_KEY(4),
+	REGISTRATION_ID(5);
 	
 	private final int value;
 	private ReceiverTypeEnum(final int value) {

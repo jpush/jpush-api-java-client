@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cn.jpush.api.common.DeviceEnum;
-import cn.jpush.api.push.IOSExtra;
+import cn.jpush.api.push.IosExtras;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
 import cn.jpush.api.push.ReceiverTypeEnum;
@@ -43,7 +43,7 @@ public class PushFunctionTests {
 	public void sendNotificationAll_ios(){
         HashMap<String, Object> extra = new HashMap<String, Object>();
 		extra.put("jpush-key","jpush-value");
-		IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+		IosExtras iosExtra = new IosExtras(1,"test.mp3");
 		extra.put("ios", iosExtra);
 		
 		NotificationParams params = new NotificationParams();
@@ -67,7 +67,7 @@ public class PushFunctionTests {
 	public void sendNotificationWithAlias_ios(){
         HashMap<String, Object> extra = new HashMap<String, Object>();
         extra.put("jpush-key","jpush-value");
-        IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+        IosExtras iosExtra = new IosExtras(1,"test.mp3");
         extra.put("ios", iosExtra);
 		
         NotificationParams params = new NotificationParams();
@@ -92,7 +92,7 @@ public class PushFunctionTests {
 	public void sendNotificationWithTagByExtra(){
         HashMap<String, Object> extra = new HashMap<String, Object>();
         extra.put("jpush-key","jpush-value");
-        IOSExtra iosExtra = new IOSExtra(1,"test.mp3");
+        IosExtras iosExtra = new IosExtras(1,"test.mp3");
         extra.put("ios", iosExtra);
         
         NotificationParams params = new NotificationParams();
