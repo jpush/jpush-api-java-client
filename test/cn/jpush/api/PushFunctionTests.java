@@ -36,7 +36,7 @@ public class PushFunctionTests {
 	@Test
 	public void sendNotificationAll_android(){
 		MessageResult result = jpushAndroid.sendNotificationAll(MSG_CONTENT);
-		assertEquals(0, result.getErrcode());
+		assertEquals(0, result.getErrorCode());
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class PushFunctionTests {
 		params.setReceiverType(ReceiverTypeEnum.APP_KEY);
 		
 		MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, extra);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrcode());
+		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ public class PushFunctionTests {
         params.setReceiverValue(ALIAS);
         
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrcode());
+		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class PushFunctionTests {
         params.setReceiverValue(ALIAS);
         
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, extra);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrcode());
+		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class PushFunctionTests {
         params.setReceiverValue(TAG);
         
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrcode());
+		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
 	@Test
@@ -100,7 +100,7 @@ public class PushFunctionTests {
         params.setReceiverValue(ALIAS);
 		
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrcode());
+		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
 }

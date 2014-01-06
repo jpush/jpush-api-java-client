@@ -17,9 +17,10 @@ public class JPushClientExample {
 	private static final String appKey ="dd1066407b044738b6479275";
 	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
 	
-    private static final String msgTitle = "Test from API example";
-    private static final String msgContent = "Test Test";
-    private static final String registrationID = "0900e8d85ef";
+	public static final String msgTitle = "Test from API example";
+    public static final String msgContent = "Test Test";
+    public static final String registrationID = "0900e8d85ef";
+    public static final String tag = "tag_api";
 
 	private static JPushClient jpushClient = null;
 
@@ -27,22 +28,52 @@ public class JPushClientExample {
 		jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
 
 		testSend();
+		testGetReport();
 	}
 
 	private static void testSend() {
 		CustomMessageParams params = new CustomMessageParams();
-		params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
-		params.setReceiverValue(registrationID);
+		//params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
+		//params.setReceiverValue(registrationID);
+		params.setReceiverType(ReceiverTypeEnum.TAG);
+		params.setReceiverValue(tag);
+		
 		MessageResult msgResult = jpushClient.sendCustomMessage(msgTitle, msgContent, params, null);
-		
-		if (null != msgResult) {
-		    LOG.info("responseContent - " + msgResult.responseResult.responseContent);
-		    LOG.info("msgResult - " + msgResult);
+        LOG.debug("responseContent - " + msgResult.responseResult.responseContent);
+		if (msgResult.isResultOK()) {
+	        LOG.info("msgResult - " + msgResult);
+	        LOG.info("messageId - " + msgResult.getMessageId());
+		} else {
+		    if (msgResult.getErrorCode() > 0) {
+		        // 业务异常
+		        LOG.warn("Service error - ErrorCode: "
+		                + msgResult.getErrorCode() + ", ErrorMessage: "
+		                + msgResult.getErrorMessage());
+		    } else {
+		        // 未到达 JPush 
+		        LOG.error("Other excepitons - "
+		                + msgResult.responseResult.exceptionString);
+		    }
 		}
-		
-		ReceivedsResult rrr = jpushClient.getReportReceiveds("1708010723,1774452771");
-        LOG.info("content - " + rrr.responseResult.responseContent);
-		LOG.debug("Received - " + rrr);
+	}
+	
+	public static void testGetReport() {
+		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
+        LOG.debug("responseContent - " + receivedsResult.responseResult.responseContent);
+		if (receivedsResult.isResultOK()) {
+		    LOG.info("Receiveds - " + receivedsResult);
+		} else {
+            if (receivedsResult.getErrorCode() > 0) {
+                // 业务异常
+                LOG.warn("Service error - ErrorCode: "
+                        + receivedsResult.getErrorCode() + ", ErrorMessage: "
+                        + receivedsResult.getErrorMessage());
+            } else {
+                // 未到达 JPush
+                LOG.error("Other excepitons - "
+                        + receivedsResult.responseResult.exceptionString);
+            }
+		}
 	}
 
 }

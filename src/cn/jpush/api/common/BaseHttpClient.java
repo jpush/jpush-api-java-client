@@ -35,6 +35,7 @@ public class BaseHttpClient {
 	private static final String RATE_LIMIT_Remaining = "X-Rate-Limit-Remaining";
 	private static final String RATE_LIMIT_Reset = "X-Rate-Limit-Reset";
 	
+	protected static final int RESPONSE_OK = 200;
     protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 	
 	//设置连接超时时间
@@ -108,33 +109,31 @@ public class BaseHttpClient {
             String reset = conn.getHeaderField(RATE_LIMIT_Reset);
             result.setRateLimit(quota, remaining, reset);
             
-            LOG.debug("JPush API Rate Limiting params - quota:" + quota + ", remaining:" + remaining + ", reset:" + reset);
-            
             if (status == 200) {
-				LOG.debug("Succeed to get response - 200 OK - " + responseContent);
+				LOG.debug("Succeed to get response - 200 OK");
 				
 			} else {
 			    LOG.warn("Got error response - responseCode:" + status + ", responseContent:" + responseContent);
 			    
 			    switch (status) {
 			    case 400:
-			        LOG.info("Your request params is invalid. Please check them according to docs.");
+			        LOG.warn("Your request params is invalid. Please check them according to docs.");
 	                result.setErrorObject();
 			        break;
 			    case 403:
-			        LOG.info("Request is forbidden! Maybe your appkey is listed in blacklist?");
+			        LOG.warn("Request is forbidden! Maybe your appkey is listed in blacklist?");
 	                result.setErrorObject();
 			        break;
 			    case 401:
-			        LOG.info("Authentication failed! Please check authentication params according to docs.");
+			        LOG.warn("Authentication failed! Please check authentication params according to docs.");
 	                result.setErrorObject();
 			        break;
 			    case 429:
-			        LOG.info("Too many requests! Please review your appkey's request quota.");
+			        LOG.warn("Too many requests! Please review your appkey's request quota.");
 	                result.setErrorObject();
 			        break;
 			    case 500:
-			        LOG.info("Seems encountered server error. Please retry later.");
+			        LOG.warn("Seems encountered server error. Please retry later.");
 			        break;
 			    default:
 			    }
@@ -143,19 +142,19 @@ public class BaseHttpClient {
 
 		} catch (SocketTimeoutException e) {
 		    result.exceptionString = e.getMessage();
-		    LOG.warn("Request timeout. Retry later.", e);
+		    LOG.error("Request timeout. Retry later.", e);
 		} catch (ConnectException e) {
 		    result.exceptionString = e.getMessage();
-		    LOG.warn("Connnect error. ", e);
+		    LOG.error("Connnect error. ", e);
 		} catch (UnknownHostException e) {
 		    result.exceptionString = e.getMessage();
-		    LOG.warn("Unknown host. Please check the DNS configuration of your server.", e);
+		    LOG.error("Unknown host. Please check the DNS configuration of your server.", e);
         } catch (IOException e) {
             result.exceptionString = e.getMessage();
-            LOG.warn("IO error. ", e);
+            LOG.error("IO error. ", e);
 		} catch (Exception e) {
 		    result.exceptionString = e.getMessage();
-		    LOG.warn("Unknown exception. ", e);
+		    LOG.error("Unknown exception. ", e);
 		} finally {
 			if (null != out) {
 				try {

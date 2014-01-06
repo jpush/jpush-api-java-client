@@ -6,10 +6,12 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 public class ResponseResult {
-    protected static final Logger LOG = LoggerFactory.getLogger(ResponseResult.class);
-    protected static Gson _gson = new Gson();
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseResult.class);
+    private static final int RESPONSE_CODE_NONE = -1;
     
-    public int responseCode;
+    private static Gson _gson = new Gson();
+    
+    public int responseCode = RESPONSE_CODE_NONE;
     public String responseContent;
     
     public ErrorObject error;     // error for non-200 response, used by new API
@@ -24,12 +26,16 @@ public class ResponseResult {
 	}
 	
     public void setRateLimit(String quota, String remaining, String reset) {
+        if (null == quota) return;
+        
         try {
             rateLimitQuota = Integer.parseInt(quota);
             rateLimitRemaining = Integer.parseInt(remaining);
             rateLimitReset = Integer.parseInt(reset);
+            
+            LOG.debug("JPush API Rate Limiting params - quota:" + quota + ", remaining:" + remaining + ", reset:" + reset);
         } catch (NumberFormatException e) {
-            LOG.error("Unexpected - parse rate limiting headers error.");
+            LOG.debug("Unexpected - parse rate limiting headers error.");
         }
     }
     

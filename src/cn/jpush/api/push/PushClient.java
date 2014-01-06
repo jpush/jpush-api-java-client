@@ -12,13 +12,16 @@ import cn.jpush.api.common.ValidateRequestParams;
 import cn.jpush.api.utils.StringUtils;
 
 public class PushClient extends BaseHttpClient {
-    public String appKey;
-    public String masterSecret;
-    public long timeToLive = -1;
-    public boolean enableSSL = false;
-    public boolean apnsProduction = false;
+    private static final String HOST_NAME_SSL = "https://api.jpush.cn";
+    private static final String HOST_NAME = "http://api.jpush.cn:8800";
+    private static final String PUSH_PATH = "/v2/push";
     
-    public Set<DeviceEnum> devices = new HashSet<DeviceEnum>();   //默认发送所有平台
+    private String appKey;
+    private String masterSecret;
+    private long timeToLive = -1;
+    private boolean enableSSL = false;
+    private boolean apnsProduction = false;
+    private Set<DeviceEnum> devices = new HashSet<DeviceEnum>();
     	
 	public PushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device, boolean apnsProduction) {
 		this.masterSecret = masterSecret;
@@ -65,10 +68,6 @@ public class PushClient extends BaseHttpClient {
 		return sendPush(enableSSL, params);
 	}
 
-    public static String HOST_NAME_SSL = "https://api.jpush.cn:443";
-    public static String HOST_NAME = "http://api.jpush.cn:8800";
-    public static final String PUSH_PATH = "/v2/push";
-    
     public MessageResult sendPush(final boolean enableSSL, final MessageParams params) {
         ValidateRequestParams.checkPushParams(params);
         String url = enableSSL ? HOST_NAME_SSL : HOST_NAME;
@@ -76,7 +75,7 @@ public class PushClient extends BaseHttpClient {
         
         ResponseResult result = sendPost(url, enableSSL, parse(params), null);
         MessageResult rr = null;
-        if (result.responseCode == 200) {
+        if (result.responseCode == RESPONSE_OK) {
             rr = _gson.fromJson(result.responseContent, MessageResult.class);
         } else {
             rr = new MessageResult();
