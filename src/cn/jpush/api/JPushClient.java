@@ -20,14 +20,32 @@ public class JPushClient {
     private PushClient _pushClient;
 	private ReportClient _reportClient;
 	
+	/**
+	 * Create a JPush Client. 
+	 * Use some defaults - time_to_live:1 day; platform:all platforms; apnsProduction:true. 
+	 * 
+	 * @param masterSecret API access secret of the app_key.
+	 * @param appKey The app_key of one application on JPush
+	 */
 	public JPushClient(String masterSecret, String appKey) {
-	    this(masterSecret, appKey, MessageParams.NO_TIME_TO_LIVE, null, false);
+	    this(masterSecret, appKey, MessageParams.NO_TIME_TO_LIVE, null, true);
 	}
 	
+	/**
+	 * Create a JPush Client.
+	 * With defined sending push params.
+	 * 
+	 * @param masterSecret API access secret of the app_key.
+	 * @param appKey The app_key of one application on JPush.
+	 * @param timeToLive The off-line message live time long.
+	 * @param device The target device of the push. If null will send to all platforms.
+	 * @param apnsProduction If iOS push which environment should be use for sending APNs.
+	 */
 	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device, boolean apnsProduction) {
 	    _pushClient = new PushClient(masterSecret, appKey, timeToLive, device, apnsProduction);
 	    _reportClient = new ReportClient(masterSecret, appKey);
 	}
+	
 	
 	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extras) {
 	    return _pushClient.sendNotification(notificationContent, params, extras);
