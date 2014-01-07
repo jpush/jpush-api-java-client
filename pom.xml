@@ -82,9 +82,10 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.8</version>
+				<version>0.9</version>
 				<configuration>
 					<message>Creating site for ${project.version}</message>
+					<server>github</server>
 				</configuration>
 				<executions>
 					<execution>
@@ -101,10 +102,17 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>
-                    maven-project-info-reports-plugin
-                </artifactId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.7</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -116,7 +124,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<url>scm:git:git@github.com:jpush/jpush-api-java-client.git</url>
+		<url>https://github.com/jpush/jpush-api-java-client</url>
 	</scm>
 	<developers>
 		<developer>
