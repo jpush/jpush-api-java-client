@@ -22,16 +22,13 @@ public class JPushClientExample {
     public static final String registrationID = "0900e8d85ef";
     public static final String tag = "tag_api";
 
-	private static JPushClient jpushClient = null;
-
 	public static void main(String[] args) {
-		jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
-
 		testSend();
 		testGetReport();
 	}
 
 	private static void testSend() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
 		CustomMessageParams params = new CustomMessageParams();
 		//params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
 		//params.setReceiverValue(registrationID);
@@ -58,6 +55,7 @@ public class JPushClientExample {
 	}
 	
 	public static void testGetReport() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
         LOG.debug("responseContent - " + receivedsResult.responseResult.responseContent);
 		if (receivedsResult.isResultOK()) {

@@ -22,6 +22,7 @@
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<properties>
 		<github.global.server>github</github.global.server>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 
@@ -122,15 +123,16 @@
 		</plugins>
 	</reporting>
 	<scm>
+		<url>https://github.com/jpush/jpush-api-java-client</url>
 		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<url>https://github.com/jpush/jpush-api-java-client</url>
 	</scm>
 	<developers>
 		<developer>
-			<id>xinxin</id>
-			<name>xinxin</name>
-			<email>xinxin@jpush.cn</email>
+			<id>jpush</id>
+			<name>JPush</name>
+			<email>fajaven@gmail.com</email>
+			<url>https://github.com/jpush</url>
 		</developer>
 	</developers>
 
