@@ -2,10 +2,13 @@
 
 ## 概述
 这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
+
 对应的 REST API 文档：<http://docs.jpush.cn/display/dev/REST+API>
 
 ## 安装
-### 直接使用 jar
+
+### maven 方式
+将下边的依赖条件放到你项目的 maven pom.xml 文件里。
 
 ```
 <dependency>
@@ -14,6 +17,9 @@
     <version>2.3.0</version>
 </dependency>
 ```
+### jar 包方式
+
+请到每个 Release 版本 dist/ 目录里下载相应版本的 jar 包。
 
 ### 依赖包
 * gson

@@ -49,7 +49,7 @@ public class PushFunctionTests {
 		NotificationParams params = new NotificationParams();
 		params.setReceiverType(ReceiverTypeEnum.APP_KEY);
 		
-		MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, extra);
+		MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
@@ -74,7 +74,7 @@ public class PushFunctionTests {
         params.setReceiverType(ReceiverTypeEnum.ALIAS);
         params.setReceiverValue(ALIAS);
         
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, extra);
+        MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	

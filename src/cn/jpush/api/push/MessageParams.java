@@ -153,11 +153,11 @@ public class MessageParams {
 		this.platform.add(platform);
 	}
 
-    public int getApnsProduction() {
+    int getApnsProduction() {
         return apnsProduction;
     }
 
-    public void setApnsProduction(int apnsProduction) {
+    void setApnsProduction(int apnsProduction) {
         this.apnsProduction = apnsProduction;
     }
 	

@@ -1,30 +1,48 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<licenses>
+	
+    <groupId>cn.jpush.api</groupId>
+    <artifactId>jpush-client</artifactId>
+    <version>2.3.0</version>
+    <packaging>jar</packaging>
+    <url>https://github.com/jpush/jpush-api-java-client</url>
+    <name>JPush API Java Client</name>
+    <description>JPush's officially supported Java client library for accessing JPush APIs.</description>
+
+   	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
-	<groupId>cn.jpush.api</groupId>
-	<artifactId>jpush-client</artifactId>
-	<version>2.3.0</version>
-	<packaging>jar</packaging>
-	<name>JPush API Java Client</name>
-	<description>JPush's officially supported Java client library for accessing JPush APIs.</description>
-	<url>https://github.com/jpush/jpush-api-java-client</url>
+
 	<properties>
 		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+    <scm>
+        <url>https://github.com/jpush/jpush-api-java-client</url>
+        <connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
+        <developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
+    </scm>
+    
+    <developers>
+        <developer>
+            <id>jpush</id>
+            <name>JPush</name>
+            <email>fajaven@gmail.com</email>
+            <url>https://github.com/jpush</url>
+        </developer>
+    </developers>
 
 	<dependencies>
 		<dependency>
@@ -50,6 +68,7 @@
 		</dependency>
 
 	</dependencies>
+	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
@@ -65,7 +84,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.2.2</version>
+				<version>2.4.2</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -99,6 +118,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<reporting>
 		<plugins>
 			<plugin>
@@ -122,18 +142,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<scm>
-		<url>https://github.com/jpush/jpush-api-java-client</url>
-		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
-		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-	</scm>
-	<developers>
-		<developer>
-			<id>jpush</id>
-			<name>JPush</name>
-			<email>fajaven@gmail.com</email>
-			<url>https://github.com/jpush</url>
-		</developer>
-	</developers>
-
+	
 </project>
