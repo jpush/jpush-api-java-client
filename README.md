@@ -19,7 +19,7 @@
 ```
 ### jar 包方式
 
-请到每个 Release 版本 dist/ 目录里下载相应版本的 jar 包。
+请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
 
 ### 依赖包
 * gson
@@ -84,17 +84,10 @@ if (receivedsResult.isResultOK()) {
 ```
 
 
-## 更新历史
-### r2.3.0 - 2014.01.08
+## 版本更新
 
-这是一个完全重构版本，对整个项目的源代码以及公开的方法都进行了变更，但其基本功能未变更 。
+[Release页面](https://github.com/jpush/jpush-api-java-client/releases) 有详细的版本发布记录与下载。
 
-#### 新功能
-* 增加支持 RegistrationID 推送。（如果 Android SDK r1.6.0 以上客户端支持；iOS 稍后发布的新版本SDK支持。）
-* 调用返回里可以取得频率控制相关信息
-
-#### BUG修复
-* 未有
 
 
 
