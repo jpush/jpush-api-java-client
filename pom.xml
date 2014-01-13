@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>2.3.0-SNAPSHOT</version>
+    <version>2.3.0</version>
     <packaging>jar</packaging>
     <url>https://github.com/jpush/jpush-api-java-client</url>
     <name>JPush API Java Client</name>
@@ -33,7 +32,8 @@
         <url>https://github.com/jpush/jpush-api-java-client</url>
         <connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
         <developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-    </scm>
+      <tag>jpush-client-2.3.0</tag>
+  </scm>
     
     <developers>
         <developer>
