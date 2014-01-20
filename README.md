@@ -27,8 +27,22 @@
 
 > 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
 
+如果使用 Maven 构建项目，则需要有你的项目里增加：
+```
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+```
+
+如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
+
 ### 构建本项目
-建议直接使用 maven。
+建议直接使用 maven，执行命令：
+```
+maven package 
+```
 
 ## 使用样例
 下边是简单直接的使用样例。
