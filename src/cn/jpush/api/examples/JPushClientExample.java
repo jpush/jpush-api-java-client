@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.DeviceEnum;
-import cn.jpush.api.push.CustomMessageParams;
 import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.NotificationParams;
 import cn.jpush.api.push.ReceiverTypeEnum;
 import cn.jpush.api.report.ReceivedsResult;
 
@@ -17,10 +17,10 @@ public class JPushClientExample {
 	private static final String appKey ="dd1066407b044738b6479275";
 	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
 	
-	public static final String msgTitle = "Test from API example";
-    public static final String msgContent = "Test Test";
-    public static final String registrationID = "0900e8d85ef";
-    public static final String tag = "tag_api";
+	public static final String TITLE = "Test from API example";
+    public static final String CONTENT = "Test Test";
+    public static final String REGISTRATION_ID = "0900e8d85ef";
+    public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
 		testSend();
@@ -29,13 +29,13 @@ public class JPushClientExample {
 
 	private static void testSend() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
-		CustomMessageParams params = new CustomMessageParams();
+		NotificationParams params = new NotificationParams();
 		//params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
 		//params.setReceiverValue(registrationID);
 		params.setReceiverType(ReceiverTypeEnum.TAG);
-		params.setReceiverValue(tag);
+		params.setReceiverValue(TAG);
 		
-		MessageResult msgResult = jpushClient.sendCustomMessage(msgTitle, msgContent, params, null);
+		MessageResult msgResult = jpushClient.sendNotification(CONTENT, params, null);
         LOG.debug("responseContent - " + msgResult.responseResult.responseContent);
 		if (msgResult.isResultOK()) {
 	        LOG.info("msgResult - " + msgResult);
