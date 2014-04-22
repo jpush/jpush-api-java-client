@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.api.common.BaseHttpClient;
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.common.ResponseResult;
 import cn.jpush.api.common.ValidateRequestParams;
 import cn.jpush.api.utils.StringUtils;
@@ -21,9 +21,9 @@ public class PushClient extends BaseHttpClient {
     private long timeToLive = -1;
     private boolean enableSSL = false;
     private boolean apnsProduction = false;
-    private Set<DeviceEnum> devices = new HashSet<DeviceEnum>();
+    private Set<DeviceType> devices = new HashSet<DeviceType>();
     	
-	public PushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device, boolean apnsProduction) {
+	public PushClient(String masterSecret, String appKey, long timeToLive, DeviceType device, boolean apnsProduction) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;
 		this.timeToLive = timeToLive;
@@ -60,7 +60,7 @@ public class PushClient extends BaseHttpClient {
 		    // no specific will then use the setting in instance
 		    params.setTimeToLive(this.timeToLive);
 		}
-		for (DeviceEnum device : this.getDevices()) {
+		for (DeviceType device : this.getDevices()) {
 			params.addPlatform(device);
 		}
 		params.getMsgContent().setMessage(content);
@@ -135,13 +135,13 @@ public class PushClient extends BaseHttpClient {
         return this.appKey;
     }
 
-    public Set<DeviceEnum> getDevices() {
+    public Set<DeviceType> getDevices() {
         if (null == this.devices) {
-            this.devices = new HashSet<DeviceEnum>();
+            this.devices = new HashSet<DeviceType>();
         }
         if (this.devices.size() == 0) {
-            this.devices.add(DeviceEnum.Android);
-            this.devices.add(DeviceEnum.IOS);
+            this.devices.add(DeviceType.Android);
+            this.devices.add(DeviceType.IOS);
         }
         return this.devices;
     }

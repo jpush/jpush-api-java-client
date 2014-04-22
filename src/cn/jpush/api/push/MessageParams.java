@@ -3,7 +3,8 @@ package cn.jpush.api.push;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
+import cn.jpush.api.push.model.AudienceType;
 
 import com.google.gson.Gson;
 
@@ -37,7 +38,7 @@ public class MessageParams {
 	/*
 	 * 枚举类定义 ReceiverTypeEnum
 	 */
-	private ReceiverTypeEnum receiverType;
+	private AudienceType receiverType;
 
 	/*
 	 * 发送范围值，与 receiverType 相对应。
@@ -60,7 +61,7 @@ public class MessageParams {
 	/*
 	 * 目标用户中断手机的平台类型，如：android, ios
 	 */
-	private Set<DeviceEnum> platform = new HashSet<DeviceEnum>();
+	private Set<DeviceType> platform = new HashSet<DeviceType>();
 	
     // 0: development env  1: production env
 	private int apnsProduction;
@@ -128,10 +129,10 @@ public class MessageParams {
 	void setMasterSecret(String masterSecret) {
 		this.masterSecret = masterSecret;
 	}
-	public ReceiverTypeEnum getReceiverType() {
+	public AudienceType getReceiverType() {
 		return this.receiverType;
 	}
-	public void setReceiverType(ReceiverTypeEnum receiverType) {
+	public void setReceiverType(AudienceType receiverType) {
 		this.receiverType = receiverType;
 	}
 	public String getReceiverValue() {
@@ -144,12 +145,12 @@ public class MessageParams {
 	    if (this.platform == null) return "";
 	    
 		String keys = "";
-		for (DeviceEnum key : this.platform) {
+		for (DeviceType key : this.platform) {
 			keys += (key.value() + ",");
 		}
 		return keys.length() > 0 ? keys.substring(0, keys.length()-1) : "";
 	}
-	public void addPlatform(DeviceEnum platform) {
+	public void addPlatform(DeviceType platform) {
 		this.platform.add(platform);
 	}
 

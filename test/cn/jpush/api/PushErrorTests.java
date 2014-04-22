@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.common.ErrorCodeEnum;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.push.model.AudienceType;
 
 public class PushErrorTests {
     private static final String appKey ="dd1066407b044738b6479275";
@@ -22,13 +22,13 @@ public class PushErrorTests {
     
     @Before
     public void before() {
-        jpushAndroid = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
-        jpushIos = new JPushClient(masterSecret, appKey, 0, DeviceEnum.IOS, false);
+        jpushAndroid = new JPushClient(masterSecret, appKey, 0, DeviceType.Android, false);
+        jpushIos = new JPushClient(masterSecret, appKey, 0, DeviceType.IOS, false);
     }
     
     public int sendNotification(String content) {
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.TAG);
+        params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(TAG);
         MessageResult result = jpushAndroid.sendNotification(content, params, null);
         return result.errcode;
@@ -67,7 +67,7 @@ public class PushErrorTests {
     public void testSendNotificationWithInvalidTag() {
 		String invalid_tag = "invalid_tag_1_1_";
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.TAG);
+        params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(invalid_tag);
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
 
@@ -78,7 +78,7 @@ public class PushErrorTests {
 	public void testSendNotificationWithAppKeyInvalidPushByAlgin(){
         String invalid_alias = "invalid_alias_1_1_";
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.ALIAS);
+        params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(invalid_alias);
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
         

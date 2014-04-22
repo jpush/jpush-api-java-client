@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.push.model.AudienceType;
 import cn.jpush.api.report.ReceivedsResult;
 
 public class JPushClientExample {
@@ -28,11 +28,11 @@ public class JPushClientExample {
 	}
 
 	private static void testSend() {
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceType.Android, false);
 		NotificationParams params = new NotificationParams();
 		//params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
 		//params.setReceiverValue(registrationID);
-		params.setReceiverType(ReceiverTypeEnum.TAG);
+		params.setReceiverType(AudienceType.TAG);
 		params.setReceiverValue(TAG);
 		
 		MessageResult msgResult = jpushClient.sendNotification(CONTENT, params, null);

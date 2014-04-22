@@ -7,11 +7,11 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.push.IosExtras;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.push.model.AudienceType;
 
 public class PushFunctionTests {
     private static final String appKey ="dd1066407b044738b6479275";
@@ -28,8 +28,8 @@ public class PushFunctionTests {
     
     @Before
     public void before() {
-        jpushAndroid = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
-        jpushIos = new JPushClient(masterSecret, appKey, 0, DeviceEnum.IOS, false);
+        jpushAndroid = new JPushClient(masterSecret, appKey, 0, DeviceType.Android, false);
+        jpushIos = new JPushClient(masterSecret, appKey, 0, DeviceType.IOS, false);
     }
 	
 	
@@ -47,7 +47,7 @@ public class PushFunctionTests {
 		extra.put("ios", iosExtra);
 		
 		NotificationParams params = new NotificationParams();
-		params.setReceiverType(ReceiverTypeEnum.APP_KEY);
+		params.setReceiverType(AudienceType.APP_KEY);
 		
 		MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
@@ -56,7 +56,7 @@ public class PushFunctionTests {
 	@Test
     public void sendNotificationWithAlias() {
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.ALIAS);
+        params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
         
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
@@ -71,7 +71,7 @@ public class PushFunctionTests {
         extra.put("ios", iosExtra);
 		
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.ALIAS);
+        params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
         
         MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
@@ -81,7 +81,7 @@ public class PushFunctionTests {
 	@Test
 	public void sendNotificationWithTag(){
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.TAG);
+        params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(TAG);
         
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
@@ -96,7 +96,7 @@ public class PushFunctionTests {
         extra.put("ios", iosExtra);
         
         NotificationParams params = new NotificationParams();
-        params.setReceiverType(ReceiverTypeEnum.ALIAS);
+        params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
 		
         MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);

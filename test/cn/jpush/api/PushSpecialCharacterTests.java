@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.push.model.AudienceType;
 
 /** 
  * 测试特殊字符
@@ -24,12 +24,12 @@ public class PushSpecialCharacterTests {
 	
 	@Before
 	public void before(){
-		jpush = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
+		jpush = new JPushClient(masterSecret, appKey, 0, DeviceType.Android, false);
 	}
 	
 	public int sendMessage(String content) {
 	    NotificationParams params = new NotificationParams();
-	    params.setReceiverType(ReceiverTypeEnum.TAG);
+	    params.setReceiverType(AudienceType.TAG);
 	    params.setReceiverValue("jpush_0986b893");
 	    MessageResult result = jpush.sendNotification(content, params, null);
 	    return result.errcode;

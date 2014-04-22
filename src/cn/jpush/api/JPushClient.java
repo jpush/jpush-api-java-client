@@ -2,13 +2,13 @@ package cn.jpush.api;
 
 import java.util.Map;
 
-import cn.jpush.api.common.DeviceEnum;
+import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.push.CustomMessageParams;
 import cn.jpush.api.push.MessageParams;
 import cn.jpush.api.push.MessageResult;
 import cn.jpush.api.push.NotificationParams;
 import cn.jpush.api.push.PushClient;
-import cn.jpush.api.push.ReceiverTypeEnum;
+import cn.jpush.api.push.model.AudienceType;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.ReportClient;
 
@@ -41,7 +41,7 @@ public class JPushClient {
 	 * @param device The target device of the push. If null will send to all platforms.
 	 * @param apnsProduction If iOS push which environment should be use for sending APNs.
 	 */
-	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device, boolean apnsProduction) {
+	public JPushClient(String masterSecret, String appKey, long timeToLive, DeviceType device, boolean apnsProduction) {
 	    _pushClient = new PushClient(masterSecret, appKey, timeToLive, device, apnsProduction);
 	    _reportClient = new ReportClient(masterSecret, appKey);
 	}
@@ -58,7 +58,7 @@ public class JPushClient {
 	
 	public MessageResult sendCustomMessageAll(String msgTitle, String msgContent) {
 	    CustomMessageParams params = new CustomMessageParams();
-        params.setReceiverType(ReceiverTypeEnum.APP_KEY);
+        params.setReceiverType(AudienceType.APP_KEY);
         //params.setTimeToLive(MessageParams.DEFAULT_TIME_TO_LIVE);
         //params.setSendNo(1);
         //params.setOverrideMsgId("");
@@ -67,7 +67,7 @@ public class JPushClient {
 	
 	public MessageResult sendNotificationAll(String notificationContent) {
 	    NotificationParams params = new NotificationParams();
-	    params.setReceiverType(ReceiverTypeEnum.APP_KEY);
+	    params.setReceiverType(AudienceType.APP_KEY);
         //params.setTimeToLive(MessageParams.DEFAULT_TIME_TO_LIVE);
 	    //params.setSendNo(1);
         //params.setAndroidNotificationTitle("");
