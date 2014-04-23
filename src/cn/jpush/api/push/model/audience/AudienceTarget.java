@@ -1,6 +1,8 @@
-package cn.jpush.api.push.model;
+package cn.jpush.api.push.model.audience;
 
 import java.util.Collection;
+
+import cn.jpush.api.push.model.PushModel;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
@@ -31,8 +33,24 @@ public class AudienceTarget implements PushModel {
     
     public JsonElement toJSON() {
         JsonArray array = new JsonArray();
-        for (String value : values) {
-            array.add(new JsonPrimitive(value));
+        boolean numberValue = false;
+        if (audienceType == AudienceType.REGISTRATION_ID 
+                || audienceType == AudienceType.SEGMENT) {
+            numberValue = true;
+        }
+        
+        try {
+            for (String value : values) {
+                int number = 0;
+                if (numberValue) {
+                    number = Integer.parseInt(value);
+                    array.add(new JsonPrimitive(number));
+                } else {
+                    array.add(new JsonPrimitive(value));
+                }
+            }
+        } catch (NumberFormatException e) {
+            Preconditions.checkArgument(true, "Value of registration_id/segment should be int.");
         }
         return array;
     }
@@ -65,7 +83,7 @@ public class AudienceTarget implements PushModel {
             return this;
         }
         
-        public Builder addAudienceTargetValue(String... values) {
+        public Builder addAudienceTargetValues(String... values) {
             if (null == valueBuilder) {
                 valueBuilder = ImmutableSet.builder();
             }

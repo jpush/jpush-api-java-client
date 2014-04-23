@@ -1,10 +1,9 @@
 package cn.jpush.api.push.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -19,9 +18,9 @@ public class Message implements PushModel {
     
     private final String title;
     private final String content;
-    private final ImmutableSet<Map<String, String>> extras;
+    private final ImmutableMap<String, String> extras;
     
-    private Message(String title, String content, ImmutableSet<Map<String, String>> extras) {
+    private Message(String title, String content, ImmutableMap<String, String> extras) {
         this.title = title;
         this.content = content;
         this.extras = extras;
@@ -29,6 +28,10 @@ public class Message implements PushModel {
     
     public static Builder newBuilder() {
         return new Builder();
+    }
+    
+    public static Message content(String content) {
+        return new Builder().setContent(content).build();
     }
     
     @Override
@@ -51,7 +54,7 @@ public class Message implements PushModel {
     public static class Builder {
         private String title;
         private String content;
-        private ImmutableSet.Builder<Map<String, String>> extrasBuilder;
+        private ImmutableMap.Builder<String, String> extrasBuilder;
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -63,25 +66,26 @@ public class Message implements PushModel {
             return this;
         }
         
-        public Builder addExtra(Map<String, String> extra) {
+        public Builder addExtras(Map<String, String> extras) {
             if (null == extrasBuilder) {
-                extrasBuilder = ImmutableSet.builder();
+                extrasBuilder = ImmutableMap.builder();
             }
-            extrasBuilder.add(extra);
+            extrasBuilder.putAll(extras);
             return this;
         }
         
         public Builder addExtra(String key, String value) {
             Preconditions.checkArgument(null == key || null == value, "Key/Value should not be null.");
-            
-            Map<String, String> extra = new HashMap<String, String>();
-            extra.put(key, value);
-            
-            return addExtra(extra);
+            if (null == extrasBuilder) {
+                extrasBuilder = ImmutableMap.builder();
+            }
+            extrasBuilder.put(key, value);
+            return this;
         }
         
         public Message build() {
-            Preconditions.checkArgument(null == title && null == content && null == extrasBuilder, 
+            Preconditions.checkArgument(! 
+                    (null == title && null == content && null == extrasBuilder), 
                     "No any param is set.");
             return new Message(title, content, (null == extrasBuilder) ? null : extrasBuilder.build());
         }

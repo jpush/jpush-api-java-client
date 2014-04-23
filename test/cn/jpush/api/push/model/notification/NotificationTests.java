@@ -1,10 +1,10 @@
-package cn.jpush.api.push;
+package cn.jpush.api.push.model.notification;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.AndroidNotification;
-import cn.jpush.api.push.model.Notification;
+import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.Notification;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

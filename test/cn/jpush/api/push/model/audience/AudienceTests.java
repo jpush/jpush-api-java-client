@@ -1,11 +1,11 @@
-package cn.jpush.api.push;
+package cn.jpush.api.push.model.audience;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.Audience;
-import cn.jpush.api.push.model.AudienceTarget;
-import cn.jpush.api.push.model.AudienceType;
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.audience.AudienceTarget;
+import cn.jpush.api.push.model.audience.AudienceType;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

@@ -15,8 +15,8 @@ public class Optional implements PushModel {
     
     private final int sendno;
     private final int overrideMsgId;
-    private final long timeToLive;
-    private final boolean apnsProduction;
+    private long timeToLive;
+    private boolean apnsProduction;
     
     private Optional(int sendno, int overrideMsgId, long timeToLive, boolean apnsProduction) {
         this.sendno = sendno;
@@ -27,6 +27,14 @@ public class Optional implements PushModel {
     
     public static Builder newBuilder() {
         return new Builder();
+    }
+    
+    public void setApnsProduction(boolean apnsProduction) {
+        this.apnsProduction = apnsProduction;
+    }
+    
+    public void setTimeToLive(long timeToLive) {
+        this.timeToLive = timeToLive;
     }
     
     @Override

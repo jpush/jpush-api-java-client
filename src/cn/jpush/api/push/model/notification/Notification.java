@@ -1,4 +1,6 @@
-package cn.jpush.api.push.model;
+package cn.jpush.api.push.model.notification;
+
+import cn.jpush.api.push.model.PushModel;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;

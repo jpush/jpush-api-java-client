@@ -1,4 +1,6 @@
-package cn.jpush.api.push.model;
+package cn.jpush.api.push.model.notification;
+
+import cn.jpush.api.push.model.PushModel;
 
 public abstract class PlatformNotification implements PushModel {
     public static final String ALERT = "alert";

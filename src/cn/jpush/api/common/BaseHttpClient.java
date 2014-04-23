@@ -45,26 +45,23 @@ public class BaseHttpClient {
 	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 
-    protected ResponseResult sendGet(String url, boolean enabledSSL, String params, String authCode) {
-		return sendRequest(url, enabledSSL, params, "GET", authCode);
+    protected ResponseResult sendGet(String url, String params, String authCode) {
+		return sendRequest(url, params, "GET", authCode);
 	}
     
-    protected ResponseResult sendPost(String url, final boolean enableSSL,String params, String authCode) {
-		return sendRequest(url, enableSSL, params, "POST", authCode);
+    protected ResponseResult sendPost(String url, String content, String authCode) {
+		return sendRequest(url, content, "POST", authCode);
 	}
     
-    protected ResponseResult sendRequest(String url, final boolean enableSSL,
-            String params, String method, String authCode) {
-        LOG.debug("Send request to - " + url + ", with params - " + params);
+    protected ResponseResult sendRequest(String url, String content, String method, String authCode) {
+        LOG.debug("Send request to - " + url + ", with content - " + content);
 		HttpURLConnection conn = null;
 		OutputStream out = null;
 		StringBuffer sb = new StringBuffer();
 		ResponseResult result = new ResponseResult();
 		
 		try {
-			if (enableSSL) {
-				initSSL();
-			}
+		    initSSL();
 			
 			URL aUrl = new URL(url);
 			conn = (HttpURLConnection) aUrl.openConnection();
@@ -82,7 +79,7 @@ public class BaseHttpClient {
             if (method.equals("POST")) {
                 conn.setDoOutput(true);     //POST Request
 				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                byte[] data = params.getBytes(CHARSET);
+                byte[] data = content.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Length", String.valueOf(data.length));
 	            out = conn.getOutputStream();
 				out.write(data);

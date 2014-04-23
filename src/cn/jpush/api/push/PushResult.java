@@ -4,13 +4,13 @@ import cn.jpush.api.common.BaseResult;
 
 import com.google.gson.annotations.Expose;
 
-public class MessageResult extends BaseResult {
+public class PushResult extends BaseResult {
     @Expose public Long msg_id;
     @Expose public int sendno;
     @Expose public int errcode = ERROR_CODE_NONE;
     @Expose public String errmsg;
 
-    public MessageResult() {
+    public PushResult() {
     }
     
     public long getMessageId() {

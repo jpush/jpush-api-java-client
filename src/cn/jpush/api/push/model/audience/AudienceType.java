@@ -1,4 +1,4 @@
-package cn.jpush.api.push.model;
+package cn.jpush.api.push.model.audience;
 
 public enum AudienceType {
 	TAG("tag"),

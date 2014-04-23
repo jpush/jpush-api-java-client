@@ -18,12 +18,12 @@ public class ReportClient extends BaseHttpClient {
 
 	private static Gson _gson = new Gson();
 	
+    private String _masterSecret;
 	private String _appKey;
-	private String _masterSecret;
 	
 	public ReportClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
-	    this._appKey = appKey;
+        this._appKey = appKey;
 	}
 	
 	
@@ -40,7 +40,7 @@ public class ReportClient extends BaseHttpClient {
         ValidateRequestParams.checkReportParams(_appKey, _masterSecret, msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
-        ResponseResult result = sendGet(url, true, null, authCode);
+        ResponseResult result = sendGet(url, null, authCode);
         
         ReceivedsResult receivedsResult = new ReceivedsResult();
         if (result.responseCode == RESPONSE_OK) {

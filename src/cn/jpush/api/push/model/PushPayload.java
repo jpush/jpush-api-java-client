@@ -1,5 +1,8 @@
 package cn.jpush.api.push.model;
 
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.Notification;
+
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,7 +12,7 @@ public class PushPayload implements PushModel {
     private final Audience audience;
     private final Notification notification;
     private final Message message;
-    private final Optional optional;
+    private Optional optional;
     
     private PushPayload(Platform platform, Audience audience, 
             Notification notification, Message message, Optional optional) {
@@ -24,6 +27,33 @@ public class PushPayload implements PushModel {
         return new Builder();
     }
     
+    public static PushPayload notificationAlertAll(String alert) {
+        return new Builder()
+            .setAudience(Audience.all())
+            .setNotification(Notification.alert(alert)).build();
+    }
+    
+    public static PushPayload simpleMessageAll(String content) {
+        return new Builder()
+            .setAudience(Audience.all())
+            .setMessage(Message.content(content)).build();
+    }
+    
+    public void resetOptionalApnsProduction(boolean apnsProduction) {
+        if (null == optional) {
+            optional = Optional.newBuilder().setApnsProduction(apnsProduction).build();
+        } else {
+            optional.setApnsProduction(apnsProduction);
+        }
+    }
+    
+    public void resetOptionalTimeToLive(long timeToLive) {
+        if (null == optional) {
+            optional = Optional.newBuilder().setTimeToLive(timeToLive).build();
+        } else {
+            optional.setTimeToLive(timeToLive);
+        }
+    }
     
     @Override
     public JsonElement toJSON() {

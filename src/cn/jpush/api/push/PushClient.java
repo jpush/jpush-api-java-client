@@ -1,155 +1,74 @@
 package cn.jpush.api.push;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import cn.jpush.api.common.BaseHttpClient;
-import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.common.ResponseResult;
-import cn.jpush.api.common.ValidateRequestParams;
-import cn.jpush.api.utils.StringUtils;
+import cn.jpush.api.push.model.PushPayload;
 
+/**
+ * Entrance for sending Push.
+ * 
+ * For the following parameters, you can set them by instance creation. 
+ * This action will override setting in PushPayload Optional.
+ * * apnsProduction If not present, the default is true.
+ * * timeToLive If not present, the default is 86400(s) (one day).
+ * 
+ * Can be used directly.
+ */
 public class PushClient extends BaseHttpClient {
     private static final String HOST_NAME_SSL = "https://api.jpush.cn";
-    private static final String HOST_NAME = "http://api.jpush.cn:8800";
-    private static final String PUSH_PATH = "/v2/push";
+    private static final String PUSH_PATH = "/v3/push";
     
-    private String appKey;
-    private String masterSecret;
-    private long timeToLive = -1;
-    private boolean enableSSL = false;
-    private boolean apnsProduction = false;
-    private Set<DeviceType> devices = new HashSet<DeviceType>();
-    	
-	public PushClient(String masterSecret, String appKey, long timeToLive, DeviceType device, boolean apnsProduction) {
-		this.masterSecret = masterSecret;
-		this.appKey = appKey;
-		this.timeToLive = timeToLive;
-		this.apnsProduction = apnsProduction;
-        if (null != device) {
-            this.devices.add(device);
-        }
-	}
-
-
-	public MessageResult sendNotification(String notificationContent, NotificationParams params, Map<String, Object> extras) {
-		if (null != extras) {
-			params.getMsgContent().setExtras(extras);
-		}
-		return sendMessage(notificationContent, params);
+    private static final String PUSH_URL = HOST_NAME_SSL + PUSH_PATH;
+    
+    // The API secret of the appKey. Please get it from JPush Web Portal
+    private final String _masterSecret;
+    
+    // The KEY of the Application created on JPush. Please get it from JPush Web Portal
+    private final String _appKey;
+    
+    // If not present, true by default.
+    private boolean _apnsProduction = true;
+    
+    // If not present, the default value is 86400(s) (one day)
+    private long _timeToLive = 60 * 60 * 24;
+    
+    
+    private boolean _overallSettingEnabled = false;
+    
+    // Generated HTTP Basic authorization string.
+    private final String _authCode;
+    
+    
+	public PushClient(String masterSecret, String appKey) {
+        this._masterSecret = masterSecret;
+        this._appKey = appKey;
+        this._authCode = getAuthorizationBase64(_appKey, _masterSecret);
 	}
 	
-	public MessageResult sendCustomMessage(String msgTitle, String msgContent, CustomMessageParams params, Map<String, Object> extras) {
-	    if (null != msgTitle) {
-	        params.getMsgContent().setTitle(msgTitle);
-	    }
-        if (null != extras) {
-            params.getMsgContent().setExtras(extras);
-        }
-        return sendMessage(msgContent, params);
+    public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
+        this(masterSecret, appKey);
+        this._apnsProduction = apnsProduction;
+        this._timeToLive = timeToLive;
+        this._overallSettingEnabled = true;
     }
-
-	
-	private MessageResult sendMessage(String content, MessageParams params) {
-        params.setApnsProduction(this.apnsProduction ? 1 : 0);
-		params.setAppKey(this.getAppKey());
-		params.setMasterSecret(this.masterSecret);
-		if (params.getTimeToLive() == MessageParams.NO_TIME_TO_LIVE) {
-		    // no specific will then use the setting in instance
-		    params.setTimeToLive(this.timeToLive);
-		}
-		for (DeviceType device : this.getDevices()) {
-			params.addPlatform(device);
-		}
-		params.getMsgContent().setMessage(content);
-	    
-		return sendPush(enableSSL, params);
-	}
-
-    public MessageResult sendPush(final boolean enableSSL, final MessageParams params) {
-        ValidateRequestParams.checkPushParams(params);
-        String url = enableSSL ? HOST_NAME_SSL : HOST_NAME;
-        url += PUSH_PATH;
+    
+    public PushResult sendPush(PushPayload pushPayload) {
+        if (_overallSettingEnabled) {
+            pushPayload.resetOptionalTimeToLive(_timeToLive);
+            pushPayload.resetOptionalApnsProduction(_apnsProduction);
+        }
         
-        ResponseResult result = sendPost(url, enableSSL, parse(params), null);
-        MessageResult rr = null;
-        if (result.responseCode == RESPONSE_OK) {
-            rr = _gson.fromJson(result.responseContent, MessageResult.class);
+        ResponseResult response = sendPost(PUSH_URL, pushPayload.toJSON().getAsString(), _authCode);
+        PushResult pushResult = null;
+        if (response.responseCode == RESPONSE_OK) {
+            pushResult = _gson.fromJson(response.responseContent, PushResult.class);
         } else {
-            rr = new MessageResult();
+            pushResult = new PushResult();
         }
-        rr.responseResult = result;
+        pushResult.responseResult = response;
         
-        return rr;
+        return pushResult;
     }
-    
-    protected String parse(MessageParams message) { 
-        String input = String.valueOf(message.getSendNo()) + message.getReceiverType().value() + message.getReceiverValue() + message.getMasterSecret();
-        int msgType = 0;
-        if (message instanceof NotificationParams) {
-            msgType = MsgTypeEnum.NOTIFY.value();
-        } else if (message instanceof CustomMessageParams)  {
-            msgType = MsgTypeEnum.CUSTOM.value();
-        }
-
-        Map<String, String> nvPair = new HashMap<String, String>();
-        nvPair.put("sendno", String.valueOf(message.getSendNo()));
-        nvPair.put("app_key", message.getAppKey());
-        nvPair.put("receiver_type", String.valueOf(message.getReceiverType().value()));
-        nvPair.put("receiver_value", message.getReceiverValue());
-        nvPair.put("verification_code", StringUtils.toMD5(input));
-        nvPair.put("msg_type", String.valueOf(msgType));
-        nvPair.put("msg_content", message.getMsgContent().toString());
-        nvPair.put("platform", message.getPlatform());
-        nvPair.put("apns_production", message.getApnsProduction() + "");
-        if (message.getTimeToLive() >=0) {
-            nvPair.put("time_to_live", String.valueOf(message.getTimeToLive()));
-        }
-        if(null != message.getOverrideMsgId() && !"".equals(message.getOverrideMsgId())){
-            nvPair.put("override_msg_id", message.getOverrideMsgId());
-        }
-
-        return mapWithParms(nvPair);
-    }
-
-    protected String mapWithParms(Map<String, String> nvPair){
-        StringBuilder builder = new StringBuilder();
-        for (Map.Entry<String, String> entry : nvPair.entrySet()) {
-            builder.append(entry.getKey() + "=" + entry.getValue() + "&");
-        }
-        return builder.toString();
-    }
-
-	
-    public String getMasterSecret() {
-        return masterSecret;
-    }
-
-    public long getTimeToLive() {
-        return timeToLive;
-    }
-
-    public String getAppKey() {
-        return this.appKey;
-    }
-
-    public Set<DeviceType> getDevices() {
-        if (null == this.devices) {
-            this.devices = new HashSet<DeviceType>();
-        }
-        if (this.devices.size() == 0) {
-            this.devices.add(DeviceType.Android);
-            this.devices.add(DeviceType.IOS);
-        }
-        return this.devices;
-    }
-
-    public void setEnableSSL(boolean enableSSL) {
-        this.enableSSL = enableSSL;
-    }
-
     
 }
 

@@ -1,4 +1,4 @@
-package cn.jpush.api.push.model;
+package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
 
@@ -8,22 +8,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class AndroidNotification extends PlatformNotification {
-    public static final String NOTIFICATION_ANDROID = "android";
+public class MpnsNotification extends PlatformNotification {
+    public static final String NOTIFICATION_MPNS = "mpns";
     
     public static final String TITLE = "title";
-    public static final String BUILDER_ID = "builder_id";
     public static final String EXTRAS = "extras";
+    public static final String _OPEN_PAGE = "_open_page";
     
     private final String title;
-    private final int builderId;
+    private final String openPage;
     private final ImmutableMap<String, String> extras;
-        
-    private AndroidNotification(String alert, String title, int builderId, 
+    
+    private MpnsNotification(String alert, String title, String openPage, 
             ImmutableMap<String, String> extras) {
         super(alert);
         this.title = title;
-        this.builderId = builderId;
+        this.openPage = openPage;
         this.extras = extras;
     }
     
@@ -31,14 +31,14 @@ public class AndroidNotification extends PlatformNotification {
         return new Builder();
     }
     
-    public static AndroidNotification alert(String alert) {
+    public static MpnsNotification alert(String alert) {
         return newBuilder().setAlert(alert).build();
     }
     
     
     @Override
     public String getPlatform() {
-        return NOTIFICATION_ANDROID;
+        return NOTIFICATION_MPNS;
     }
     
     @Override
@@ -47,11 +47,11 @@ public class AndroidNotification extends PlatformNotification {
         if (null != alert) {
             json.add(ALERT, new JsonPrimitive(this.alert));
         }
-        if (builderId > 0) {
-            json.add(BUILDER_ID, new JsonPrimitive(this.builderId));
-        }
         if (null != title) {
             json.add(TITLE, new JsonPrimitive(title));
+        }
+        if (null != openPage) {
+            json.add(_OPEN_PAGE, new JsonPrimitive(openPage));
         }
         if (null != extras) {
             JsonObject extrasObject = new JsonObject();
@@ -62,7 +62,7 @@ public class AndroidNotification extends PlatformNotification {
         }
         
         Preconditions.checkArgument(
-                ! (null == alert && null == title && 0 == builderId && null == extras)
+                ! (null == alert && null == title && null == extras)
                 , "No any notification params are set.");
 
         return json;
@@ -72,7 +72,7 @@ public class AndroidNotification extends PlatformNotification {
     public static class Builder {
         private String alert;
         private String title;
-        private int builderId;
+        private String openPage;
         private ImmutableMap.Builder<String, String> extrasBuilder;
         
         public Builder setAlert(String alert) {
@@ -85,8 +85,8 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder setBuilderId(int builderId) {
-            this.builderId = builderId;
+        public Builder setOpenPage(String openPage) {
+            this.openPage = openPage;
             return this;
         }
         
@@ -106,8 +106,8 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
         
-        public AndroidNotification build() {
-            return new AndroidNotification(alert, title, builderId, 
+        public MpnsNotification build() {
+            return new MpnsNotification(alert, title, openPage, 
                     (null == extrasBuilder) ? null : extrasBuilder.build());
         }
     }

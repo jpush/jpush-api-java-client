@@ -1,7 +1,6 @@
 package cn.jpush.api.common;
 import java.util.regex.Pattern;
 
-import cn.jpush.api.push.MessageParams;
 import cn.jpush.api.utils.StringUtils;
 
 public class ValidateRequestParams {
@@ -24,11 +23,6 @@ public class ValidateRequestParams {
 	    
 	}
 	
-	public static void checkPushParams(MessageParams params) {
-	    checkBasic(params.getAppKey(), params.getMasterSecret());
-	    
-	    
-	}
 	
 	public static void checkReportParams(String appKey, String masterSecret, String msgIds) {
 	    checkBasic(appKey, masterSecret);

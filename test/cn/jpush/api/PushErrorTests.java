@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.common.ErrorCodeEnum;
-import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.model.AudienceType;
+import cn.jpush.api.push.model.audience.AudienceType;
 
 public class PushErrorTests {
     private static final String appKey ="dd1066407b044738b6479275";
@@ -30,7 +30,7 @@ public class PushErrorTests {
         NotificationParams params = new NotificationParams();
         params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(TAG);
-        MessageResult result = jpushAndroid.sendNotification(content, params, null);
+        PushResult result = jpushAndroid.sendNotification(content, params, null);
         return result.errcode;
     }
     
@@ -69,7 +69,7 @@ public class PushErrorTests {
         NotificationParams params = new NotificationParams();
         params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(invalid_tag);
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
+        PushResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
 
 		assertEquals(ErrorCodeEnum.NoTarget.value(), result.errcode);
 	}
@@ -80,7 +80,7 @@ public class PushErrorTests {
         NotificationParams params = new NotificationParams();
         params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(invalid_alias);
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
+        PushResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
         
         assertEquals(ErrorCodeEnum.NoTarget.value(), result.errcode);
 	}

@@ -7,11 +7,8 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.jpush.api.common.DeviceType;
-import cn.jpush.api.push.IosExtras;
-import cn.jpush.api.push.MessageResult;
-import cn.jpush.api.push.NotificationParams;
-import cn.jpush.api.push.model.AudienceType;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.audience.AudienceType;
 
 public class PushFunctionTests {
     private static final String appKey ="dd1066407b044738b6479275";
@@ -22,20 +19,18 @@ public class PushFunctionTests {
     private static final String MSG_CONTENT = "JPush Test - error tests";
     private static final int SUCCEED_RESULT_CODE = 0;
 	
-    private JPushClient jpushAndroid = null;
-    private JPushClient jpushIos = null;
+    private JPushClient jpushClient = null;
     
     
     @Before
     public void before() {
-        jpushAndroid = new JPushClient(masterSecret, appKey, 0, DeviceType.Android, false);
-        jpushIos = new JPushClient(masterSecret, appKey, 0, DeviceType.IOS, false);
+        jpushClient = new JPushClient(masterSecret, appKey);
     }
 	
 	
 	@Test
 	public void sendNotificationAll_android(){
-		MessageResult result = jpushAndroid.sendNotificationAll(MSG_CONTENT);
+		PushResult result = jpushClient.sendNotificationAll(MSG_CONTENT);
 		assertEquals(0, result.getErrorCode());
 	}
 	
@@ -49,7 +44,7 @@ public class PushFunctionTests {
 		NotificationParams params = new NotificationParams();
 		params.setReceiverType(AudienceType.APP_KEY);
 		
-		MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
+		PushResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
@@ -59,7 +54,7 @@ public class PushFunctionTests {
         params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
         
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
+        PushResult result = jpushClient.sendNotification(MSG_CONTENT, params, null);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
@@ -74,7 +69,7 @@ public class PushFunctionTests {
         params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
         
-        MessageResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
+        PushResult result = jpushIos.sendNotification(MSG_CONTENT, params, extra);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
@@ -84,7 +79,7 @@ public class PushFunctionTests {
         params.setReceiverType(AudienceType.TAG);
         params.setReceiverValue(TAG);
         
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
+        PushResult result = jpushClient.sendNotification(MSG_CONTENT, params, null);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
@@ -99,7 +94,7 @@ public class PushFunctionTests {
         params.setReceiverType(AudienceType.ALIAS);
         params.setReceiverValue(ALIAS);
 		
-        MessageResult result = jpushAndroid.sendNotification(MSG_CONTENT, params, null);
+        PushResult result = jpushClient.sendNotification(MSG_CONTENT, params, null);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
 	
