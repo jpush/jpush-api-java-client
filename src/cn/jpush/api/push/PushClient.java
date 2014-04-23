@@ -43,6 +43,7 @@ public class PushClient extends BaseHttpClient {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
         this._authCode = getAuthorizationBase64(_appKey, _masterSecret);
+        checkBasic(appKey, masterSecret);
 	}
 	
     public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {

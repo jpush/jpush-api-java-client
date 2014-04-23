@@ -3,9 +3,6 @@ package cn.jpush.api.push.model.notification;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.notification.AndroidNotification;
-import cn.jpush.api.push.model.notification.Notification;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -29,10 +26,21 @@ public class NotificationTests {
     public void testAlertAll() {
         Notification notification = Notification.alert("alert");
         JsonObject json = new JsonObject();
+        json.add("alert", new JsonPrimitive("alert"));
+        
         JsonObject android = new JsonObject();
         android.add("alert", new JsonPrimitive("alert"));
-        json.add("alert", new JsonPrimitive("alert"));
+        
+        JsonObject ios = new JsonObject();
+        ios.add("alert", new JsonPrimitive("alert"));
+        ios.add("sound", new JsonPrimitive(""));
+
+        JsonObject mpns = new JsonObject();
+        mpns.add("alert", new JsonPrimitive("alert"));
+
         json.add("android", android);
+        json.add("ios", ios);
+        json.add("mpns", mpns);
         
         Assert.assertEquals("", json, notification.toJSON());
 

@@ -32,6 +32,8 @@ public class Notification implements PushModel {
     public static Notification alert(String alert) {
         return newBuilder()
                 .addPlatformNotification(AndroidNotification.alert(alert))
+                .addPlatformNotification(IosNotification.alert(alert))
+                .addPlatformNotification(MpnsNotification.alert(alert))
                 .setAlert(alert).build();
     }
     

@@ -2,6 +2,7 @@ package cn.jpush.api.report;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import cn.jpush.api.common.BaseHttpClient;
 import cn.jpush.api.common.ResponseResult;
@@ -24,6 +25,7 @@ public class ReportClient extends BaseHttpClient {
 	public ReportClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
+        checkBasic(appKey, masterSecret);
 	}
 	
 	
@@ -52,7 +54,38 @@ public class ReportClient extends BaseHttpClient {
         return receivedsResult;
     }
 
-}
+    
+    private final static Pattern MSGID_PATTERNS = Pattern.compile("[^0-9, ]");
 
+    public static void checkMsgids(String msgIds) {
+        if (StringUtils.isTrimedEmpty(msgIds)) {
+            throw new IllegalArgumentException("msgIds param is required.");
+        }
+        
+        if (MSGID_PATTERNS.matcher(msgIds).find()) {
+            throw new IllegalArgumentException("msgIds param format is incorrect. "
+                    + "It should be msg_id (number) which response from JPush Push API. "
+                    + "If there are many, use ',' as interval. ");
+        }
+        
+        msgIds = msgIds.trim();
+        if (msgIds.endsWith(",")) {
+            msgIds = msgIds.substring(0, msgIds.length() - 1);
+        }
+        
+        String[] splits = msgIds.split(",");
+        try {
+            for (String s : splits) {
+                s = s.trim();
+                if (!StringUtils.isEmpty(s)) {
+                    Integer.parseInt(s);
+                }
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Every msg_id should be valid Integer number which splits by ','");
+        }
+    }
+
+}
 
 
