@@ -22,7 +22,7 @@ public class PushClient extends BaseHttpClient {
     private boolean enableSSL = false;
     private boolean apnsProduction = false;
     private Set<DeviceEnum> devices = new HashSet<DeviceEnum>();
-    	
+
 	public PushClient(String masterSecret, String appKey, long timeToLive, DeviceEnum device, boolean apnsProduction) {
 		this.masterSecret = masterSecret;
 		this.appKey = appKey;

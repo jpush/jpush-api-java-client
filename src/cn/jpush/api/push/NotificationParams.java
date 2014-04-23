@@ -5,11 +5,10 @@ import java.util.Map;
 
 import cn.jpush.api.utils.StringUtils;
 
-/*
- * 通知内容
- */
 public class NotificationParams extends MessageParams {
     public static final int DEFAULT_N_BUILDER_ID = 0;
+    
+    public static final String MPNS_EXTRA_OPEN_PAGE = "_open_page";
     
 	public class NotificationContent extends MessageParams.MsgContent {
 	    
@@ -53,6 +52,10 @@ public class NotificationParams extends MessageParams {
 	}
 	
 	public void setAndroidNotificationTitle(String title) {
+	    this.getMsgContent().setTitle(title);
+	}
+	
+	public void setMpnsNotificationTitle(String title) {
 	    this.getMsgContent().setTitle(title);
 	}
 	

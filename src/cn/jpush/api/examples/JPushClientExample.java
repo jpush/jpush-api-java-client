@@ -1,5 +1,8 @@
 package cn.jpush.api.examples;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,6 +10,7 @@ import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.DeviceEnum;
 import cn.jpush.api.push.CustomMessageParams;
 import cn.jpush.api.push.MessageResult;
+import cn.jpush.api.push.NotificationParams;
 import cn.jpush.api.push.ReceiverTypeEnum;
 import cn.jpush.api.report.ReceivedsResult;
 
@@ -24,9 +28,23 @@ public class JPushClientExample {
 
 	public static void main(String[] args) {
 		testSend();
+		testSendMpnsNotificaiton();
 		testGetReport();
 	}
-
+	
+	private static void testSendMpnsNotificaiton() {
+	    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.MPNS, false);
+	    NotificationParams params = new NotificationParams();
+	    params.setReceiverType(ReceiverTypeEnum.TAG);
+	    params.setReceiverValue(tag);
+	    params.setMpnsNotificationTitle(msgTitle);
+	    
+	    Map<String, Object> extras = new HashMap<String, Object>();
+	    extras.put(NotificationParams.MPNS_EXTRA_OPEN_PAGE, "MainPage.xaml");
+	    
+	    MessageResult msgResult = jpushClient.sendNotification(msgContent, params, extras);
+	}
+	
 	private static void testSend() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
 		CustomMessageParams params = new CustomMessageParams();

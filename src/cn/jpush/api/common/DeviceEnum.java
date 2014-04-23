@@ -3,8 +3,8 @@ package cn.jpush.api.common;
 public enum DeviceEnum {
     
 	Android("android"),
-	
-	IOS("ios");
+	IOS("ios"),
+	MPNS("mpns");
 	
 	private final String value;
 	

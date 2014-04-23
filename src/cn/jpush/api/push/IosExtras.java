@@ -23,10 +23,6 @@ public class IosExtras {
 	 */
 	private int badge = 0;
 	
-	/*
-	 *  当前软件里面的所拥有的铃声名称（如：message.wav)。
-	 *  不设置，手机默认通知铃声
-	 */
 	private String sound = ""; 
 	
 	public int getBadge() {
@@ -46,3 +42,4 @@ public class IosExtras {
 	} 
 	
 }
+
