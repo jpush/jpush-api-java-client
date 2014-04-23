@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.report.ReceivedsResult;
 
 public class JPushClientExample {
@@ -19,13 +20,23 @@ public class JPushClientExample {
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
-		testSend();
+	    //testSendNotification();
+	    testSendMesasge();
 		testGetReport();
 	}
-
-	private static void testSend() {
+	
+	private static void testSendNotification() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        PushPayload payload = PushPayload.notificationAlertAll(CONTENT);
+        jpushClient.sendPush(payload);
 	}
 	
+    private static void testSendMesasge() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        PushPayload payload = PushPayload.simpleMessageAll(CONTENT);
+        jpushClient.sendPush(payload);
+    }
+    
 	public static void testGetReport() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");

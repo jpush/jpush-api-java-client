@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import cn.jpush.api.common.BaseHttpClient;
 import cn.jpush.api.common.ResponseResult;
-import cn.jpush.api.common.ValidateRequestParams;
 import cn.jpush.api.report.ReceivedsResult.Received;
 import cn.jpush.api.utils.StringUtils;
 
@@ -39,7 +38,7 @@ public class ReportClient extends BaseHttpClient {
 	}
 	
     public ReceivedsResult getResportReceived(String msgIds, String authCode) {
-        ValidateRequestParams.checkReportParams(_appKey, _masterSecret, msgIds);
+        checkMsgids(msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
         ResponseResult result = sendGet(url, null, authCode);

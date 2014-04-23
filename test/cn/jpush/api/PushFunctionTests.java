@@ -97,7 +97,5 @@ public class PushFunctionTests {
         PushResult result = jpushClient.sendNotification(MSG_CONTENT, params, null);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
-	
 }
-
 
