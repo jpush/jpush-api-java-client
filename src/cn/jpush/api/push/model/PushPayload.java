@@ -12,15 +12,15 @@ public class PushPayload implements PushModel {
     private final Audience audience;
     private final Notification notification;
     private final Message message;
-    private Optional optional;
+    private Options options;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Optional optional) {
+            Notification notification, Message message, Options options) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
         this.message = message;
-        this.optional = optional;
+        this.options = options;
     }
     
     public static Builder newBuilder() {
@@ -39,19 +39,19 @@ public class PushPayload implements PushModel {
             .setMessage(Message.content(content)).build();
     }
     
-    public void resetOptionalApnsProduction(boolean apnsProduction) {
-        if (null == optional) {
-            optional = Optional.newBuilder().setApnsProduction(apnsProduction).build();
+    public void resetOptionsApnsProduction(boolean apnsProduction) {
+        if (null == options) {
+            options = Options.newBuilder().setApnsProduction(apnsProduction).build();
         } else {
-            optional.setApnsProduction(apnsProduction);
+            options.setApnsProduction(apnsProduction);
         }
     }
     
-    public void resetOptionalTimeToLive(long timeToLive) {
-        if (null == optional) {
-            optional = Optional.newBuilder().setTimeToLive(timeToLive).build();
+    public void resetOptionsTimeToLive(long timeToLive) {
+        if (null == options) {
+            options = Options.newBuilder().setTimeToLive(timeToLive).build();
         } else {
-            optional.setTimeToLive(timeToLive);
+            options.setTimeToLive(timeToLive);
         }
     }
     
@@ -67,17 +67,17 @@ public class PushPayload implements PushModel {
             json.add(Message.MESSAGE, message.toJSON());
         }
         if (null != message) {
-            json.add(Optional.OPTIONAL, optional.toJSON());
+            json.add(Options.OPTIONAL, options.toJSON());
         }
         return json;
     }
     
     public static class Builder {
-        private Platform platform = Platform.all();
+        private Platform platform = null;
         private Audience audience = null;
         private Notification notification = null;
         private Message message = null;
-        private Optional optional = null;
+        private Options options = null;
         
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
@@ -99,15 +99,15 @@ public class PushPayload implements PushModel {
             return this;
         }
         
-        public Builder setOptional(Optional optional) {
-            this.optional = optional;
+        public Builder setOptions(Options options) {
+            this.options = options;
             return this;
         }
         
         public PushPayload build() {
-            Preconditions.checkArgument(null != audience, "Audience should be set.");
+            Preconditions.checkArgument(! (null == audience || null == platform), "Audience should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
-            return new PushPayload(platform, audience, notification, message, optional);
+            return new PushPayload(platform, audience, notification, message, options);
         }
     }
 }

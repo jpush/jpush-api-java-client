@@ -3,8 +3,6 @@ package cn.jpush.api.push.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.Platform;
-import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
 
@@ -39,17 +37,20 @@ public class PushPayloadTests {
         PushPayload.newBuilder().setPlatform(platform).setNotification(notifcation).build();
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testIllegal_NoPlatform() {
         Audience audience = Audience.all();
         Notification notifcation = Notification.alert("alert");
-        PushPayload push = PushPayload.newBuilder().setAudience(audience).setNotification(notifcation).build();
+        PushPayload.newBuilder().setAudience(audience).setNotification(notifcation).build();
+    }
+    
+    public void testNormal() {
+        Platform platform = Platform.all();
+        Audience audience = Audience.all();
+        Notification notifcation = Notification.alert("alert");
+        PushPayload payload = PushPayload.newBuilder().setAudience(audience).setNotification(notifcation).build();
         
-        JsonObject json = new JsonObject();
-        json.add("audience", new JsonPrimitive("all"));
-        json.add("platform", new JsonPrimitive("all"));
-        json.add("notification", getNotificationAlert("alert"));
-        Assert.assertEquals("", json, push.toJSON());
+        Assert.assertEquals("", getNotificationAlert("alert"), payload.toJSON());
     }
 
     public JsonObject getNotificationAlert(String alert) {

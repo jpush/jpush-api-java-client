@@ -54,8 +54,8 @@ public class PushClient extends BaseHttpClient {
     
     public PushResult sendPush(PushPayload pushPayload) {
         if (_overallSettingEnabled) {
-            pushPayload.resetOptionalTimeToLive(_timeToLive);
-            pushPayload.resetOptionalApnsProduction(_apnsProduction);
+            pushPayload.resetOptionsTimeToLive(_timeToLive);
+            pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
         ResponseResult response = sendPost(PUSH_URL, pushPayload.toJSON().getAsString(), _authCode);

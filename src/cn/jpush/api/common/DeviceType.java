@@ -4,7 +4,7 @@ public enum DeviceType {
     
 	Android("android"),
 	IOS("ios"),
-	MPNs("mpns");
+	WinPhone("winphone");
 	
 	private final String value;
 	

@@ -50,6 +50,20 @@ public class Audience implements PushModel {
         return newBuilder().addAudienceTarget(target).build();
     }
     
+    public static Audience tagAnd(String... tagValue) {
+        AudienceTarget target = AudienceTarget.newBuilder()
+                .setAudienceType(AudienceType.TAG_AND)
+                .addAudienceTargetValues(tagValue).build();
+        return newBuilder().addAudienceTarget(target).build();
+    }
+    
+    public static Audience tagAnd(Collection<String> tagValues) {
+        AudienceTarget target = AudienceTarget.newBuilder()
+                .setAudienceType(AudienceType.TAG_AND)
+                .addAudienceTargetValues(tagValues).build();
+        return newBuilder().addAudienceTarget(target).build();
+    }
+    
     public static Audience alias(String... alias) {
         AudienceTarget target = AudienceTarget.newBuilder()
                 .setAudienceType(AudienceType.ALIAS)

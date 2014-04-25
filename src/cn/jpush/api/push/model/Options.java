@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class Optional implements PushModel {
+public class Options implements PushModel {
     public static final String OPTIONAL = "optional";
     
     public static final String SENDNO = "sendno";
@@ -18,7 +18,7 @@ public class Optional implements PushModel {
     private long timeToLive;
     private boolean apnsProduction;
     
-    private Optional(int sendno, int overrideMsgId, long timeToLive, boolean apnsProduction) {
+    private Options(int sendno, int overrideMsgId, long timeToLive, boolean apnsProduction) {
         this.sendno = sendno;
         this.overrideMsgId = overrideMsgId;
         this.timeToLive = timeToLive;
@@ -81,11 +81,11 @@ public class Optional implements PushModel {
             return this;
         }
         
-        public Optional build() {
+        public Options build() {
             Preconditions.checkArgument(sendno >= 0, "sendno should be greater than 0.");
             Preconditions.checkArgument(overrideMsgId >= 0, "override_msg_id should be greater than 0.");
             Preconditions.checkArgument(timeToLive >= 0, "time_to_live should be greater than 0.");
-            return new Optional(sendno, overrideMsgId, timeToLive, apnsProduction);
+            return new Options(sendno, overrideMsgId, timeToLive, apnsProduction);
         }
     }
 
