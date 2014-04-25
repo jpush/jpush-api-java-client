@@ -2,7 +2,7 @@ package cn.jpush.api.push.model.audience;
 
 public enum AudienceType {
 	TAG("tag"),
-	TAGAND("tag_and"),
+	TAG_AND("tag_and"),
 	ALIAS("alias"),
 	SEGMENT("segment"),
 	REGISTRATION_ID("registration_id");

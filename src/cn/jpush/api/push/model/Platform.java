@@ -29,6 +29,18 @@ public class Platform implements PushModel {
         return newBuilder().setAll(true).build();
     }
     
+    public static Platform android() {
+        return newBuilder().addDeviceType(DeviceType.Android).build();
+    }
+    
+    public static Platform ios() {
+        return newBuilder().addDeviceType(DeviceType.IOS).build();
+    }
+    
+    public static Platform winphone() {
+        return newBuilder().addDeviceType(DeviceType.WinPhone).build();
+    }
+    
     public boolean isAll() {
         return all;
     }
