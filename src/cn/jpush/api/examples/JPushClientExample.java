@@ -18,31 +18,48 @@ public class JPushClientExample {
     protected static final Logger LOG = LoggerFactory.getLogger(JPushClientExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-	private static final String appKey ="dd1066407b044738b6479275";
-	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
+	private static final String appKey = "82d5658a74e76241f402d4a4";   //"dd1066407b044738b6479275";
+	private static final String masterSecret = "451f2e305b6a9f523b3d015c";     //"2b38ce69b1de2a7fa95706ea";
 	
 	public static final String msgTitle = "Test from API example";
     public static final String msgContent = "Test Test";
-    public static final String registrationID = "0900e8d85ef";
+    public static final String registrationID = "092923191f1";
     public static final String tag = "tag_api";
 
 	public static void main(String[] args) {
-		testSend();
+//		testSend();
 		testSendMpnsNotificaiton();
-		testGetReport();
+//		testGetReport();
 	}
 	
 	private static void testSendMpnsNotificaiton() {
 	    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.MPNS, false);
 	    NotificationParams params = new NotificationParams();
-	    params.setReceiverType(ReceiverTypeEnum.TAG);
-	    params.setReceiverValue(tag);
+	    params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
+	    params.setReceiverValue(registrationID);
 	    params.setMpnsNotificationTitle(msgTitle);
 	    
 	    Map<String, Object> extras = new HashMap<String, Object>();
-	    extras.put(NotificationParams.MPNS_EXTRA_OPEN_PAGE, "MainPage.xaml");
+	    extras.put(NotificationParams.MPNS_EXTRA_OPEN_PAGE, "/MainPage.xaml");
+	    extras.put("key1", "value1");
+	    extras.put("key2", "value2");
 	    
 	    MessageResult msgResult = jpushClient.sendNotification(msgContent, params, extras);
+        if (msgResult.isResultOK()) {
+            LOG.info("msgResult - " + msgResult);
+            LOG.info("messageId - " + msgResult.getMessageId());
+        } else {
+            if (msgResult.getErrorCode() > 0) {
+                // 业务异常
+                LOG.warn("Service error - ErrorCode: "
+                        + msgResult.getErrorCode() + ", ErrorMessage: "
+                        + msgResult.getErrorMessage());
+            } else {
+                // 未到达 JPush 
+                LOG.error("Other excepitons - "
+                        + msgResult.responseResult.exceptionString);
+            }
+        }
 	}
 	
 	private static void testSend() {
