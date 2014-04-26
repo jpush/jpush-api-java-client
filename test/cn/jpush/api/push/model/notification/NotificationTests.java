@@ -21,7 +21,7 @@ public class NotificationTests {
                 .build();
         Assert.assertEquals("", "", notification.toJSON());
     }
-        
+    
     @Test
     public void testAlertAndroid() {
         Notification notification = Notification.newBuilder()
@@ -31,6 +31,31 @@ public class NotificationTests {
         JsonObject android = new JsonObject();
         android.add("alert", new JsonPrimitive("alert"));
         json.add("android", android);
+        Assert.assertEquals("", json, notification.toJSON());
+    }
+    
+    @Test
+    public void testAlertIos() {
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(IosNotification.alert("alert"))
+                .build();
+        JsonObject json = new JsonObject();
+        JsonObject ios = new JsonObject();
+        ios.add("alert", new JsonPrimitive("alert"));
+        ios.add("sound", new JsonPrimitive(""));
+        json.add("ios", ios);
+        Assert.assertEquals("", json, notification.toJSON());
+    }
+    
+    @Test
+    public void testAlertMpns() {
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(MpnsNotification.alert("alert"))
+                .build();
+        JsonObject json = new JsonObject();
+        JsonObject mpns = new JsonObject();
+        mpns.add("alert", new JsonPrimitive("alert"));
+        json.add("mpns", mpns);
         Assert.assertEquals("", json, notification.toJSON());
     }
     
