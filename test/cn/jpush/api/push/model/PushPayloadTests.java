@@ -41,26 +41,68 @@ public class PushPayloadTests {
     public void testIllegal_NoPlatform() {
         Audience audience = Audience.all();
         Notification notifcation = Notification.alert("alert");
-        PushPayload.newBuilder().setAudience(audience).setNotification(notifcation).build();
+        PushPayload.newBuilder()
+            .setAudience(audience)
+            .setNotification(notifcation).build();
     }
     
-    public void testNormal() {
-        Platform platform = Platform.all();
-        Audience audience = Audience.all();
+    @Test
+    public void testQuickNotification() {
+        PushPayload payload = PushPayload.notificationAlertAll("alert");
+        JsonObject json = new JsonObject();
+        JsonObject noti = new JsonObject();
+        noti.add("alert", new JsonPrimitive("alert"));
+        json.add("notification", noti);
+        json.add("audience", new JsonPrimitive("all"));
+        json.add("platform", new JsonPrimitive("all"));
+        Assert.assertEquals("", json, payload.toJSON());
+    }
+    
+    @Test
+    public void testQuickMessage() {
+        PushPayload payload = PushPayload.simpleMessageAll("message");
+        JsonObject json = new JsonObject();
+        JsonObject msg = new JsonObject();
+        msg.add("content", new JsonPrimitive("message"));
+        json.add("message", msg);
+        json.add("audience", new JsonPrimitive("all"));
+        json.add("platform", new JsonPrimitive("all"));
+        Assert.assertEquals("", json, payload.toJSON());
+    }
+    
+    @Test
+    public void testNotification() {
         Notification notifcation = Notification.alert("alert");
-        PushPayload payload = PushPayload.newBuilder().setAudience(audience).setNotification(notifcation).build();
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(notifcation).build();
         
-        Assert.assertEquals("", getNotificationAlert("alert"), payload.toJSON());
+        JsonObject json = new JsonObject();
+        JsonObject noti = new JsonObject();
+        noti.add("alert", new JsonPrimitive("alert"));
+        json.add("notification", noti);
+        json.add("audience", new JsonPrimitive("all"));
+        json.add("platform", new JsonPrimitive("all"));
+        Assert.assertEquals("", json, payload.toJSON());
     }
 
-    public JsonObject getNotificationAlert(String alert) {
+    @Test
+    public void testMessage() {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setMessage(Message.content("message")).build();
+        
         JsonObject json = new JsonObject();
-        JsonObject android = new JsonObject();
-        android.add("alert", new JsonPrimitive("alert"));
-        json.add("alert", new JsonPrimitive("alert"));
-        json.add("android", android);
-        return json;
+        JsonObject msg = new JsonObject();
+        msg.add("content", new JsonPrimitive("message"));
+        json.add("message", msg);
+        json.add("audience", new JsonPrimitive("all"));
+        json.add("platform", new JsonPrimitive("all"));
+        Assert.assertEquals("", json, payload.toJSON());
     }
+
 }
 
 

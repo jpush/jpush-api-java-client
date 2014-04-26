@@ -4,10 +4,13 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class PushPayload implements PushModel {
+    private static Gson _gson = new Gson();
+    
     private final Platform platform;
     private final Audience audience;
     private final Notification notification;
@@ -29,12 +32,14 @@ public class PushPayload implements PushModel {
     
     public static PushPayload notificationAlertAll(String alert) {
         return new Builder()
+            .setPlatform(Platform.all())
             .setAudience(Audience.all())
             .setNotification(Notification.alert(alert)).build();
     }
     
     public static PushPayload simpleMessageAll(String content) {
         return new Builder()
+            .setPlatform(Platform.all())
             .setAudience(Audience.all())
             .setMessage(Message.content(content)).build();
     }
@@ -58,18 +63,27 @@ public class PushPayload implements PushModel {
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
-        json.add(Platform.PLATFORM, platform.toJSON());
-        json.add(Audience.AUDIENCE, audience.toJSON());
+        if (null != platform) {
+            json.add(Platform.PLATFORM, platform.toJSON());
+        }
+        if (null != audience) {
+            json.add(Audience.AUDIENCE, audience.toJSON());
+        }
         if (null != notification) {
             json.add(Notification.NOTIFICATION, notification.toJSON());
         }
         if (null != message) {
             json.add(Message.MESSAGE, message.toJSON());
         }
-        if (null != message) {
-            json.add(Options.OPTIONAL, options.toJSON());
+        if (null != options) {
+            json.add(Options.OPTIONS, options.toJSON());
         }
         return json;
+    }
+    
+    @Override
+    public String toString() {
+        return _gson.toJson(toJSON());
     }
     
     public static class Builder {
@@ -105,7 +119,7 @@ public class PushPayload implements PushModel {
         }
         
         public PushPayload build() {
-            Preconditions.checkArgument(! (null == audience || null == platform), "Audience should be set.");
+            Preconditions.checkArgument(! (null == audience || null == platform), "Audience/Platform should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
             return new PushPayload(platform, audience, notification, message, options);
         }

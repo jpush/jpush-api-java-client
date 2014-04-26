@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class MpnsNotificationTests {
+public class WinPhoneNotificationTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegal() {

@@ -15,7 +15,7 @@ import cn.jpush.api.push.model.PushPayload;
  * Can be used directly.
  */
 public class PushClient extends BaseHttpClient {
-    private static final String HOST_NAME_SSL = "https://api.jpush.cn";
+    public static String HOST_NAME_SSL = "https://api.jpush.cn";
     private static final String PUSH_PATH = "/v3/push";
     
     private static final String PUSH_URL = HOST_NAME_SSL + PUSH_PATH;
@@ -59,7 +59,7 @@ public class PushClient extends BaseHttpClient {
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        ResponseResult response = sendPost(PUSH_URL, pushPayload.toJSON().getAsString(), _authCode);
+        ResponseResult response = sendPost(PUSH_URL, pushPayload.toString(), _authCode);
         PushResult pushResult = null;
         if (response.responseCode == RESPONSE_OK) {
             pushResult = _gson.fromJson(response.responseContent, PushResult.class);

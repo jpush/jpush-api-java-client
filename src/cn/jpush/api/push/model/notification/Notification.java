@@ -24,17 +24,14 @@ public class Notification implements PushModel {
     }
     
     /**
-     * Quick set all platform alert
+     * Quick set all platform alert. 
+     * Platform notification can override this alert. 
      * 
      * @param alert Notification alert
      * @return first level notification object
      */
     public static Notification alert(String alert) {
-        return newBuilder()
-                .addPlatformNotification(AndroidNotification.alert(alert))
-                .addPlatformNotification(IosNotification.alert(alert))
-                .addPlatformNotification(MpnsNotification.alert(alert))
-                .setAlert(alert).build();
+        return newBuilder().setAlert(alert).build();
     }
     
     public JsonElement toJSON() {
@@ -42,11 +39,13 @@ public class Notification implements PushModel {
         if (null != alert) {
             json.add(PlatformNotification.ALERT, new JsonPrimitive(alert));
         }
-        for (PlatformNotification pn : notifications) {
-            if (this.alert != null && pn.getAlert() == null) {
-                pn.setAlert(this.alert);
+        if (null != notifications) {
+            for (PlatformNotification pn : notifications) {
+                if (this.alert != null && pn.getAlert() == null) {
+                    pn.setAlert(this.alert);
+                }
+                json.add(pn.getPlatform(), pn.toJSON());
             }
-            json.add(pn.getPlatform(), pn.toJSON());
         }
         return json;
     }
@@ -69,8 +68,9 @@ public class Notification implements PushModel {
         }
         
         public Notification build() {
-            Preconditions.checkArgument(! (null == builder), "Should set at least one platform notification");
-            return new Notification(alert, builder.build());
+            Preconditions.checkArgument(! (null == builder && null == alert), 
+                    "No notification payload is set.");
+            return new Notification(alert, (null == builder) ? null : builder.build());
         }
     }
 }

@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Options implements PushModel {
-    public static final String OPTIONAL = "optional";
+    public static final String OPTIONS = "options";
     
     public static final String SENDNO = "sendno";
     public static final String OVERRIDE_MSG_ID = "override_msg_id";

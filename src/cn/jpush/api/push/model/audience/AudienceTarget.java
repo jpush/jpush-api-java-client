@@ -33,24 +33,8 @@ public class AudienceTarget implements PushModel {
     
     public JsonElement toJSON() {
         JsonArray array = new JsonArray();
-        boolean numberValue = false;
-        if (audienceType == AudienceType.REGISTRATION_ID 
-                || audienceType == AudienceType.SEGMENT) {
-            numberValue = true;
-        }
-        
-        try {
-            for (String value : values) {
-                int number = 0;
-                if (numberValue) {
-                    number = Integer.parseInt(value);
-                    array.add(new JsonPrimitive(number));
-                } else {
-                    array.add(new JsonPrimitive(value));
-                }
-            }
-        } catch (NumberFormatException e) {
-            Preconditions.checkArgument(true, "Value of registration_id/segment should be int.");
+        for (String value : values) {
+            array.add(new JsonPrimitive(value));
         }
         return array;
     }
