@@ -50,12 +50,12 @@ public class NotificationTests {
     @Test
     public void testAlertMpns() {
         Notification notification = Notification.newBuilder()
-                .addPlatformNotification(MpnsNotification.alert("alert"))
+                .addPlatformNotification(WinphoneNotification.alert("alert"))
                 .build();
         JsonObject json = new JsonObject();
-        JsonObject mpns = new JsonObject();
-        mpns.add("alert", new JsonPrimitive("alert"));
-        json.add("mpns", mpns);
+        JsonObject winphone = new JsonObject();
+        winphone.add("alert", new JsonPrimitive("alert"));
+        json.add("winphone", winphone);
         Assert.assertEquals("", json, notification.toJSON());
     }
     

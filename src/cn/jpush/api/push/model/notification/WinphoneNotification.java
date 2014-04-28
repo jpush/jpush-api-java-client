@@ -8,8 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class MpnsNotification extends PlatformNotification {
-    public static final String NOTIFICATION_MPNS = "mpns";
+public class WinphoneNotification extends PlatformNotification {
+    public static final String NOTIFICATION_WINPHONE = "winphone";
     
     public static final String TITLE = "title";
     public static final String EXTRAS = "extras";
@@ -19,7 +19,7 @@ public class MpnsNotification extends PlatformNotification {
     private final String openPage;
     private final ImmutableMap<String, String> extras;
     
-    private MpnsNotification(String alert, String title, String openPage, 
+    private WinphoneNotification(String alert, String title, String openPage, 
             ImmutableMap<String, String> extras) {
         super(alert);
         this.title = title;
@@ -31,14 +31,14 @@ public class MpnsNotification extends PlatformNotification {
         return new Builder();
     }
     
-    public static MpnsNotification alert(String alert) {
+    public static WinphoneNotification alert(String alert) {
         return newBuilder().setAlert(alert).build();
     }
     
     
     @Override
     public String getPlatform() {
-        return NOTIFICATION_MPNS;
+        return NOTIFICATION_WINPHONE;
     }
     
     @Override
@@ -106,8 +106,8 @@ public class MpnsNotification extends PlatformNotification {
             return this;
         }
         
-        public MpnsNotification build() {
-            return new MpnsNotification(alert, title, openPage, 
+        public WinphoneNotification build() {
+            return new WinphoneNotification(alert, title, openPage, 
                     (null == extrasBuilder) ? null : extrasBuilder.build());
         }
     }
