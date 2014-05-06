@@ -10,3 +10,4 @@ test-output/
 *.war
 *.ear
 release.properties
+pom.xml.releaseBackup
