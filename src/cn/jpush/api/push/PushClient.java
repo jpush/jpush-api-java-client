@@ -142,6 +142,7 @@ public class PushClient extends BaseHttpClient {
         if (this.devices.size() == 0) {
             this.devices.add(DeviceEnum.Android);
             this.devices.add(DeviceEnum.IOS);
+            this.devices.add(DeviceEnum.WinPhone);
         }
         return this.devices;
     }

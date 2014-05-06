@@ -33,7 +33,7 @@ public class JPushClientExample {
 	}
 	
 	private static void testSendMpnsNotificaiton() {
-	    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.MPNS, false);
+	    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.WinPhone, false);
 	    NotificationParams params = new NotificationParams();
 	    params.setReceiverType(ReceiverTypeEnum.REGISTRATION_ID);
 	    params.setReceiverValue(registrationID);
