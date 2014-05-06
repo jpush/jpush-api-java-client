@@ -1,5 +1,7 @@
 package cn.jpush.api.common;
 
+import cn.jpush.api.common.ResponseResult.ErrorObject;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,12 +15,34 @@ public abstract class BaseResult {
     
     public ResponseResult responseResult;
     
-    public abstract boolean isResultOK();
+    protected ErrorObject getErrorObject() {
+        if (null != responseResult) {
+            return responseResult.error;
+        }
+        return null;
+    }
     
-    public abstract int getErrorCode();
+    public int getErrorCode() {
+        ErrorObject eo = getErrorObject();
+        if (null != eo) {
+            return eo.code;
+        }
+        return ERROR_CODE_OK;
+    }
     
-    public abstract String getErrorMessage();
+    public String getErrorMessage() {
+        ErrorObject eo = getErrorObject();
+        if (null != eo) {
+            return eo.message;
+        }
+        return ERROR_MESSAGE_NONE;
+    }
     
+    public boolean isResultOK() {
+        if (responseResult.responseCode == RESPONSE_OK) return true;
+        return false;
+    }
+
     public int getRateLimitQuota() {
         if (null != responseResult) {
             return responseResult.rateLimitQuota;
@@ -39,5 +63,11 @@ public abstract class BaseResult {
         }
         return 0;
     }
+    
+    @Override
+    public String toString() {
+        return _gson.toJson(this);
+    }
+
     
 }

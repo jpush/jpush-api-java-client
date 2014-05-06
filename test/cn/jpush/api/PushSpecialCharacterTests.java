@@ -34,7 +34,7 @@ public class PushSpecialCharacterTests {
 	            .setMessage(message)
 	            .build();
 	    PushResult result = jpush.sendPush(payload);
-	    return result.errcode;
+	    return result.getErrorCode();
 	}
 	
 	@Test

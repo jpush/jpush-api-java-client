@@ -32,6 +32,7 @@ public class JPushClientExample {
         LOG.info("Paylaod JSON - " + payload.toString());
         
         PushResult result = jpushClient.sendPush(payload);
+        LOG.debug(result.responseResult.responseContent);
         LOG.debug(result.toString());
 	}
 	
