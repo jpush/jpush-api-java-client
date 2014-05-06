@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.report.ReceivedsResult;
 
@@ -27,14 +27,12 @@ public class JPushClientExample {
 	}
 	
 	private static void testSendNotification() {
-	    // Just for test
-	    PushClient.HOST_NAME_SSL = "https://api.jpush.cn:19688";
-	    
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
         PushPayload payload = PushPayload.notificationAlertAll(CONTENT);
         LOG.info("Paylaod JSON - " + payload.toString());
         
-        jpushClient.sendPush(payload);
+        PushResult result = jpushClient.sendPush(payload);
+        LOG.debug(result.toString());
 	}
 	
     private static void testSendMesasge() {

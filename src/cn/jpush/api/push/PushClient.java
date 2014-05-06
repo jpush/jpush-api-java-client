@@ -15,10 +15,8 @@ import cn.jpush.api.push.model.PushPayload;
  * Can be used directly.
  */
 public class PushClient extends BaseHttpClient {
-    public static String HOST_NAME_SSL = "https://api.jpush.cn";
+    private static String HOST_NAME_SSL = "https://api.jpush.cn";
     private static final String PUSH_PATH = "/v3/push";
-    
-    private static final String PUSH_URL = HOST_NAME_SSL + PUSH_PATH;
     
     // The API secret of the appKey. Please get it from JPush Web Portal
     private final String _masterSecret;
@@ -59,7 +57,8 @@ public class PushClient extends BaseHttpClient {
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        ResponseResult response = sendPost(PUSH_URL, pushPayload.toString(), _authCode);
+        String url = HOST_NAME_SSL + PUSH_PATH;
+        ResponseResult response = sendPost(url, pushPayload.toString(), _authCode);
         PushResult pushResult = null;
         if (response.responseCode == RESPONSE_OK) {
             pushResult = _gson.fromJson(response.responseContent, PushResult.class);
