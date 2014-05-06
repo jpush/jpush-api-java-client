@@ -9,4 +9,4 @@ test-output/
 *.DS_Store
 *.war
 *.ear
-
+release.properties
