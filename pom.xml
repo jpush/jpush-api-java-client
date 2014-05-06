@@ -4,7 +4,7 @@
 	
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
     <packaging>jar</packaging>
     <url>https://github.com/jpush/jpush-api-java-client</url>
     <name>JPush API Java Client</name>
