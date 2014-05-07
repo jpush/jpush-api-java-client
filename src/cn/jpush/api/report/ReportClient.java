@@ -1,16 +1,12 @@
 package cn.jpush.api.report;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import cn.jpush.api.common.BaseHttpClient;
-import cn.jpush.api.common.ResponseResult;
-import cn.jpush.api.report.ReceivedsResult.Received;
+import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.utils.StringUtils;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class ReportClient extends BaseHttpClient {    
     private static final String REPORT_HOST_NAME = "https://report.jpush.cn";
@@ -41,16 +37,9 @@ public class ReportClient extends BaseHttpClient {
         checkMsgids(msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
-        ResponseResult result = sendGet(url, null, authCode);
+        ResponseWrapper response = sendGet(url, null, authCode);
         
-        ReceivedsResult receivedsResult = new ReceivedsResult();
-        if (result.responseCode == RESPONSE_OK) {
-            Type listType = new TypeToken<List<Received>>(){}.getType();
-            receivedsResult.receivedList = _gson.fromJson(result.responseContent, listType);
-        }
-        
-        receivedsResult.responseResult = result;
-        return receivedsResult;
+        return ReceivedsResult.fromResponse(response);
     }
 
     

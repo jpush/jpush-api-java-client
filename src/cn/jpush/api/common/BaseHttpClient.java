@@ -46,20 +46,20 @@ public class BaseHttpClient {
 	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 
-    protected ResponseResult sendGet(String url, String params, String authCode) {
+    protected ResponseWrapper sendGet(String url, String params, String authCode) {
 		return sendRequest(url, params, "GET", authCode);
 	}
     
-    protected ResponseResult sendPost(String url, String content, String authCode) {
+    protected ResponseWrapper sendPost(String url, String content, String authCode) {
 		return sendRequest(url, content, "POST", authCode);
 	}
     
-    protected ResponseResult sendRequest(String url, String content, String method, String authCode) {
+    protected ResponseWrapper sendRequest(String url, String content, String method, String authCode) {
         LOG.debug("Send request to - " + url + ", with content - " + content);
 		HttpURLConnection conn = null;
 		OutputStream out = null;
 		StringBuffer sb = new StringBuffer();
-		ResponseResult result = new ResponseResult();
+		ResponseWrapper wrapper = new ResponseWrapper();
 		
 		try {
 		    initSSL();
@@ -89,7 +89,13 @@ public class BaseHttpClient {
 	            conn.setDoOutput(false);
 			}
             
-            InputStream in = conn.getInputStream();
+            int status = conn.getResponseCode();
+            InputStream in = null;
+            if (status == 200) {
+                in = conn.getInputStream();
+            } else {
+                in = conn.getErrorStream();
+            }
             InputStreamReader reader = new InputStreamReader(in, CHARSET);
             char[] buff = new char[1024];
             int len;
@@ -97,61 +103,61 @@ public class BaseHttpClient {
                 sb.append(buff, 0, len);
             }
             
-            int status = conn.getResponseCode();
             String responseContent = sb.toString();
-            result.responseCode = status;
-            result.responseContent = responseContent;
+            wrapper.responseCode = status;
+            wrapper.responseContent = responseContent;
             
             String quota = conn.getHeaderField(RATE_LIMIT_QUOTA);
             String remaining = conn.getHeaderField(RATE_LIMIT_Remaining);
             String reset = conn.getHeaderField(RATE_LIMIT_Reset);
-            result.setRateLimit(quota, remaining, reset);
+            wrapper.setRateLimit(quota, remaining, reset);
             
             if (status == 200) {
 				LOG.debug("Succeed to get response - 200 OK");
 				
 			} else {
-			    LOG.warn("Got error response - responseCode:" + status + ", responseContent:" + responseContent);
+			    LOG.info("Got error response - responseCode:" + status + ", responseContent:" + responseContent);
 			    
 			    switch (status) {
 			    case 400:
-			        LOG.warn("Your request params is invalid. Please check them according to docs.");
-	                result.setErrorObject();
+			        LOG.error("Your request params is invalid. Please check them according to error message.");
+	                wrapper.setErrorObject();
 			        break;
 			    case 403:
-			        LOG.warn("Request is forbidden! Maybe your appkey is listed in blacklist?");
-	                result.setErrorObject();
+			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist?");
+	                wrapper.setErrorObject();
 			        break;
 			    case 401:
-			        LOG.warn("Authentication failed! Please check authentication params according to docs.");
-	                result.setErrorObject();
+			        LOG.error("Authentication failed! Please check authentication params according to docs.");
+	                wrapper.setErrorObject();
 			        break;
 			    case 429:
-			        LOG.warn("Too many requests! Please review your appkey's request quota.");
-	                result.setErrorObject();
+			        LOG.error("Too many requests! Please review your appkey's request quota.");
+	                wrapper.setErrorObject();
 			        break;
 			    case 500:
-			        LOG.warn("Seems encountered server error. Please retry later.");
+			        LOG.error("Seems encountered server error. Please retry later.");
 			        break;
 			    default:
+                    LOG.error("Unexpected response.");
 			    }
-				return result;
+				return wrapper;
 			}
 
 		} catch (SocketTimeoutException e) {
-		    result.exceptionString = e.getMessage();
+		    wrapper.exceptionString = e.getMessage();
 		    LOG.error("Request timeout. Retry later.", e);
 		} catch (ConnectException e) {
-		    result.exceptionString = e.getMessage();
-		    LOG.error("Connnect error. ", e);
+		    wrapper.exceptionString = e.getMessage();
+		    LOG.error("Connnect error. Retry later.", e);
 		} catch (UnknownHostException e) {
-		    result.exceptionString = e.getMessage();
+		    wrapper.exceptionString = e.getMessage();
 		    LOG.error("Unknown host. Please check the DNS configuration of your server.", e);
         } catch (IOException e) {
-            result.exceptionString = e.getMessage();
-            LOG.error("IO error. ", e);
+            wrapper.exceptionString = e.getMessage();
+            LOG.error("IO error. Retry later.", e);
 		} catch (Exception e) {
-		    result.exceptionString = e.getMessage();
+		    wrapper.exceptionString = e.getMessage();
 		    LOG.error("Unknown exception. ", e);
 		} finally {
 			if (null != out) {
@@ -166,7 +172,7 @@ public class BaseHttpClient {
 			}
 		}
 		
-		return result;
+		return wrapper;
 	}
 
 	protected void initSSL() {

@@ -1,6 +1,6 @@
 package cn.jpush.api.common;
 
-import cn.jpush.api.common.ResponseResult.ErrorObject;
+import cn.jpush.api.common.ResponseWrapper.ErrorContent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,9 +13,9 @@ public abstract class BaseResult {
     protected static final int RESPONSE_OK = 200;
     protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     
-    public ResponseResult responseResult;
+    public ResponseWrapper responseResult;
     
-    protected ErrorObject getErrorObject() {
+    protected ErrorContent getErrorObject() {
         if (null != responseResult) {
             return responseResult.error;
         }
@@ -23,19 +23,31 @@ public abstract class BaseResult {
     }
     
     public int getErrorCode() {
-        ErrorObject eo = getErrorObject();
+        ErrorContent eo = getErrorObject();
         if (null != eo) {
-            return eo.code;
+            return eo.error.code;
         }
-        return ERROR_CODE_OK;
+        if (null != responseResult) {
+            if (responseResult.responseCode == RESPONSE_OK) {
+                return ERROR_CODE_OK;
+            }
+        }
+        return ERROR_CODE_NONE;
     }
     
     public String getErrorMessage() {
-        ErrorObject eo = getErrorObject();
+        ErrorContent eo = getErrorObject();
         if (null != eo) {
-            return eo.message;
+            return eo.error.message;
         }
         return ERROR_MESSAGE_NONE;
+    }
+    
+    public String getOriginalError() {
+        if (null != responseResult) {
+            return responseResult.responseContent;
+        }
+        return null;
     }
     
     public boolean isResultOK() {

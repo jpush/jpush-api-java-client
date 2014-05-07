@@ -1,7 +1,7 @@
 package cn.jpush.api.push;
 
 import cn.jpush.api.common.BaseHttpClient;
-import cn.jpush.api.common.ResponseResult;
+import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.push.model.PushPayload;
 
 /**
@@ -58,16 +58,9 @@ public class PushClient extends BaseHttpClient {
         }
         
         String url = HOST_NAME_SSL + PUSH_PATH;
-        ResponseResult response = sendPost(url, pushPayload.toString(), _authCode);
-        PushResult pushResult = null;
-        if (response.responseCode == RESPONSE_OK) {
-            pushResult = _gson.fromJson(response.responseContent, PushResult.class);
-        } else {
-            pushResult = new PushResult();
-        }
-        pushResult.responseResult = response;
+        ResponseWrapper response = sendPost(url, pushPayload.toString(), _authCode);
         
-        return pushResult;
+        return PushResult.fromResponse(response);
     }
     
 }

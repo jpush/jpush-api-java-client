@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-public class ResponseResult {
-    private static final Logger LOG = LoggerFactory.getLogger(ResponseResult.class);
+public class ResponseWrapper {
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseWrapper.class);
     private static final int RESPONSE_CODE_NONE = -1;
     
     private static Gson _gson = new Gson();
@@ -14,7 +14,7 @@ public class ResponseResult {
     public int responseCode = RESPONSE_CODE_NONE;
     public String responseContent;
     
-    public ErrorObject error;     // error for non-200 response, used by new API
+    public ErrorContent error;     // error for non-200 response, used by new API
     
     public int rateLimitQuota;
     public int rateLimitRemaining;
@@ -22,7 +22,7 @@ public class ResponseResult {
     
     public String exceptionString;
 
-	public ResponseResult() {
+	public ResponseWrapper() {
 	}
 	
     public void setRateLimit(String quota, String remaining, String reset) {
@@ -40,17 +40,26 @@ public class ResponseResult {
     }
     
     public void setErrorObject() {
-        error = _gson.fromJson(responseContent, ErrorObject.class);
+        error = _gson.fromJson(responseContent, ErrorContent.class);
     }
 
 	@Override
 	public String toString() {
 		return _gson.toJson(this);
 	}
-
-	public class ErrorObject {
+	
+	public class ErrorContent {
+	    public Error error;
+	}
+	
+	public class Error {
 	    public int code;
 	    public String message;
+	    
+	    @Override
+	    public String toString() {
+	        return _gson.toJson(this);
+	    }
 	}
 	
 }

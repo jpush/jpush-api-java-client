@@ -16,14 +16,14 @@ public class JPushClientExample {
 	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
 	
 	public static final String TITLE = "Test from API example";
-    public static final String CONTENT = "Test Test";
+    public static final String CONTENT = "Test from Javen";
     public static final String REGISTRATION_ID = "0900e8d85ef";
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
 	    testSendNotification();
 //	    testSendMesasge();
-//		testGetReport();
+		testGetReport();
 	}
 	
 	private static void testSendNotification() {
@@ -32,8 +32,15 @@ public class JPushClientExample {
         LOG.info("Paylaod JSON - " + payload.toString());
         
         PushResult result = jpushClient.sendPush(payload);
-        LOG.debug(result.responseResult.responseContent);
-        LOG.debug(result.toString());
+        if (result.isResultOK()) {
+            LOG.debug(result.toString());
+        } else {
+            if (result.getErrorCode() > 0) {
+                LOG.warn(result.getOriginalError());
+            } else {
+                LOG.debug("Maybe connect error. Retry laster. ");
+            }
+        }
 	}
 	
     private static void testSendMesasge() {

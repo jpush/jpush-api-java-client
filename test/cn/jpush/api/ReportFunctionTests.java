@@ -23,7 +23,7 @@ public class ReportFunctionTests {
 	public void getReceivedsFixed(){
 	    ReceivedsResult result = jpushClient.getReportReceiveds("1613113584,1229760629,1174658841,1174658641");
 	    assertTrue(result.isResultOK());
-		assertTrue(result.receivedList.size() > 0);
+		assertTrue(result.received_list.size() > 0);
 	}
 	
     @Test
@@ -31,7 +31,7 @@ public class ReportFunctionTests {
         ReceivedsResult result = jpushClient
                 .getReportReceiveds("1613113584,   ,1229760629,  ");
         assertTrue(result.isResultOK());
-        assertTrue(result.receivedList.size() > 0);
+        assertTrue(result.received_list.size() > 0);
     }
 
 }
