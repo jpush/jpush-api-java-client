@@ -50,14 +50,14 @@ public class Audience implements PushModel {
         return newBuilder().addAudienceTarget(target).build();
     }
     
-    public static Audience tagAnd(String... tagValue) {
+    public static Audience tag_and(String... tagValue) {
         AudienceTarget target = AudienceTarget.newBuilder()
                 .setAudienceType(AudienceType.TAG_AND)
                 .addAudienceTargetValues(tagValue).build();
         return newBuilder().addAudienceTarget(target).build();
     }
     
-    public static Audience tagAnd(Collection<String> tagValues) {
+    public static Audience tag_and(Collection<String> tagValues) {
         AudienceTarget target = AudienceTarget.newBuilder()
                 .setAudienceType(AudienceType.TAG_AND)
                 .addAudienceTargetValues(tagValues).build();
@@ -94,7 +94,7 @@ public class Audience implements PushModel {
     
     public static Audience registrationId(String... registrationId) {
         AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
+                .setAudienceType(AudienceType.REGISTRATION_ID)
                 .addAudienceTargetValues(registrationId).build();
         return newBuilder().addAudienceTarget(target).build();
     }

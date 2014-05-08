@@ -1,5 +1,7 @@
-package cn.jpush.api;
+package cn.jpush.api.push;
 import org.junit.Before;
+
+import cn.jpush.api.JPushClient;
 
 public class PushErrorTests {
     private static final String appKey ="dd1066407b044738b6479275";
