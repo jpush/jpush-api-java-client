@@ -10,8 +10,8 @@ import cn.jpush.api.report.ReportClient;
  * The overall entrance of JPush API library.
  */
 public class JPushClient {
-    private PushClient _pushClient;
-	private ReportClient _reportClient;
+    private final PushClient _pushClient;
+	private final ReportClient _reportClient;
 	
 	/**
 	 * Create a JPush Client.

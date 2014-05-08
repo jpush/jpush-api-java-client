@@ -14,7 +14,7 @@ public class ResponseWrapper {
     public int responseCode = RESPONSE_CODE_NONE;
     public String responseContent;
     
-    public ErrorContent error;     // error for non-200 response, used by new API
+    public ErrorObject error;     // error for non-200 response, used by new API
     
     public int rateLimitQuota;
     public int rateLimitRemaining;
@@ -40,7 +40,7 @@ public class ResponseWrapper {
     }
     
     public void setErrorObject() {
-        error = _gson.fromJson(responseContent, ErrorContent.class);
+        error = _gson.fromJson(responseContent, ErrorObject.class);
     }
 
 	@Override
@@ -48,11 +48,11 @@ public class ResponseWrapper {
 		return _gson.toJson(this);
 	}
 	
-	public class ErrorContent {
-	    public Error error;
+	public class ErrorObject {
+	    public ErrorEntity error;
 	}
 	
-	public class Error {
+	public class ErrorEntity {
 	    public int code;
 	    public String message;
 	    
