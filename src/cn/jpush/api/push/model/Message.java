@@ -13,16 +13,19 @@ public class Message implements PushModel {
     public static final String MESSAGE = "message";
     
     public static final String TITLE = "title";
-    public static final String CONTENT = "content";
+    public static final String MSG_CONTENT = "msg_content";
+    public static final String CONTENT_TYPE = "content_type";
     public static final String EXTRAS = "extras";
     
     private final String title;
-    private final String content;
+    private final String msgContent;
+    private final String contentType;
     private final ImmutableMap<String, String> extras;
     
-    private Message(String title, String content, ImmutableMap<String, String> extras) {
+    private Message(String title, String msgContent, String contentType, ImmutableMap<String, String> extras) {
         this.title = title;
-        this.content = content;
+        this.msgContent = msgContent;
+        this.contentType = contentType;
         this.extras = extras;
     }
     
@@ -30,8 +33,8 @@ public class Message implements PushModel {
         return new Builder();
     }
     
-    public static Message content(String content) {
-        return new Builder().setContent(content).build();
+    public static Message content(String msgContent) {
+        return new Builder().setMsgContent(msgContent).build();
     }
     
     @Override
@@ -40,8 +43,11 @@ public class Message implements PushModel {
         if (null != title) {
             json.add(TITLE, new JsonPrimitive(title));
         }
-        if (null != content) {
-            json.add(CONTENT, new JsonPrimitive(content));
+        if (null != msgContent) {
+            json.add(MSG_CONTENT, new JsonPrimitive(msgContent));
+        }
+        if (null != contentType) {
+            json.add(CONTENT_TYPE, new JsonPrimitive(contentType));
         }
         if (null != extras) {
             Gson gson = new Gson();
@@ -53,7 +59,8 @@ public class Message implements PushModel {
     
     public static class Builder {
         private String title;
-        private String content;
+        private String msgContent;
+        private String contentType;
         private ImmutableMap.Builder<String, String> extrasBuilder;
         
         public Builder setTitle(String title) {
@@ -61,8 +68,13 @@ public class Message implements PushModel {
             return this;
         }
         
-        public Builder setContent(String content) {
-            this.content = content;
+        public Builder setMsgContent(String msgContent) {
+            this.msgContent = msgContent;
+            return this;
+        }
+        
+        public Builder setContentType(String contentType) {
+            this.contentType = contentType;
             return this;
         }
         
@@ -75,7 +87,7 @@ public class Message implements PushModel {
         }
         
         public Builder addExtra(String key, String value) {
-            Preconditions.checkArgument(null == key || null == value, "Key/Value should not be null.");
+            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = ImmutableMap.builder();
             }
@@ -84,10 +96,10 @@ public class Message implements PushModel {
         }
         
         public Message build() {
-            Preconditions.checkArgument(! 
-                    (null == title && null == content && null == extrasBuilder), 
-                    "No any param is set.");
-            return new Message(title, content, (null == extrasBuilder) ? null : extrasBuilder.build());
+            Preconditions.checkArgument(! (null == msgContent), 
+                    "msgConent should be set");
+            return new Message(title, msgContent, contentType, 
+                    (null == extrasBuilder) ? null : extrasBuilder.build());
         }
     }
 }

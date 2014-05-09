@@ -44,6 +44,10 @@ public class PushPayload implements PushModel {
             .setMessage(Message.content(content)).build();
     }
     
+    public static PushPayload fromJSON(String payloadString) {
+        return _gson.fromJson(payloadString, PushPayload.class);
+    }
+    
     public void resetOptionsApnsProduction(boolean apnsProduction) {
         if (null == options) {
             options = Options.newBuilder().setApnsProduction(apnsProduction).build();

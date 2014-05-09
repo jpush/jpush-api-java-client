@@ -3,8 +3,6 @@ package cn.jpush.api.push.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.Message;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -16,11 +14,11 @@ public class MessageTests {
     }
     
     @Test
-    public void testContent() {
-        Message message = Message.content("content");
+    public void testMsgContent() {
+        Message message = Message.content("msg content");
         
         JsonObject json = new JsonObject();
-        json.add("content", new JsonPrimitive("content"));
+        json.add("msg_content", new JsonPrimitive("msg content"));
         
         Assert.assertEquals("", json, message.toJSON());
 

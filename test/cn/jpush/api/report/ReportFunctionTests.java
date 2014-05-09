@@ -1,10 +1,11 @@
-package cn.jpush.api;
+package cn.jpush.api.report;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import cn.jpush.api.JPushClient;
 import cn.jpush.api.report.ReceivedsResult;
 
 public class ReportFunctionTests {

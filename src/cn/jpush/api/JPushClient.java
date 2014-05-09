@@ -47,6 +47,10 @@ public class JPushClient {
 	    return _pushClient.sendPush(pushPayload);
 	}
 	
+    public PushResult sendPush(String payloadString) {
+        return _pushClient.sendPush(payloadString);
+    }	    
+
 	/**
 	 * Get received report. 
 	 * 

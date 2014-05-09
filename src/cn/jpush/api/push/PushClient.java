@@ -63,6 +63,14 @@ public class PushClient extends BaseHttpClient {
         return PushResult.fromResponse(response);
     }
     
+    public PushResult sendPush(String payloadString) {
+        String url = HOST_NAME_SSL + PUSH_PATH;
+        ResponseWrapper response = sendPost(url, payloadString, _authCode);
+        
+        return PushResult.fromResponse(response);
+    }
+    
+
 }
 
 
