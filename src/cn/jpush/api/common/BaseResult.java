@@ -13,11 +13,15 @@ public abstract class BaseResult {
     protected static final int RESPONSE_OK = 200;
     protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     
-    public ResponseWrapper responseResult;
+    private ResponseWrapper responseWrapper;
     
+    public void setResponseWrapper(ResponseWrapper responseWrapper) {
+        this.responseWrapper = responseWrapper;
+    }
+        
     protected ErrorObject getErrorObject() {
-        if (null != responseResult) {
-            return responseResult.error;
+        if (null != responseWrapper) {
+            return responseWrapper.error;
         }
         return null;
     }
@@ -27,8 +31,8 @@ public abstract class BaseResult {
         if (null != eo) {
             return eo.error.code;
         }
-        if (null != responseResult) {
-            if (responseResult.responseCode == RESPONSE_OK) {
+        if (null != responseWrapper) {
+            if (responseWrapper.responseCode == RESPONSE_OK) {
                 return ERROR_CODE_OK;
             }
         }
@@ -43,35 +47,42 @@ public abstract class BaseResult {
         return ERROR_MESSAGE_NONE;
     }
     
-    public String getOriginalError() {
-        if (null != responseResult) {
-            return responseResult.responseContent;
+    public String getOriginalContent() {
+        if (null != responseWrapper) {
+            return responseWrapper.responseContent;
+        }
+        return null;
+    }
+    
+    public String getExceptionString() {
+        if (null != responseWrapper) {
+            return responseWrapper.exceptionString;
         }
         return null;
     }
     
     public boolean isResultOK() {
-        if (responseResult.responseCode == RESPONSE_OK) return true;
+        if (responseWrapper.responseCode == RESPONSE_OK) return true;
         return false;
     }
 
     public int getRateLimitQuota() {
-        if (null != responseResult) {
-            return responseResult.rateLimitQuota;
+        if (null != responseWrapper) {
+            return responseWrapper.rateLimitQuota;
         }
         return 0;
     }
     
     public int getRateLimitRemaining() {
-        if (null != responseResult) {
-            return responseResult.rateLimitRemaining;
+        if (null != responseWrapper) {
+            return responseWrapper.rateLimitRemaining;
         }
         return 0;
     }
     
     public int getRateLimitReset() {
-        if (null != responseResult) {
-            return responseResult.rateLimitReset;
+        if (null != responseWrapper) {
+            return responseWrapper.rateLimitReset;
         }
         return 0;
     }

@@ -1,7 +1,8 @@
 package cn.jpush.api.push;
 
-import cn.jpush.api.common.BaseHttpClient;
+import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
+import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.push.model.PushPayload;
 
 /**
@@ -14,9 +15,11 @@ import cn.jpush.api.push.model.PushPayload;
  * 
  * Can be used directly.
  */
-public class PushClient extends BaseHttpClient {
+public class PushClient {
     private static String HOST_NAME_SSL = "https://api.jpush.cn";
     private static final String PUSH_PATH = "/v3/push";
+    
+    private NativeHttpClient _httpClient = new NativeHttpClient();;
     
     // The API secret of the appKey. Please get it from JPush Web Portal
     private final String _masterSecret;
@@ -40,8 +43,8 @@ public class PushClient extends BaseHttpClient {
 	public PushClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
-        this._authCode = getAuthorizationBase64(_appKey, _masterSecret);
-        checkBasic(appKey, masterSecret);
+        this._authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        ServiceHelper.checkBasic(appKey, masterSecret);
 	}
 	
     public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
@@ -58,14 +61,14 @@ public class PushClient extends BaseHttpClient {
         }
         
         String url = HOST_NAME_SSL + PUSH_PATH;
-        ResponseWrapper response = sendPost(url, pushPayload.toString(), _authCode);
+        ResponseWrapper response = _httpClient.sendPost(url, pushPayload.toString(), _authCode);
         
         return PushResult.fromResponse(response);
     }
     
     public PushResult sendPush(String payloadString) {
         String url = HOST_NAME_SSL + PUSH_PATH;
-        ResponseWrapper response = sendPost(url, payloadString, _authCode);
+        ResponseWrapper response = _httpClient.sendPost(url, payloadString, _authCode);
         
         return PushResult.fromResponse(response);
     }

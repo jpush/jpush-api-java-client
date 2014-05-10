@@ -2,25 +2,24 @@ package cn.jpush.api.report;
 
 import java.util.regex.Pattern;
 
-import cn.jpush.api.common.BaseHttpClient;
+import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
+import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.utils.StringUtils;
 
-import com.google.gson.Gson;
-
-public class ReportClient extends BaseHttpClient {    
+public class ReportClient {    
     private static final String REPORT_HOST_NAME = "https://report.jpush.cn";
     private static final String REPORT_RECEIVE_PATH = "/v2/received";
 
-	private static Gson _gson = new Gson();
-	
+    private NativeHttpClient _httpClient = new NativeHttpClient();;
+    
     private String _masterSecret;
 	private String _appKey;
 	
 	public ReportClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
-        checkBasic(appKey, masterSecret);
+        ServiceHelper.checkBasic(appKey, masterSecret);
 	}
 	
 	
@@ -29,7 +28,7 @@ public class ReportClient extends BaseHttpClient {
     }
 	
     public ReceivedsResult getReceiveds(String msgIds) {
-        String authCode = getAuthorizationBase64(_appKey, _masterSecret);
+        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         return getResportReceived(msgIds, authCode);
 	}
 	
@@ -37,7 +36,7 @@ public class ReportClient extends BaseHttpClient {
         checkMsgids(msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
-        ResponseWrapper response = sendGet(url, null, authCode);
+        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
         
         return ReceivedsResult.fromResponse(response);
     }

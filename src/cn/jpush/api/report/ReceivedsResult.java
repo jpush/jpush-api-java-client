@@ -26,13 +26,13 @@ public class ReceivedsResult extends BaseResult {
 	    return this.received_list;
 	}
 	
-	public static ReceivedsResult fromResponse(ResponseWrapper wrapper) {
+	public static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
         ReceivedsResult receivedsResult = new ReceivedsResult();
-        if (wrapper.responseCode == RESPONSE_OK) {
-            receivedsResult.received_list = _gson.fromJson(wrapper.responseContent, RECEIVED_TYPE);
+        if (responseWrapper.isServerResonse()) {
+            receivedsResult.received_list = _gson.fromJson(responseWrapper.responseContent, RECEIVED_TYPE);
         }
         
-        receivedsResult.responseResult = wrapper;
+        receivedsResult.setResponseWrapper(responseWrapper);
         return receivedsResult;
 	}
 	

@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.regex.Pattern;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -22,39 +21,26 @@ import javax.net.ssl.X509TrustManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jpush.api.utils.Base64;
 import cn.jpush.api.utils.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class BaseHttpClient {
-    private static final Logger LOG = LoggerFactory.getLogger(BaseHttpClient.class);
+public class NativeHttpClient implements IHttpClient {
+    private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
     
-	private static final String CHARSET = "UTF-8";
-	private static final String RATE_LIMIT_QUOTA = "X-Rate-Limit-Limit";
-	private static final String RATE_LIMIT_Remaining = "X-Rate-Limit-Remaining";
-	private static final String RATE_LIMIT_Reset = "X-Rate-Limit-Reset";
-	
-	protected static final int RESPONSE_OK = 200;
     protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-	
-	//设置连接超时时间
-	private final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
-	
-	//设置读取超时时间
-	private final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
 
 
-    protected ResponseWrapper sendGet(String url, String params, String authCode) {
-		return sendRequest(url, params, "GET", authCode);
+    public ResponseWrapper sendGet(String url, String params, String authCode) {
+		return sendRequest(url, params, METHOD_GET, authCode);
 	}
     
-    protected ResponseWrapper sendPost(String url, String content, String authCode) {
-		return sendRequest(url, content, "POST", authCode);
+    public ResponseWrapper sendPost(String url, String content, String authCode) {
+		return sendRequest(url, content, METHOD_POST, authCode);
 	}
     
-    protected ResponseWrapper sendRequest(String url, String content, String method, String authCode) {
+    public ResponseWrapper sendRequest(String url, String content, String method, String authCode) {
         LOG.debug("Send request to - " + url + ", with content - " + content);
 		HttpURLConnection conn = null;
 		OutputStream out = null;
@@ -77,7 +63,7 @@ public class BaseHttpClient {
 				conn.setRequestProperty("Authorization", authCode);
 			}
             
-            if (method.equals("POST")) {
+            if (METHOD_POST.equals(method)) {
                 conn.setDoOutput(true);     //POST Request
 				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 byte[] data = content.getBytes(CHARSET);
@@ -188,31 +174,9 @@ public class BaseHttpClient {
 			LOG.error("", e);
 		}
 	}
-	
-    public static String getAuthorizationBase64(String appKey, String masterSecret) {
-        String encodeKey = appKey + ":" + masterSecret;
-        return String.valueOf(Base64.encode(encodeKey.getBytes())); 
-    }
-    
-    private final static Pattern PUSH_PATTERNS = Pattern.compile("[^a-zA-Z0-9]");
-    
-    public static void checkBasic(String appKey, String masterSecret) {
-        if (StringUtils.isEmpty(appKey)
-                || StringUtils.isEmpty(masterSecret)) {
-            throw new IllegalArgumentException("appKey and masterSecret are both required.");
-        }
-        if (appKey.length() != 24 
-                || masterSecret.length() != 24
-                || PUSH_PATTERNS.matcher(appKey).find()
-                || PUSH_PATTERNS.matcher(masterSecret).find()) {
-            throw new IllegalArgumentException("appKey and masterSecret format is incorrect. "
-                    + "They should be 24 size, and be composed with alphabet and numbers. "
-                    + "Please confirm that they are coming from JPush Web Portal.");
-        }
-    }
 
 
-	public class SimpleHostnameVerifier implements HostnameVerifier {
+	public static class SimpleHostnameVerifier implements HostnameVerifier {
 
 	    @Override
 	    public boolean verify(String hostname, SSLSession session) {
@@ -221,7 +185,7 @@ public class BaseHttpClient {
 
 	}
 
-	public class SimpleTrustManager implements TrustManager, X509TrustManager {
+	public static class SimpleTrustManager implements TrustManager, X509TrustManager {
 
 	    @Override
 	    public void checkClientTrusted(X509Certificate[] chain, String authType)

@@ -36,7 +36,7 @@ public class JPushClientExample {
             LOG.debug(result.toString());
         } else {
             if (result.getErrorCode() > 0) {
-                LOG.warn(result.getOriginalError());
+                LOG.warn(result.getOriginalContent());
             } else {
                 LOG.debug("Maybe connect error. Retry laster. ");
             }
@@ -52,7 +52,7 @@ public class JPushClientExample {
 	public static void testGetReport() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
-        LOG.debug("responseContent - " + receivedsResult.responseResult.responseContent);
+        LOG.debug("responseContent - " + receivedsResult.getOriginalContent());
 		if (receivedsResult.isResultOK()) {
 		    LOG.info("Receiveds - " + receivedsResult);
 		} else {
@@ -64,7 +64,7 @@ public class JPushClientExample {
             } else {
                 // 未到达 JPush
                 LOG.error("Other excepitons - "
-                        + receivedsResult.responseResult.exceptionString);
+                        + receivedsResult.getExceptionString());
             }
 		}
 	}

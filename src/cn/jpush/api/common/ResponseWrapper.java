@@ -22,8 +22,6 @@ public class ResponseWrapper {
     
     public String exceptionString;
 
-	public ResponseWrapper() {
-	}
 	
     public void setRateLimit(String quota, String remaining, String reset) {
         if (null == quota) return;
@@ -42,7 +40,13 @@ public class ResponseWrapper {
     public void setErrorObject() {
         error = _gson.fromJson(responseContent, ErrorObject.class);
     }
-
+    
+    public boolean isServerResonse() {
+        if (responseCode == 200) return true;
+        if (responseCode > 0 && null != error && error.error.code > 0) return true;
+        return false;
+    }
+    
 	@Override
 	public String toString() {
 		return _gson.toJson(this);
