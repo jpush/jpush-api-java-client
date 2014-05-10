@@ -9,13 +9,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class Message implements PushModel {
-    public static final String MESSAGE = "message";
-    
-    public static final String TITLE = "title";
-    public static final String MSG_CONTENT = "msg_content";
-    public static final String CONTENT_TYPE = "content_type";
-    public static final String EXTRAS = "extras";
+public class Message implements PushModel {    
+    private static final String TITLE = "title";
+    private static final String MSG_CONTENT = "msg_content";
+    private static final String CONTENT_TYPE = "content_type";
+    private static final String EXTRAS = "extras";
     
     private final String title;
     private final String msgContent;

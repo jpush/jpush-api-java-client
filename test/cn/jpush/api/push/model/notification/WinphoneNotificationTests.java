@@ -8,10 +8,10 @@ import com.google.gson.JsonPrimitive;
 
 public class WinphoneNotificationTests {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegal() {
+    @Test
+    public void testEmpty() {
         WinphoneNotification winphone = WinphoneNotification.newBuilder().build();
-        Assert.assertEquals("", "", winphone.toJSON());
+        Assert.assertEquals("", new JsonObject(), winphone.toJSON());
     }
     
     @Test
@@ -32,10 +32,13 @@ public class WinphoneNotificationTests {
     
     @Test
     public void testExtra() {
-        WinphoneNotification winphone = WinphoneNotification.newBuilder().addExtra("key", "value").build();
+        WinphoneNotification winphone = WinphoneNotification.newBuilder()
+                .addExtra("key2", 222)
+                .addExtra("key", "value").build();
         JsonObject json = new JsonObject();
         JsonObject extra = new JsonObject();
         extra.add("key", new JsonPrimitive("value"));
+        extra.add("key2", new JsonPrimitive(222));
         json.add("extras", extra);
         Assert.assertEquals("", json, winphone.toJSON());
     }

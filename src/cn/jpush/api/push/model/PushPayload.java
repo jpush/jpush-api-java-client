@@ -9,6 +9,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class PushPayload implements PushModel {
+    private static final String PLATFORM = "platform";
+    private static final String AUDIENCE = "audience";
+    private static final String NOTIFICATION = "notification";
+    private static final String MESSAGE = "message";
+    private static final String OPTIONS = "options";
+
     private static Gson _gson = new Gson();
     
     private final Platform platform;
@@ -68,19 +74,19 @@ public class PushPayload implements PushModel {
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
         if (null != platform) {
-            json.add(Platform.PLATFORM, platform.toJSON());
+            json.add(PLATFORM, platform.toJSON());
         }
         if (null != audience) {
-            json.add(Audience.AUDIENCE, audience.toJSON());
+            json.add(AUDIENCE, audience.toJSON());
         }
         if (null != notification) {
-            json.add(Notification.NOTIFICATION, notification.toJSON());
+            json.add(NOTIFICATION, notification.toJSON());
         }
         if (null != message) {
-            json.add(Message.MESSAGE, message.toJSON());
+            json.add(MESSAGE, message.toJSON());
         }
         if (null != options) {
-            json.add(Options.OPTIONS, options.toJSON());
+            json.add(OPTIONS, options.toJSON());
         }
         return json;
     }

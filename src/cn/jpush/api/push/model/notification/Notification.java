@@ -8,9 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class Notification implements PushModel {
-    public static final String NOTIFICATION = "notification";
-    
+public class Notification implements PushModel {    
     private final String alert;
     private final ImmutableSet<PlatformNotification> notifications;
     
@@ -44,6 +42,10 @@ public class Notification implements PushModel {
                 if (this.alert != null && pn.getAlert() == null) {
                     pn.setAlert(this.alert);
                 }
+                
+                Preconditions.checkArgument(! (null == pn.getAlert()), 
+                        "For any platform notification, alert field is needed. It can be empty string.");
+
                 json.add(pn.getPlatform(), pn.toJSON());
             }
         }

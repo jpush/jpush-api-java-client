@@ -8,10 +8,12 @@ import com.google.gson.JsonPrimitive;
 
 public class IosNotificationTests {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegal() {
+    @Test
+    public void testEmpty() {
         IosNotification ios = IosNotification.newBuilder().build();
-        Assert.assertEquals("", "", ios.toJSON());
+        JsonObject json = new JsonObject();
+        json.add("sound", new JsonPrimitive(""));
+        Assert.assertEquals("", json, ios.toJSON());
     }
     
     @Test
@@ -52,8 +54,10 @@ public class IosNotificationTests {
     @Test
     public void testSoundDisabled() {
         IosNotification ios = IosNotification.newBuilder()
+                .setSound("sound")
+                .disableSound()
                 .setAlert("alert")
-                .setSound("sound").disableSound().build();
+                .build();
         JsonObject json = new JsonObject();
         json.add("alert", new JsonPrimitive("alert"));
         Assert.assertEquals("", json, ios.toJSON());
@@ -62,10 +66,13 @@ public class IosNotificationTests {
     
     @Test
     public void testExtra() {
-        IosNotification ios = IosNotification.newBuilder().addExtra("key", "value").build();
+        IosNotification ios = IosNotification.newBuilder()
+                .addExtra("key2", Boolean.TRUE)
+                .addExtra("key", "value").build();
         JsonObject json = new JsonObject();
         JsonObject extra = new JsonObject();
         extra.add("key", new JsonPrimitive("value"));
+        extra.add("key2", new JsonPrimitive(Boolean.TRUE));
         json.add("extras", extra);
         json.add("sound", new JsonPrimitive(""));
         Assert.assertEquals("", json, ios.toJSON());

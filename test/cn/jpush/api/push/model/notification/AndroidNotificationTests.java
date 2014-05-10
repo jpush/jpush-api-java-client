@@ -3,24 +3,22 @@ package cn.jpush.api.push.model.notification;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.notification.AndroidNotification;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class AndroidNotificationTests {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegal() {
+    @Test
+    public void testNoParams() {
         AndroidNotification an = AndroidNotification.newBuilder().build();
-        Assert.assertEquals("", "", an.toJSON());
+        Assert.assertEquals("", new JsonObject(), an.toJSON());
     }
     
     @Test
     public void testQuickAlert() {
-        AndroidNotification an = AndroidNotification.alert("aaa");
+        AndroidNotification an = AndroidNotification.alert("alert");
         JsonObject json = new JsonObject();
-        json.add("alert", new JsonPrimitive("aaa"));
+        json.add("alert", new JsonPrimitive("alert"));
         Assert.assertEquals("", json, an.toJSON());
     }
 
@@ -34,10 +32,13 @@ public class AndroidNotificationTests {
     
     @Test
     public void testExtra() {
-        AndroidNotification an = AndroidNotification.newBuilder().addExtra("key", "value").build();
+        AndroidNotification an = AndroidNotification.newBuilder()
+                .addExtra("key2", 222)
+                .addExtra("key1", "value1").build();
         JsonObject json = new JsonObject();
         JsonObject extra = new JsonObject();
-        extra.add("key", new JsonPrimitive("value"));
+        extra.add("key1", new JsonPrimitive("value1"));
+        extra.add("key2", new JsonPrimitive(222));
         json.add("extras", extra);
         Assert.assertEquals("", json, an.toJSON());
     }

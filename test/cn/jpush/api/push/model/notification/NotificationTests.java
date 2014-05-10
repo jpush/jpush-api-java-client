@@ -22,6 +22,15 @@ public class NotificationTests {
         Assert.assertEquals("", "", notification.toJSON());
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoAlert() {
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(
+                        AndroidNotification.newBuilder().setTitle("title").build())
+                .build();
+        Assert.assertEquals("", "", notification.toJSON());
+    }
+    
     @Test
     public void testAlertAndroid() {
         Notification notification = Notification.newBuilder()

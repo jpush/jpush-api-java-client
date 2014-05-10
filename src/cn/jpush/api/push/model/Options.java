@@ -6,12 +6,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Options implements PushModel {
-    public static final String OPTIONS = "options";
-    
-    public static final String SENDNO = "sendno";
-    public static final String OVERRIDE_MSG_ID = "override_msg_id";
-    public static final String TIME_TO_LIVE = "time_to_live";
-    public static final String APNS_PRODUCTION = "apns_production";
+    private static final String SENDNO = "sendno";
+    private static final String OVERRIDE_MSG_ID = "override_msg_id";
+    private static final String TIME_TO_LIVE = "time_to_live";
+    private static final String APNS_PRODUCTION = "apns_production";
     
     private final int sendno;
     private final int overrideMsgId;

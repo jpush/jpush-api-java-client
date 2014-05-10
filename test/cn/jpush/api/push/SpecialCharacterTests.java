@@ -14,7 +14,7 @@ import cn.jpush.api.push.model.audience.Audience;
 /** 
  * 测试特殊字符
  */
-public class PushSpecialCharacterTests {
+public class SpecialCharacterTests {
 	private String appKey = "7d431e42dfa6a6d693ac2d04";//必填，例如466f7032ac604e02fb7bda89
 	private String masterSecret = "5e987ac6d2e04d95a9d8f0d1"; //必填，每个应用都对应一个masterSecret（1f0e3dad99908345f7439f8ffabdffc4)
 	private JPushClient jpush = null;

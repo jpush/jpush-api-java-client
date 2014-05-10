@@ -13,7 +13,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class PushErrorTests {
+public class ExceptionTests {
     private static final String appKey ="dd1066407b044738b6479275";
     private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
     
@@ -65,6 +65,8 @@ public class PushErrorTests {
         assertEquals(TOO_BIG, result.getErrorCode());
     }
 
+    // ---------------- invalid params
+    
     @Test
     public void invalidParams_platform() {
         JsonObject payload = new JsonObject();
@@ -95,13 +97,87 @@ public class PushErrorTests {
         payload.add("platform", Platform.all().toJSON());
         payload.add("audience", Audience.all().toJSON());
         
-        //JsonObject notification = new JsonObject();
-        payload.add("notification", new JsonPrimitive("aaaa"));
+        payload.add("notification", new JsonPrimitive(ALERT));
         System.out.println("json string: " + payload.toString());
         
         PushResult result = _client.sendPush(payload.toString());
         assertEquals(INVALID_PARAMS, result.getErrorCode());
     }
+
+    @Test
+    public void invalidParams_notification_android() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        notification.add("android", new JsonPrimitive(ALERT));
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void invalidParams_notification_android_empty() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject android = new JsonObject();
+        
+        notification.add("android", android);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void invalidParams_notification_android_noalert() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject android = new JsonObject();
+        android.add("title", new JsonPrimitive("title"));
+        
+        notification.add("android", android);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void invalidParams_notification_android_builderidNotNumber() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject android = new JsonObject();
+        android.add("alert", new JsonPrimitive(11111));
+        
+        notification.add("android", android);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    
+    // ------------------------ lack of params
 
     @Test
     public void lackOfParams_platform() {
@@ -124,9 +200,9 @@ public class PushErrorTests {
         PushResult result = _client.sendPush(payload.toString());
         assertEquals(LACK_OF_PARAMS, result.getErrorCode());
     }
-
+    
     @Test
-    public void lackOfParams_message() {
+    public void lackOfParams_messageAndNotificaiton() {
         JsonObject payload = new JsonObject();
         payload.add("platform", Platform.all().toJSON());
         payload.add("audience", Audience.all().toJSON());

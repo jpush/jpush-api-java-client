@@ -11,14 +11,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Audience implements PushModel {
-    public static final String AUDIENCE = "audience";
-    public static final String ALL = "all";
+    private static final String ALL = "all";
     
-    public static final String TYPE_TAG = "tag";
-    public static final String TYPE_TAG_AND = "tag_and";
-    public static final String TYPE_ALIAS = "alias";
-    public static final String TYPE_SEGMENT = "segment";
-    public static final String TYPE_REGISTRATION_ID = "registration_id";
+    private static final String TYPE_TAG = "tag";
+    private static final String TYPE_TAG_AND = "tag_and";
+    private static final String TYPE_ALIAS = "alias";
+    private static final String TYPE_SEGMENT = "segment";
+    private static final String TYPE_REGISTRATION_ID = "registration_id";
     
     private final boolean all;
     private final ImmutableSet<AudienceTarget> targets;

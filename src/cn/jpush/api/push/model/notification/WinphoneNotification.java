@@ -1,30 +1,27 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.Map;
-
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class WinphoneNotification extends PlatformNotification {
-    public static final String NOTIFICATION_WINPHONE = "winphone";
+    private static final String NOTIFICATION_WINPHONE = "winphone";
     
-    public static final String TITLE = "title";
-    public static final String EXTRAS = "extras";
-    public static final String _OPEN_PAGE = "_open_page";
+    private static final String TITLE = "title";
+    private static final String _OPEN_PAGE = "_open_page";
     
     private final String title;
     private final String openPage;
-    private final ImmutableMap<String, String> extras;
     
     private WinphoneNotification(String alert, String title, String openPage, 
-            ImmutableMap<String, String> extras) {
-        super(alert);
+            ImmutableMap<String, String> extras, 
+            ImmutableMap<String, Number> numberExtras, 
+            ImmutableMap<String, Boolean> booleanExtras) {
+        super(alert, extras, numberExtras, booleanExtras);
+        
         this.title = title;
         this.openPage = openPage;
-        this.extras = extras;
     }
     
     public static Builder newBuilder() {
@@ -43,42 +40,22 @@ public class WinphoneNotification extends PlatformNotification {
     
     @Override
     public JsonElement toJSON() {
-        JsonObject json = new JsonObject();
-        if (null != alert) {
-            json.add(ALERT, new JsonPrimitive(this.alert));
-        }
+        JsonObject json = super.toJSON().getAsJsonObject();
+        
         if (null != title) {
             json.add(TITLE, new JsonPrimitive(title));
         }
         if (null != openPage) {
             json.add(_OPEN_PAGE, new JsonPrimitive(openPage));
         }
-        if (null != extras) {
-            JsonObject extrasObject = new JsonObject();
-            for (String key : extras.keySet()) {
-                extrasObject.add(key, new JsonPrimitive(extras.get(key)));
-            }
-            json.add(EXTRAS, extrasObject);
-        }
         
-        Preconditions.checkArgument(
-                ! (null == alert && null == title && null == extras)
-                , "No any notification params are set.");
-
         return json;
     }
     
     
-    public static class Builder {
-        private String alert;
+    public static class Builder extends PlatformNotification.Builder<WinphoneNotification> {
         private String title;
         private String openPage;
-        private ImmutableMap.Builder<String, String> extrasBuilder;
-        
-        public Builder setAlert(String alert) {
-            this.alert = alert;
-            return this;
-        }
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -90,11 +67,8 @@ public class WinphoneNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder addExtra(Map<String, String> extra) {
-            if (null == extrasBuilder) {
-                extrasBuilder = ImmutableMap.builder();
-            }
-            extrasBuilder.putAll(extra);
+        public Builder setAlert(String alert) {
+            this.alert = alert;
             return this;
         }
         
@@ -106,9 +80,27 @@ public class WinphoneNotification extends PlatformNotification {
             return this;
         }
         
+        public Builder addExtra(String key, Number value) {
+            if (null == numberExtrasBuilder) {
+                numberExtrasBuilder = ImmutableMap.builder();
+            }
+            numberExtrasBuilder.put(key, value);
+            return this;
+        }
+        
+        public Builder addExtra(String key, Boolean value) {
+            if (null == booleanExtrasBuilder) {
+                booleanExtrasBuilder = ImmutableMap.builder();
+            }
+            booleanExtrasBuilder.put(key, value);
+            return this;
+        }
+        
         public WinphoneNotification build() {
             return new WinphoneNotification(alert, title, openPage, 
-                    (null == extrasBuilder) ? null : extrasBuilder.build());
+                    (null == extrasBuilder) ? null : extrasBuilder.build(), 
+                    (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
+                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build());
         }
     }
 }

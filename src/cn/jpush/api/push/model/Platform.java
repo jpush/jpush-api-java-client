@@ -8,10 +8,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-public class Platform implements PushModel {
-    public static final String PLATFORM = "platform";
-    
-    public static final String ALL = "all";
+public class Platform implements PushModel {    
+    private static final String ALL = "all";
     
     private final boolean all;
     private final ImmutableSet<DeviceType> deviceTypes;
