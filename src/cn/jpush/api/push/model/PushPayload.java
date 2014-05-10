@@ -36,18 +36,18 @@ public class PushPayload implements PushModel {
         return new Builder();
     }
     
-    public static PushPayload notificationAlertAll(String alert) {
+    public static PushPayload alertAll(String alert) {
         return new Builder()
             .setPlatform(Platform.all())
             .setAudience(Audience.all())
             .setNotification(Notification.alert(alert)).build();
     }
     
-    public static PushPayload simpleMessageAll(String content) {
+    public static PushPayload messageAll(String msgContent) {
         return new Builder()
             .setPlatform(Platform.all())
             .setAudience(Audience.all())
-            .setMessage(Message.content(content)).build();
+            .setMessage(Message.content(msgContent)).build();
     }
     
     public static PushPayload fromJSON(String payloadString) {
@@ -131,6 +131,10 @@ public class PushPayload implements PushModel {
         public PushPayload build() {
             Preconditions.checkArgument(! (null == audience || null == platform), "Audience/Platform should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
+            if (null == options) {
+                options = Options.sendno();
+            }
+            
             return new PushPayload(platform, audience, notification, message, options);
         }
     }

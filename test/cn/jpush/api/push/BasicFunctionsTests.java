@@ -34,7 +34,7 @@ public class BasicFunctionsTests {
 	
 	@Test
     public void sendSimpleNotification_Pall_Ndefault() {
-	    PushPayload payload = PushPayload.notificationAlertAll(ALERT);
+	    PushPayload payload = PushPayload.alertAll(ALERT);
 		PushResult result = _client.sendPush(payload);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
@@ -138,7 +138,7 @@ public class BasicFunctionsTests {
     
     @Test
     public void sendSimpleMessage_default() {
-        PushPayload payload = PushPayload.simpleMessageAll(MSG_CONTENT);
+        PushPayload payload = PushPayload.messageAll(MSG_CONTENT);
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
     }

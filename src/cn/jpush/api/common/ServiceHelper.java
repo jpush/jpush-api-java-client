@@ -1,5 +1,6 @@
 package cn.jpush.api.common;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import cn.jpush.api.utils.Base64;
@@ -9,6 +10,13 @@ public class ServiceHelper {
 
     private final static Pattern PUSH_PATTERNS = Pattern.compile("[^a-zA-Z0-9]");
     
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
+    private static final int MIN = 100000;
+    private static final int MAX = Integer.MAX_VALUE;
+    
+    public static int generateSendno() {
+        return RANDOM.nextInt((MAX - MIN) + 1) + MIN;
+    }
     
     public static String getAuthorizationBase64(String appKey, String masterSecret) {
         String encodeKey = appKey + ":" + masterSecret;

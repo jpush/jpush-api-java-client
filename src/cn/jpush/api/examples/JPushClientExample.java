@@ -28,7 +28,7 @@ public class JPushClientExample {
 	
 	private static void testSendNotification() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        PushPayload payload = PushPayload.notificationAlertAll(CONTENT);
+        PushPayload payload = PushPayload.alertAll(CONTENT);
         LOG.info("Paylaod JSON - " + payload.toString());
         
         PushResult result = jpushClient.sendPush(payload);
@@ -45,7 +45,7 @@ public class JPushClientExample {
 	
     private static void testSendMesasge() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        PushPayload payload = PushPayload.simpleMessageAll(CONTENT);
+        PushPayload payload = PushPayload.messageAll(CONTENT);
         jpushClient.sendPush(payload);
     }
     

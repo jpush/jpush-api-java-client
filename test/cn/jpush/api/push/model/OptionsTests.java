@@ -4,7 +4,7 @@ package cn.jpush.api.push.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.Options;
+import cn.jpush.api.common.ServiceHelper;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -36,10 +36,17 @@ public class OptionsTests {
 
     @Test
     public void testApnsProduction() {
+        int sendno = ServiceHelper.generateSendno();
+
         JsonObject json = new JsonObject();
         json.add("apns_production", new JsonPrimitive(false));
-        Options optional = Options.newBuilder().setApnsProduction(false).build();
-        Assert.assertEquals("", json, optional.toJSON());
+        json.add("sendno", new JsonPrimitive(sendno));
+        
+        Options options = Options.newBuilder()
+                .setSendno(sendno)
+                .setApnsProduction(false).build();
+        
+        Assert.assertEquals("", json, options.toJSON());
     }
 
 }

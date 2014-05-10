@@ -1,5 +1,7 @@
 package cn.jpush.api.push.model;
 
+import cn.jpush.api.common.ServiceHelper;
+
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,6 +27,14 @@ public class Options implements PushModel {
     
     public static Builder newBuilder() {
         return new Builder();
+    }
+    
+    public static Options sendno() {
+        return newBuilder().setSendno(ServiceHelper.generateSendno()).build();
+    }
+    
+    public static Options sendno(int sendno) {
+        return newBuilder().setSendno(sendno).build();
     }
     
     public void setApnsProduction(boolean apnsProduction) {
@@ -83,6 +93,10 @@ public class Options implements PushModel {
             Preconditions.checkArgument(sendno >= 0, "sendno should be greater than 0.");
             Preconditions.checkArgument(overrideMsgId >= 0, "override_msg_id should be greater than 0.");
             Preconditions.checkArgument(timeToLive >= 0, "time_to_live should be greater than 0.");
+            if (sendno <= 0) {
+                sendno = ServiceHelper.generateSendno();
+            }
+            
             return new Options(sendno, overrideMsgId, timeToLive, apnsProduction);
         }
     }
