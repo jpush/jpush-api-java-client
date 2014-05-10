@@ -67,7 +67,7 @@ public class NotificationTests {
                         .setAlert(ALERT)
                         .addPlatformNotification(AndroidNotification.newBuilder()
                                 .addExtra("key1", "value1")
-                                .addExtra("key2", "value2")
+                                .addExtra("key2", 222)
                                 .build()).build())
                 .build();
         PushResult result = _client.sendPush(payload);

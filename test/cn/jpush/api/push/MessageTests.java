@@ -59,7 +59,8 @@ public class MessageTests {
                 .setPlatform(Platform.all())
                 .setMessage(Message.newBuilder()
                         .addExtra("key1", "value1")
-                        .addExtra("key2", "value2")
+                        .addExtra("key2", 222)
+                        .addExtra("key3", Boolean.FALSE)
                         .setMsgContent(MSG_CONTENT).build())
                 .build();
         PushResult result = _client.sendPush(payload);
