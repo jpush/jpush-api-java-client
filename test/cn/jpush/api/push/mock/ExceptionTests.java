@@ -1,10 +1,10 @@
-package cn.jpush.api.push;
-import static org.junit.Assert.assertEquals;
+package cn.jpush.api.push.mock;
+import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
@@ -13,27 +13,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class ExceptionTests {
-    private static final String appKey ="dd1066407b044738b6479275";
-    private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
-    
-    private static final int LACK_OF_PARAMS = 1002;
-    private static final int INVALID_PARAMS = 1003;
-    private static final int AUTHENTICATION_FAIL = 1004;
-    private static final int TOO_BIG = 1005;
-    private static final int APPKEY_NOT_EXIST = 1008;
-
-    private static final String ALERT = "JPush Test - alert";
-    private static final String MSG_CONTENT = "JPush Test - msgContent";
-    private static final String TAG = "tag_api";
-    private static final String ALIAS = "alias_api";
-    
-    private JPushClient _client = null;
-    
-    @Before
-    public void before() {
-        _client = new JPushClient(masterSecret, appKey);
-    }
+public class ExceptionTests extends BaseMockTests {
     
     @Test
     public void appKeyNotExist() {

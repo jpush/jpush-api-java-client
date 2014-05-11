@@ -3,6 +3,9 @@ package cn.jpush.api.common;
 public interface IHttpClient {
 
     public static final String CHARSET = "UTF-8";
+    public static final String CONTENT_TYPE_JSON = "application/json";
+    public static final String CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
+    
     public static final String RATE_LIMIT_QUOTA = "X-Rate-Limit-Limit";
     public static final String RATE_LIMIT_Remaining = "X-Rate-Limit-Remaining";
     public static final String RATE_LIMIT_Reset = "X-Rate-Limit-Reset";

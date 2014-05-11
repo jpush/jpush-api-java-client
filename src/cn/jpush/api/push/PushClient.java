@@ -16,8 +16,8 @@ import cn.jpush.api.push.model.PushPayload;
  * Can be used directly.
  */
 public class PushClient {
-    private static String HOST_NAME_SSL = "https://api.jpush.cn";
-    private static final String PUSH_PATH = "/v3/push";
+    public static String HOST_NAME_SSL = "https://api.jpush.cn";
+    public static final String PUSH_PATH = "/v3/push";
     
     private NativeHttpClient _httpClient = new NativeHttpClient();;
     
@@ -38,12 +38,14 @@ public class PushClient {
     
     // Generated HTTP Basic authorization string.
     private final String _authCode;
-    
+    private String _baseUrl;
     
 	public PushClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
+        
         this._authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
         ServiceHelper.checkBasic(appKey, masterSecret);
 	}
 	
@@ -54,21 +56,23 @@ public class PushClient {
         this._overallSettingEnabled = true;
     }
     
+    public void setBaseUrl(String baseUrl) {
+        this._baseUrl = baseUrl;
+    }
+    
     public PushResult sendPush(PushPayload pushPayload) {
         if (_overallSettingEnabled) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        String url = HOST_NAME_SSL + PUSH_PATH;
-        ResponseWrapper response = _httpClient.sendPost(url, pushPayload.toString(), _authCode);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl, pushPayload.toString(), _authCode);
         
         return PushResult.fromResponse(response);
     }
     
     public PushResult sendPush(String payloadString) {
-        String url = HOST_NAME_SSL + PUSH_PATH;
-        ResponseWrapper response = _httpClient.sendPost(url, payloadString, _authCode);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl, payloadString, _authCode);
         
         return PushResult.fromResponse(response);
     }

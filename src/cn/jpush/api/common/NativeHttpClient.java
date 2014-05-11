@@ -65,7 +65,7 @@ public class NativeHttpClient implements IHttpClient {
             
             if (METHOD_POST.equals(method)) {
                 conn.setDoOutput(true);     //POST Request
-				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
                 byte[] data = content.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Length", String.valueOf(data.length));
 	            out = conn.getOutputStream();
