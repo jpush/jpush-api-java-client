@@ -19,7 +19,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
 	
 	@Test
     public void sendSimpleNotification_Pall_Ndefault() {
-	    PushPayload payload = PushPayload.alertAll(ALERT);
+	    PushPayload payload = PushPayload.alertAll("Pall Nall default alert");
 		PushResult result = _client.sendPush(payload);
 		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
 	}
@@ -30,7 +30,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setPlatform(Platform.android())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.alert("alert"))
+                        .addPlatformNotification(AndroidNotification.alert("Pandroid Nandroid alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -43,7 +43,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.alert("alert"))
+                        .addPlatformNotification(AndroidNotification.alert("Pall Nandroid alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -56,7 +56,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(IosNotification.alert("alert"))
+                        .addPlatformNotification(IosNotification.alert("Pios Nios alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -69,7 +69,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(IosNotification.alert("alert"))
+                        .addPlatformNotification(IosNotification.alert("Pall Nios alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -82,7 +82,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setPlatform(Platform.winphone())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("alert"))
+                        .addPlatformNotification(WinphoneNotification.alert("Pwp Nwp alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -90,12 +90,12 @@ public class BasicFunctionsTests extends BaseRemoteTests {
     }
     
     @Test
-    public void sendSimpleNotification_wp() {
+    public void sendSimpleNotification_Pall_Nwp() {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("alert"))
+                        .addPlatformNotification(WinphoneNotification.alert("Pall Nwp alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -112,9 +112,9 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .addDeviceType(DeviceType.Android).build())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("alert"))
-                        .addPlatformNotification(IosNotification.alert("alert"))
-                        .addPlatformNotification(AndroidNotification.alert("alert"))
+                        .addPlatformNotification(WinphoneNotification.alert("Pall Nall wp alert"))
+                        .addPlatformNotification(IosNotification.alert("Pall Nall ios alert"))
+                        .addPlatformNotification(AndroidNotification.alert("Pall Nall android alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -123,7 +123,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
     
     @Test
     public void sendSimpleMessage_default() {
-        PushPayload payload = PushPayload.messageAll(MSG_CONTENT);
+        PushPayload payload = PushPayload.messageAll("Pall msg");
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
     }
@@ -133,7 +133,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.all())
-                .setMessage(Message.content(MSG_CONTENT))
+                .setMessage(Message.content("Pandroid msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
@@ -144,7 +144,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.all())
-                .setMessage(Message.content(MSG_CONTENT))
+                .setMessage(Message.content("Pios msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
@@ -155,7 +155,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.winphone())
                 .setAudience(Audience.all())
-                .setMessage(Message.content(MSG_CONTENT))
+                .setMessage(Message.content("Pwp msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
@@ -167,8 +167,8 @@ public class BasicFunctionsTests extends BaseRemoteTests {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
-                .setNotification(Notification.alert(ALERT))
-                .setMessage(Message.content(MSG_CONTENT))
+                .setNotification(Notification.alert("Pall Nall Mall alert"))
+                .setMessage(Message.content("Pall Nall Mall msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
