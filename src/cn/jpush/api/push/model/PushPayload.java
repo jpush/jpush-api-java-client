@@ -70,6 +70,13 @@ public class PushPayload implements PushModel {
         }
     }
     
+    public int getSendno() {
+        if (null != options) {
+            return options.getSendno();
+        }
+        return 0;
+    }
+    
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();

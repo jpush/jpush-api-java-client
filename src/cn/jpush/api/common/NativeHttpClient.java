@@ -21,8 +21,6 @@ import javax.net.ssl.X509TrustManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jpush.api.utils.StringUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -59,9 +57,7 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			conn.setRequestProperty("Accept-Charset", CHARSET);
 			conn.setRequestProperty("Charset", CHARSET);
-            if (!StringUtils.isEmpty(authCode)) {
-				conn.setRequestProperty("Authorization", authCode);
-			}
+			conn.setRequestProperty("Authorization", authCode);
             
             if (METHOD_POST.equals(method)) {
                 conn.setDoOutput(true);     //POST Request

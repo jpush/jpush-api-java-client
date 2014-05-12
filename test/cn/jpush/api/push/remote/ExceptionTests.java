@@ -151,6 +151,60 @@ public class ExceptionTests extends BaseRemoteTests {
         assertEquals(INVALID_PARAMS, result.getErrorCode());
     }
     
+
+    @Test
+    public void invalidParams_notification_android_empty() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject android = new JsonObject();
+        
+        notification.add("android", android);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void invalidParams_notification_ios_empty() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject ios = new JsonObject();
+        
+        notification.add("ios", ios);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void invalidParams_notification_winphone_empty() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject notification = new JsonObject();
+        JsonObject winphone = new JsonObject();
+        
+        notification.add("winphone", winphone);
+        payload.add("notification", notification);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(INVALID_PARAMS, result.getErrorCode());
+    }
     
     // ------------------------ lack of params
 
@@ -187,59 +241,6 @@ public class ExceptionTests extends BaseRemoteTests {
         assertEquals(LACK_OF_PARAMS, result.getErrorCode());
     }
 
-    @Test
-    public void lackOfParams_notification_android_empty() {
-        JsonObject payload = new JsonObject();
-        payload.add("platform", Platform.all().toJSON());
-        payload.add("audience", Audience.all().toJSON());
-        
-        JsonObject notification = new JsonObject();
-        JsonObject android = new JsonObject();
-        
-        notification.add("android", android);
-        payload.add("notification", notification);
-        
-        System.out.println("json string: " + payload.toString());
-        
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
-    }
-    
-    @Test
-    public void lackOfParams_notification_ios_empty() {
-        JsonObject payload = new JsonObject();
-        payload.add("platform", Platform.all().toJSON());
-        payload.add("audience", Audience.all().toJSON());
-        
-        JsonObject notification = new JsonObject();
-        JsonObject ios = new JsonObject();
-        
-        notification.add("ios", ios);
-        payload.add("notification", notification);
-        
-        System.out.println("json string: " + payload.toString());
-        
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
-    }
-    
-    @Test
-    public void lackOfParams_notification_winphone_empty() {
-        JsonObject payload = new JsonObject();
-        payload.add("platform", Platform.all().toJSON());
-        payload.add("audience", Audience.all().toJSON());
-        
-        JsonObject notification = new JsonObject();
-        JsonObject winphone = new JsonObject();
-        
-        notification.add("winphone", winphone);
-        payload.add("notification", notification);
-        
-        System.out.println("json string: " + payload.toString());
-        
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
-    }
     
     @Test
     public void lackOfParams_notification_android_noalert() {
@@ -257,7 +258,7 @@ public class ExceptionTests extends BaseRemoteTests {
         System.out.println("json string: " + payload.toString());
         
         PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
     }
     
     @Test
@@ -276,7 +277,7 @@ public class ExceptionTests extends BaseRemoteTests {
         System.out.println("json string: " + payload.toString());
         
         PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
     }
     
     @Test
@@ -295,7 +296,24 @@ public class ExceptionTests extends BaseRemoteTests {
         System.out.println("json string: " + payload.toString());
         
         PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
+    }
+    
+    @Test
+    public void lackOfParams_message_noMsgContent() {
+        JsonObject payload = new JsonObject();
+        payload.add("platform", Platform.all().toJSON());
+        payload.add("audience", Audience.all().toJSON());
+        
+        JsonObject message = new JsonObject();
+        message.add("title", new JsonPrimitive("title"));
+        
+        payload.add("message", message);
+        
+        System.out.println("json string: " + payload.toString());
+        
+        PushResult result = _client.sendPush(payload.toString());
+        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
     }
     
 

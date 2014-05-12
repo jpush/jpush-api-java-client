@@ -45,6 +45,10 @@ public class Options implements PushModel {
         this.timeToLive = timeToLive;
     }
     
+    public int getSendno() {
+        return this.sendno;
+    }
+    
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
