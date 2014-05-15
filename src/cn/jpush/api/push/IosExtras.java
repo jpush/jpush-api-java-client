@@ -1,15 +1,30 @@
 package cn.jpush.api.push;
 
+import com.google.gson.annotations.SerializedName;
+
 /*
  * Should be set into Notification extras with key "ios"
  */
 public class IosExtras {
 	
-	public IosExtras(int badge, String sound) {
+    private int badge = 0;
+    
+    private String sound = "";
+    
+    @SerializedName("content-available")
+    private boolean contentAvailable = false;
+    
+	public IosExtras(int badge, String sound, boolean contentAvailable) {
 		this.badge = badge;
 		this.sound = sound;
+		this.contentAvailable = contentAvailable;
 	}
 	
+    public IosExtras(int badge, String sound) {
+        this.badge = badge;
+        this.sound = sound;
+    }
+    
 	public IosExtras(String sound) {
 		this.sound = sound;
 	}
@@ -17,13 +32,6 @@ public class IosExtras {
 	public IosExtras(int badge) {
 		this.badge = badge;
 	}
-	
-	/*
-	 * Badge Notification,默认是(0)
-	 */
-	private int badge = 0;
-	
-	private String sound = ""; 
 	
 	public int getBadge() {
 		return badge;
@@ -39,7 +47,16 @@ public class IosExtras {
 	
 	public void setSound(String sound) {
 		this.sound = sound;
-	} 
+	}
+
+    public boolean isContentAvailable() {
+        return contentAvailable;
+    }
+
+    public void setContentAvailable(boolean contentAvailable) {
+        this.contentAvailable = contentAvailable;
+    } 
+	
 	
 }
 
