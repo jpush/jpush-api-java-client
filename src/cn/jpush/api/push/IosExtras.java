@@ -12,12 +12,12 @@ public class IosExtras {
     private String sound = "";
     
     @SerializedName("content-available")
-    private boolean contentAvailable = false;
+    private int contentAvailable = 0;
     
-	public IosExtras(int badge, String sound, boolean contentAvailable) {
+	public IosExtras(int badge, String sound, boolean contentAvailableEnabled) {
 		this.badge = badge;
 		this.sound = sound;
-		this.contentAvailable = contentAvailable;
+		this.contentAvailable = contentAvailableEnabled ? 1 : 0;
 	}
 	
     public IosExtras(int badge, String sound) {
@@ -49,12 +49,12 @@ public class IosExtras {
 		this.sound = sound;
 	}
 
-    public boolean isContentAvailable() {
+    public int getContentAvailable() {
         return contentAvailable;
     }
-
-    public void setContentAvailable(boolean contentAvailable) {
-        this.contentAvailable = contentAvailable;
+    
+    public void enableContentAvailable(boolean contentAvailableEnabled) {
+        this.contentAvailable = contentAvailableEnabled ? 1 : 0;
     } 
 	
 	

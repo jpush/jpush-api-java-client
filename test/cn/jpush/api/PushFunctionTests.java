@@ -1,6 +1,6 @@
 package cn.jpush.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
@@ -67,7 +67,7 @@ public class PushFunctionTests {
 	public void sendNotificationWithAlias_ios(){
         HashMap<String, Object> extra = new HashMap<String, Object>();
         extra.put("jpush-key","jpush-value");
-        IosExtras iosExtra = new IosExtras(1,"test.mp3");
+        IosExtras iosExtra = new IosExtras(1,"test.mp3", true);
         extra.put("ios", iosExtra);
 		
         NotificationParams params = new NotificationParams();
