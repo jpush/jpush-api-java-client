@@ -172,46 +172,8 @@ public class AudienceTests extends BaseRemoteTests {
         assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
     }
     
-    // composite fail ------------------------
-    
     @Test
-    public void sendByTagAlias_fail() {
-        PushPayload payload = PushPayload.newBuilder()
-                .setPlatform(Platform.all())
-                .setAudience(Audience.newBuilder()
-                        .addAudienceTarget(AudienceTarget.newBuilder()
-                            .setAudienceType(AudienceType.ALIAS)
-                            .addAudienceTargetValue(ALIAS1).build())
-                       .addAudienceTarget(AudienceTarget.newBuilder()
-                               .setAudienceType(AudienceType.TAG)
-                               .addAudienceTargetValue(TAG2).build())
-                       .build())
-                .setNotification(Notification.alert(ALERT))
-                .build();
-        PushResult result = _client.sendPush(payload);
-        assertEquals(NO_TARGET, result.getErrorCode());
-    }
-
-    @Test
-    public void sendByTagAlias_fail2() {
-        PushPayload payload = PushPayload.newBuilder()
-                .setPlatform(Platform.all())
-                .setAudience(Audience.newBuilder()
-                        .addAudienceTarget(AudienceTarget.newBuilder()
-                            .setAudienceType(AudienceType.ALIAS)
-                            .addAudienceTargetValue(ALIAS_NO).build())
-                       .addAudienceTarget(AudienceTarget.newBuilder()
-                               .setAudienceType(AudienceType.TAG)
-                               .addAudienceTargetValue(TAG_ALL).build())
-                       .build())
-                .setNotification(Notification.alert(ALERT))
-                .build();
-        PushResult result = _client.sendPush(payload);
-        assertEquals(NO_TARGET, result.getErrorCode());
-    }
-    
-    @Test
-    public void sendByTagRegistrationID_fail() {
+    public void sendByTagRegistrationID_0() {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -225,9 +187,45 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(NO_TARGET, result.getErrorCode());
+        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+    }
+        
+    @Test
+    public void sendByTagAlias_0() {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.newBuilder()
+                        .addAudienceTarget(AudienceTarget.newBuilder()
+                            .setAudienceType(AudienceType.ALIAS)
+                            .addAudienceTargetValue(ALIAS1).build())
+                       .addAudienceTarget(AudienceTarget.newBuilder()
+                               .setAudienceType(AudienceType.TAG)
+                               .addAudienceTargetValue(TAG2).build())
+                       .build())
+                .setNotification(Notification.alert(ALERT))
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
     }
 
+    @Test
+    public void sendByTagAlias_0_2() {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.newBuilder()
+                        .addAudienceTarget(AudienceTarget.newBuilder()
+                            .setAudienceType(AudienceType.ALIAS)
+                            .addAudienceTargetValue(ALIAS_NO).build())
+                       .addAudienceTarget(AudienceTarget.newBuilder()
+                               .setAudienceType(AudienceType.TAG)
+                               .addAudienceTargetValue(TAG_ALL).build())
+                       .build())
+                .setNotification(Notification.alert(ALERT))
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+    }
+    
 
 }
 

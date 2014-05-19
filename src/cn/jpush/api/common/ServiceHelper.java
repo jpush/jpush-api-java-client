@@ -9,6 +9,7 @@ import cn.jpush.api.utils.StringUtils;
 public class ServiceHelper {
 
     private final static Pattern PUSH_PATTERNS = Pattern.compile("[^a-zA-Z0-9]");
+    private final static String BASIC_PREFIX = "Basic";
     
     private static final Random RANDOM = new Random(System.currentTimeMillis());
     private static final int MIN = 100000;
@@ -20,7 +21,7 @@ public class ServiceHelper {
     
     public static String getAuthorizationBase64(String appKey, String masterSecret) {
         String encodeKey = appKey + ":" + masterSecret;
-        return String.valueOf(Base64.encode(encodeKey.getBytes())); 
+        return BASIC_PREFIX + " " + String.valueOf(Base64.encode(encodeKey.getBytes())); 
     }
     
     public static void checkBasic(String appKey, String masterSecret) {
