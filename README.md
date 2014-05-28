@@ -46,7 +46,7 @@
 ### 构建本项目
 建议直接使用 maven，执行命令：
 ```
-maven package 
+maven package
 ```
 
 ## 使用样例
@@ -56,28 +56,21 @@ maven package
 ### 推送样例
 
 ```
-JPushClient jpushClient = new JPushClient(masterSecret, appKey, 0, DeviceEnum.Android, false);
-CustomMessageParams params = new CustomMessageParams();
-params.setReceiverType(ReceiverTypeEnum.TAG);
-params.setReceiverValue(tag);
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        PushPayload payload = PushPayload.alertAll("Hi, JPush!");
+        LOG.info("Paylaod JSON - " + payload.toString());
 
-MessageResult msgResult = jpushClient.sendCustomMessage(msgTitle, msgContent, params, null);
-LOG.debug("responseContent - " + msgResult.responseResult.responseContent);
-if (msgResult.isResultOK()) {
-    LOG.info("msgResult - " + msgResult);
-    LOG.info("messageId - " + msgResult.getMessageId());
-} else {
-    if (msgResult.getErrorCode() > 0) {
-        // 业务异常
-        LOG.warn("Service error - ErrorCode: "
-                + msgResult.getErrorCode() + ", ErrorMessage: "
-                + msgResult.getErrorMessage());
-    } else {
-        // 未到达 JPush 
-        LOG.error("Other excepitons - "
-                + msgResult.responseResult.exceptionString);
-    }
-}
+        PushResult result = jpushClient.sendPush(payload);
+        if (result.isResultOK()) {
+            LOG.debug(result.toString());
+        } else {
+            if (result.getErrorCode() > 0) {
+                LOG.warn(result.getOriginalContent());
+            } else {
+                LOG.debug("Maybe connect error. Retry laster. ");
+            }
+        }
+
 ```
 
 ### 统计获取样例
@@ -106,7 +99,3 @@ if (receivedsResult.isResultOK()) {
 ## 版本更新
 
 [Release页面](https://github.com/jpush/jpush-api-java-client/releases) 有详细的版本发布记录与下载。
-
-
-
-
