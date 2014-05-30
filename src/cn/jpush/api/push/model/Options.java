@@ -14,11 +14,11 @@ public class Options implements PushModel {
     private static final String APNS_PRODUCTION = "apns_production";
     
     private final int sendno;
-    private final int overrideMsgId;
+    private final long overrideMsgId;
     private long timeToLive;
     private boolean apnsProduction;
     
-    private Options(int sendno, int overrideMsgId, long timeToLive, boolean apnsProduction) {
+    private Options(int sendno, long overrideMsgId, long timeToLive, boolean apnsProduction) {
         this.sendno = sendno;
         this.overrideMsgId = overrideMsgId;
         this.timeToLive = timeToLive;
@@ -69,7 +69,7 @@ public class Options implements PushModel {
     
     public static class Builder {
         private int sendno = 0;
-        private int overrideMsgId = 0;
+        private long overrideMsgId = 0;
         private long timeToLive = 0;
         private boolean apnsProduction = true;
         
@@ -78,7 +78,7 @@ public class Options implements PushModel {
             return this;
         }
         
-        public Builder setOverrideMsgId(int overrideMsgId) {
+        public Builder setOverrideMsgId(long overrideMsgId) {
             this.overrideMsgId = overrideMsgId;
             return this;
         }
