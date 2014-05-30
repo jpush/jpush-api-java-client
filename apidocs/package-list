@@ -2,5 +2,8 @@ cn.jpush.api
 cn.jpush.api.common
 cn.jpush.api.examples
 cn.jpush.api.push
+cn.jpush.api.push.model
+cn.jpush.api.push.model.audience
+cn.jpush.api.push.model.notification
 cn.jpush.api.report
 cn.jpush.api.utils

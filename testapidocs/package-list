@@ -1,1 +1,6 @@
-cn.jpush.api
+cn.jpush.api.push.mock
+cn.jpush.api.push.model
+cn.jpush.api.push.model.audience
+cn.jpush.api.push.model.notification
+cn.jpush.api.push.remote
+cn.jpush.api.report
