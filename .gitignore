@@ -1,0 +1,14 @@
+/bin
+/.settings
+/.metadata
+/test-output
+/target
+
+*.class
+*.project
+# Package Files #
+# *.jar
+*.DS_Store
+*.war
+*.ear
+
