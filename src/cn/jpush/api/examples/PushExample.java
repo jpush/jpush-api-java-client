@@ -5,32 +5,37 @@ import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import cn.jpush.api.report.ReceivedsResult;
 
-public class JPushClientExample {
-    protected static final Logger LOG = LoggerFactory.getLogger(JPushClientExample.class);
+public class PushExample {
+    protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
 	private static final String appKey ="dd1066407b044738b6479275";
 	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
 	
 	public static final String TITLE = "Test from API example";
-    public static final String CONTENT = "Test from Javen";
+    public static final String ALERT = "Test from API Example - alert";
+    public static final String MSG_CONTENT = "Test from API Example - msgContent";
     public static final String REGISTRATION_ID = "0900e8d85ef";
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
 	    testSendPush();
-		testGetReport();
 	}
 	
-	private static void testSendPush() {
+	
+	public static void testSendPush() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        
+        // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_all_alert();
         LOG.info("Paylaod JSON - " + payload.toString());
         
@@ -47,14 +52,14 @@ public class JPushClientExample {
 	}
 	
 	public static PushPayload buildPushObject_all_all_alert() {
-	    return PushPayload.alertAll(CONTENT);
+	    return PushPayload.alertAll(ALERT);
 	}
 	
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias("alias1"))
-                .setNotification(Notification.alert(CONTENT))
+                .setNotification(Notification.alert(ALERT))
                 .build();
     }
     
@@ -64,33 +69,40 @@ public class JPushClientExample {
                 .setAudience(Audience.tag("tag1"))
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setAlert(CONTENT)
+                                .setAlert(ALERT)
                                 .setTitle(TITLE)
                                 .build())
                         .build())
                 .build();
     }
     
+    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtras() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.tag_and("tag1", "tag_all"))
+                .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(IosNotification.newBuilder()
+                                .setAlert(ALERT)
+                                .addExtra("news_id", 333)
+                                .build())
+                        .build())
+                 .build();
+    }
     
-	public static void testGetReport() {
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
-        LOG.debug("responseContent - " + receivedsResult.getOriginalContent());
-		if (receivedsResult.isResultOK()) {
-		    LOG.info("Receiveds - " + receivedsResult);
-		} else {
-            if (receivedsResult.getErrorCode() > 0) {
-                // 业务异常
-                LOG.warn("Service error - ErrorCode: "
-                        + receivedsResult.getErrorCode() + ", ErrorMessage: "
-                        + receivedsResult.getErrorMessage());
-            } else {
-                // 未到达 JPush
-                LOG.error("Other excepitons - "
-                        + receivedsResult.getExceptionString());
-            }
-		}
-	}
-
+    public static PushPayload buildPushObject_ios_audienceMore_message() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.newBuilder()
+                        .addAudienceTarget(AudienceTarget.tag("tag1", "tag2"))
+                        .addAudienceTarget(AudienceTarget.alias("alias1", "alias2"))
+                        .build())
+                .setMessage(Message.newBuilder()
+                        .setMsgContent(MSG_CONTENT)
+                        .addExtra("news_id", 333)
+                        .build())
+                .build();
+    }
+    
+    
 }
 

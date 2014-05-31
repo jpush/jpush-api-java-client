@@ -34,7 +34,7 @@ public class PushClient {
     private long _timeToLive = 60 * 60 * 24;
     
     
-    private boolean _overallSettingEnabled = false;
+    private boolean _globalSettingEnabled = false;
     
     // Generated HTTP Basic authorization string.
     private final String _authCode;
@@ -53,7 +53,7 @@ public class PushClient {
         this(masterSecret, appKey);
         this._apnsProduction = apnsProduction;
         this._timeToLive = timeToLive;
-        this._overallSettingEnabled = true;
+        this._globalSettingEnabled = true;
     }
     
     public void setBaseUrl(String baseUrl) {
@@ -61,7 +61,7 @@ public class PushClient {
     }
     
     public PushResult sendPush(PushPayload pushPayload) {
-        if (_overallSettingEnabled) {
+        if (_globalSettingEnabled) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }

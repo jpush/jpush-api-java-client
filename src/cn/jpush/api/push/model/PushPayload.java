@@ -8,6 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * The object you should to build for sending a push.
+ * 
+ * Basically start with newBuilder() method to build a PushPayload object.
+ * alertAll() is a shortcut for quickly build payload of alert to all platform and all audience;
+ * mesageAll() is a shortcut for quickly build payload of message to all platform and all audience.
+ * 
+ */
 public class PushPayload implements PushModel {
     private static final String PLATFORM = "platform";
     private static final String AUDIENCE = "audience";
@@ -23,6 +31,7 @@ public class PushPayload implements PushModel {
     private final Message message;
     private Options options;
     
+    
     private PushPayload(Platform platform, Audience audience, 
             Notification notification, Message message, Options options) {
         this.platform = platform;
@@ -32,10 +41,16 @@ public class PushPayload implements PushModel {
         this.options = options;
     }
     
+    /**
+     * The entrance for building a PushPayload object.
+     */
     public static Builder newBuilder() {
         return new Builder();
     }
     
+    /**
+     * The shortcut of building a simple alert notification object to all platforms and all audiences
+     */
     public static PushPayload alertAll(String alert) {
         return new Builder()
             .setPlatform(Platform.all())
@@ -43,6 +58,9 @@ public class PushPayload implements PushModel {
             .setNotification(Notification.alert(alert)).build();
     }
     
+    /**
+     * The shortcut of building a simple message object to all platforms and all audiences
+     */
     public static PushPayload messageAll(String msgContent) {
         return new Builder()
             .setPlatform(Platform.all())

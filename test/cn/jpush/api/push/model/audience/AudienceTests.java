@@ -3,10 +3,6 @@ package cn.jpush.api.push.model.audience;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.audience.Audience;
-import cn.jpush.api.push.model.audience.AudienceTarget;
-import cn.jpush.api.push.model.audience.AudienceType;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -21,10 +17,7 @@ public class AudienceTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAllMore() {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
-                .addAudienceTargetValue("aaaa")
-                .build();
+        AudienceTarget target = AudienceTarget.alias("aaaa");
         Audience audience = Audience.newBuilder()
                 .setAll(true)
                 .addAudienceTarget(target)
@@ -45,10 +38,7 @@ public class AudienceTests {
         arr.add(new JsonPrimitive("aaaa"));
         json.add("alias", arr);
         
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
-                .addAudienceTargetValue("aaaa")
-                .build();
+        AudienceTarget target = AudienceTarget.alias("aaaa");
         Audience audience = Audience.newBuilder()
                 .addAudienceTarget(target)
                 .build();

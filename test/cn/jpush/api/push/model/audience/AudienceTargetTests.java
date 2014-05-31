@@ -3,9 +3,6 @@ package cn.jpush.api.push.model.audience;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.jpush.api.push.model.audience.AudienceTarget;
-import cn.jpush.api.push.model.audience.AudienceType;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 
@@ -26,9 +23,7 @@ public class AudienceTargetTests {
         JsonArray arr = new JsonArray();
         arr.add(new JsonPrimitive("aaa"));
         
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
-                .addAudienceTargetValue("aaa").build();
+        AudienceTarget target = AudienceTarget.alias("aaa");
         Assert.assertEquals("", arr, target.toJSON());
     }
 

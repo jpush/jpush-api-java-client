@@ -23,6 +23,39 @@ public class AudienceTarget implements PushModel {
         return new Builder();
     }
     
+    public static AudienceTarget tag(String... tag) {
+        return newBuilder().setAudienceType(AudienceType.TAG).addAudienceTargetValues(tag).build();
+    }
+    
+    public static AudienceTarget tag(Collection<String> tags) {
+        return newBuilder().setAudienceType(AudienceType.TAG).addAudienceTargetValues(tags).build();
+    }
+    
+    public static AudienceTarget tag_and(String... tag) {
+        return newBuilder().setAudienceType(AudienceType.TAG_AND).addAudienceTargetValues(tag).build();
+    }
+    
+    public static AudienceTarget tag_and(Collection<String> tags) {
+        return newBuilder().setAudienceType(AudienceType.TAG_AND).addAudienceTargetValues(tags).build();
+    }
+    
+    public static AudienceTarget alias(String... alias) {
+        return newBuilder().setAudienceType(AudienceType.ALIAS).addAudienceTargetValues(alias).build();
+    }
+    
+    public static AudienceTarget alias(Collection<String> aliases) {
+        return newBuilder().setAudienceType(AudienceType.ALIAS).addAudienceTargetValues(aliases).build();
+    }
+
+    public static AudienceTarget registrationId(String... registrationId) {
+        return newBuilder().setAudienceType(AudienceType.REGISTRATION_ID).addAudienceTargetValues(registrationId).build();
+    }
+    
+    public static AudienceTarget registrationId(Collection<String> registrationIds) {
+        return newBuilder().setAudienceType(AudienceType.REGISTRATION_ID).addAudienceTargetValues(registrationIds).build();
+    }
+    
+    
     public AudienceType getAudienceType() {
         return this.audienceType;
     }
