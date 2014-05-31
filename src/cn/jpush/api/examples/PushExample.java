@@ -86,12 +86,13 @@ public class PushExample {
                                 .addExtra("news_id", 333)
                                 .build())
                         .build())
+                 .setMessage(Message.content(MSG_CONTENT))
                  .build();
     }
     
     public static PushPayload buildPushObject_ios_audienceMore_message() {
         return PushPayload.newBuilder()
-                .setPlatform(Platform.ios())
+                .setPlatform(Platform.android_ios())
                 .setAudience(Audience.newBuilder()
                         .addAudienceTarget(AudienceTarget.tag("tag1", "tag2"))
                         .addAudienceTarget(AudienceTarget.alias("alias1", "alias2"))

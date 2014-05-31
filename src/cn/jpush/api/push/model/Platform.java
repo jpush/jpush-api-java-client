@@ -39,6 +39,27 @@ public class Platform implements PushModel {
         return newBuilder().addDeviceType(DeviceType.WinPhone).build();
     }
     
+    public static Platform android_ios() {
+        return newBuilder()
+                .addDeviceType(DeviceType.Android)
+                .addDeviceType(DeviceType.IOS)
+                .build();
+    }
+    
+    public static Platform android_winphone() {
+        return newBuilder()
+                .addDeviceType(DeviceType.Android)
+                .addDeviceType(DeviceType.WinPhone)
+                .build();
+    }
+    
+    public static Platform ios_winphone() {
+        return newBuilder()
+                .addDeviceType(DeviceType.IOS)
+                .addDeviceType(DeviceType.WinPhone)
+                .build();
+    }
+    
     public boolean isAll() {
         return all;
     }
