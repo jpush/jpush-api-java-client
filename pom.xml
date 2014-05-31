@@ -101,7 +101,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<goals>deploy</goals>
+					<goals>deploy,site</goals>
 					<pushChanges>false</pushChanges>
 					<localCheckout>true</localCheckout>
 					<commitByProject>true</commitByProject>
