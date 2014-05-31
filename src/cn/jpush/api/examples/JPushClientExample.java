@@ -5,7 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.report.ReceivedsResult;
 
 public class JPushClientExample {
@@ -21,14 +25,13 @@ public class JPushClientExample {
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
-	    testSendNotification();
-//	    testSendMesasge();
+	    testSendPush();
 		testGetReport();
 	}
 	
-	private static void testSendNotification() {
+	private static void testSendPush() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        PushPayload payload = PushPayload.alertAll(CONTENT);
+        PushPayload payload = buildPushObject_all_all_alert();
         LOG.info("Paylaod JSON - " + payload.toString());
         
         PushResult result = jpushClient.sendPush(payload);
@@ -43,11 +46,31 @@ public class JPushClientExample {
         }
 	}
 	
-    private static void testSendMesasge() {
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        PushPayload payload = PushPayload.messageAll(CONTENT);
-        jpushClient.sendPush(payload);
+	public static PushPayload buildPushObject_all_all_alert() {
+	    return PushPayload.alertAll(CONTENT);
+	}
+	
+    public static PushPayload buildPushObject_all_alias_alert() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.alias("alias1"))
+                .setNotification(Notification.alert(CONTENT))
+                .build();
     }
+    
+    public static PushPayload buildPushObject_android_tag_alertWithTitle() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.android())
+                .setAudience(Audience.tag("tag1"))
+                .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setAlert(CONTENT)
+                                .setTitle(TITLE)
+                                .build())
+                        .build())
+                .build();
+    }
+    
     
 	public static void testGetReport() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
