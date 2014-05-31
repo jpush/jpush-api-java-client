@@ -76,7 +76,7 @@ public class PushExample {
                 .build();
     }
     
-    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtras() {
+    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.tag_and("tag1", "tag_all"))
@@ -90,7 +90,7 @@ public class PushExample {
                  .build();
     }
     
-    public static PushPayload buildPushObject_ios_audienceMore_message() {
+    public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.newBuilder()

@@ -144,23 +144,24 @@ maven package
 
 * 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
 ```
-    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtras() {
+    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.tag_and("tag1", "tag_all"))
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
-                                .addExtra("from", "JPush")
+                                .addExtra("news_id", 333)
                                 .build())
                         .build())
+                 .setMessage(Message.content(MSG_CONTENT))
                  .build();
     }
 ```
 
 * 构建推送对象：平台是 Andorid 与 iOS，推送目标是 （"tag1" 与 "tag2" 的交集）并（"alias1" 与 "alias2" 的交集），推送内容是 - 内容为 MSG_CONTENT 的消息，并且附加字段 from = JPush。
 ```
-    public static PushPayload buildPushObject_ios_audienceMore_message() {
+    public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.newBuilder()
