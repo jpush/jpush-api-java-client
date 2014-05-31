@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.0.1</version>
+	<version>3.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -32,7 +32,7 @@
 		<url>https://github.com/jpush/jpush-api-java-client</url>
 		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<tag>v3.0.1</tag>
+		<tag>jpush-client-3.0.0</tag>
 	</scm>
 
 	<dependencies>
