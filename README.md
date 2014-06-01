@@ -151,7 +151,7 @@ maven package
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
-                                .addExtra("news_id", 333)
+                                .addExtra("from", "JPush")
                                 .build())
                         .build())
                  .setMessage(Message.content(MSG_CONTENT))
