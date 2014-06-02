@@ -1,11 +1,15 @@
-# JPush API client library for Java
+# JPush API Java Library
 
 ## 概述
+
 这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
 
 对应的 REST API 文档：<http://docs.jpush.cn/display/dev/REST+API>
 
-API Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
+本开发包 Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
+
+版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
+
 
 ## 安装
 
@@ -24,13 +28,14 @@ API Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
 
 ### 依赖包
-* slf4j/log4j (Log)
-* gson (Google)
-* guava (Google)
+* [slf4j](http://www.slf4j.org/) / log4j (Logger)
+* [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
+* [guava](https://code.google.com/p/guava-libraries/) (Google Java Utils)
 
 > 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
 
 如果使用 Maven 构建项目，则需要在你的项目 pom.xml 里增加：
+
 ```
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -42,7 +47,6 @@ API Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.5</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -64,7 +68,6 @@ API Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 			<artifactId>guava</artifactId>
 			<version>17.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.squareup.okhttp</groupId>
 			<artifactId>mockwebserver</artifactId>
@@ -77,7 +80,9 @@ API Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
 
 ### 构建本项目
+
 建议直接使用 maven，执行命令：
+
 ```
 maven package
 ```
@@ -109,6 +114,7 @@ maven package
 进行推送的关键在于构建一个 PushPayload 对象。以下示例一般的构建对象的用法。
 
 * 快捷地构建推送对象：所有平台，所有设备，内容为 ALERT 的通知。
+
 ```
 	public static PushPayload buildPushObject_all_all_alert() {
 	    return PushPayload.alertAll(ALERT);
@@ -116,6 +122,7 @@ maven package
 ```
 
 * 构建推送对象：所有平台，推送目标是别名为 "alias1"，通知内容为 ALERT。
+
 ```
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
@@ -127,6 +134,7 @@ maven package
 ```
 
 * 构建推送对象：平台是 Android，目标是 tag 为 "tag1" 的设备，内容是 Android 通知 ALERT，并且标题为 TITLE。
+
 ```
     public static PushPayload buildPushObject_android_tag_alertWithTitle() {
         return PushPayload.newBuilder()
@@ -143,6 +151,7 @@ maven package
 ```
 
 * 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
+
 ```
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
         return PushPayload.newBuilder()
@@ -160,6 +169,7 @@ maven package
 ```
 
 * 构建推送对象：平台是 Andorid 与 iOS，推送目标是 （"tag1" 与 "tag2" 的交集）并（"alias1" 与 "alias2" 的交集），推送内容是 - 内容为 MSG_CONTENT 的消息，并且附加字段 from = JPush。
+
 ```
     public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
         return PushPayload.newBuilder()
@@ -201,6 +211,3 @@ if (receivedsResult.isResultOK()) {
 ```
 
 
-## 版本更新
-
-[Release页面](https://github.com/jpush/jpush-api-java-client/releases) 有详细的版本发布记录与下载。
