@@ -25,12 +25,14 @@ public class JPushClient {
 	}
 	
 	/**
-	 * Create a JPush Client with overall settings.
+	 * Create a JPush Client with global settings.
+	 * 
+	 * If you want different settings from default globally, this constructor is what you needed.
 	 * 
 	 * @param masterSecret API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
-	 * @param apnsProduction Overall APNs environment setting. It will override PushPayload Optional.
-	 * @param timeToLive Overall time_to_live setting. It will override PushPayload Optional.
+	 * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
+	 * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
 	 */
     public JPushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);

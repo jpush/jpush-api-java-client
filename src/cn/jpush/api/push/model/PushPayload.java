@@ -9,9 +9,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * The object you should to build for sending a push.
+ * The object you should build for sending a push.
  * 
  * Basically start with newBuilder() method to build a PushPayload object.
+ * 
  * alertAll() is a shortcut for quickly build payload of alert to all platform and all audience;
  * mesageAll() is a shortcut for quickly build payload of message to all platform and all audience.
  * 
@@ -154,8 +155,10 @@ public class PushPayload implements PushModel {
         }
         
         public PushPayload build() {
-            Preconditions.checkArgument(! (null == audience || null == platform), "Audience/Platform should be set.");
+            Preconditions.checkArgument(! (null == audience || null == platform), "audience and platform both should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
+            
+            // if options is not set, a sendno will be generated for tracing easily
             if (null == options) {
                 options = Options.sendno();
             }

@@ -13,14 +13,14 @@
 
 ## 安装
 
-### maven 方式（3.0.0 版本 maven 库里还没有，请直接用 jar 的方式）
+### maven 方式
 将下边的依赖条件放到你项目的 maven pom.xml 文件里。
 
 ```
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>2.3.1</version>
+    <version>3.0.1</version>
 </dependency>
 ```
 ### jar 包方式
@@ -209,5 +209,3 @@ if (receivedsResult.isResultOK()) {
     }
 }
 ```
-
-

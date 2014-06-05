@@ -40,6 +40,12 @@ public class PushClient {
     private final String _authCode;
     private String _baseUrl;
     
+    /**
+     * Create a Push Client.
+     * 
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     */
 	public PushClient(String masterSecret, String appKey) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
@@ -49,6 +55,16 @@ public class PushClient {
         ServiceHelper.checkBasic(appKey, masterSecret);
 	}
 	
+	/**
+     * Create a Push Client with global settings.
+     * 
+     * If you want different settings from default globally, this constructor is what you needed.
+     * 
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
+     * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
+     */
     public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         this(masterSecret, appKey);
         this._apnsProduction = apnsProduction;
