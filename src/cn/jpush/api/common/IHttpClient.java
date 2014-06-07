@@ -9,6 +9,7 @@ public interface IHttpClient {
     public static final String RATE_LIMIT_QUOTA = "X-Rate-Limit-Limit";
     public static final String RATE_LIMIT_Remaining = "X-Rate-Limit-Remaining";
     public static final String RATE_LIMIT_Reset = "X-Rate-Limit-Reset";
+    public static final String JPUSH_USER_AGENT = "JPush-API-Java-Client";
     
     public static final int RESPONSE_OK = 200;
     public static final String METHOD_POST = "POST";

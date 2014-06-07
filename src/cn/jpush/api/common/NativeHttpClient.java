@@ -54,6 +54,7 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setReadTimeout(DEFAULT_SOCKET_TIMEOUT);
 			conn.setUseCaches(false);
 			conn.setRequestMethod(method);
+			conn.setRequestProperty("User-Agent", JPUSH_USER_AGENT);
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			conn.setRequestProperty("Accept-Charset", CHARSET);
 			conn.setRequestProperty("Charset", CHARSET);
