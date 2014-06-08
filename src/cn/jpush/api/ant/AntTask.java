@@ -1,14 +1,13 @@
 package cn.jpush.api.ant;
 
+import org.apache.tools.ant.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.examples.PushExample;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 /**
  * the class convenient client for use in the ant script.
@@ -16,7 +15,7 @@ import com.google.gson.JsonObject;
  * @author caiyihuang
  * 
  */
-public class AntTask {
+public class AntTask extends Task {
 	private static final String ANT_HOST_NAME = "https://admin.jpush.cn";
 	private static final String ANT_RECEIVE_PATH = "/v1/app";
 	private AntTaskEntity entity;
@@ -24,10 +23,16 @@ public class AntTask {
 	protected static final Logger LOG = LoggerFactory
 			.getLogger(PushExample.class);
 
-	public AntTask(String dev_key, String dev_secret, String app_name,
-			String android_package, String group_name) {
-		entity = new AntTaskEntity(dev_key,dev_secret,app_name,android_package,group_name);
+	public void execute() {
 
+		String dev_key = getProject().getProperty("dev_key");
+		String dev_secret = getProject().getProperty("dev_secret");
+		String app_name = getProject().getProperty("app_name");
+		String android_package = getProject().getProperty("android_package");
+		String group_name = getProject().getProperty("group_name");
+		entity = new AntTaskEntity(dev_key, dev_secret, app_name,
+				android_package, group_name);
+		getAntRespone();
 	}
 
 	public void getAntRespone() {
@@ -36,26 +41,23 @@ public class AntTask {
 		String json = gson.toJson(entity);
 		ResponseWrapper respone = _httpClient.sendPost(url, json, "");
 		String content = respone.responseContent;
-	/*	System.out.println(content);
-		System.out.println(json);*/
+		/*
+		 * System.out.println(content); System.out.println(json);
+		 */
 		AntResponseEntity responseEntity = gson.fromJson(content,
 				AntResponseEntity.class);
 		Error error = responseEntity.getError();
-		Success success=responseEntity.getSuccess();
+		Success success = responseEntity.getSuccess();
 		if (error != null) {
-			LOG.error("create failed  "+error.getCode() + "   " + error.getMessage());
-		}if(success!=null){
-			LOG.info("create success   " + "your appkey is" +success.getApp_key()+"your android package is"+success.getAndroid_package());
+			LOG.error("create failed  " + error.getCode() + "   "
+					+ error.getMessage());
+		}
+		if (success != null) {
+			LOG.info("create success   " + "your appkey is"
+					+ success.getApp_key() + "your android package is"
+					+ success.getAndroid_package());
 		}
 
-	}
-   /**
-    *  entry of ant task
-    * @param args[0]- args[4] are  dev_key，dev_secret，app_name，android_package，group_name
-    */
-	public static void main(String[] args) {
-		AntTask ant = new AntTask(args[0], args[1], args[2], args[3],args[4]);
-		ant.getAntRespone();
 	}
 
 }
@@ -143,11 +145,11 @@ class AntTaskEntity {
 
 	public AntTaskEntity(String dev_key, String dev_secret, String app_name,
 			String android_package, String group_name) {
-			this.dev_key=dev_key;
-			this.dev_secret=dev_secret;
-			this.app_name=app_name;
-			this.android_package=android_package;
-			this.group_name=group_name;
+		this.dev_key = dev_key;
+		this.dev_secret = dev_secret;
+		this.app_name = app_name;
+		this.android_package = android_package;
+		this.group_name = group_name;
 	}
 
 	public String getDev_key() {
