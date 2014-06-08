@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name ="ANt_TASK" default="run" basedir=".">
+	<path id="lib_classpath">
+	<fileset dir="${basedir}/libs">
+	<include name="*.jar"/>
+	</fileset>
+	</path>
+    <target name="clean">
+        <delete dir="${basedir}/build"/>
+    </target>
+    <target name="compile"  depends ="clean">
+        <mkdir dir ="${basedir}/build/classes"/>
+        <javac srcdir ="${basedir}/src" destdir ="${basedir}/build/classes">
+    	<classpath refid="lib_classpath"/>
+        	</javac>
+    	<copy todir="${basedir}/build/classes">
+    	            <fileset dir="${basedir}/resources">
+    	                <include name="**/*.properties"/>    
+    	                <include name="**/*.xml"/>
+    	            </fileset>
+    	        </copy>
+    </target>
+	<!-- 修改 arg 构建自己的应用 -->
+     <target name="run"  depends ="compile">
+        <java classname ="cn.jpush.api.ant.AntTask" >
+        	 <arg value="de_key"/>
+        	<arg value="dev_secret"/>
+        	<arg value="app_name"/>
+        	<arg value="android_package"/>
+        	<arg value="group_name"/>
+            <classpath>
+               <pathelement path="${basedir}/build/classes/"/>
+            </classpath>
+        	<classpath refid="lib_classpath"/>
+        	
+        </java>
+    </target>
+</project>
