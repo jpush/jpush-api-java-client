@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="AntTask" basedir="." default="use">
+<project name="jpush-create-app" basedir="." default="use">
 
 	<property name="src.dir" value="src" />
 	<property name="classes.dir" value="classes" />
+	
 	<!--Modify  them to create you own app -->
-	<property name="dev_key" value="dev_key" />
-	<property name="dev_secret" value="dev_secret" />
-	<property name="app_name" value="app_name" />
-	<property name="android_package" value="android_package" />
-	<property name="group_name" value="group_name" />
+	<property name="jpush_dev_key" value="903724367fadb34e4820b6e0" />
+	<property name="jpush_dev_secret" value="654321" />
     
 	<path id="lib_classpath">
 		<fileset dir="${basedir}/libs">
 			<include name="*.jar" />
 		</fileset>
 	</path>
+	
 	<target name="clean" description="Delete all generated files">
 		<delete dir="${classes.dir}" failonerror="false" />
-		<delete file="${ant.project.name}.jar" />
+		<delete file="dist/${ant.project.name}.jar" />
 	</target>
 
 	<target name="compile" description="Compiles the Task">
@@ -34,14 +33,20 @@
 	</target>
 
 	<target name="jar" description="JARs the Task" depends="compile">
-		<jar destfile="${ant.project.name}.jar" basedir="${classes.dir}" />
+		<jar destfile="dist/${ant.project.name}.jar" basedir="${classes.dir}" />
 	</target>
 
 	<target name="use" description="Use the Task" depends="jar">
-		<taskdef name="antTask" classname="cn.jpush.api.ant.AntTask" classpath="${ant.project.name}.jar" classpathref="lib_classpath" />
-		<antTask />
-
+		<taskdef name="create-app" 
+		    classname="cn.jpush.api.tools.AppCreateAntTask" 
+		    classpath="dist/${ant.project.name}.jar" 
+		    classpathref="lib_classpath" />
+		<create-app app_name="Test4" 
+			android_package="com.example.test4"
+			group_name="group1" />
+		<echo message="app_key:${jpush_app_key}, 
+			android_package:${jpush_android_package}, 
+			is_new_created:${jpush_is_new_created}" />
 	</target>
-
-
 </project>
+

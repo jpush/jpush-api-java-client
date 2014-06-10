@@ -3,6 +3,8 @@ bin/
 .metadata/
 target/
 test-output/
+classes/
+dist/
 
 *.class
 *.project
