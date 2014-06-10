@@ -5,6 +5,8 @@ target/
 test-output/
 classes/
 dist/
+tools/dist
+tools/classes
 
 *.class
 *.project
