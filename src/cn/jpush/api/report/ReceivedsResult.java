@@ -28,7 +28,7 @@ public class ReceivedsResult extends BaseResult {
 	
 	public static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
         ReceivedsResult receivedsResult = new ReceivedsResult();
-        if (responseWrapper.isServerResonse()) {
+        if (responseWrapper.isServerResponse()) {
             receivedsResult.received_list = _gson.fromJson(responseWrapper.responseContent, RECEIVED_TYPE);
         }
         

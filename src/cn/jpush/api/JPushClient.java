@@ -1,13 +1,15 @@
 package cn.jpush.api;
 
+import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.ReportClient;
+import cn.jpush.api.report.UsersResult;
 
 /**
- * The overall entrance of JPush API library.
+ * The global entrance of JPush API library.
  */
 public class JPushClient {
     private final PushClient _pushClient;
@@ -62,6 +64,11 @@ public class JPushClient {
     public ReceivedsResult getReportReceiveds(String msgIds) {
 	    return _reportClient.getReceiveds(msgIds);
 	}
-	
+    
+    public UsersResult getReportUsersCount(TimeUnit timeUnit, String start, int step) {
+        return _reportClient.getUsersCount(timeUnit, start, step);
+    }
+    
+
 }
 

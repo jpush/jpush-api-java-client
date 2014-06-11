@@ -13,7 +13,7 @@ public class PushResult extends BaseResult {
     public static PushResult fromResponse(ResponseWrapper responseWrapper) {
         PushResult pushResult = null;
         
-        if (responseWrapper.isServerResonse()) {
+        if (responseWrapper.isServerResponse()) {
             pushResult = _gson.fromJson(responseWrapper.responseContent, PushResult.class);
         } else {
             pushResult = new PushResult();

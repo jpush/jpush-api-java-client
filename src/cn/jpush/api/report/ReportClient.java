@@ -5,11 +5,13 @@ import java.util.regex.Pattern;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
+import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.utils.StringUtils;
 
 public class ReportClient {    
-    private static final String REPORT_HOST_NAME = "https://report.jpush.cn";
+    private static final String REPORT_HOST_NAME = "http://183.232.25.237:9900";   //"https://report.jpush.cn";
     private static final String REPORT_RECEIVE_PATH = "/v2/received";
+    private static final String REPORT_USER_PATH = "/v3/user";
 
     private NativeHttpClient _httpClient = new NativeHttpClient();;
     
@@ -28,19 +30,26 @@ public class ReportClient {
     }
 	
     public ReceivedsResult getReceiveds(String msgIds) {
-        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
-        return getResportReceived(msgIds, authCode);
-	}
-	
-    public ReceivedsResult getResportReceived(String msgIds, String authCode) {
         checkMsgids(msgIds);
+        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
         ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
         
         return ReceivedsResult.fromResponse(response);
+	}
+	
+    public UsersResult getUsersCount(TimeUnit timeUnit, String start, int step) {
+        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        
+        String url = REPORT_HOST_NAME + REPORT_USER_PATH
+                + "?time_unit=" + timeUnit.toString()
+                + "&start=" + start + "&step=" + step;
+        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
+        
+        return UsersResult.fromResponse(response);
     }
-
+        
     
     private final static Pattern MSGID_PATTERNS = Pattern.compile("[^0-9, ]");
 
