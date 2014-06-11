@@ -4,6 +4,7 @@ import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.ReportClient;
 import cn.jpush.api.report.UsersResult;
@@ -67,6 +68,10 @@ public class JPushClient {
     
     public UsersResult getReportUsersCount(TimeUnit timeUnit, String start, int step) {
         return _reportClient.getUsersCount(timeUnit, start, step);
+    }
+    
+    public MessagesResult getReportMessagesCount(String msgIds) {
+        return _reportClient.getMessagesCount(msgIds);
     }
     
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.TimeUnit;
+import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.UsersResult;
 
@@ -17,7 +18,8 @@ public class ReportsExample {
 
 	public static void main(String[] args) {
 //		testGetReport();
-		testGetUsers();
+		testGetMessages();
+//		testGetUsers();
 	}
 	
     
@@ -43,6 +45,26 @@ public class ReportsExample {
     public static void testGetUsers() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
         UsersResult result = jpushClient.getReportUsersCount(TimeUnit.DAY, "20140606", 2);
+        
+        if (result.isResultOK()) {
+            LOG.info("Users Count - " + result);
+        } else {
+            if (result.getErrorCode() > 0) {
+                // 业务异常
+                LOG.warn("Service error - ErrorCode: "
+                        + result.getErrorCode() + ", ErrorMessage: "
+                        + result.getErrorMessage());
+            } else {
+                // 未到达 JPush
+                LOG.error("Other excepitons - "
+                        + result.getExceptionString());
+            }
+        }
+    }
+
+    public static void testGetMessages() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        MessagesResult result = jpushClient.getReportMessagesCount("1933834921");
         
         if (result.isResultOK()) {
             LOG.info("Users Count - " + result);
