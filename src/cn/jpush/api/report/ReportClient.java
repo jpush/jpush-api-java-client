@@ -12,6 +12,7 @@ public class ReportClient {
     private static final String REPORT_HOST_NAME = "http://183.232.25.237:9900";   //"https://report.jpush.cn";
     private static final String REPORT_RECEIVE_PATH = "/v2/received";
     private static final String REPORT_USER_PATH = "/v3/user";
+    private static final String REPORT_MESSAGE_PATH = "/v3/message";
 
     private NativeHttpClient _httpClient = new NativeHttpClient();;
     
@@ -39,6 +40,16 @@ public class ReportClient {
         return ReceivedsResult.fromResponse(response);
 	}
 	
+    public MessagesResult getMessagesCount(String msgIds) {
+        checkMsgids(msgIds);
+        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        
+        String url = REPORT_HOST_NAME + REPORT_MESSAGE_PATH + "?msg_ids=" + msgIds;
+        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
+        
+        return MessagesResult.fromResponse(response);
+    }
+    
     public UsersResult getUsersCount(TimeUnit timeUnit, String start, int step) {
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
