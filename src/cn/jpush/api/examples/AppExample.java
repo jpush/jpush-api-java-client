@@ -12,7 +12,7 @@ public class AppExample {
 
     // demo App defined in resources/jpush-api.conf 
 	private static final String devKey ="903724367fadb34e4820b6e0";
-	private static final String devSecret = "654321";
+	private static final String devSecret = "f1b45af26e90e332210dc52f";
 	
 	public static void main(String[] args) {
 	    testCreateApp();

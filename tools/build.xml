@@ -9,7 +9,7 @@
 	
 	<!-- Modify following two to your jpush account's dev_key and dev_secret  -->
 	<property name="jpush_dev_key" value="903724367fadb34e4820b6e0" />
-	<property name="jpush_dev_secret" value="654321" />
+	<property name="jpush_dev_secret" value="f1b45af26e90e332210dc52f" />
     
 	<path id="lib_classpath">
 		<fileset dir="${libs.dir}">
