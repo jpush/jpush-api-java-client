@@ -3,9 +3,9 @@
 	<property name="jpush.client.version" value="3.0.2" />
 	<property name="src.dir" value="${basedir}/../src" />
 	<property name="libs.dir" value="${basedir}/../libs" />
-	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="dist.dir" value="${basedir}" />
 	<property name="classes.dir" value="${basedir}/classes" />
-	<property name="jpush.lib" value="${dist.dir}/jpush-${jpush.client.version}.jar" />
+	<property name="jpush.lib" value="${dist.dir}/jpush-app-${jpush.client.version}.jar" />
 	
 	<!-- Modify following two to your jpush account's dev_key and dev_secret  -->
 	<property name="jpush_dev_key" value="903724367fadb34e4820b6e0" />
