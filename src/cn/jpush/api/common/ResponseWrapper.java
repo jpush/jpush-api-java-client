@@ -41,7 +41,7 @@ public class ResponseWrapper {
         error = _gson.fromJson(responseContent, ErrorObject.class);
     }
     
-    public boolean isServerResonse() {
+    public boolean isServerResponse() {
         if (responseCode == 200) return true;
         if (responseCode > 0 && null != error && error.error.code > 0) return true;
         return false;

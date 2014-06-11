@@ -97,6 +97,7 @@ public class NativeHttpClient implements IHttpClient {
             
             if (status == 200) {
 				LOG.debug("Succeed to get response - 200 OK");
+				LOG.debug(responseContent);
 				
 			} else {
 			    LOG.info("Got error response - responseCode:" + status + ", responseContent:" + responseContent);
