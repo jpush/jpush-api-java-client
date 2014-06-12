@@ -66,12 +66,12 @@ public class JPushClient {
 	    return _reportClient.getReceiveds(msgIds);
 	}
     
-    public UsersResult getReportUsersCount(TimeUnit timeUnit, String start, int step) {
-        return _reportClient.getUsersCount(timeUnit, start, step);
+    public UsersResult getReportUsers(TimeUnit timeUnit, String start, int duration) {
+        return _reportClient.getUsers(timeUnit, start, duration);
     }
     
-    public MessagesResult getReportMessagesCount(String msgIds) {
-        return _reportClient.getMessagesCount(msgIds);
+    public MessagesResult getReportMessages(String msgIds) {
+        return _reportClient.getMessages(msgIds);
     }
     
 

@@ -14,7 +14,7 @@ public class UsersResult extends BaseResult {
 
     @Expose public TimeUnit time_unit;
     @Expose public String start;
-    @Expose public int step;
+    @Expose public int duration;
     @Expose public List<User> items = new ArrayList<User>();
     
     
@@ -32,6 +32,7 @@ public class UsersResult extends BaseResult {
     
 	public static class Ios {
 	    @SerializedName("new") @Expose public long add;
+	    @Expose public int online;
         @Expose public int active;
     }
 	
