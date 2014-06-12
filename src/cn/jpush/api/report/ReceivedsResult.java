@@ -22,10 +22,6 @@ public class ReceivedsResult extends BaseResult {
 	    @Expose public int ios_apns_sent;
 	}
 	
-	public List<Received> getReceivedList() {
-	    return this.received_list;
-	}
-	
 	public static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
         ReceivedsResult receivedsResult = new ReceivedsResult();
         if (responseWrapper.isServerResponse()) {

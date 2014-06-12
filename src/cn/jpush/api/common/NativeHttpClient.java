@@ -39,7 +39,12 @@ public class NativeHttpClient implements IHttpClient {
 	}
     
     public ResponseWrapper sendRequest(String url, String content, String method, String authCode) {
-        LOG.debug("Send request to - " + url + ", with content - " + content);
+        String requestLog = "Send request to - " + url;
+        if (null != content) {
+            requestLog += ", with content - " + content;
+        }
+        LOG.debug(requestLog);
+        
 		HttpURLConnection conn = null;
 		OutputStream out = null;
 		StringBuffer sb = new StringBuffer();

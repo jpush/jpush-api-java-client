@@ -13,19 +13,19 @@ public class ReportsExample {
     protected static final Logger LOG = LoggerFactory.getLogger(ReportsExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-	private static final String appKey ="dd1066407b044738b6479275";
+	private static final String appKey = "dd1066407b044738b6479275";
 	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
 
 	public static void main(String[] args) {
-//		testGetReport();
+		testGetReport();
 		testGetMessages();
-//		testGetUsers();
+		testGetUsers();
 	}
 	
     
 	public static void testGetReport() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
+		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1942377665");
 		if (receivedsResult.isResultOK()) {
 		    LOG.info("Receiveds - " + receivedsResult);
 		} else {
@@ -44,7 +44,7 @@ public class ReportsExample {
 
     public static void testGetUsers() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        UsersResult result = jpushClient.getReportUsersCount(TimeUnit.DAY, "20140606", 2);
+        UsersResult result = jpushClient.getReportUsers(TimeUnit.DAY, "2014-06-10", 3);
         
         if (result.isResultOK()) {
             LOG.info("Users Count - " + result);
@@ -64,10 +64,10 @@ public class ReportsExample {
 
     public static void testGetMessages() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        MessagesResult result = jpushClient.getReportMessagesCount("1933834921");
+        MessagesResult result = jpushClient.getReportMessages("269978303");
         
         if (result.isResultOK()) {
-            LOG.info("Users Count - " + result);
+            LOG.info("Messages Count - " + result);
         } else {
             if (result.getErrorCode() > 0) {
                 // 业务异常

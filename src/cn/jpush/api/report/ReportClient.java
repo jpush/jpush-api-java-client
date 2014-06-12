@@ -1,5 +1,6 @@
 package cn.jpush.api.report;
 
+import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
 import cn.jpush.api.common.NativeHttpClient;
@@ -9,10 +10,10 @@ import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.utils.StringUtils;
 
 public class ReportClient {    
-    private static final String REPORT_HOST_NAME = "http://183.232.25.237:9900";   //"https://report.jpush.cn";
-    private static final String REPORT_RECEIVE_PATH = "/v2/received";
-    private static final String REPORT_USER_PATH = "/v3/user";
-    private static final String REPORT_MESSAGE_PATH = "/v3/message";
+    private static final String REPORT_HOST_NAME = "https://report.jpush.cn";
+    private static final String REPORT_RECEIVE_PATH = "/v3/received";
+    private static final String REPORT_USER_PATH = "/v3/users";
+    private static final String REPORT_MESSAGE_PATH = "/v3/messages";
 
     private NativeHttpClient _httpClient = new NativeHttpClient();;
     
@@ -40,7 +41,7 @@ public class ReportClient {
         return ReceivedsResult.fromResponse(response);
 	}
 	
-    public MessagesResult getMessagesCount(String msgIds) {
+    public MessagesResult getMessages(String msgIds) {
         checkMsgids(msgIds);
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
@@ -50,12 +51,18 @@ public class ReportClient {
         return MessagesResult.fromResponse(response);
     }
     
-    public UsersResult getUsersCount(TimeUnit timeUnit, String start, int step) {
+    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) {
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        
+        String startEncoded = null;
+        try {
+            startEncoded = URLEncoder.encode(start, "utf-8");
+        } catch (Exception e) {
+        }
         
         String url = REPORT_HOST_NAME + REPORT_USER_PATH
                 + "?time_unit=" + timeUnit.toString()
-                + "&start=" + start + "&step=" + step;
+                + "&start=" + startEncoded + "&duration=" + duration;
         ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
         
         return UsersResult.fromResponse(response);
