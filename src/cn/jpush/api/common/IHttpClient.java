@@ -16,10 +16,10 @@ public interface IHttpClient {
     public static final String METHOD_GET = "GET";
 
     //设置连接超时时间
-    public final int DEFAULT_CONNECTION_TIMEOUT = (20 * 1000); // milliseconds
+    public final int DEFAULT_CONNECTION_TIMEOUT = (5 * 1000); // milliseconds
     
     //设置读取超时时间
-    public final int DEFAULT_SOCKET_TIMEOUT = (30 * 1000); // milliseconds
+    public final int DEFAULT_READ_TIMEOUT = (30 * 1000); // milliseconds
 
     public ResponseWrapper sendGet(String url, String params, String authCode);
     
