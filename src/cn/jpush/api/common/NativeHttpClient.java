@@ -56,7 +56,7 @@ public class NativeHttpClient implements IHttpClient {
 			URL aUrl = new URL(url);
 			conn = (HttpURLConnection) aUrl.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
-			conn.setReadTimeout(DEFAULT_SOCKET_TIMEOUT);
+			conn.setReadTimeout(DEFAULT_READ_TIMEOUT);
 			conn.setUseCaches(false);
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("User-Agent", JPUSH_USER_AGENT);
@@ -135,7 +135,7 @@ public class NativeHttpClient implements IHttpClient {
 
 		} catch (SocketTimeoutException e) {
 		    wrapper.exceptionString = e.getMessage();
-		    LOG.error("Request timeout. Retry later.", e);
+		    LOG.error("Read timeout. Retry later.", e);
 		} catch (ConnectException e) {
 		    wrapper.exceptionString = e.getMessage();
 		    LOG.error("Connnect error. Retry later.", e);
@@ -147,7 +147,7 @@ public class NativeHttpClient implements IHttpClient {
             LOG.error("IO error. Retry later.", e);
 		} catch (Exception e) {
 		    wrapper.exceptionString = e.getMessage();
-		    LOG.error("Unknown exception. ", e);
+		    LOG.error("Unknown exception - Unexpected. Please contact us.", e);
 		} finally {
 			if (null != out) {
 				try {
