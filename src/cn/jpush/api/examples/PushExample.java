@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
@@ -37,17 +39,21 @@ public class PushExample {
         
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_all_alert();
-        LOG.info("Paylaod JSON - " + payload.toString());
         
-        PushResult result = jpushClient.sendPush(payload);
-        if (result.isResultOK()) {
-            LOG.debug(result.toString());
-        } else {
-            if (result.getErrorCode() > 0) {
-                LOG.warn(result.getOriginalContent());
-            } else {
-                LOG.debug("Maybe connect error. Retry laster. ");
-            }
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+            
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
         }
 	}
 	

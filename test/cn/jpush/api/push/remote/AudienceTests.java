@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
@@ -31,71 +33,71 @@ public class AudienceTests extends BaseRemoteTests {
     // one --------
     
     @Test
-    public void sendByTag() {
+    public void sendByTag() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.tag(TAG1))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByTagAnd() {
+    public void sendByTagAnd() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.tag_and(TAG1))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByAlias() {
+    public void sendByAlias() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(ALIAS1))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByRegistrationID() {
+    public void sendByRegistrationID() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.registrationId(REGISTRATION_ID1))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     // one more -------------------------
     
     @Test
-    public void sendByTagMore() {
+    public void sendByTagMore() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.tag(TAG1, TAG2))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByTagAndMore() {
+    public void sendByTagAndMore() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.tag_and(TAG1, TAG_ALL))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
@@ -105,31 +107,37 @@ public class AudienceTests extends BaseRemoteTests {
                 .setAudience(Audience.tag_and(TAG1, TAG2))
                 .setNotification(Notification.alert(ALERT))
                 .build();
-        PushResult result = _client.sendPush(payload);
-        assertEquals(NO_TARGET, result.getErrorCode());
+        
+        try {
+            _client.sendPush(payload);
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(NO_TARGET, e.getErrorCode());
+        }
     }
     
     @Test
-    public void sendByAliasMore() {
+    public void sendByAliasMore() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.alias(ALIAS1, ALIAS2))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 
     @Test
-    public void sendByRegistrationIDMore() {
+    public void sendByRegistrationIDMore() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.registrationId(REGISTRATION_ID1, REGISTRATION_ID2))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 
@@ -137,7 +145,7 @@ public class AudienceTests extends BaseRemoteTests {
     // composite ok -------------------------
     
     @Test
-    public void sendByTagAlias() {
+    public void sendByTagAlias() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -151,11 +159,11 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByTagRegistrationID() {
+    public void sendByTagRegistrationID() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -169,11 +177,11 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendByTagRegistrationID_0() {
+    public void sendByTagRegistrationID_0() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -187,11 +195,11 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
         
     @Test
-    public void sendByTagAlias_0() {
+    public void sendByTagAlias_0() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -205,11 +213,11 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
 
     @Test
-    public void sendByTagAlias_0_2() {
+    public void sendByTagAlias_0_2() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.newBuilder()
@@ -223,7 +231,7 @@ public class AudienceTests extends BaseRemoteTests {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 

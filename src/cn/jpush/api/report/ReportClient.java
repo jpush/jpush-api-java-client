@@ -3,6 +3,8 @@ package cn.jpush.api.report;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
@@ -27,11 +29,11 @@ public class ReportClient {
 	}
 	
 	
-    public ReceivedsResult getReceiveds(String[] msgIdArray) {
+    public ReceivedsResult getReceiveds(String[] msgIdArray) throws APIConnectionException, APIRequestException {
         return getReceiveds(StringUtils.arrayToString(msgIdArray));
     }
 	
-    public ReceivedsResult getReceiveds(String msgIds) {
+    public ReceivedsResult getReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
@@ -41,7 +43,7 @@ public class ReportClient {
         return ReceivedsResult.fromResponse(response);
 	}
 	
-    public MessagesResult getMessages(String msgIds) {
+    public MessagesResult getMessages(String msgIds) throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
@@ -51,7 +53,7 @@ public class ReportClient {
         return MessagesResult.fromResponse(response);
     }
     
-    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) {
+    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) throws APIConnectionException, APIRequestException {
         String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         
         String startEncoded = null;

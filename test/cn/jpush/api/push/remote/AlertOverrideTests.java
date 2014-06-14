@@ -16,7 +16,7 @@ import cn.jpush.api.push.model.notification.WinphoneNotification;
 public class AlertOverrideTests extends BaseRemoteTests {
     
     @Test
-    public void sendAlert_all() {
+    public void sendAlert_all() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
@@ -28,11 +28,11 @@ public class AlertOverrideTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendAlert_android() {
+    public void sendAlert_android() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.all())
@@ -42,11 +42,11 @@ public class AlertOverrideTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendAlert_ios() {
+    public void sendAlert_ios() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.all())
@@ -56,11 +56,11 @@ public class AlertOverrideTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendAlert_wp() {
+    public void sendAlert_wp() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.winphone())
                 .setAudience(Audience.all())
@@ -70,7 +70,7 @@ public class AlertOverrideTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 	

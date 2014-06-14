@@ -16,7 +16,7 @@ public class NotificationTests extends BaseRemoteTests {
     // --------------- Android
 	
     @Test
-    public void sendNotification_android_title() {
+    public void sendNotification_android_title() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -26,11 +26,11 @@ public class NotificationTests extends BaseRemoteTests {
                                 .setTitle("title").build()).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendNotification_android_buildId() {
+    public void sendNotification_android_buildId() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -41,11 +41,11 @@ public class NotificationTests extends BaseRemoteTests {
                                 .build()).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendNotification_android_extras() {
+    public void sendNotification_android_extras() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -57,7 +57,7 @@ public class NotificationTests extends BaseRemoteTests {
                                 .build()).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     

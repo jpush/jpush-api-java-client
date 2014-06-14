@@ -18,14 +18,14 @@ import cn.jpush.api.push.model.notification.WinphoneNotification;
 public class BasicFunctionsTests extends BaseRemoteTests {
 	
 	@Test
-    public void sendSimpleNotification_Pall_Ndefault() {
+    public void sendSimpleNotification_Pall_Ndefault() throws Exception {
 	    PushPayload payload = PushPayload.alertAll("Pall Nall default alert");
 		PushResult result = _client.sendPush(payload);
-		assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
 	}
 	
     @Test
-    public void sendSimpleNotification_Pandroid_Nandroid() {
+    public void sendSimpleNotification_Pandroid_Nandroid() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.all())
@@ -34,11 +34,11 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleNotification_Pall_Nandroid() {
+    public void sendSimpleNotification_Pall_Nandroid() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
@@ -47,11 +47,11 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleNotification_Pios_Nios() {
+    public void sendSimpleNotification_Pios_Nios() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.all())
@@ -60,11 +60,11 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleNotification_Pall_Nios() {
+    public void sendSimpleNotification_Pall_Nios() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
@@ -73,11 +73,11 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleNotification_Pwp_Nwp() {
+    public void sendSimpleNotification_Pwp_Nwp() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.winphone())
                 .setAudience(Audience.all())
@@ -86,11 +86,11 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleNotification_Pall_Nwp() {
+    public void sendSimpleNotification_Pall_Nwp() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
@@ -99,12 +99,12 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     
     @Test
-    public void sendSimpleNotification_Pall_Nall() {
+    public void sendSimpleNotification_Pall_Nall() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.newBuilder()
                         .addDeviceType(DeviceType.IOS)
@@ -118,52 +118,52 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleMessage_default() {
+    public void sendSimpleMessage_default() throws Exception {
         PushPayload payload = PushPayload.messageAll("Pall msg");
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleMessage_Pandroid() {
+    public void sendSimpleMessage_Pandroid() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.all())
                 .setMessage(Message.content("Pandroid msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleMessage_Pios() {
+    public void sendSimpleMessage_Pios() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.all())
                 .setMessage(Message.content("Pios msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendSimpleMessage_Pwinphone() {
+    public void sendSimpleMessage_Pwinphone() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.winphone())
                 .setAudience(Audience.all())
                 .setMessage(Message.content("Pwp msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 	
     @Test
-    public void sendSimpleMessageAndNotification_Pall() {
+    public void sendSimpleMessageAndNotification_Pall() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
@@ -171,7 +171,7 @@ public class BasicFunctionsTests extends BaseRemoteTests {
                 .setMessage(Message.content("Pall Nall Mall msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
 

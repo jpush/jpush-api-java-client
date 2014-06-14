@@ -19,9 +19,6 @@ public class ResponseWrapper {
     public int rateLimitQuota;
     public int rateLimitRemaining;
     public int rateLimitReset;
-    
-    public String exceptionString;
-
 	
     public void setRateLimit(String quota, String remaining, String reset) {
         if (null == quota) return;
