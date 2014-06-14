@@ -29,6 +29,11 @@ public class JPushClient {
 	    _reportClient = new ReportClient(masterSecret, appKey);
 	}
 	
+	public JPushClient(String masterSecret, String appKey, int maxRetryTimes) {
+        _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes);
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes);	    
+	}
+	
 	/**
 	 * Create a JPush Client with global settings.
 	 * 
@@ -43,27 +48,43 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
         _reportClient = new ReportClient(masterSecret, appKey);
     }
-    
+
     /**
-     * Send a push
+     * Send a push with object.
      * 
-     * @param pushPayload payload of a push. 
-     * @return PushResult. Can be printed to a JSON.
+     * @param pushPayload payload object of a push. 
+     * @return PushResult The result object of a Push. Can be printed to a JSON.
+     * @throws APIConnectionException
+     * @throws APIRequestException
      */
 	public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
 	    return _pushClient.sendPush(pushPayload);
 	}
 	
+	/**
+	 * Send a push with JSON string.
+	 * 
+	 * You can send a push JSON string directly with this method.
+	 * 
+	 * Attention: globally settings cannot be affect this type of Push.
+     * 
+     * @param pushPayload payload of a push. 
+     * @return PushResult. Can be printed to a JSON.
+	 * @throws APIConnectionException
+	 * @throws APIRequestException
+	 */
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         return _pushClient.sendPush(payloadString);
-    }	    
-    
-	/**
-	 * Get received report. 
-	 * 
-	 * @param msgIds 100 msgids to batch getting is supported.
-	 * @return ReceivedResult. Can be printed to JSON.
-	 */
+    }
+
+    /**
+     * Get received report. 
+     * 
+     * @param msgIds 100 msgids to batch getting is supported.
+     * @return ReceivedResult. Can be printed to JSON.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
     public ReceivedsResult getReportReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
 	    return _reportClient.getReceiveds(msgIds);
 	}

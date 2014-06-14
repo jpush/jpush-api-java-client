@@ -2,6 +2,7 @@ package cn.jpush.api.push;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.IHttpClient;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
@@ -21,7 +22,7 @@ public class PushClient {
     public static String HOST_NAME_SSL = "https://api.jpush.cn";
     public static final String PUSH_PATH = "/v3/push";
     
-    private NativeHttpClient _httpClient = new NativeHttpClient();;
+    private final NativeHttpClient _httpClient;
     
     // The API secret of the appKey. Please get it from JPush Web Portal
     private final String _masterSecret;
@@ -49,14 +50,27 @@ public class PushClient {
      * @param appKey The KEY of one application on JPush.
      */
 	public PushClient(String masterSecret, String appKey) {
+	    this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
+	}
+	
+	/**
+	 * Create a Push Client with max retry times.
+	 * 
+	 * @param masterSecret  API access secret of the appKey.
+	 * @param appKey The KEY of one application on JPush.
+	 * @param masxRetryTimes
+	 */
+	public PushClient(String masterSecret, String appKey, int masxRetryTimes) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
         
+        ServiceHelper.checkBasic(appKey, masterSecret);
+        
         this._authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
-        ServiceHelper.checkBasic(appKey, masterSecret);
+        this._httpClient = new NativeHttpClient(masxRetryTimes);
 	}
-	
+
 	/**
      * Create a Push Client with global settings.
      * 
