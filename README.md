@@ -94,19 +94,25 @@ maven package
 > 以下片断来自项目代码里的文件：cn.jpush.api.examples.PushExample
 
 ```
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
+        
+        // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_all_alert();
-        LOG.info("Paylaod JSON - " + payload.toString());
-
-        PushResult result = jpushClient.sendPush(payload);
-        if (result.isResultOK()) {
-            LOG.debug(result.toString());
-        } else {
-            if (result.getErrorCode() > 0) {
-                LOG.warn(result.getOriginalContent());
-            } else {
-                LOG.debug("Maybe connect error. Retry laster. ");
-            }
+        
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+            
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
         }
 
 ```
@@ -191,21 +197,20 @@ maven package
 > 以下片断来自项目代码里的文件：cn.jpush.api.examples.ReportsExample
 
 ```
-JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1708010723,1774452771");
-LOG.debug("responseContent - " + receivedsResult.responseResult.responseContent);
-if (receivedsResult.isResultOK()) {
-    LOG.info("Receiveds - " + receivedsResult);
-} else {
-    if (receivedsResult.getErrorCode() > 0) {
-        // 业务异常
-        LOG.warn("Service error - ErrorCode: "
-                + receivedsResult.getErrorCode() + ", ErrorMessage: "
-                + receivedsResult.getErrorMessage());
-    } else {
-        // 未到达 JPush
-        LOG.error("Other excepitons - "
-                + receivedsResult.responseResult.exceptionString);
-    }
-}
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+		try {
+            ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
+            LOG.debug("Got result - " + result);
+            
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
 ```
