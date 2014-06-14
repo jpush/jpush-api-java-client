@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.IHttpClient;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
@@ -17,17 +18,24 @@ public class ReportClient {
     private static final String REPORT_USER_PATH = "/v3/users";
     private static final String REPORT_MESSAGE_PATH = "/v3/messages";
 
-    private NativeHttpClient _httpClient = new NativeHttpClient();;
+    private final NativeHttpClient _httpClient;
     
     private String _masterSecret;
 	private String _appKey;
 	
-	public ReportClient(String masterSecret, String appKey) {
+	public ReportClient(String masterSecret, String appKey, int maxRetryTimes) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
+        
         ServiceHelper.checkBasic(appKey, masterSecret);
+        
+        _httpClient = new NativeHttpClient(maxRetryTimes);
 	}
 	
+    public ReportClient(String masterSecret, String appKey) {
+        this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
+    }
+    
 	
     public ReceivedsResult getReceiveds(String[] msgIdArray) throws APIConnectionException, APIRequestException {
         return getReceiveds(StringUtils.arrayToString(msgIdArray));

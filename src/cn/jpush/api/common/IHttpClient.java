@@ -31,10 +31,12 @@ public interface IHttpClient {
 
 
     //设置连接超时时间
-    public final int DEFAULT_CONNECTION_TIMEOUT = (5 * 1000); // milliseconds
+    public static final int DEFAULT_CONNECTION_TIMEOUT = (5 * 1000); // milliseconds
     
     //设置读取超时时间
-    public final int DEFAULT_READ_TIMEOUT = (30 * 1000); // milliseconds
+    public static final int DEFAULT_READ_TIMEOUT = (30 * 1000); // milliseconds
+    
+    public static final int DEFAULT_MAX_RETRY_TIMES = 0;
 
     public ResponseWrapper sendGet(String url, String params, 
             String authCode) throws APIConnectionException, APIRequestException;

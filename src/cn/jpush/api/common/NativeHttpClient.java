@@ -21,7 +21,17 @@ import org.slf4j.LoggerFactory;
 public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
     
-
+    private int _maxRetryTimes = 0;
+    
+    public NativeHttpClient() {
+        this(DEFAULT_MAX_RETRY_TIMES);
+    }
+    
+    public NativeHttpClient(int maxRetryTimes) {
+        this._maxRetryTimes = maxRetryTimes;
+        LOG.info("Created instance with _maxRetryTimes = " + _maxRetryTimes);
+    }
+    
     public ResponseWrapper sendGet(String url, String params, 
             String authCode) throws APIConnectionException, APIRequestException {
 		return sendRequest(url, params, RequestMethod.GET, authCode);
@@ -33,6 +43,24 @@ public class NativeHttpClient implements IHttpClient {
 	}
     
     public ResponseWrapper sendRequest(String url, String content, 
+            RequestMethod method, String authCode) throws APIConnectionException, APIRequestException {
+        ResponseWrapper response = null;
+        for (int retryTimes = 0; ; retryTimes++) {
+            try {
+                response = _sendRequest(url, content, method, authCode);
+                break;
+            } catch (APIConnectionException e) {
+                if (retryTimes >= _maxRetryTimes) {
+                    throw new APIConnectionException(e);
+                } else {
+                    LOG.debug("Retry again - " + (retryTimes + 1));
+                }
+            }
+        }
+        return response;
+    }
+    
+    private ResponseWrapper _sendRequest(String url, String content, 
             RequestMethod method, String authCode) throws APIConnectionException, APIRequestException {
         LOG.debug("Send request to - " + url);
         if (null != content) {
