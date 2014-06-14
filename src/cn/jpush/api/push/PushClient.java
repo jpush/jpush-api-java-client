@@ -1,5 +1,7 @@
 package cn.jpush.api.push;
 
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
@@ -76,7 +78,7 @@ public class PushClient {
         this._baseUrl = baseUrl;
     }
     
-    public PushResult sendPush(PushPayload pushPayload) {
+    public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
         if (_globalSettingEnabled) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
@@ -87,12 +89,11 @@ public class PushClient {
         return PushResult.fromResponse(response);
     }
     
-    public PushResult sendPush(String payloadString) {
+    public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         ResponseWrapper response = _httpClient.sendPost(_baseUrl, payloadString, _authCode);
         
         return PushResult.fromResponse(response);
     }
-    
 
 }
 

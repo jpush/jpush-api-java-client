@@ -1,5 +1,7 @@
 package cn.jpush.api;
 
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
@@ -48,29 +50,29 @@ public class JPushClient {
      * @param pushPayload payload of a push. 
      * @return PushResult. Can be printed to a JSON.
      */
-	public PushResult sendPush(PushPayload pushPayload) {
+	public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
 	    return _pushClient.sendPush(pushPayload);
 	}
 	
-    public PushResult sendPush(String payloadString) {
+    public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         return _pushClient.sendPush(payloadString);
     }	    
-
+    
 	/**
 	 * Get received report. 
 	 * 
 	 * @param msgIds 100 msgids to batch getting is supported.
 	 * @return ReceivedResult. Can be printed to JSON.
 	 */
-    public ReceivedsResult getReportReceiveds(String msgIds) {
+    public ReceivedsResult getReportReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
 	    return _reportClient.getReceiveds(msgIds);
 	}
     
-    public UsersResult getReportUsers(TimeUnit timeUnit, String start, int duration) {
+    public UsersResult getReportUsers(TimeUnit timeUnit, String start, int duration) throws APIConnectionException, APIRequestException {
         return _reportClient.getUsers(timeUnit, start, duration);
     }
     
-    public MessagesResult getReportMessages(String msgIds) {
+    public MessagesResult getReportMessages(String msgIds) throws APIConnectionException, APIRequestException {
         return _reportClient.getMessages(msgIds);
     }
     

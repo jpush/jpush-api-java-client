@@ -13,18 +13,18 @@ import cn.jpush.api.push.model.audience.Audience;
 public class MessageTests extends BaseRemoteTests {
 	
     @Test
-    public void sendMessageContentOnly() {
+    public void sendMessageContentOnly() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
                 .setMessage(Message.newBuilder().setMsgContent(MSG_CONTENT).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendMessageContentAndTitle() {
+    public void sendMessageContentAndTitle() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -34,11 +34,11 @@ public class MessageTests extends BaseRemoteTests {
                         .setMsgContent(MSG_CONTENT).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     @Test
-    public void sendMessageContentAndExtras() {
+    public void sendMessageContentAndExtras() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -49,7 +49,7 @@ public class MessageTests extends BaseRemoteTests {
                         .setMsgContent(MSG_CONTENT).build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertEquals(SUCCEED_RESULT_CODE, result.getErrorCode());
+        assertTrue(result.isResultOK());
     }
     
     

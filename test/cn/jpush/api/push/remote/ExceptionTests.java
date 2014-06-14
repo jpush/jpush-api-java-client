@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
@@ -20,8 +21,14 @@ public class ExceptionTests extends BaseRemoteTests {
         String appKey = "dd1066407b044738b6479274";
         JPushClient client = new JPushClient(masterSecret, appKey);
         PushPayload payload = PushPayload.alertAll(ALERT);
-        PushResult result = client.sendPush(payload);
-        assertEquals(APPKEY_NOT_EXIST, result.getErrorCode());
+        
+        try {
+            client.sendPush(payload);
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(APPKEY_NOT_EXIST, e.getErrorCode());
+        }
     }
 
     @Test
@@ -29,8 +36,13 @@ public class ExceptionTests extends BaseRemoteTests {
         String masterSecret = "2b38ce69b1de2a7fa95706e2";
         JPushClient client = new JPushClient(masterSecret, appKey);
         PushPayload payload = PushPayload.alertAll(ALERT);
-        PushResult result = client.sendPush(payload);
-        assertEquals(AUTHENTICATION_FAIL, result.getErrorCode());
+        try {
+            client.sendPush(payload);
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(AUTHENTICATION_FAIL, e.getErrorCode());
+        }
     }
 
     @Test
@@ -41,8 +53,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         byte[] bytes = content.getBytes();
         System.out.println("len: " + bytes.length);
-        PushResult result = _client.sendPush(payload);
-        assertEquals(TOO_BIG, result.getErrorCode());
+        try {
+            _client.sendPush(payload);
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(TOO_BIG, e.getErrorCode());
+        }
     }
 
     // ---------------- invalid params
@@ -55,8 +72,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("notification", Notification.alert(ALERT).toJSON());
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
 
     @Test
@@ -67,8 +89,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("notification", Notification.alert(ALERT).toJSON());
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
 
     @Test
@@ -80,8 +107,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("notification", new JsonPrimitive(ALERT));
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
 
     @Test
@@ -96,8 +128,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -112,8 +149,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -128,8 +170,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -147,8 +194,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
 
@@ -166,8 +218,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -184,8 +241,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -202,8 +264,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     
@@ -222,8 +289,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -241,8 +313,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -260,8 +337,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(INVALID_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(INVALID_PARAMS, e.getErrorCode());
+        }
     }
     
     
@@ -274,8 +356,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("notification", Notification.alert(ALERT).toJSON());
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(LACK_OF_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -285,8 +372,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("notification", Notification.alert(ALERT).toJSON());
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(LACK_OF_PARAMS, e.getErrorCode());
+        }
     }
     
     @Test
@@ -296,8 +388,13 @@ public class ExceptionTests extends BaseRemoteTests {
         payload.add("audience", Audience.all().toJSON());
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(LACK_OF_PARAMS, e.getErrorCode());
+        }
     }
 
 
@@ -314,8 +411,13 @@ public class ExceptionTests extends BaseRemoteTests {
         
         System.out.println("json string: " + payload.toString());
         
-        PushResult result = _client.sendPush(payload.toString());
-        assertEquals(LACK_OF_PARAMS, result.getErrorCode());
+        try {
+            _client.sendPush(payload.toString());
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            assertEquals(LACK_OF_PARAMS, e.getErrorCode());
+        }
     }
     
 

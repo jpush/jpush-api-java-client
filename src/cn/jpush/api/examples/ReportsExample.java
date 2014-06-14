@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
@@ -25,60 +27,58 @@ public class ReportsExample {
     
 	public static void testGetReport() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-		ReceivedsResult receivedsResult = jpushClient.getReportReceiveds("1942377665");
-		if (receivedsResult.isResultOK()) {
-		    LOG.info("Receiveds - " + receivedsResult);
-		} else {
-            if (receivedsResult.getErrorCode() > 0) {
-                // 业务异常
-                LOG.warn("Service error - ErrorCode: "
-                        + receivedsResult.getErrorCode() + ", ErrorMessage: "
-                        + receivedsResult.getErrorMessage());
-            } else {
-                // 未到达 JPush
-                LOG.error("Other excepitons - "
-                        + receivedsResult.getExceptionString());
-            }
-		}
+		try {
+            ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
+            LOG.debug("Got result - " + result);
+            
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
 	}
 
     public static void testGetUsers() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        UsersResult result = jpushClient.getReportUsers(TimeUnit.DAY, "2014-06-10", 3);
-        
-        if (result.isResultOK()) {
-            LOG.info("Users Count - " + result);
-        } else {
-            if (result.getErrorCode() > 0) {
-                // 业务异常
-                LOG.warn("Service error - ErrorCode: "
-                        + result.getErrorCode() + ", ErrorMessage: "
-                        + result.getErrorMessage());
-            } else {
-                // 未到达 JPush
-                LOG.error("Other excepitons - "
-                        + result.getExceptionString());
-            }
+        try {
+            UsersResult result = jpushClient.getReportUsers(TimeUnit.DAY, "2014-06-10", 3);
+            LOG.debug("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
         }
     }
 
     public static void testGetMessages() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-        MessagesResult result = jpushClient.getReportMessages("269978303");
-        
-        if (result.isResultOK()) {
-            LOG.info("Messages Count - " + result);
-        } else {
-            if (result.getErrorCode() > 0) {
-                // 业务异常
-                LOG.warn("Service error - ErrorCode: "
-                        + result.getErrorCode() + ", ErrorMessage: "
-                        + result.getErrorMessage());
-            } else {
-                // 未到达 JPush
-                LOG.error("Other excepitons - "
-                        + result.getExceptionString());
-            }
+        try {
+            MessagesResult result = jpushClient.getReportMessages("269978303");
+            LOG.debug("Got result - " + result);
+            
+        } catch (APIConnectionException e) {
+            // Connection error, should retry later
+            LOG.error("Connection error, should retry later", e);
+            
+        } catch (APIRequestException e) {
+            // Should review the error, and fix the request
+            LOG.error("Should review the error, and fix the request", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
         }
     }
 

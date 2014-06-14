@@ -13,6 +13,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import cn.jpush.api.common.APIConnectionException;
+import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 
@@ -78,16 +80,20 @@ public class BaseMockTests {
     public void before() {
     }
     
-    private void basicRequestCheck() throws Exception {
-        RecordedRequest request = _mockServer.takeRequest();
-        assertNotNull("", request.getHeader("Authorization"));
-//        assertEquals("", _currentPayload, request.getUtf8Body());
-        assertEquals("", CONTENT_TYPE_JSON, request.getHeader("Content-Type"));
-        assertEquals("", "keep-alive", request.getHeader("Connection"));
+    private void basicRequestCheck() {
+        RecordedRequest request;
+        try {
+            request = _mockServer.takeRequest();
+            assertNotNull("", request.getHeader("Authorization"));
+            assertEquals("", CONTENT_TYPE_JSON, request.getHeader("Content-Type"));
+            assertEquals("", "keep-alive", request.getHeader("Connection"));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
     @After
-    public void after() throws Exception {
+    public void after() {
         int sendno = 0;
         int responseCode = 200;
         int errorCode = 0;
@@ -172,8 +178,15 @@ public class BaseMockTests {
                 .setBody(getResponseError(111, sendno, errorCode, errorMessage)));
         }
         
-        PushResult result = _client.sendPush(_currentPayload);
-        assertEquals("", _expectedErrorCode, result.getErrorCode());
+        try {
+            PushResult result = _client.sendPush(_currentPayload);
+            
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            // TODO Auto-generated catch block
+            assertEquals("", _expectedErrorCode, e.getErrorCode());
+        }
         
         basicRequestCheck();
     }
