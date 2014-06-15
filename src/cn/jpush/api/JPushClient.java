@@ -68,7 +68,7 @@ public class JPushClient {
 	 * 
 	 * Attention: globally settings cannot be affect this type of Push.
      * 
-     * @param pushPayload payload of a push. 
+     * @param  payloadString payload of a push.
      * @return PushResult. Can be printed to a JSON.
 	 * @throws APIConnectionException
 	 * @throws APIRequestException
