@@ -48,11 +48,11 @@ public class StringUtils {
 		return encodeParam;
 	}
 	
-    public static String arrayToString(String[] vlaues) {
-        StringBuffer buffer = new StringBuffer(vlaues.length);
-        if (vlaues != null) {
-            for (int i = 0; i < vlaues.length; i++) {
-                buffer.append(vlaues[i]).append(",");
+    public static String arrayToString(String[] values) {
+        StringBuffer buffer = new StringBuffer(values.length);
+        if (values != null) {
+            for (int i = 0; i < values.length; i++) {
+                buffer.append(values[i]).append(",");
             }
         }
         if (buffer.length() > 0) {

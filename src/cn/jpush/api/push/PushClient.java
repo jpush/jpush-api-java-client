@@ -19,7 +19,7 @@ import cn.jpush.api.push.model.PushPayload;
  * Can be used directly.
  */
 public class PushClient {
-    public static String HOST_NAME_SSL = "https://api.jpush.cn";
+    public static final String HOST_NAME_SSL = "https://api.jpush.cn";
     public static final String PUSH_PATH = "/v3/push";
     
     private final NativeHttpClient _httpClient;
@@ -58,9 +58,9 @@ public class PushClient {
 	 * 
 	 * @param masterSecret  API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
-	 * @param masxRetryTimes
+	 * @param maxRetryTimes max retry times
 	 */
-	public PushClient(String masterSecret, String appKey, int masxRetryTimes) {
+	public PushClient(String masterSecret, String appKey, int maxRetryTimes) {
         this._masterSecret = masterSecret;
         this._appKey = appKey;
         
@@ -68,7 +68,7 @@ public class PushClient {
         
         this._authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
         this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
-        this._httpClient = new NativeHttpClient(masxRetryTimes);
+        this._httpClient = new NativeHttpClient(maxRetryTimes);
 	}
 
 	/**

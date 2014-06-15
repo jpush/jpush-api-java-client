@@ -22,8 +22,8 @@ public interface IHttpClient {
         DELETE
     }
     
-    public static final String IO_ERROR_MESSAGE = "Conneciton IO error. \n"
-            + "Chould not connect to JPush Server. "
+    public static final String IO_ERROR_MESSAGE = "Connection IO error. \n"
+            + "Can not connect to JPush Server. "
             + "Please ensure your internet connection is ok. \n"
             + "If the problem persists, please let us know at support@jpush.cn.";
 

@@ -132,7 +132,7 @@ public class Message implements PushModel {
         
         public Message build() {
             Preconditions.checkArgument(! (null == msgContent), 
-                    "msgConent should be set");
+                    "msgContent should be set");
             return new Message(title, msgContent, contentType, 
                     (null == extrasBuilder) ? null : extrasBuilder.build(), 
                     (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
