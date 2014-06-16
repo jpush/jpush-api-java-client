@@ -20,7 +20,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 ### jar 包方式
@@ -150,7 +150,7 @@ maven package
     }
 ```
 
-* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
+* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 1，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
 
 ```
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
@@ -160,6 +160,8 @@ maven package
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
+                                .setBadge(1)
+                                .setSound("happy")
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())

@@ -83,7 +83,9 @@ public class PushExample {
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
-                                .addExtra("news_id", 333)
+                                .setBadge(1)
+                                .setSound("happy")
+                                .addExtra("from", "JPush")
                                 .build())
                         .build())
                  .setMessage(Message.content(MSG_CONTENT))
@@ -99,7 +101,7 @@ public class PushExample {
                         .build())
                 .setMessage(Message.newBuilder()
                         .setMsgContent(MSG_CONTENT)
-                        .addExtra("news_id", 333)
+                        .addExtra("from", "JPush")
                         .build())
                 .build();
     }
