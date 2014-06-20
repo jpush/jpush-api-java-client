@@ -32,12 +32,10 @@ public class ReportsExample {
             LOG.debug("Got result - " + result);
             
         } catch (APIConnectionException e) {
-            // Connection error, should retry later
-            LOG.error("Connection error, should retry later", e);
+            LOG.error("Connection error. Should retry later. ", e);
             
         } catch (APIRequestException e) {
-            // Should review the error, and fix the request
-            LOG.error("Should review the error, and fix the request", e);
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
@@ -51,12 +49,10 @@ public class ReportsExample {
             LOG.debug("Got result - " + result);
 
         } catch (APIConnectionException e) {
-            // Connection error, should retry later
-            LOG.error("Connection error, should retry later", e);
+            LOG.error("Connection error. Should retry later. ", e);
             
         } catch (APIRequestException e) {
-            // Should review the error, and fix the request
-            LOG.error("Should review the error, and fix the request", e);
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
@@ -70,12 +66,10 @@ public class ReportsExample {
             LOG.debug("Got result - " + result);
             
         } catch (APIConnectionException e) {
-            // Connection error, should retry later
-            LOG.error("Connection error, should retry later", e);
+            LOG.error("Connection error. Should retry later. ", e);
             
         } catch (APIRequestException e) {
-            // Should review the error, and fix the request
-            LOG.error("Should review the error, and fix the request", e);
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());

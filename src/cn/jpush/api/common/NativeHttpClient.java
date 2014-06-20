@@ -5,12 +5,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -30,6 +32,8 @@ public class NativeHttpClient implements IHttpClient {
     public NativeHttpClient(int maxRetryTimes) {
         this._maxRetryTimes = maxRetryTimes;
         LOG.info("Created instance with _maxRetryTimes = " + _maxRetryTimes);
+        
+        initSSL();
     }
     
     public ResponseWrapper sendGet(String url, String params, 
@@ -49,11 +53,11 @@ public class NativeHttpClient implements IHttpClient {
             try {
                 response = _sendRequest(url, content, method, authCode);
                 break;
-            } catch (APIConnectionException e) {
+            } catch (SocketTimeoutException e) {    // connect timed out
                 if (retryTimes >= _maxRetryTimes) {
                     throw new APIConnectionException(e);
                 } else {
-                    LOG.debug("Retry again - " + (retryTimes + 1));
+                    LOG.debug("connect timed out - retry again - " + (retryTimes + 1));
                 }
             }
         }
@@ -61,7 +65,8 @@ public class NativeHttpClient implements IHttpClient {
     }
     
     private ResponseWrapper _sendRequest(String url, String content, 
-            RequestMethod method, String authCode) throws APIConnectionException, APIRequestException {
+            RequestMethod method, String authCode) throws APIConnectionException, APIRequestException, 
+            SocketTimeoutException {
         LOG.debug("Send request to - " + url);
         if (null != content) {
             LOG.debug("Request Content - " + content);
@@ -73,8 +78,6 @@ public class NativeHttpClient implements IHttpClient {
 		ResponseWrapper wrapper = new ResponseWrapper();
 		
 		try {
-		    initSSL();
-			
 			URL aUrl = new URL(url);
 			conn = (HttpURLConnection) aUrl.openConnection();
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
@@ -165,6 +168,13 @@ public class NativeHttpClient implements IHttpClient {
 			    throw new APIRequestException(wrapper);
 			}
             
+		} catch (SocketTimeoutException e) {
+		    if (e.getMessage().contains("connect timed out")) {
+	            throw e;
+		    }
+            LOG.debug(IO_ERROR_MESSAGE, e);
+		    throw new APIConnectionException(IO_ERROR_MESSAGE, e);
+            
         } catch (IOException e) {
             LOG.debug(IO_ERROR_MESSAGE, e);
             throw new APIConnectionException(IO_ERROR_MESSAGE, e);
@@ -186,16 +196,17 @@ public class NativeHttpClient implements IHttpClient {
 	}
 
 	protected void initSSL() {
+        TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
+        tmCerts[0] = new SimpleTrustManager();
 		try {
-			TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
-			tmCerts[0] = new SimpleTrustManager();
-			javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
-			sc.init(null, tmCerts, null);
-			javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-			HostnameVerifier hv = new SimpleHostnameVerifier();
-			HttpsURLConnection.setDefaultHostnameVerifier(hv);
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, tmCerts, null);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			
+			HostnameVerifier hostnameVerifier = new SimpleHostnameVerifier();
+			HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 		} catch (Exception e) {
-			LOG.error("", e);
+			LOG.error("Init SSL error", e);
 		}
 	}
 
