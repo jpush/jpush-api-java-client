@@ -52,6 +52,7 @@ public class NotificationTests {
         JsonObject ios = new JsonObject();
         ios.add("alert", new JsonPrimitive("alert"));
         ios.add("sound", new JsonPrimitive(""));
+        ios.add("badge", new JsonPrimitive(1));
         json.add("ios", ios);
         Assert.assertEquals("", json, notification.toJSON());
     }

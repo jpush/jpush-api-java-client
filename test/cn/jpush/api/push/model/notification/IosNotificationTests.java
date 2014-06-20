@@ -13,6 +13,7 @@ public class IosNotificationTests {
         IosNotification ios = IosNotification.newBuilder().build();
         JsonObject json = new JsonObject();
         json.add("sound", new JsonPrimitive(""));
+        json.add("badge", new JsonPrimitive(1));
         Assert.assertEquals("", json, ios.toJSON());
     }
     
@@ -22,6 +23,7 @@ public class IosNotificationTests {
         JsonObject json = new JsonObject();
         json.add("alert", new JsonPrimitive("aaa"));
         json.add("sound", new JsonPrimitive(""));
+        json.add("badge", new JsonPrimitive(1));
         Assert.assertEquals("", json, ios.toJSON());
     }
     
@@ -35,10 +37,10 @@ public class IosNotificationTests {
     }
     
     @Test
-    public void testBadge_1() {
-        IosNotification ios = IosNotification.newBuilder().setBadge(1).build();
+    public void testBadge_2() {
+        IosNotification ios = IosNotification.newBuilder().setBadge(2).build();
         JsonObject json = new JsonObject();
-        json.add("badge", new JsonPrimitive(1));
+        json.add("badge", new JsonPrimitive(2));
         json.add("sound", new JsonPrimitive(""));
         Assert.assertEquals("", json, ios.toJSON());
     }
@@ -48,6 +50,7 @@ public class IosNotificationTests {
         IosNotification ios = IosNotification.newBuilder().setSound("sound").build();
         JsonObject json = new JsonObject();
         json.add("sound", new JsonPrimitive("sound"));
+        json.add("badge", new JsonPrimitive(1));
         Assert.assertEquals("", json, ios.toJSON());
     }
     
@@ -60,6 +63,19 @@ public class IosNotificationTests {
                 .build();
         JsonObject json = new JsonObject();
         json.add("alert", new JsonPrimitive("alert"));
+        json.add("badge", new JsonPrimitive(1));
+        Assert.assertEquals("", json, ios.toJSON());
+    }
+
+    @Test
+    public void testBadgeDisabled() {
+        IosNotification ios = IosNotification.newBuilder()
+                .disableBadge()
+                .setAlert("alert")
+                .build();
+        JsonObject json = new JsonObject();
+        json.add("alert", new JsonPrimitive("alert"));
+        json.add("sound", new JsonPrimitive(""));
         Assert.assertEquals("", json, ios.toJSON());
     }
 
@@ -75,6 +91,7 @@ public class IosNotificationTests {
         extra.add("key2", new JsonPrimitive(Boolean.TRUE));
         json.add("extras", extra);
         json.add("sound", new JsonPrimitive(""));
+        json.add("badge", new JsonPrimitive(1));
         Assert.assertEquals("", json, ios.toJSON());
     }
     
