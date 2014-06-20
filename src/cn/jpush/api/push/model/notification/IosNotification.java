@@ -10,18 +10,21 @@ public class IosNotification extends PlatformNotification {
     private static final String NOTIFICATION_IOS = "ios";
     
     private static final String DEFAULT_SOUND = "";
+    private static final int BADGE_UNDEFINED = -1;
+    private static final int DEFAULT_BADGE = 1;
     
     private static final String BADGE = "badge";
     private static final String SOUND = "sound";
     private static final String CONTENT_AVAILABLE = "content-available";
     
     private final boolean soundDisabled;
+    private final boolean badgeDisabled;
     private final String sound;
     private final int badge;
     private final boolean contentAvailable;
     
     private IosNotification(String alert, String sound, int badge, 
-            boolean contentAvailable, boolean soundDisabled,   
+            boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             ImmutableMap<String, String> extras, 
             ImmutableMap<String, Number> numberExtras, 
             ImmutableMap<String, Boolean> booleanExtras) {
@@ -31,6 +34,7 @@ public class IosNotification extends PlatformNotification {
         this.badge = badge;
         this.contentAvailable = contentAvailable;
         this.soundDisabled = soundDisabled;
+        this.badgeDisabled = badgeDisabled;
     }
     
     public static Builder newBuilder() {
@@ -51,8 +55,12 @@ public class IosNotification extends PlatformNotification {
     public JsonElement toJSON() {
         JsonObject json = super.toJSON().getAsJsonObject();
         
-        if (badge >= 0) {
-            json.add(BADGE, new JsonPrimitive(this.badge));
+        if (!badgeDisabled) {
+            if (badge >= 0) {
+                json.add(BADGE, new JsonPrimitive(this.badge));
+            } else if (badge == BADGE_UNDEFINED) {
+                json.add(BADGE, new JsonPrimitive(DEFAULT_BADGE));
+            }
         }
         if (!soundDisabled) {
             if (null != sound) {
@@ -71,9 +79,10 @@ public class IosNotification extends PlatformNotification {
     
     public static class Builder extends PlatformNotification.Builder<IosNotification> {
         private String sound;
-        private int badge = -1;
+        private int badge = BADGE_UNDEFINED;
         private boolean contentAvailable = false;
         private boolean soundDisabled = false;
+        private boolean badgeDisabled = false;
         
         public Builder setSound(String sound) {
             this.sound = sound;
@@ -87,6 +96,11 @@ public class IosNotification extends PlatformNotification {
         
         public Builder setBadge(int badge) {
             this.badge = badge;
+            return this;
+        }
+        
+        public Builder disableBadge() {
+            this.badgeDisabled = true;
             return this;
         }
         
@@ -128,7 +142,8 @@ public class IosNotification extends PlatformNotification {
         }
         
         public IosNotification build() {
-            return new IosNotification(alert, sound, badge, contentAvailable, soundDisabled,  
+            return new IosNotification(alert, sound, badge, contentAvailable, 
+                    soundDisabled, badgeDisabled,   
                     (null == extrasBuilder) ? null : extrasBuilder.build(), 
                     (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
                     (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build());
