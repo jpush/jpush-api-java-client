@@ -1,5 +1,9 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.Map;
+
+import cn.jpush.api.push.model.notification.AndroidNotification.Builder;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -120,6 +124,17 @@ public class IosNotification extends PlatformNotification {
                 extrasBuilder = ImmutableMap.builder();
             }
             extrasBuilder.put(key, value);
+            return this;
+        }
+        
+        public Builder addExtras(Map<String, String> extras) {
+            Preconditions.checkArgument(! (null == extras), "extras should not be null.");
+            if (null == extrasBuilder) {
+                extrasBuilder = ImmutableMap.builder();
+            }
+            for (String key : extras.keySet()) {
+                extrasBuilder.put(key, extras.get(key));
+            }
             return this;
         }
         

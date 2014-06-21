@@ -1,5 +1,8 @@
 package cn.jpush.api.push.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,7 +46,29 @@ public class MessageTests {
         json.add("extras", extras);
         
         Assert.assertEquals("", json, message.toJSON());
+    }
+    
+    @Test
+    public void testMsgContentAndExtrasMap() {
+        Map<String, String> extrasMap = new HashMap<String, String>();
+        extrasMap.put("key1", "value1");
+        extrasMap.put("key2", "value2");
+        
+        Message message = Message.newBuilder()
+                .setMsgContent("msgContent")
+                .addExtras(extrasMap).build();
+        
+        JsonObject json = new JsonObject();
+        json.add("msg_content", new JsonPrimitive("msgContent"));
+        
+        JsonObject extras = new JsonObject();
+        extras.add("key1", new JsonPrimitive("value1"));
+        extras.add("key2", new JsonPrimitive("value2"));
+        json.add("extras", extras);
+        
+        Assert.assertEquals("", json, message.toJSON());
 
     }
+
 
 }
