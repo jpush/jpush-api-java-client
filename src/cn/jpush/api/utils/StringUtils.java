@@ -49,11 +49,11 @@ public class StringUtils {
 	}
 	
     public static String arrayToString(String[] values) {
+        if (null == values) return "";
+        
         StringBuffer buffer = new StringBuffer(values.length);
-        if (values != null) {
-            for (int i = 0; i < values.length; i++) {
-                buffer.append(values[i]).append(",");
-            }
+        for (int i = 0; i < values.length; i++) {
+            buffer.append(values[i]).append(",");
         }
         if (buffer.length() > 0) {
             return buffer.toString().substring(0, buffer.length() - 1);
