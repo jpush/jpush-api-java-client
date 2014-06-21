@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class IosNotificationTests {
+public class IosNotificationTest {
 
     @Test
     public void testEmpty() {

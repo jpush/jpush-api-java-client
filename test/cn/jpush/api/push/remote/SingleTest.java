@@ -11,7 +11,7 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
 
-public class SingleTest extends BaseRemoteTests {
+public class SingleTest extends BaseRemoteTest {
     
     @Test
     public void sendSimpleMessageAndNotification_Pall() throws Exception {

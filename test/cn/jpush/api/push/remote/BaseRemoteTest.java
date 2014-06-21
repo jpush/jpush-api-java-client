@@ -11,7 +11,7 @@ import cn.jpush.api.push.PushClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class BaseRemoteTests {
+public class BaseRemoteTest {
     public static final String appKey ="dd1066407b044738b6479275";
     public static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
     

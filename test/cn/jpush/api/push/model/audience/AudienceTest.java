@@ -7,7 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class AudienceTests {
+public class AudienceTest {
 
     @Test
     public void testAll() {

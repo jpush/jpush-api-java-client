@@ -27,7 +27,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
-public class BaseMockTests {
+public class BaseMockTest {
     public static final String REMOTE_HOST = "https://localhost:8081";
     public static final String REMOTE_PATH = "/v3/push";
     

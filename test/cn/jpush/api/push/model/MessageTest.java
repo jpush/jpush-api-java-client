@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class MessageTests {
+public class MessageTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testIllegal() {

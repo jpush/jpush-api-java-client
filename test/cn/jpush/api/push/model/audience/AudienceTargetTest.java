@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 
-public class AudienceTargetTests {
+public class AudienceTargetTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegal() {

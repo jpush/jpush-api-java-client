@@ -9,7 +9,7 @@ import cn.jpush.api.push.model.Platform;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 
-public class PlatformTessts {
+public class PlatformTesst {
 
     @Test
     public void testAll() {

@@ -10,7 +10,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class PushPayloadTests {
+public class PushPayloadTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegal_OnlyAudience() {
