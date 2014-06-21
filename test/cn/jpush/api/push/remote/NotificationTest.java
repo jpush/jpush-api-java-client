@@ -11,7 +11,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
-public class NotificationTests extends BaseRemoteTests {
+public class NotificationTest extends BaseRemoteTest {
 	
     // --------------- Android
 	

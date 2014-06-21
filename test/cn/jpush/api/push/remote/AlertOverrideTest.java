@@ -13,7 +13,7 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.WinphoneNotification;
 
-public class AlertOverrideTests extends BaseRemoteTests {
+public class AlertOverrideTest extends BaseRemoteTest {
     
     @Test
     public void sendAlert_all() throws Exception {

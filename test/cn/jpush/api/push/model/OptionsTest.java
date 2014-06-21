@@ -9,7 +9,7 @@ import cn.jpush.api.common.ServiceHelper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class OptionsTests {
+public class OptionsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalSendno() {

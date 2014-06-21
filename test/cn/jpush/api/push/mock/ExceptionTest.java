@@ -9,7 +9,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class ExceptionTests extends BaseMockTests {
+public class ExceptionTest extends BaseMockTest {
     
 //    @Test
 //    public void appKeyNotExist() {
