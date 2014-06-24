@@ -30,12 +30,13 @@ public class OptionsTest {
     public void testSendno() {
         JsonObject json = new JsonObject();
         json.add("sendno", new JsonPrimitive(111));
-        Options optional = Options.newBuilder().setSendno(111).build();
-        Assert.assertEquals("", json, optional.toJSON());
+        json.add("apns_production", new JsonPrimitive(false));
+        Options options = Options.newBuilder().setSendno(111).build();
+        Assert.assertEquals("", json, options.toJSON());
     }
 
     @Test
-    public void testApnsProduction() {
+    public void testApnsProduction_defaultFalse() {
         int sendno = ServiceHelper.generateSendno();
 
         JsonObject json = new JsonObject();
@@ -44,10 +45,27 @@ public class OptionsTest {
         
         Options options = Options.newBuilder()
                 .setSendno(sendno)
-                .setApnsProduction(false).build();
+                .build();
         
         Assert.assertEquals("", json, options.toJSON());
     }
+    
+    @Test
+    public void testApnsProduction_True() {
+        int sendno = ServiceHelper.generateSendno();
+
+        JsonObject json = new JsonObject();
+        json.add("apns_production", new JsonPrimitive(true));
+        json.add("sendno", new JsonPrimitive(sendno));
+        
+        Options options = Options.newBuilder()
+                .setSendno(sendno)
+                .setApnsProduction(true)
+                .build();
+        
+        Assert.assertEquals("", json, options.toJSON());
+    }
+
 
 }
 

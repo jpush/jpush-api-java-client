@@ -67,6 +67,7 @@ public class PushPayloadTest {
         
         JsonObject options = new JsonObject();
         options.add("sendno", new JsonPrimitive(sendno));
+        options.add("apns_production", new JsonPrimitive(false));
         json.add("options", options);
         
         Assert.assertEquals("", json, payload.toJSON());
@@ -91,6 +92,7 @@ public class PushPayloadTest {
         
         JsonObject options = new JsonObject();
         options.add("sendno", new JsonPrimitive(sendno));
+        options.add("apns_production", new JsonPrimitive(false));
         json.add("options", options);
         
         Assert.assertEquals("", json, payload.toJSON());

@@ -61,9 +61,9 @@ public class Options implements PushModel {
         if (timeToLive > 0) {
             json.add(TIME_TO_LIVE, new JsonPrimitive(timeToLive));
         }
-        if (!apnsProduction) {
-            json.add(APNS_PRODUCTION, new JsonPrimitive(apnsProduction));
-        }
+        
+        json.add(APNS_PRODUCTION, new JsonPrimitive(apnsProduction));
+        
         return json;
     }
     
@@ -71,7 +71,7 @@ public class Options implements PushModel {
         private int sendno = 0;
         private long overrideMsgId = 0;
         private long timeToLive = 0;
-        private boolean apnsProduction = true;
+        private boolean apnsProduction = false;
         
         public Builder setSendno(int sendno) {
             this.sendno = sendno;
