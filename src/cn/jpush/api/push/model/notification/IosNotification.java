@@ -2,8 +2,6 @@ package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
 
-import cn.jpush.api.push.model.notification.AndroidNotification.Builder;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -11,8 +9,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class IosNotification extends PlatformNotification {
-    private static final String NOTIFICATION_IOS = "ios";
-    
+    public static final String NOTIFICATION_IOS = "ios";
+        
     private static final String DEFAULT_SOUND = "";
     private static final int BADGE_UNDEFINED = -1;
     private static final int DEFAULT_BADGE = 1;

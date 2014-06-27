@@ -56,7 +56,7 @@ public abstract class PlatformNotification implements PushModel {
         if (null != extras || null != numberExtras || null != booleanExtras) {
             json.add(EXTRAS, extrasObject);
         }
-
+        
         return json;
     }
     

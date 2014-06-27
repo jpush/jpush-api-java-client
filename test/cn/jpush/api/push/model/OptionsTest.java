@@ -1,6 +1,5 @@
 package cn.jpush.api.push.model;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 
