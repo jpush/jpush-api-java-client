@@ -81,11 +81,15 @@
 
 ### 构建本项目
 
-建议直接使用 maven，执行命令：
+可以用 Eclipse 类 IDE 导出 jar 包。建议直接使用 maven，执行命令：
 
-```
-maven package
-```
+	maven package
+
+### 自动化测试
+
+在项目目录下执行命令：
+
+	mvn test
 
 ## 使用样例
 
@@ -146,17 +150,12 @@ maven package
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.tag("tag1"))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setAlert(ALERT)
-                                .setTitle(TITLE)
-                                .build())
-                        .build())
+                .setNotification(Notification.android(ALERT, TITLE, null))
                 .build();
     }
 ```
 
-* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 1，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。
+* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 5，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。APNs 的推送环境是“生产”（如果不显式设置的话，Library 会默认指定为开发）
 
 ```
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
@@ -166,12 +165,15 @@ maven package
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
-                                .setBadge(1)
+                                .setBadge(5)
                                 .setSound("happy")
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())
                  .setMessage(Message.content(MSG_CONTENT))
+                 .setOptions(Options.newBuilder()
+                         .setApnsProduction(true)
+                         .build())
                  .build();
     }
 ```
