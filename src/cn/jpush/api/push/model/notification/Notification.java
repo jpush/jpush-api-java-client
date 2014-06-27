@@ -1,5 +1,7 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.Map;
+
 import cn.jpush.api.push.model.PushModel;
 
 import com.google.common.base.Preconditions;
@@ -30,6 +32,43 @@ public class Notification implements PushModel {
      */
     public static Notification alert(String alert) {
         return newBuilder().setAlert(alert).build();
+    }
+    
+    /**
+     * shortcut
+     */
+    public static Notification android(String alert, String title, Map<String, String> extras) {
+        return newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                    .setAlert(alert)
+                    .setTitle(title)
+                    .addExtras(extras)
+                    .build())
+                .build();
+    }
+    
+    /**
+     * shortcut
+     */
+    public static Notification ios(String alert, Map<String, String> extras) {
+        return newBuilder()
+                .addPlatformNotification(IosNotification.newBuilder()
+                    .setAlert(alert)
+                    .addExtras(extras)
+                    .build())
+                .build();
+    }
+    
+    /**
+     * shortcut
+     */
+    public static Notification winphone(String alert, Map<String, String> extras) {
+        return newBuilder()
+                .addPlatformNotification(WinphoneNotification.newBuilder()
+                    .setAlert(alert)
+                    .addExtras(extras)
+                    .build())
+                .build();
     }
     
     public JsonElement toJSON() {

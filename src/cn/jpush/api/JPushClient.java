@@ -11,8 +11,6 @@ import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
-import cn.jpush.api.push.model.notification.AndroidNotification;
-import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
@@ -125,13 +123,7 @@ public class JPushClient {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.alias(alias))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setTitle(title)
-                                .setAlert(alert)
-                                .addExtras(extras)
-                                .build())
-                        .build())
+                .setNotification(Notification.android(alert, title, extras))
                 .build();
         return _pushClient.sendPush(payload);
     }
@@ -145,13 +137,7 @@ public class JPushClient {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.registrationId(registrationID))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setTitle(title)
-                                .setAlert(alert)
-                                .addExtras(extras)
-                                .build())
-                        .build())
+                .setNotification(Notification.android(alert, title, extras))
                 .build();
         return _pushClient.sendPush(payload);
     }
@@ -165,16 +151,11 @@ public class JPushClient {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.alias(alias))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(IosNotification.newBuilder()
-                                .setAlert(alert)
-                                .addExtras(extras)
-                                .build())
-                        .build())
+                .setNotification(Notification.ios(alert, extras))
                 .build();
         return _pushClient.sendPush(payload);
     }
-
+    
     /**
      * Shortcut
      */
@@ -184,12 +165,7 @@ public class JPushClient {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.registrationId(registrationID))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(IosNotification.newBuilder()
-                                .setAlert(alert)
-                                .addExtras(extras)
-                                .build())
-                        .build())
+                .setNotification(Notification.ios(alert, extras))
                 .build();
         return _pushClient.sendPush(payload);
     }
