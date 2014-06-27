@@ -8,11 +8,11 @@ import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
-import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
@@ -71,12 +71,7 @@ public class PushExample {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.tag("tag1"))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setAlert(ALERT)
-                                .setTitle(TITLE)
-                                .build())
-                        .build())
+                .setNotification(Notification.android(ALERT, TITLE, null))
                 .build();
     }
     
@@ -87,12 +82,15 @@ public class PushExample {
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
-                                .setBadge(1)
+                                .setBadge(5)
                                 .setSound("happy")
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())
                  .setMessage(Message.content(MSG_CONTENT))
+                 .setOptions(Options.newBuilder()
+                         .setApnsProduction(true)
+                         .build())
                  .build();
     }
     
