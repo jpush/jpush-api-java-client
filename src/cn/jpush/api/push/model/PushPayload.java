@@ -1,12 +1,16 @@
 package cn.jpush.api.push.model;
 
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import cn.jpush.api.push.model.notification.PlatformNotification;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 /**
  * The object you should build for sending a push.
@@ -23,7 +27,10 @@ public class PushPayload implements PushModel {
     private static final String NOTIFICATION = "notification";
     private static final String MESSAGE = "message";
     private static final String OPTIONS = "options";
-
+    
+    private static final int MAX_GLOBAL_ENTITY_LENGTH = 1200;  // Definition acording to JPush Docs
+    private static final int MAX_IOS_PAYLOAD_LENGTH = 220;  // Definition acording to JPush Docs
+    
     private static Gson _gson = new Gson();
     
     private final Platform platform;
@@ -114,7 +121,50 @@ public class PushPayload implements PushModel {
         if (null != options) {
             json.add(OPTIONS, options.toJSON());
         }
+                
         return json;
+    }
+    
+    public boolean isGlobalExceedLength() {
+        int messageLength = 0;
+        JsonObject payload = (JsonObject) this.toJSON();
+        if (payload.has(MESSAGE)) {
+            JsonObject message = payload.getAsJsonObject(MESSAGE);
+            messageLength = message.toString().getBytes().length;
+        }
+        if (!payload.has(NOTIFICATION)) {
+            // only mesage
+            return messageLength > MAX_GLOBAL_ENTITY_LENGTH;
+        } else {
+            JsonObject notification = payload.getAsJsonObject(NOTIFICATION);
+            if (notification.has(AndroidNotification.NOTIFICATION_ANDROID)) {
+                JsonObject android = notification.getAsJsonObject(AndroidNotification.NOTIFICATION_ANDROID);
+                int androidLength = android.toString().getBytes().length;
+                return (androidLength + messageLength) > MAX_GLOBAL_ENTITY_LENGTH;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isIosExceedLength() {
+        JsonObject payload = (JsonObject) this.toJSON();
+        if (payload.has(NOTIFICATION)) {
+            JsonObject notification = payload.getAsJsonObject(NOTIFICATION);
+            if (notification.has(IosNotification.NOTIFICATION_IOS)) {
+                JsonObject ios = notification.getAsJsonObject(IosNotification.NOTIFICATION_IOS);
+                return ios.toString().getBytes().length > MAX_IOS_PAYLOAD_LENGTH;
+            } else {
+                if (notification.has(PlatformNotification.ALERT)) {
+                    String alert = notification.get(PlatformNotification.ALERT).getAsString();
+                    JsonObject ios = new JsonObject();
+                    ios.add("alert", new JsonPrimitive(alert));
+                    return ios.toString().getBytes().length > MAX_IOS_PAYLOAD_LENGTH;
+                } else {
+                    // No iOS Payload
+                }
+            }
+        }
+        return false;
     }
     
     @Override

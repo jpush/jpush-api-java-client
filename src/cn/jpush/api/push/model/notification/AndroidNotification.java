@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class AndroidNotification extends PlatformNotification {
-    private static final String NOTIFICATION_ANDROID = "android";
+    public static final String NOTIFICATION_ANDROID = "android";
     
     private static final String TITLE = "title";
     private static final String BUILDER_ID = "builder_id";
