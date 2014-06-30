@@ -80,7 +80,7 @@ public class Audience implements PushModel {
     
     public static Audience segment(Collection<String> segments) {
         AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
+                .setAudienceType(AudienceType.SEGMENT)
                 .addAudienceTargetValues(segments).build();
         return newBuilder().addAudienceTarget(target).build();
     }
@@ -94,7 +94,7 @@ public class Audience implements PushModel {
     
     public static Audience registrationId(Collection<String> registrationIds) {
         AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
+                .setAudienceType(AudienceType.REGISTRATION_ID)
                 .addAudienceTargetValues(registrationIds).build();
         return newBuilder().addAudienceTarget(target).build();
     }
