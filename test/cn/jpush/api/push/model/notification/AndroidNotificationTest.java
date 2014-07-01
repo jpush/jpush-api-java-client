@@ -43,6 +43,20 @@ public class AndroidNotificationTest {
         Assert.assertEquals("", json, an.toJSON());
     }
     
+    @Test
+    public void testExtra_nullvalue() {
+        String value2 = "value2";
+        value2 = null;
+        AndroidNotification an = AndroidNotification.newBuilder()
+                .addExtra("key2", value2)
+                .addExtra("key1", "value1").build();
+        JsonObject json = new JsonObject();
+        JsonObject extra = new JsonObject();
+        extra.add("key1", new JsonPrimitive("value1"));
+        json.add("extras", extra);
+        Assert.assertEquals("", json, an.toJSON());
+    }
+    
 
 }
 

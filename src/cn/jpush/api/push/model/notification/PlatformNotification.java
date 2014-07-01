@@ -1,5 +1,8 @@
 package cn.jpush.api.push.model.notification;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cn.jpush.api.push.model.PushModel;
 
 import com.google.common.collect.ImmutableMap;
@@ -10,6 +13,8 @@ import com.google.gson.JsonPrimitive;
 public abstract class PlatformNotification implements PushModel {
     public static final String ALERT = "alert";
     private static final String EXTRAS = "extras";
+    
+    protected static final Logger LOG = LoggerFactory.getLogger(PlatformNotification.class);
 
     private String alert;
     private final ImmutableMap<String, String> extras;
@@ -38,18 +43,30 @@ public abstract class PlatformNotification implements PushModel {
         }
         
         if (null != extras) {
+            String value = null;
             for (String key : extras.keySet()) {
-                extrasObject.add(key, new JsonPrimitive(extras.get(key)));
+                value = extras.get(key);
+                if (null != value) {
+                    extrasObject.add(key, new JsonPrimitive(value));
+                }
             }
         }
         if (null != numberExtras) {
+            Number value = null;
             for (String key : numberExtras.keySet()) {
-                extrasObject.add(key, new JsonPrimitive(numberExtras.get(key)));
+                value = numberExtras.get(key);
+                if (null != value) {
+                    extrasObject.add(key, new JsonPrimitive(value));
+                }
             }
         }
         if (null != booleanExtras) {
+            Boolean value = null;
             for (String key : booleanExtras.keySet()) {
-                extrasObject.add(key, new JsonPrimitive(booleanExtras.get(key)));
+                value = booleanExtras.get(key);
+                if (null != value) {
+                    extrasObject.add(key, new JsonPrimitive(value));
+                }
             }
         }
 
