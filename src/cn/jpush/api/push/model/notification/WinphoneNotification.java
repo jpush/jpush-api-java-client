@@ -2,6 +2,8 @@ package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
 
+import cn.jpush.api.push.model.notification.AndroidNotification.Builder;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -76,7 +78,11 @@ public class WinphoneNotification extends PlatformNotification {
         }
         
         public Builder addExtra(String key, String value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
             if (null == extrasBuilder) {
                 extrasBuilder = ImmutableMap.builder();
             }
@@ -85,7 +91,11 @@ public class WinphoneNotification extends PlatformNotification {
         }
         
         public Builder addExtras(Map<String, String> extras) {
-            Preconditions.checkArgument(! (null == extras), "extras should not be null.");
+            if (null == extras) {
+                LOG.warn("Null extras param. Throw away it.");
+                return this;
+            }
+            
             if (null == extrasBuilder) {
                 extrasBuilder = ImmutableMap.builder();
             }
@@ -96,7 +106,11 @@ public class WinphoneNotification extends PlatformNotification {
         }
         
         public Builder addExtra(String key, Number value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
             if (null == numberExtrasBuilder) {
                 numberExtrasBuilder = ImmutableMap.builder();
             }
@@ -105,7 +119,11 @@ public class WinphoneNotification extends PlatformNotification {
         }
         
         public Builder addExtra(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
             if (null == booleanExtrasBuilder) {
                 booleanExtrasBuilder = ImmutableMap.builder();
             }

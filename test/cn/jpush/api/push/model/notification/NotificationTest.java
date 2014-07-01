@@ -78,4 +78,18 @@ public class NotificationTest {
         Assert.assertEquals("", json, notification.toJSON());
     }
 
+    @Test
+    public void testShortcut_android() {
+        Notification notification = Notification.android("alert", "title", null);
+        JsonObject json = new JsonObject();
+        JsonObject android = new JsonObject();
+        android.add("alert", new JsonPrimitive("alert"));
+        android.add("title", new JsonPrimitive("title"));
+        json.add("android", android);
+                
+        Assert.assertEquals("", json, notification.toJSON());
+    }
+
+    
+    
 }
