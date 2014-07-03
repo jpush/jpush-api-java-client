@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 
 public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
+    private static final String KEYWORDS_CONNECT_TIMED_OUT = "connect timed out";
+    private static final String KEYWORDS_READ_TIMED_OUT = "Read timed out";
     
     private int _maxRetryTimes = 0;
     
@@ -53,11 +55,16 @@ public class NativeHttpClient implements IHttpClient {
             try {
                 response = _sendRequest(url, content, method, authCode);
                 break;
-            } catch (SocketTimeoutException e) {    // connect timed out
-                if (retryTimes >= _maxRetryTimes) {
-                    throw new APIConnectionException(e);
-                } else {
-                    LOG.debug("connect timed out - retry again - " + (retryTimes + 1));
+            } catch (SocketTimeoutException e) {
+                if (KEYWORDS_READ_TIMED_OUT.equals(e.getMessage())) {
+                    // Read timed out.  For push, maybe should not re-send.
+                    throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
+                } else {    // connect timed out
+                    if (retryTimes >= _maxRetryTimes) {
+                        throw new APIConnectionException(CONNECT_TIMED_OUT_MESSAGE, e);
+                    } else {
+                        LOG.debug("connect timed out - retry again - " + (retryTimes + 1));
+                    }
                 }
             }
         }
@@ -169,8 +176,10 @@ public class NativeHttpClient implements IHttpClient {
 			}
             
 		} catch (SocketTimeoutException e) {
-		    if (e.getMessage().contains("connect timed out")) {
+		    if (e.getMessage().contains(KEYWORDS_CONNECT_TIMED_OUT)) {
 	            throw e;
+		    } else if (e.getMessage().contains(KEYWORDS_READ_TIMED_OUT)) {
+		        throw new SocketTimeoutException(KEYWORDS_READ_TIMED_OUT);
 		    }
             LOG.debug(IO_ERROR_MESSAGE, e);
 		    throw new APIConnectionException(IO_ERROR_MESSAGE, e);

@@ -27,6 +27,16 @@ public interface IHttpClient {
             + "Please ensure your internet connection is ok. \n"
             + "If the problem persists, please let us know at support@jpush.cn.";
 
+    public static final String CONNECT_TIMED_OUT_MESSAGE = "connect timed out. \n"
+            + "Connect to JPush Server timed out, and already retried three times. "
+            + "Please ensure your internet connection is ok. \n"
+            + "If the problem persists, please let us know at support@jpush.cn.";
+
+    public static final String READ_TIMED_OUT_MESSAGE = "Read timed out. \n"
+            + "Read response from JPush Server timed out. For Push action, maybe you could not retry. "
+            + "Maybe JPush server is a little slowly. \n"
+            + "If the problem persists, please let us know at support@jpush.cn.";
+
     public static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
 
