@@ -61,7 +61,7 @@ public class NativeHttpClient implements IHttpClient {
                     throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
                 } else {    // connect timed out
                     if (retryTimes >= _maxRetryTimes) {
-                        throw new APIConnectionException(CONNECT_TIMED_OUT_MESSAGE, e);
+                        throw new APIConnectionException(CONNECT_TIMED_OUT_MESSAGE, e, retryTimes);
                     } else {
                         LOG.debug("connect timed out - retry again - " + (retryTimes + 1));
                     }
