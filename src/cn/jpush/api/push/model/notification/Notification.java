@@ -62,6 +62,30 @@ public class Notification implements PushModel {
     /**
      * shortcut
      */
+    public static Notification ios_badgeAuto() {
+        return newBuilder()
+                .addPlatformNotification(IosNotification.newBuilder()
+                    .setAlert("")
+                    .setBadgeAuto()
+                    .build())
+                .build();
+    }
+    
+    /**
+     * shortcut
+     */
+    public static Notification ios_badge(String badge) {
+        return newBuilder()
+                .addPlatformNotification(IosNotification.newBuilder()
+                    .setAlert("")
+                    .setBadge(badge)
+                    .build())
+                .build();
+    }
+    
+    /**
+     * shortcut
+     */
     public static Notification winphone(String alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(WinphoneNotification.newBuilder()

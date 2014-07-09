@@ -63,6 +63,17 @@ public class NotificationTest extends BaseRemoteTest {
     
     // ------------------ ios
     
+    @Test
+    public void sendNotification_ios_badge() throws Exception {
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.ios())
+                .setNotification(Notification.ios_badgeAuto())
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertTrue(result.isResultOK());
+    }
+    
     
     
     
