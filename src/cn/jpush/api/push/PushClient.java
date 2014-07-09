@@ -19,7 +19,7 @@ import cn.jpush.api.push.model.PushPayload;
  * Can be used directly.
  */
 public class PushClient {
-    public static final String HOST_NAME_SSL = "https://api.jpush.cn";
+    public static final String HOST_NAME_SSL = "https://api.jpush.cn:19688";
     public static final String PUSH_PATH = "/v3/push";
     
     private final NativeHttpClient _httpClient;

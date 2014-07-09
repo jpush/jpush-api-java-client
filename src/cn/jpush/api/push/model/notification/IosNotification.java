@@ -2,6 +2,8 @@ package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
 
+import cn.jpush.api.common.ServiceHelper;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -12,20 +14,23 @@ public class IosNotification extends PlatformNotification {
     public static final String NOTIFICATION_IOS = "ios";
         
     private static final String DEFAULT_SOUND = "";
-    private static final int BADGE_UNDEFINED = -1;
-    private static final int DEFAULT_BADGE = 1;
+    private static final String DEFAULT_BADGE = "+1";
     
     private static final String BADGE = "badge";
     private static final String SOUND = "sound";
     private static final String CONTENT_AVAILABLE = "content-available";
     
+    private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
+            + "and can be prefixed with + to add, - to minus";
+
+    
     private final boolean soundDisabled;
     private final boolean badgeDisabled;
     private final String sound;
-    private final int badge;
+    private final String badge;
     private final boolean contentAvailable;
     
-    private IosNotification(String alert, String sound, int badge, 
+    private IosNotification(String alert, String sound, String badge, 
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             ImmutableMap<String, String> extras, 
             ImmutableMap<String, Number> numberExtras, 
@@ -58,9 +63,9 @@ public class IosNotification extends PlatformNotification {
         JsonObject json = super.toJSON().getAsJsonObject();
         
         if (!badgeDisabled) {
-            if (badge >= 0) {
+            if (null != badge) {
                 json.add(BADGE, new JsonPrimitive(this.badge));
-            } else if (badge == BADGE_UNDEFINED) {
+            } else {
                 json.add(BADGE, new JsonPrimitive(DEFAULT_BADGE));
             }
         }
@@ -81,7 +86,7 @@ public class IosNotification extends PlatformNotification {
     
     public static class Builder extends PlatformNotification.Builder<IosNotification> {
         private String sound;
-        private int badge = BADGE_UNDEFINED;
+        private String badge;
         private boolean contentAvailable = false;
         private boolean soundDisabled = false;
         private boolean badgeDisabled = false;
@@ -96,9 +101,23 @@ public class IosNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder setBadge(int badge) {
+        public Builder setBadge(String badge) {
+            // check available badge value
+            if (!ServiceHelper.isValidBadgeValue(badge)) {
+                LOG.warn(ALERT_VALID_BADGE);
+                return this;
+            }
+            
             this.badge = badge;
             return this;
+        }
+        
+        public Builder setBadge(int badge) {
+            return setBadge(badge + "");
+        }
+        
+        public Builder setBadgeAuto() {
+            return setBadge(DEFAULT_BADGE);
         }
         
         public Builder disableBadge() {
