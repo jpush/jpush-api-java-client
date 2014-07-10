@@ -50,6 +50,7 @@ public class ResponseWrapper {
 	}
 	
 	public class ErrorObject {
+	    public long msg_id;
 	    public ErrorEntity error;
 	}
 	

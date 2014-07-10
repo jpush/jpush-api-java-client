@@ -21,6 +21,14 @@ public class APIRequestException extends Exception implements IRateLimiting {
         return this.responseWrapper.responseCode;
     }
     
+    public long getMsgId() {
+        ErrorObject eo = getErrorObject();
+        if (null != eo) {
+            return eo.msg_id;
+        }
+        return 0;
+    }
+    
     public int getErrorCode() {
         ErrorObject eo = getErrorObject();
         if (null != eo) {
