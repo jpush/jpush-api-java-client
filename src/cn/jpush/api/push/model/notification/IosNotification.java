@@ -101,23 +101,38 @@ public class IosNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder setBadge(String badge) {
-            // check available badge value
-            if (!ServiceHelper.isValidBadgeValue(badge)) {
+        public Builder incrBadge(int badge) {
+            if (!ServiceHelper.isValidIntBadge(Math.abs(badge))) {
                 LOG.warn(ALERT_VALID_BADGE);
                 return this;
             }
             
-            this.badge = badge;
+            if (badge == 0) {
+                LOG.warn("No action for incrBadge(0)");
+                return this;
+                
+            } else if (badge > 0) {
+                this.badge = "+" + badge;
+            } else {
+                this.badge = "" + badge;
+            }
             return this;
         }
         
         public Builder setBadge(int badge) {
-            return setBadge(badge + "");
+            if (!ServiceHelper.isValidIntBadge(badge)) {
+                LOG.warn(ALERT_VALID_BADGE);
+                return this;
+            }
+            this.badge = "" + badge;
+            return this;
         }
         
-        public Builder setBadgeAuto() {
-            return setBadge(DEFAULT_BADGE);
+        /**
+         * equals to: +1
+         */
+        public Builder autoBadge() {
+            return incrBadge(1);
         }
         
         public Builder disableBadge() {

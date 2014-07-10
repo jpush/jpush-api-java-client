@@ -68,7 +68,7 @@ public class NotificationTest extends BaseRemoteTest {
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.ios())
-                .setNotification(Notification.ios_badgeAuto())
+                .setNotification(Notification.ios_auto_badge())
                 .build();
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());

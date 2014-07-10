@@ -46,10 +46,28 @@ public class IosNotificationTest {
     }
     
     @Test
+    public void testBadge_auto() {
+        IosNotification ios = IosNotification.newBuilder().autoBadge().build();
+        JsonObject json = new JsonObject();
+        json.add("badge", new JsonPrimitive("+1"));
+        json.add("sound", new JsonPrimitive(""));
+        Assert.assertEquals("", json, ios.toJSON());
+    }
+    
+    @Test
     public void testBadge_plus_2() {
-        IosNotification ios = IosNotification.newBuilder().setBadge("+2").build();
+        IosNotification ios = IosNotification.newBuilder().incrBadge(2).build();
         JsonObject json = new JsonObject();
         json.add("badge", new JsonPrimitive("+2"));
+        json.add("sound", new JsonPrimitive(""));
+        Assert.assertEquals("", json, ios.toJSON());
+    }
+    
+    @Test
+    public void testBadge_minus_2() {
+        IosNotification ios = IosNotification.newBuilder().incrBadge(-2).build();
+        JsonObject json = new JsonObject();
+        json.add("badge", new JsonPrimitive("-2"));
         json.add("sound", new JsonPrimitive(""));
         Assert.assertEquals("", json, ios.toJSON());
     }
