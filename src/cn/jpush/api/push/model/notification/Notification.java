@@ -62,11 +62,11 @@ public class Notification implements PushModel {
     /**
      * shortcut
      */
-    public static Notification ios_badgeAuto() {
+    public static Notification ios_auto_badge() {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
                     .setAlert("")
-                    .setBadgeAuto()
+                    .autoBadge()
                     .build())
                 .build();
     }
@@ -74,11 +74,23 @@ public class Notification implements PushModel {
     /**
      * shortcut
      */
-    public static Notification ios_badge(String badge) {
+    public static Notification ios_set_badge(int badge) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
                     .setAlert("")
                     .setBadge(badge)
+                    .build())
+                .build();
+    }
+    
+    /**
+     * shortcut
+     */
+    public static Notification ios_incr_badge(int badge) {
+        return newBuilder()
+                .addPlatformNotification(IosNotification.newBuilder()
+                    .setAlert("")
+                    .incrBadge(badge)
                     .build())
                 .build();
     }

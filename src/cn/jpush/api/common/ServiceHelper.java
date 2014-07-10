@@ -17,26 +17,10 @@ public class ServiceHelper {
     
     private static final int MAX_BADGE_NUMBER = 99999;
     
-    public static boolean isValidBadgeValue(String badge) {
-        if (badge.startsWith("+")) {
-            badge = badge.substring(1);
-            return isValidIntBadge(badge);
-        } else if (badge.startsWith("-")) {
-            badge = badge.substring(1);
-            return isValidIntBadge(badge);
-        } else {
-            return isValidIntBadge(badge);
-        }
-    }
     
-    private static boolean isValidIntBadge(String badge) {
-        int intBadge = 0;
-        try {
-            intBadge = Integer.parseInt(badge);
-            if (intBadge >= 0 && intBadge <= MAX_BADGE_NUMBER) {
-                return true;
-            }
-        } catch (NumberFormatException e) {
+    public static boolean isValidIntBadge(int intBadge) {
+        if (intBadge >= 0 && intBadge <= MAX_BADGE_NUMBER) {
+            return true;
         }
         return false;
     }
