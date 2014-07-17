@@ -22,7 +22,7 @@ public class OptionsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalTimeToLive() {
-        Options.newBuilder().setTimeToLive(-1).build();
+        Options.newBuilder().setTimeToLive(-2).build();
     }
 
     @Test
@@ -31,6 +31,44 @@ public class OptionsTest {
         json.add("sendno", new JsonPrimitive(111));
         json.add("apns_production", new JsonPrimitive(false));
         Options options = Options.newBuilder().setSendno(111).build();
+        Assert.assertEquals("", json, options.toJSON());
+    }
+
+    @Test
+    public void testTimeToLive_int() {
+        JsonObject json = new JsonObject();
+        json.add("sendno", new JsonPrimitive(111));
+        json.add("apns_production", new JsonPrimitive(false));
+        json.add("time_to_live", new JsonPrimitive(640));
+        
+        Options options = Options.newBuilder()
+                .setSendno(111)
+                .setTimeToLive(640).build();
+        Assert.assertEquals("", json, options.toJSON());
+    }
+
+    @Test
+    public void testTimeToLive_0() {
+        JsonObject json = new JsonObject();
+        json.add("sendno", new JsonPrimitive(111));
+        json.add("apns_production", new JsonPrimitive(false));
+        json.add("time_to_live", new JsonPrimitive(0));
+        
+        Options options = Options.newBuilder()
+                .setSendno(111)
+                .setTimeToLive(0).build();
+        Assert.assertEquals("", json, options.toJSON());
+    }
+    
+    @Test
+    public void testTimeToLive_default() {
+        JsonObject json = new JsonObject();
+        json.add("sendno", new JsonPrimitive(111));
+        json.add("apns_production", new JsonPrimitive(false));
+        
+        Options options = Options.newBuilder()
+                .setSendno(111)
+                .setTimeToLive(-1).build();
         Assert.assertEquals("", json, options.toJSON());
     }
 

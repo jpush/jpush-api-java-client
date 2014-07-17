@@ -13,6 +13,8 @@ public class Options implements PushModel {
     private static final String TIME_TO_LIVE = "time_to_live";
     private static final String APNS_PRODUCTION = "apns_production";
     
+    private static final long NONE_TIME_TO_LIVE = -1;
+    
     private final int sendno;
     private final long overrideMsgId;
     private long timeToLive;
@@ -58,7 +60,7 @@ public class Options implements PushModel {
         if (overrideMsgId > 0) {
             json.add(OVERRIDE_MSG_ID, new JsonPrimitive(overrideMsgId));
         }
-        if (timeToLive > 0) {
+        if (timeToLive >= 0) {
             json.add(TIME_TO_LIVE, new JsonPrimitive(timeToLive));
         }
         
@@ -70,7 +72,7 @@ public class Options implements PushModel {
     public static class Builder {
         private int sendno = 0;
         private long overrideMsgId = 0;
-        private long timeToLive = 0;
+        private long timeToLive = NONE_TIME_TO_LIVE;
         private boolean apnsProduction = false;
         
         public Builder setSendno(int sendno) {
@@ -96,7 +98,7 @@ public class Options implements PushModel {
         public Options build() {
             Preconditions.checkArgument(sendno >= 0, "sendno should be greater than 0.");
             Preconditions.checkArgument(overrideMsgId >= 0, "override_msg_id should be greater than 0.");
-            Preconditions.checkArgument(timeToLive >= 0, "time_to_live should be greater than 0.");
+            Preconditions.checkArgument(timeToLive >= NONE_TIME_TO_LIVE, "time_to_live should be greater than 0.");
             if (sendno <= 0) {
                 sendno = ServiceHelper.generateSendno();
             }
