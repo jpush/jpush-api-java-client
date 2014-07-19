@@ -4,6 +4,7 @@ import java.util.Map;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
@@ -40,6 +41,11 @@ public class JPushClient {
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes);	    
 	}
 	
+    public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
+        _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy);
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy);      
+    }
+    
 	/**
 	 * Create a JPush Client with global settings.
 	 * 

@@ -26,45 +26,39 @@ public class NativeHttpClient implements IHttpClient {
     private static final String KEYWORDS_READ_TIMED_OUT = "Read timed out";
     
     private int _maxRetryTimes = 0;
+    private String _authCode;
+    private HttpProxy _proxy;
     
-    public NativeHttpClient() {
-        this(DEFAULT_MAX_RETRY_TIMES);
+    public NativeHttpClient(String authCode) {
+        this(authCode, DEFAULT_MAX_RETRY_TIMES, null);
     }
     
-    public NativeHttpClient(int maxRetryTimes) {
+    public NativeHttpClient(String authCode, int maxRetryTimes, HttpProxy proxy) {
         this._maxRetryTimes = maxRetryTimes;
         LOG.info("Created instance with _maxRetryTimes = " + _maxRetryTimes);
+        
+        this._authCode = authCode;
+        this._proxy = proxy;
         
         initSSL();
     }
     
-    public ResponseWrapper sendGet(String url, String params, 
-            String authCode) throws APIConnectionException, APIRequestException {
-		return sendRequest(url, params, RequestMethod.GET, authCode, null);
+    public ResponseWrapper sendGet(String url, String params) 
+            throws APIConnectionException, APIRequestException {
+		return sendRequest(url, params, RequestMethod.GET);
 	}
     
-    public ResponseWrapper sendPost(String url, String content, 
-            String authCode) throws APIConnectionException, APIRequestException {
-		return sendRequest(url, content, RequestMethod.POST, authCode, null);
+    public ResponseWrapper sendPost(String url, String content) 
+            throws APIConnectionException, APIRequestException {
+		return sendRequest(url, content, RequestMethod.POST);
 	}
-    
-    public ResponseWrapper sendGet(String url, String params, 
-            String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
-        return sendRequest(url, params, RequestMethod.GET, authCode, proxy);
-    }
-    
-    public ResponseWrapper sendPost(String url, String content, 
-            String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
-        return sendRequest(url, content, RequestMethod.POST, authCode, proxy);
-    }
-    
-    
+        
     public ResponseWrapper sendRequest(String url, String content, 
-            RequestMethod method, String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
+            RequestMethod method) throws APIConnectionException, APIRequestException {
         ResponseWrapper response = null;
         for (int retryTimes = 0; ; retryTimes++) {
             try {
-                response = _sendRequest(url, content, method, authCode, proxy);
+                response = _sendRequest(url, content, method);
                 break;
             } catch (SocketTimeoutException e) {
                 if (KEYWORDS_READ_TIMED_OUT.equals(e.getMessage())) {
@@ -83,7 +77,7 @@ public class NativeHttpClient implements IHttpClient {
     }
     
     private ResponseWrapper _sendRequest(String url, String content, 
-            RequestMethod method, String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException, 
+            RequestMethod method) throws APIConnectionException, APIRequestException, 
             SocketTimeoutException {
         LOG.debug("Send request to - " + url);
         if (null != content) {
@@ -98,10 +92,10 @@ public class NativeHttpClient implements IHttpClient {
 		try {
 			URL aUrl = new URL(url);
 			
-			if (null != proxy) {
-			    conn = (HttpURLConnection) aUrl.openConnection(proxy.getProxy());
-			    if (proxy.isAuthenticationNeeded()) {
-			        conn.addRequestProperty("Proxy-Authorization", proxy.getProxyAuthorization());
+			if (null != _proxy) {
+			    conn = (HttpURLConnection) aUrl.openConnection(_proxy.getNetProxy());
+			    if (_proxy.isAuthenticationNeeded()) {
+			        conn.setRequestProperty("Proxy-Authorization", _proxy.getProxyAuthorization());
 			    }
 			} else {
 			    conn = (HttpURLConnection) aUrl.openConnection();
@@ -115,7 +109,7 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			conn.setRequestProperty("Accept-Charset", CHARSET);
 			conn.setRequestProperty("Charset", CHARSET);
-			conn.setRequestProperty("Authorization", authCode);
+			conn.setRequestProperty("Authorization", _authCode);
             
             if (RequestMethod.POST == method) {
                 conn.setDoOutput(true);     //POST Request

@@ -3,7 +3,12 @@ package cn.jpush.api.common;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HttpProxy {
+    private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
+
     private String host;
     private int port;
     private String username;
@@ -14,6 +19,8 @@ public class HttpProxy {
     public HttpProxy(String host, int port) {
         this.host = host;
         this.port = port;
+        
+        LOG.info("Http Proxy - host:" + host + ", port:" + port);
     }
     
     public HttpProxy(String host, int port, String username, String password) {
@@ -23,7 +30,7 @@ public class HttpProxy {
         authenticationNeeded = true;
     }
     
-    public Proxy getProxy() {
+    public Proxy getNetProxy() {
         return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, port));
     }
     
