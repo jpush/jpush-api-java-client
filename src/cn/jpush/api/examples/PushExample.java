@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Options;
@@ -36,8 +35,9 @@ public class PushExample {
 	
 	
 	public static void testSendPush() {
-	    HttpProxy proxy = new HttpProxy("localhost", 3128);
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3, proxy);
+	    // HttpProxy proxy = new HttpProxy("localhost", 3128);
+	    // Can use this https proxy: https://github.com/Exa-Networks/exaproxy
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
         
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_all_alert();
