@@ -43,7 +43,7 @@ public class ReportClient {
 	
     public ReceivedsResult getReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
-        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
         ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
@@ -53,7 +53,7 @@ public class ReportClient {
 	
     public MessagesResult getMessages(String msgIds) throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
-        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         
         String url = REPORT_HOST_NAME + REPORT_MESSAGE_PATH + "?msg_ids=" + msgIds;
         ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
@@ -62,7 +62,7 @@ public class ReportClient {
     }
     
     public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) throws APIConnectionException, APIRequestException {
-        String authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         
         String startEncoded = null;
         try {
