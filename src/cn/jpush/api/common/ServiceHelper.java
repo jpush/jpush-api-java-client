@@ -29,8 +29,8 @@ public class ServiceHelper {
         return RANDOM.nextInt((MAX - MIN) + 1) + MIN;
     }
     
-    public static String getAuthorizationBase64(String appKey, String masterSecret) {
-        String encodeKey = appKey + ":" + masterSecret;
+    public static String getBasicAuthorization(String username, String password) {
+        String encodeKey = username + ":" + password;
         return BASIC_PREFIX + " " + String.valueOf(Base64.encode(encodeKey.getBytes())); 
     }
     

@@ -40,20 +40,31 @@ public class NativeHttpClient implements IHttpClient {
     
     public ResponseWrapper sendGet(String url, String params, 
             String authCode) throws APIConnectionException, APIRequestException {
-		return sendRequest(url, params, RequestMethod.GET, authCode);
+		return sendRequest(url, params, RequestMethod.GET, authCode, null);
 	}
     
     public ResponseWrapper sendPost(String url, String content, 
             String authCode) throws APIConnectionException, APIRequestException {
-		return sendRequest(url, content, RequestMethod.POST, authCode);
+		return sendRequest(url, content, RequestMethod.POST, authCode, null);
 	}
     
+    public ResponseWrapper sendGet(String url, String params, 
+            String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
+        return sendRequest(url, params, RequestMethod.GET, authCode, proxy);
+    }
+    
+    public ResponseWrapper sendPost(String url, String content, 
+            String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
+        return sendRequest(url, content, RequestMethod.POST, authCode, proxy);
+    }
+    
+    
     public ResponseWrapper sendRequest(String url, String content, 
-            RequestMethod method, String authCode) throws APIConnectionException, APIRequestException {
+            RequestMethod method, String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException {
         ResponseWrapper response = null;
         for (int retryTimes = 0; ; retryTimes++) {
             try {
-                response = _sendRequest(url, content, method, authCode);
+                response = _sendRequest(url, content, method, authCode, proxy);
                 break;
             } catch (SocketTimeoutException e) {
                 if (KEYWORDS_READ_TIMED_OUT.equals(e.getMessage())) {
@@ -72,7 +83,7 @@ public class NativeHttpClient implements IHttpClient {
     }
     
     private ResponseWrapper _sendRequest(String url, String content, 
-            RequestMethod method, String authCode) throws APIConnectionException, APIRequestException, 
+            RequestMethod method, String authCode, HttpProxy proxy) throws APIConnectionException, APIRequestException, 
             SocketTimeoutException {
         LOG.debug("Send request to - " + url);
         if (null != content) {
@@ -86,7 +97,16 @@ public class NativeHttpClient implements IHttpClient {
 		
 		try {
 			URL aUrl = new URL(url);
-			conn = (HttpURLConnection) aUrl.openConnection();
+			
+			if (null != proxy) {
+			    conn = (HttpURLConnection) aUrl.openConnection(proxy.getProxy());
+			    if (proxy.isAuthenticationNeeded()) {
+			        conn.addRequestProperty("Proxy-Authorization", proxy.getProxyAuthorization());
+			    }
+			} else {
+			    conn = (HttpURLConnection) aUrl.openConnection();
+			}
+			
 			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
 			conn.setReadTimeout(DEFAULT_READ_TIMEOUT);
 			conn.setUseCaches(false);

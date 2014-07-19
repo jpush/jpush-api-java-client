@@ -66,7 +66,7 @@ public class PushClient {
         
         ServiceHelper.checkBasic(appKey, masterSecret);
         
-        this._authCode = ServiceHelper.getAuthorizationBase64(_appKey, _masterSecret);
+        this._authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
         this._httpClient = new NativeHttpClient(maxRetryTimes);
 	}
