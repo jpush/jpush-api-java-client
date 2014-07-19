@@ -49,11 +49,11 @@ public interface IHttpClient {
     
     public static final int DEFAULT_MAX_RETRY_TIMES = 3;
 
-    public ResponseWrapper sendGet(String url, String params, 
-            String authCode) throws APIConnectionException, APIRequestException;
+    public ResponseWrapper sendGet(String url, String params) 
+            throws APIConnectionException, APIRequestException;
     
-    public ResponseWrapper sendPost(String url, String content, 
-            String authCode) throws APIConnectionException, APIRequestException;
+    public ResponseWrapper sendPost(String url, String content) 
+            throws APIConnectionException, APIRequestException;
     
 
 }

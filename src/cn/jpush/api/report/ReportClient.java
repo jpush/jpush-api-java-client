@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.common.IHttpClient;
 import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
@@ -19,51 +20,51 @@ public class ReportClient {
     private static final String REPORT_MESSAGE_PATH = "/v3/messages";
 
     private final NativeHttpClient _httpClient;
-    
-    private String _masterSecret;
-	private String _appKey;
-	
-	public ReportClient(String masterSecret, String appKey, int maxRetryTimes) {
-        this._masterSecret = masterSecret;
-        this._appKey = appKey;
-        
-        ServiceHelper.checkBasic(appKey, masterSecret);
-        
-        _httpClient = new NativeHttpClient(maxRetryTimes);
-	}
-	
+    private final String _authCode;
+
     public ReportClient(String masterSecret, String appKey) {
-        this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
+        this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES, null);
     }
     
+	public ReportClient(String masterSecret, String appKey, int maxRetryTimes) {
+	    this(masterSecret, appKey, maxRetryTimes, null);
+	}
 	
-    public ReceivedsResult getReceiveds(String[] msgIdArray) throws APIConnectionException, APIRequestException {
+	public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
+        ServiceHelper.checkBasic(appKey, masterSecret);
+        _authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        
+        _httpClient = new NativeHttpClient(_authCode, maxRetryTimes, proxy);
+	}
+	
+	
+    public ReceivedsResult getReceiveds(String[] msgIdArray) 
+            throws APIConnectionException, APIRequestException {
         return getReceiveds(StringUtils.arrayToString(msgIdArray));
     }
 	
-    public ReceivedsResult getReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
+    public ReceivedsResult getReceiveds(String msgIds) 
+            throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
-        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
-        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
+        ResponseWrapper response = _httpClient.sendGet(url, null);
         
         return ReceivedsResult.fromResponse(response);
 	}
 	
-    public MessagesResult getMessages(String msgIds) throws APIConnectionException, APIRequestException {
+    public MessagesResult getMessages(String msgIds) 
+            throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
-        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
         
         String url = REPORT_HOST_NAME + REPORT_MESSAGE_PATH + "?msg_ids=" + msgIds;
-        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
+        ResponseWrapper response = _httpClient.sendGet(url, null);
         
         return MessagesResult.fromResponse(response);
     }
     
-    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) throws APIConnectionException, APIRequestException {
-        String authCode = ServiceHelper.getBasicAuthorization(_appKey, _masterSecret);
-        
+    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) 
+            throws APIConnectionException, APIRequestException {        
         String startEncoded = null;
         try {
             startEncoded = URLEncoder.encode(start, "utf-8");
@@ -73,7 +74,7 @@ public class ReportClient {
         String url = REPORT_HOST_NAME + REPORT_USER_PATH
                 + "?time_unit=" + timeUnit.toString()
                 + "&start=" + startEncoded + "&duration=" + duration;
-        ResponseWrapper response = _httpClient.sendGet(url, null, authCode);
+        ResponseWrapper response = _httpClient.sendGet(url, null);
         
         return UsersResult.fromResponse(response);
     }
