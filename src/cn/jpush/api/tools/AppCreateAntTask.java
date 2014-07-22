@@ -26,7 +26,7 @@ public class AppCreateAntTask extends Task {
     public void setGroup_name(String groupName) {
         this.group_name = groupName;
     }
-    
+        
     
     public void execute() {
         String dev_key = getProject().getProperty("jpush_dev_key");
@@ -46,6 +46,7 @@ public class AppCreateAntTask extends Task {
         }
         
         getProject().setNewProperty("jpush_app_key", result.app_key);
+        getProject().setNewProperty("jpush_master_secret", result.master_secret);
         getProject().setNewProperty("jpush_android_package", result.android_package);
         getProject().setNewProperty("jpush_is_new_created", result.is_new_created + "");
     }

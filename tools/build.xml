@@ -6,7 +6,7 @@
 	<property name="libs.dir" value="${basedir}/../libs" />
 
         <!-- The jpush jar -->
-	<property name="jpush.lib" value="${basedir}/jpush-app-${jpush.client.version}.jar" />
+	<property name="jpush.lib" value="${basedir}/jpush-client-${jpush.client.version}-SNAPSHOT.jar" />
 	
 	<!-- Modify following two to your jpush account's dev_key and dev_secret  -->
 	<property name="jpush_dev_key" value="903724367fadb34e4820b6e0" />
@@ -28,7 +28,8 @@
 			group_name="group1" />
 		<echo message="app_key:${jpush_app_key}, 
 			android_package:${jpush_android_package}, 
-			is_new_created:${jpush_is_new_created}" />
+			is_new_created:${jpush_is_new_created}, 
+			master_secret:${jpush_master_secret}" />
 	</target>
 </project>
 

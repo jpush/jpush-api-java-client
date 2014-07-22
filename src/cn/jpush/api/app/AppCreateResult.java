@@ -9,6 +9,7 @@ public class AppCreateResult extends BaseResult {
     @Expose public String app_key;
     @Expose public String android_package;
     @Expose public boolean is_new_created;
+    @Expose public String master_secret;
     
     public static AppCreateResult fromResponse(ResponseWrapper responseWrapper) {
         AppCreateResult result = null;
