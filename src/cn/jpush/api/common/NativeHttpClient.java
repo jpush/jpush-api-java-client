@@ -43,9 +43,9 @@ public class NativeHttpClient implements IHttpClient {
         initSSL();
     }
     
-    public ResponseWrapper sendGet(String url, String params) 
+    public ResponseWrapper sendGet(String url) 
             throws APIConnectionException, APIRequestException {
-		return sendRequest(url, params, RequestMethod.GET);
+		return sendRequest(url, null, RequestMethod.GET);
 	}
     
     public ResponseWrapper sendPost(String url, String content) 

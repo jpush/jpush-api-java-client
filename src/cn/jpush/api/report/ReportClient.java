@@ -47,7 +47,7 @@ public class ReportClient {
         checkMsgids(msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
-        ResponseWrapper response = _httpClient.sendGet(url, null);
+        ResponseWrapper response = _httpClient.sendGet(url);
         
         return ReceivedsResult.fromResponse(response);
 	}
@@ -57,7 +57,7 @@ public class ReportClient {
         checkMsgids(msgIds);
         
         String url = REPORT_HOST_NAME + REPORT_MESSAGE_PATH + "?msg_ids=" + msgIds;
-        ResponseWrapper response = _httpClient.sendGet(url, null);
+        ResponseWrapper response = _httpClient.sendGet(url);
         
         return MessagesResult.fromResponse(response);
     }
@@ -73,7 +73,7 @@ public class ReportClient {
         String url = REPORT_HOST_NAME + REPORT_USER_PATH
                 + "?time_unit=" + timeUnit.toString()
                 + "&start=" + startEncoded + "&duration=" + duration;
-        ResponseWrapper response = _httpClient.sendGet(url, null);
+        ResponseWrapper response = _httpClient.sendGet(url);
         
         return UsersResult.fromResponse(response);
     }
