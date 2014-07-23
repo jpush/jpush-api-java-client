@@ -19,16 +19,19 @@ public class HttpProxy {
     public HttpProxy(String host, int port) {
         this.host = host;
         this.port = port;
-        
-        LOG.info("Http Proxy - host:" + host + ", port:" + port);
     }
     
     public HttpProxy(String host, int port, String username, String password) {
         this(host, port);
+        
         this.username = username;
         this.password = password;
         authenticationNeeded = true;
+        
+        LOG.info("Http Proxy - host:" + host + ", port:" + port
+                + ", username:" + username + ", password:" + password);
     }
+    
     
     public Proxy getNetProxy() {
         return new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, port));
