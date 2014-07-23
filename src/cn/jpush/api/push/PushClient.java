@@ -8,6 +8,11 @@ import cn.jpush.api.common.NativeHttpClient;
 import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.utils.StringUtils;
+
+import com.google.common.base.Preconditions;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 /**
  * Entrance for sending Push.
@@ -24,7 +29,8 @@ public class PushClient {
     public static final String PUSH_PATH = "/v3/push";
     
     private final NativeHttpClient _httpClient;
-    
+    private JsonParser _jsonParser = new JsonParser();
+
     // If not present, true by default.
     private boolean _apnsProduction = true;
     
@@ -78,6 +84,7 @@ public class PushClient {
      */
     public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         this(masterSecret, appKey);
+        
         this._apnsProduction = apnsProduction;
         this._timeToLive = timeToLive;
         this._globalSettingEnabled = true;
@@ -88,6 +95,8 @@ public class PushClient {
     }
     
     public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
+        
         if (_globalSettingEnabled) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
@@ -99,6 +108,15 @@ public class PushClient {
     }
     
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(payloadString), "pushPayload should not be empty");
+        
+        try {
+            _jsonParser.parse(payloadString);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+            Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
+        }
+        
         ResponseWrapper response = _httpClient.sendPost(_baseUrl, payloadString);
         
         return PushResult.fromResponse(response);
