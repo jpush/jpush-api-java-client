@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.api.common.BaseResult;
-import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.TimeUnit;
 
 import com.google.gson.annotations.Expose;
@@ -35,16 +34,6 @@ public class UsersResult extends BaseResult {
 	    @Expose public int online;
         @Expose public int active;
     }
-	
-	public static UsersResult fromResponse(ResponseWrapper responseWrapper) {
-        UsersResult result = new UsersResult();
-        if (responseWrapper.isServerResponse()) {
-            result = _gson.fromJson(responseWrapper.responseContent, UsersResult.class);
-        }
-        
-        result.setResponseWrapper(responseWrapper);
-        return result;
-	}
 	
 }
 

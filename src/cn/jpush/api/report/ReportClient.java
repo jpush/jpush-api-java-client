@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.BaseResult;
 import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.common.IHttpClient;
 import cn.jpush.api.common.NativeHttpClient;
@@ -75,9 +76,9 @@ public class ReportClient {
                 + "&start=" + startEncoded + "&duration=" + duration;
         ResponseWrapper response = _httpClient.sendGet(url);
         
-        return UsersResult.fromResponse(response);
+        return BaseResult.fromResponse(response, UsersResult.class);
     }
-        
+    
     
     private final static Pattern MSGID_PATTERNS = Pattern.compile("[^0-9, ]");
 
