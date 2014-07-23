@@ -45,20 +45,25 @@ public class NativeHttpClient implements IHttpClient {
     
     public ResponseWrapper sendGet(String url) 
             throws APIConnectionException, APIRequestException {
-		return sendRequest(url, null, RequestMethod.GET);
+		return doRequest(url, null, RequestMethod.GET);
 	}
+    
+    public ResponseWrapper sendDelete(String url) 
+            throws APIConnectionException, APIRequestException {
+        return doRequest(url, null, RequestMethod.DELETE);
+    }
     
     public ResponseWrapper sendPost(String url, String content) 
             throws APIConnectionException, APIRequestException {
-		return sendRequest(url, content, RequestMethod.POST);
+		return doRequest(url, content, RequestMethod.POST);
 	}
         
-    public ResponseWrapper sendRequest(String url, String content, 
+    public ResponseWrapper doRequest(String url, String content, 
             RequestMethod method) throws APIConnectionException, APIRequestException {
         ResponseWrapper response = null;
         for (int retryTimes = 0; ; retryTimes++) {
             try {
-                response = _sendRequest(url, content, method);
+                response = _doRequest(url, content, method);
                 break;
             } catch (SocketTimeoutException e) {
                 if (KEYWORDS_READ_TIMED_OUT.equals(e.getMessage())) {
@@ -76,7 +81,7 @@ public class NativeHttpClient implements IHttpClient {
         return response;
     }
     
-    private ResponseWrapper _sendRequest(String url, String content, 
+    private ResponseWrapper _doRequest(String url, String content, 
             RequestMethod method) throws APIConnectionException, APIRequestException, 
             SocketTimeoutException {
         LOG.debug("Send request to - " + url);
@@ -111,16 +116,18 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setRequestProperty("Charset", CHARSET);
 			conn.setRequestProperty("Authorization", _authCode);
             
-            if (RequestMethod.POST == method) {
-                conn.setDoOutput(true);     //POST Request
+			if (RequestMethod.GET == method) {
+			    conn.setDoOutput(false);
+			} else if (RequestMethod.DELETE == method) {
+			    conn.setDoOutput(false);
+			} else if (RequestMethod.POST == method) {
+                conn.setDoOutput(true);
 				conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
                 byte[] data = content.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Length", String.valueOf(data.length));
 	            out = conn.getOutputStream();
 				out.write(data);
 	            out.flush();
-			} else {
-	            conn.setDoOutput(false);
 			}
             
             int status = conn.getResponseCode();
