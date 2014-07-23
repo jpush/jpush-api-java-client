@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.HttpProxy;
 
 public class PushClientTest {
     private static final String appKey ="dd1066407b044738b6479275";
@@ -33,6 +34,11 @@ public class PushClientTest {
         } catch (APIRequestException e) {
             e.printStackTrace();
         }
+    }    
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_empty_password() {
+        new HttpProxy("127.0.0.1", 8080, "", null);
     }    
 
     

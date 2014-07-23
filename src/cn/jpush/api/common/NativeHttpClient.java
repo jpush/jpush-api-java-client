@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.CertificateException;
@@ -101,6 +103,8 @@ public class NativeHttpClient implements IHttpClient {
 			    conn = (HttpURLConnection) aUrl.openConnection(_proxy.getNetProxy());
 			    if (_proxy.isAuthenticationNeeded()) {
 			        conn.setRequestProperty("Proxy-Authorization", _proxy.getProxyAuthorization());
+			        Authenticator.setDefault(new SimpleProxyAuthenticator(
+			                _proxy.getUsername(), _proxy.getPassword()));
 			    }
 			} else {
 			    conn = (HttpURLConnection) aUrl.openConnection();
@@ -241,7 +245,7 @@ public class NativeHttpClient implements IHttpClient {
 	}
 
 
-	public static class SimpleHostnameVerifier implements HostnameVerifier {
+	private static class SimpleHostnameVerifier implements HostnameVerifier {
 
 	    @Override
 	    public boolean verify(String hostname, SSLSession session) {
@@ -250,7 +254,7 @@ public class NativeHttpClient implements IHttpClient {
 
 	}
 
-	public static class SimpleTrustManager implements TrustManager, X509TrustManager {
+	private static class SimpleTrustManager implements TrustManager, X509TrustManager {
 
 	    @Override
 	    public void checkClientTrusted(X509Certificate[] chain, String authType)
@@ -269,5 +273,20 @@ public class NativeHttpClient implements IHttpClient {
 	        return null;
 	    }
 	}
+	
+    private static class SimpleProxyAuthenticator extends java.net.Authenticator {
+        private String username;
+        private String password;
 
+        public SimpleProxyAuthenticator(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+        
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(
+                    this.username,
+                    this.password.toCharArray());
+        }
+    }
 }
