@@ -28,6 +28,28 @@ public abstract class BaseResult implements IRateLimiting {
         return RESPONSE_OK == responseWrapper.responseCode;
     }
     
+    public static <T extends BaseResult> T fromResponse(
+            ResponseWrapper responseWrapper, Class<T> clazz) {
+        T result = null;
+        
+        if (responseWrapper.isServerResponse()) {
+            result = _gson.fromJson(responseWrapper.responseContent, clazz);
+        } else {
+            try {
+                result = clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        result.setResponseWrapper(responseWrapper);
+        
+        return result;
+    }
+
+    
     @Override
     public int getRateLimitQuota() {
         if (null != responseWrapper) {
