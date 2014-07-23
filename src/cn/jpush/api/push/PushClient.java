@@ -111,7 +111,6 @@ public class PushClient {
         try {
             _jsonParser.parse(payloadString);
         } catch (JsonParseException e) {
-            e.printStackTrace();
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         

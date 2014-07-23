@@ -6,6 +6,8 @@ import java.net.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Preconditions;
+
 public class HttpProxy {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
 
@@ -23,6 +25,9 @@ public class HttpProxy {
     
     public HttpProxy(String host, int port, String username, String password) {
         this(host, port);
+        
+        Preconditions.checkArgument(! (null == username), "username should not be null");
+        Preconditions.checkArgument(! (null == password), "password should not be null");
         
         this.username = username;
         this.password = password;
@@ -43,5 +48,13 @@ public class HttpProxy {
     
     public String getProxyAuthorization() {
         return ServiceHelper.getBasicAuthorization(username, password);
+    }
+    
+    public String getUsername() {
+        return this.username;
+    }
+    
+    public String getPassword() {
+        return this.password;
     }
 }
