@@ -39,8 +39,6 @@ public class PushClient {
     
     private boolean _globalSettingEnabled = false;
     
-    // Generated HTTP Basic authorization string.
-    private final String _authCode;
     private String _baseUrl;
     
     /**
@@ -67,9 +65,9 @@ public class PushClient {
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         ServiceHelper.checkBasic(appKey, masterSecret);
         
-        this._authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
-        this._httpClient = new NativeHttpClient(this._authCode, maxRetryTimes, proxy);
+        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
 	}
 
 	/**

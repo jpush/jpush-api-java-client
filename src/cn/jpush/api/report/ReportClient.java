@@ -20,7 +20,6 @@ public class ReportClient {
     private static final String REPORT_MESSAGE_PATH = "/v3/messages";
 
     private final NativeHttpClient _httpClient;
-    private final String _authCode;
 
     public ReportClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES, null);
@@ -32,9 +31,9 @@ public class ReportClient {
 	
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         ServiceHelper.checkBasic(appKey, masterSecret);
-        _authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         
-        _httpClient = new NativeHttpClient(_authCode, maxRetryTimes, proxy);
+        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
 	}
 	
 	
