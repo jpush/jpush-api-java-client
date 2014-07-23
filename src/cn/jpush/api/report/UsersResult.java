@@ -37,13 +37,13 @@ public class UsersResult extends BaseResult {
     }
 	
 	public static UsersResult fromResponse(ResponseWrapper responseWrapper) {
-        UsersResult usersResult = new UsersResult();
+        UsersResult result = new UsersResult();
         if (responseWrapper.isServerResponse()) {
-            usersResult = _gson.fromJson(responseWrapper.responseContent, UsersResult.class);
+            result = _gson.fromJson(responseWrapper.responseContent, UsersResult.class);
         }
         
-        usersResult.setResponseWrapper(responseWrapper);
-        return usersResult;
+        result.setResponseWrapper(responseWrapper);
+        return result;
 	}
 	
 }

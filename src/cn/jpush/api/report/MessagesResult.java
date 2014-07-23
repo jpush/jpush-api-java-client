@@ -35,13 +35,13 @@ public class MessagesResult extends BaseResult {
     }
     	
 	public static MessagesResult fromResponse(ResponseWrapper responseWrapper) {
-        MessagesResult receivedsResult = new MessagesResult();
+        MessagesResult result = new MessagesResult();
         if (responseWrapper.isServerResponse()) {
-            receivedsResult.messages = _gson.fromJson(responseWrapper.responseContent, MESSAGE_TYPE);
+            result.messages = _gson.fromJson(responseWrapper.responseContent, MESSAGE_TYPE);
         }
         
-        receivedsResult.setResponseWrapper(responseWrapper);
-        return receivedsResult;
+        result.setResponseWrapper(responseWrapper);
+        return result;
 	}
 	
 }
