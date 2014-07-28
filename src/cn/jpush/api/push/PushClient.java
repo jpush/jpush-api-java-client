@@ -88,6 +88,12 @@ public class PushClient {
         this._globalSettingEnabled = true;
     }
     
+    public void setDefaults(boolean apnsProduction, long timeToLive) {
+        this._apnsProduction = apnsProduction;
+        this._timeToLive = timeToLive;
+        this._globalSettingEnabled = true;
+    }
+    
     public void setBaseUrl(String baseUrl) {
         this._baseUrl = baseUrl;
     }
