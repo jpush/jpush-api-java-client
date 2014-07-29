@@ -2,6 +2,7 @@ package cn.jpush.api.push;
 
 import cn.jpush.api.common.APIConnectionException;
 import cn.jpush.api.common.APIRequestException;
+import cn.jpush.api.common.BaseResult;
 import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.common.IHttpClient;
 import cn.jpush.api.common.NativeHttpClient;
@@ -122,7 +123,7 @@ public class PushClient {
         
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, pushPayload.toString());
         
-        return PushResult.fromResponse(response);
+        return BaseResult.fromResponse(response, PushResult.class);
     }
     
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
@@ -150,7 +151,7 @@ public class PushClient {
         
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, payloadString);
         
-        return PushResult.fromResponse(response);
+        return BaseResult.fromResponse(response, PushResult.class);
     }
 
 

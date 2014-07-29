@@ -34,7 +34,7 @@ public class MessagesResult extends BaseResult {
         @Expose public int click;
     }
     	
-	public static MessagesResult fromResponse(ResponseWrapper responseWrapper) {
+	static MessagesResult fromResponse(ResponseWrapper responseWrapper) {
         MessagesResult result = new MessagesResult();
         if (responseWrapper.isServerResponse()) {
             result.messages = _gson.fromJson(responseWrapper.responseContent, MESSAGE_TYPE);

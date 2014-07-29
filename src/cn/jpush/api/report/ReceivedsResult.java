@@ -22,7 +22,7 @@ public class ReceivedsResult extends BaseResult {
 	    @Expose public int ios_apns_sent;
 	}
 	
-	public static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
+	static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
         ReceivedsResult result = new ReceivedsResult();
         if (responseWrapper.isServerResponse()) {
             result.received_list = _gson.fromJson(responseWrapper.responseContent, RECEIVED_TYPE);
