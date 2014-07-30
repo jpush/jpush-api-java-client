@@ -251,6 +251,22 @@ public class JPushClient {
         return _pushClient.sendPush(payload);
     }
 
+    /**
+     * Shortcut
+     */
+    public PushResult sendMessageWithRegistrationID(String title, String msgContent, String... registrationID) 
+            throws APIConnectionException, APIRequestException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.registrationId(registrationID))
+                .setMessage(Message.newBuilder()
+                        .setTitle(title)
+                        .setMsgContent(msgContent)
+                        .build())
+                .build();
+        return _pushClient.sendPush(payload);
+    }
+
 
     
     
