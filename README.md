@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jpush/jpush-api-java-client.svg?branch=master)](https://travis-ci.org/jpush/jpush-api-java-client)
+
 # JPush API Java Library
 
 ## 概述
