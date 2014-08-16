@@ -2,10 +2,12 @@ language: java
 
 jdk:
   - oraclejdk7
+  - oraclejdk8
   - openjdk6
+  - openjdk7
 
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
 
 
