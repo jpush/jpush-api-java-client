@@ -1,5 +1,7 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +100,7 @@ public abstract class PlatformNotification implements PushModel {
         public abstract Builder<T> addExtra(String key, String value);
         public abstract Builder<T> addExtra(String key, Number value);
         public abstract Builder<T> addExtra(String key, Boolean value);
+        public abstract Builder<T> addExtras(Map<String, String> extras);
         
         public abstract T build();
     }

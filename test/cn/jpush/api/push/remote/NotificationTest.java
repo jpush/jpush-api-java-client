@@ -11,7 +11,30 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
+import com.google.gson.JsonObject;
+
 public class NotificationTest extends BaseRemoteTest {
+    
+    @Test
+    public void sendNotification_alert_json() throws Exception {
+        JsonObject json = new JsonObject();
+        json.addProperty("key1", "value1");
+        json.addProperty("key2", true);
+        
+        String alert = json.toString();
+        System.out.println(alert);
+        
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.all())
+                .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setAlert(alert)
+                                .setTitle("title").build()).build())
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertTrue(result.isResultOK());
+    }
 	
     // --------------- Android
 	
