@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/jpush/jpush-api-java-client.svg?branch=master)](https://travis-ci.org/jpush/jpush-api-java-client)
+[![Dependency Status](https://www.versioneye.com/user/projects/53eff13a13bb06f0bb000518/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53eff13a13bb06f0bb000518)
 
 # JPush API Java Library
 
