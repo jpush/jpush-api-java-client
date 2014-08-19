@@ -1,10 +1,14 @@
 package cn.jpush.api.common;
 
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import cn.jpush.api.utils.Base64;
 import cn.jpush.api.utils.StringUtils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 
 public class ServiceHelper {
 
@@ -47,6 +51,16 @@ public class ServiceHelper {
                     + "They should be 24 size, and be composed with alphabet and numbers. "
                     + "Please confirm that they are coming from JPush Web Portal.");
         }
+    }
+    
+    public static JsonArray fromSet(Set<String> sets) {
+        JsonArray array = new JsonArray();
+        if (null != sets && sets.size() > 0) {
+            for (String item : sets) {
+                array.add(new JsonPrimitive(item));
+            }
+        }
+        return array;
     }
 
 }
