@@ -10,7 +10,7 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 
-public class MessageTest extends BaseRemoteTest {
+public class MessageTest extends BaseRemotePushTest {
 	
     @Test
     public void sendMessageContentOnly() throws Exception {

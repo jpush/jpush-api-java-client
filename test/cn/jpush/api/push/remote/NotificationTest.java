@@ -13,7 +13,7 @@ import cn.jpush.api.push.model.notification.Notification;
 
 import com.google.gson.JsonObject;
 
-public class NotificationTest extends BaseRemoteTest {
+public class NotificationTest extends BaseRemotePushTest {
     
     @Test
     public void sendNotification_alert_json() throws Exception {

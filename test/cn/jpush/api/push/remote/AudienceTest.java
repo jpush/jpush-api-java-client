@@ -28,7 +28,7 @@ import cn.jpush.api.push.model.notification.Notification;
  * alias_no: no Device
  *
  */
-public class AudienceTest extends BaseRemoteTest {
+public class AudienceTest extends BaseRemotePushTest {
     
     // one --------
     
