@@ -1,4 +1,4 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.connection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +21,10 @@ import javax.net.ssl.X509TrustManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.ResponseWrapper;
 
 public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);

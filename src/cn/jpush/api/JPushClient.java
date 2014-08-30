@@ -2,10 +2,10 @@ package cn.jpush.api;
 
 import java.util.Map;
 
-import cn.jpush.api.common.APIConnectionException;
-import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.HttpProxy;
 import cn.jpush.api.common.TimeUnit;
+import cn.jpush.api.common.connection.HttpProxy;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;

@@ -1,13 +1,13 @@
 package cn.jpush.api.push;
 
-import cn.jpush.api.common.APIConnectionException;
-import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.BaseResult;
-import cn.jpush.api.common.HttpProxy;
-import cn.jpush.api.common.IHttpClient;
-import cn.jpush.api.common.NativeHttpClient;
-import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
+import cn.jpush.api.common.connection.HttpProxy;
+import cn.jpush.api.common.connection.IHttpClient;
+import cn.jpush.api.common.connection.NativeHttpClient;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.BaseResult;
+import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.utils.StringUtils;
 

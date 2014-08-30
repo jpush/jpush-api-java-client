@@ -1,4 +1,4 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.resp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

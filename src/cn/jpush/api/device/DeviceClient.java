@@ -1,23 +1,23 @@
-package cn.jpush.api.tags;
+package cn.jpush.api.device;
 
 import java.util.Set;
 
-import cn.jpush.api.common.APIConnectionException;
-import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.BaseResult;
-import cn.jpush.api.common.HttpProxy;
-import cn.jpush.api.common.IHttpClient;
-import cn.jpush.api.common.NativeHttpClient;
-import cn.jpush.api.common.NormalResult;
-import cn.jpush.api.common.ResponseWrapper;
 import cn.jpush.api.common.ServiceHelper;
+import cn.jpush.api.common.connection.HttpProxy;
+import cn.jpush.api.common.connection.IHttpClient;
+import cn.jpush.api.common.connection.NativeHttpClient;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.BaseResult;
+import cn.jpush.api.common.resp.DefaultResult;
+import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.utils.StringUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class TagsClient {
+public class DeviceClient {
     public static final String HOST_NAME_SSL = "https://devices.jpush.cn";
     public static final String DEVICE_PATH = "/v3/device";
     public static final String TAG_PATH = "/v3/tag";
@@ -25,15 +25,15 @@ public class TagsClient {
     
     private final NativeHttpClient _httpClient;
 
-    public TagsClient(String masterSecret, String appKey) {
+    public DeviceClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
     }
     
-    public TagsClient(String masterSecret, String appKey, int maxRetryTimes) {
+    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes) {
         this(masterSecret, appKey, maxRetryTimes, null);
     }
     
-    public TagsClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
+    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         ServiceHelper.checkBasic(appKey, masterSecret);
         
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
@@ -51,7 +51,7 @@ public class TagsClient {
         return BaseResult.fromResponse(response, TagAliasResult.class);
     }
     
-    public NormalResult updateDeviceTagAlias(String registrationId, String alias, boolean clearTag, 
+    public DefaultResult updateDeviceTagAlias(String registrationId, String alias, boolean clearTag, 
             Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
         
@@ -80,7 +80,7 @@ public class TagsClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return BaseResult.fromResponse(response, NormalResult.class);
+        return BaseResult.fromResponse(response, DefaultResult.class);
     }
     
     
@@ -97,7 +97,15 @@ public class TagsClient {
         return BaseResult.fromResponse(response, TagListResult.class);
     }
     
-    public NormalResult addRemoveDevicesFromTag(String theTag, Set<String> toAddUsers, Set<String> toRemoveUsers) throws APIConnectionException, APIRequestException {
+    public DefaultResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
+        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist";
+        
+        ResponseWrapper response = _httpClient.sendGet(url);
+        
+        return BaseResult.fromResponse(response, DefaultResult.class);        
+    }
+    
+    public DefaultResult addRemoveDevicesFromTag(String theTag, Set<String> toAddUsers, Set<String> toRemoveUsers) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
         
         JsonObject top = new JsonObject();
@@ -122,23 +130,15 @@ public class TagsClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return BaseResult.fromResponse(response, NormalResult.class);
+        return BaseResult.fromResponse(response, DefaultResult.class);
     }
     
-    public NormalResult deleteTag(String theTag) throws APIConnectionException, APIRequestException {
+    public DefaultResult deleteTag(String theTag) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return BaseResult.fromResponse(response, NormalResult.class);        
-    }
-    
-    public NormalResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist";
-        
-        ResponseWrapper response = _httpClient.sendGet(url);
-        
-        return BaseResult.fromResponse(response, NormalResult.class);        
+        return BaseResult.fromResponse(response, DefaultResult.class);        
     }
     
     
@@ -152,12 +152,12 @@ public class TagsClient {
         return BaseResult.fromResponse(response, AliasDeviceListResult.class);
     }
     
-    public NormalResult deleteAlias(String alias) throws APIConnectionException, APIRequestException {
+    public DefaultResult deleteAlias(String alias) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return BaseResult.fromResponse(response, NormalResult.class);
+        return BaseResult.fromResponse(response, DefaultResult.class);
     }
         
 }

@@ -4,8 +4,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jpush.api.common.BaseResult;
-import cn.jpush.api.common.ResponseWrapper;
+import cn.jpush.api.common.resp.BaseResult;
+import cn.jpush.api.common.resp.ResponseWrapper;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;

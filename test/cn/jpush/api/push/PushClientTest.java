@@ -2,9 +2,9 @@ package cn.jpush.api.push;
 
 import org.junit.Test;
 
-import cn.jpush.api.common.APIConnectionException;
-import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.HttpProxy;
+import cn.jpush.api.common.connection.HttpProxy;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
 
 public class PushClientTest {
     private static final String appKey ="dd1066407b044738b6479275";

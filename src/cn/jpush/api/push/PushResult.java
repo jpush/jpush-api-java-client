@@ -1,6 +1,6 @@
 package cn.jpush.api.push;
 
-import cn.jpush.api.common.BaseResult;
+import cn.jpush.api.common.resp.BaseResult;
 
 import com.google.gson.annotations.Expose;
 

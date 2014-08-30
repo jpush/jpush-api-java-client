@@ -3,8 +3,8 @@ package cn.jpush.api.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jpush.api.common.BaseResult;
 import cn.jpush.api.common.TimeUnit;
+import cn.jpush.api.common.resp.BaseResult;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,8 +1,8 @@
-package cn.jpush.api.tags;
+package cn.jpush.api.device;
 
 import java.util.List;
 
-import cn.jpush.api.common.BaseResult;
+import cn.jpush.api.common.resp.BaseResult;
 
 import com.google.gson.annotations.Expose;
 

@@ -1,10 +1,12 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.connection;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cn.jpush.api.common.ServiceHelper;
 
 import com.google.common.base.Preconditions;
 
