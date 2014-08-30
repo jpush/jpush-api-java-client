@@ -9,6 +9,7 @@ import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BaseResult;
+import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.utils.StringUtils;
@@ -18,7 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class DeviceClient {
-    public static final String HOST_NAME_SSL = "https://devices.jpush.cn";
+    public static final String HOST_NAME_SSL = "https://device.jpush.cn";
     public static final String DEVICE_PATH = "/v3/device";
     public static final String TAG_PATH = "/v3/tag";
     public static final String ALIAS_PATH = "/v3/alias";
@@ -97,12 +98,12 @@ public class DeviceClient {
         return BaseResult.fromResponse(response, TagListResult.class);
     }
     
-    public DefaultResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
+    public BooleanResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist";
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
-        return BaseResult.fromResponse(response, DefaultResult.class);        
+        return BaseResult.fromResponse(response, BooleanResult.class);        
     }
     
     public DefaultResult addRemoveDevicesFromTag(String theTag, Set<String> toAddUsers, Set<String> toRemoveUsers) throws APIConnectionException, APIRequestException {
@@ -133,8 +134,11 @@ public class DeviceClient {
         return BaseResult.fromResponse(response, DefaultResult.class);
     }
     
-    public DefaultResult deleteTag(String theTag) throws APIConnectionException, APIRequestException {
+    public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
+        if (null != platform) {
+        	url += "?platform=" + platform; 
+        }
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
@@ -144,16 +148,22 @@ public class DeviceClient {
     
     // ------------- alias
     
-    public AliasDeviceListResult getAliasDeviceList(String alias) throws APIConnectionException, APIRequestException {
+    public AliasDeviceListResult getAliasDeviceList(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
+        if (null != platform) {
+        	url += "?platform=" + platform; 
+        }
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return BaseResult.fromResponse(response, AliasDeviceListResult.class);
     }
     
-    public DefaultResult deleteAlias(String alias) throws APIConnectionException, APIRequestException {
+    public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
+        if (null != platform) {
+        	url += "?platform=" + platform; 
+        }
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
@@ -161,3 +171,7 @@ public class DeviceClient {
     }
         
 }
+
+
+
+

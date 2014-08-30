@@ -15,7 +15,7 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.WinphoneNotification;
 
-public class BasicFunctionsTest extends BaseRemoteTest {
+public class BasicFunctionsTest extends BaseRemotePushTest {
 	
 	@Test
     public void sendSimpleNotification_Pall_Ndefault() throws Exception {

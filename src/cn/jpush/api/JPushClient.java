@@ -1,11 +1,18 @@
 package cn.jpush.api;
 
 import java.util.Map;
+import java.util.Set;
 
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.BooleanResult;
+import cn.jpush.api.common.resp.DefaultResult;
+import cn.jpush.api.device.AliasDeviceListResult;
+import cn.jpush.api.device.DeviceClient;
+import cn.jpush.api.device.TagAliasResult;
+import cn.jpush.api.device.TagListResult;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
@@ -24,6 +31,7 @@ import cn.jpush.api.report.UsersResult;
 public class JPushClient {
     private final PushClient _pushClient;
 	private final ReportClient _reportClient;
+	private final DeviceClient _deviceClient;
 	
 	/**
 	 * Create a JPush Client.
@@ -34,16 +42,19 @@ public class JPushClient {
 	public JPushClient(String masterSecret, String appKey) {
 	    _pushClient = new PushClient(masterSecret, appKey);
 	    _reportClient = new ReportClient(masterSecret, appKey);
+	    _deviceClient = new DeviceClient(masterSecret, appKey);
 	}
 	
 	public JPushClient(String masterSecret, String appKey, int maxRetryTimes) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes);
-        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes);	    
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes);
+        _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes);
 	}
 	
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy);
-        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy);      
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy);
+        _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy);
     }
     
 	/**
@@ -59,6 +70,7 @@ public class JPushClient {
     public JPushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
         _reportClient = new ReportClient(masterSecret, appKey);
+        _deviceClient = new DeviceClient(masterSecret, appKey);
     }
 
     /**
@@ -269,7 +281,51 @@ public class JPushClient {
 
 
     
+    // ----------------------- Device
     
+    public TagAliasResult getDeviceTagAlias(String registrationId) 
+    		throws APIConnectionException, APIRequestException {
+    	return _deviceClient.getDeviceTagAlias(registrationId);
+    }
 
+    public DefaultResult updateDeviceTagAlias(String registrationId, String alias, boolean clearTag, 
+            	Set<String> tagsToAdd, Set<String> tagsToRemove)
+            throws APIConnectionException, APIRequestException {
+    	return _deviceClient.updateDeviceTagAlias(registrationId, alias, clearTag, tagsToAdd, tagsToRemove);
+    }
+
+	public TagListResult getTagList(String platform)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.getTagList(platform);
+	}
+
+	public BooleanResult isDeviceInTag(String theTag, String registrationID)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.isDeviceInTag(theTag, registrationID);
+	}
+
+	public DefaultResult addRemoveDevicesFromTag(String theTag,
+				Set<String> toAddUsers, Set<String> toRemoveUsers)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.addRemoveDevicesFromTag(theTag, toAddUsers,
+				toRemoveUsers);
+	}
+
+	public DefaultResult deleteTag(String theTag, String platform)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.deleteTag(theTag, platform);
+	}
+
+	public AliasDeviceListResult getAliasDeviceList(String alias,
+			String platform) throws APIConnectionException, APIRequestException {
+		return _deviceClient.getAliasDeviceList(alias, platform);
+	}
+
+	public DefaultResult deleteAlias(String alias, String platform)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.deleteAlias(alias, platform);
+	}
+    
+    
 }
 

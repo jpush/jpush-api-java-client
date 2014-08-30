@@ -14,12 +14,12 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class ExceptionTest extends BaseRemoteTest {
+public class ExceptionTest extends BaseRemotePushTest {
     
     @Test
     public void appKeyNotExist() {
         String appKey = "dd1066407b044738b6479274";
-        JPushClient client = new JPushClient(masterSecret, appKey);
+        JPushClient client = new JPushClient(MASTER_SECRET, appKey);
         PushPayload payload = PushPayload.alertAll(ALERT);
         
         try {
@@ -34,7 +34,7 @@ public class ExceptionTest extends BaseRemoteTest {
     @Test
     public void authenticationFail() {
         String masterSecret = "2b38ce69b1de2a7fa95706e2";
-        JPushClient client = new JPushClient(masterSecret, appKey);
+        JPushClient client = new JPushClient(masterSecret, APP_KEY);
         PushPayload payload = PushPayload.alertAll(ALERT);
         try {
             client.sendPush(payload);

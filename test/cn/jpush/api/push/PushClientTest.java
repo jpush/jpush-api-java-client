@@ -2,17 +2,16 @@ package cn.jpush.api.push;
 
 import org.junit.Test;
 
+import cn.jpush.api.BaseTest;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 
-public class PushClientTest {
-    private static final String appKey ="dd1066407b044738b6479275";
-    private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
+public class PushClientTest extends BaseTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void test_invalid_json() {
-        PushClient pushClient = new PushClient(masterSecret, appKey);
+        PushClient pushClient = new PushClient(MASTER_SECRET, APP_KEY);
         
         try {
             pushClient.sendPush("{aaa:'a}");
@@ -25,7 +24,7 @@ public class PushClientTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void test_empty_string() {
-        PushClient pushClient = new PushClient(masterSecret, appKey);
+        PushClient pushClient = new PushClient(MASTER_SECRET, APP_KEY);
         
         try {
             pushClient.sendPush("");
