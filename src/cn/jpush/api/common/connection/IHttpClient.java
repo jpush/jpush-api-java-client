@@ -1,4 +1,8 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.connection;
+
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.ResponseWrapper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

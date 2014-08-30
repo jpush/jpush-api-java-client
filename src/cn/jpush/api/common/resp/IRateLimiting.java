@@ -1,4 +1,4 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.resp;
 
 public interface IRateLimiting {
 

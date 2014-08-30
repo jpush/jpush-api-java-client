@@ -1,8 +1,8 @@
 package cn.jpush.api.report;
 
 import static org.junit.Assert.*;
-
 import cn.jpush.api.common.TimeUnit;
+
 import org.junit.Before;
 import org.junit.Test;
 

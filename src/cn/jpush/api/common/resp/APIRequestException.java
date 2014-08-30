@@ -1,6 +1,6 @@
-package cn.jpush.api.common;
+package cn.jpush.api.common.resp;
 
-import cn.jpush.api.common.ResponseWrapper.ErrorObject;
+import cn.jpush.api.common.resp.ResponseWrapper.ErrorObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

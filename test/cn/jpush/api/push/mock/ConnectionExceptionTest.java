@@ -8,9 +8,9 @@ import java.net.URL;
 import org.junit.After;
 import org.junit.Test;
 
-import cn.jpush.api.common.APIConnectionException;
-import cn.jpush.api.common.APIRequestException;
-import cn.jpush.api.common.IHttpClient;
+import cn.jpush.api.common.connection.IHttpClient;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.model.PushPayload;
 
