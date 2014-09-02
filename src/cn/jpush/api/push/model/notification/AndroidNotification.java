@@ -20,8 +20,9 @@ public class AndroidNotification extends PlatformNotification {
     private AndroidNotification(String alert, String title, int builderId, 
             ImmutableMap<String, String> extras, 
             ImmutableMap<String, Number> numberExtras, 
-            ImmutableMap<String, Boolean> booleanExtras) {
-        super(alert, extras, numberExtras, booleanExtras);
+            ImmutableMap<String, Boolean> booleanExtras, 
+            ImmutableMap<String, JsonObject> jsonExtras) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras);
         
         this.title = title;
         this.builderId = builderId;
@@ -129,11 +130,25 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
         
+        public Builder addExtra(String key, JsonObject value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == jsonExtrasBuilder) {
+            	jsonExtrasBuilder = ImmutableMap.builder();
+            }
+            jsonExtrasBuilder.put(key, value);
+            return this;
+        }
+        
         public AndroidNotification build() {
             return new AndroidNotification(alert, title, builderId, 
                     (null == extrasBuilder) ? null : extrasBuilder.build(), 
                     (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
-                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build());
+                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build(), 
+                    (null == jsonExtrasBuilder) ? null : jsonExtrasBuilder.build());
         }
     }
 }

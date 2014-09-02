@@ -32,7 +32,7 @@ public class NotificationTest {
     }
     
     @Test
-    public void testAlertAndroid() {
+    public void testAlert_android() {
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(AndroidNotification.alert("alert"))
                 .build();
@@ -44,7 +44,7 @@ public class NotificationTest {
     }
     
     @Test
-    public void testAlertIos() {
+    public void testAlert_ios() {
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(IosNotification.alert("alert"))
                 .build();
@@ -58,7 +58,7 @@ public class NotificationTest {
     }
     
     @Test
-    public void testAlertMpns() {
+    public void testAlert_winphone() {
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(WinphoneNotification.alert("alert"))
                 .build();
@@ -70,14 +70,45 @@ public class NotificationTest {
     }
     
     @Test
-    public void testAlertAll() {
+    public void testAlert_all() {
         Notification notification = Notification.alert("alert");
         JsonObject json = new JsonObject();
         json.add("alert", new JsonPrimitive("alert"));
-                
+        
         Assert.assertEquals("", json, notification.toJSON());
     }
 
+    @Test
+    public void testExtras_jsonValue() {
+    	JsonObject extraValue = new JsonObject();
+    	extraValue.add("v_key", new JsonPrimitive("v_value"));
+    	
+        Notification notification = Notification
+        		.newBuilder()
+        		.addPlatformNotification(
+        				AndroidNotification
+        					.newBuilder()
+        					.setAlert("alert")
+        					.addExtra("key", extraValue)
+        					.build())
+        		.build();
+        
+        JsonObject json = new JsonObject();
+        JsonObject android = new JsonObject();
+        android.add("alert", new JsonPrimitive("alert"));
+        
+        JsonObject extra = new JsonObject();
+        extra.add("key", extraValue);
+        android.add("extras", extra);
+        
+        json.add("android", android);
+        
+        Assert.assertEquals("", json, notification.toJSON());
+    }
+
+
+    
+    
     @Test
     public void testShortcut_android() {
         Notification notification = Notification.android("alert", "title", null);

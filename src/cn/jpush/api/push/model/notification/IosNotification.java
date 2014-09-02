@@ -50,8 +50,9 @@ public class IosNotification extends PlatformNotification {
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             ImmutableMap<String, String> extras, 
             ImmutableMap<String, Number> numberExtras, 
-            ImmutableMap<String, Boolean> booleanExtras) {
-        super(alert, extras, numberExtras, booleanExtras);
+            ImmutableMap<String, Boolean> booleanExtras, 
+            ImmutableMap<String, JsonObject> jsonExtras) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras);
         
         this.sound = sound;
         this.badge = badge;
@@ -220,12 +221,27 @@ public class IosNotification extends PlatformNotification {
             return this;
         }
         
+        public Builder addExtra(String key, JsonObject value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == jsonExtrasBuilder) {
+            	jsonExtrasBuilder = ImmutableMap.builder();
+            }
+            jsonExtrasBuilder.put(key, value);
+            return this;
+        }
+        
+
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
                     soundDisabled, badgeDisabled,   
                     (null == extrasBuilder) ? null : extrasBuilder.build(), 
                     (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
-                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build());
+                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build(), 
+                    (null == jsonExtrasBuilder) ? null : jsonExtrasBuilder.build());
         }
     }
 }

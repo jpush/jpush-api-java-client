@@ -22,13 +22,17 @@ public abstract class PlatformNotification implements PushModel {
     private final ImmutableMap<String, String> extras;
     private final ImmutableMap<String, Number> numberExtras;
     private final ImmutableMap<String, Boolean> booleanExtras;
+    private final ImmutableMap<String, JsonObject> jsonExtras;
     
     public PlatformNotification(String alert, ImmutableMap<String, String> extras, 
-            ImmutableMap<String, Number> numberExtras, ImmutableMap<String, Boolean> booleanExtras) {
+            ImmutableMap<String, Number> numberExtras, 
+            ImmutableMap<String, Boolean> booleanExtras, 
+            ImmutableMap<String, JsonObject> jsonExtras) {
         this.alert = alert;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
+        this.jsonExtras = jsonExtras;
     }
     
     @Override
@@ -40,7 +44,7 @@ public abstract class PlatformNotification implements PushModel {
         }
 
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
         }
         
@@ -71,8 +75,17 @@ public abstract class PlatformNotification implements PushModel {
                 }
             }
         }
-
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != jsonExtras) {
+            JsonObject value = null;
+            for (String key : jsonExtras.keySet()) {
+                value = jsonExtras.get(key);
+                if (null != value) {
+                    extrasObject.add(key, value);
+                }
+            }
+        }
+        
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add(EXTRAS, extrasObject);
         }
         
@@ -94,12 +107,14 @@ public abstract class PlatformNotification implements PushModel {
         protected ImmutableMap.Builder<String, String> extrasBuilder;
         protected ImmutableMap.Builder<String, Number> numberExtrasBuilder;
         protected ImmutableMap.Builder<String, Boolean> booleanExtrasBuilder;
+        protected ImmutableMap.Builder<String, JsonObject> jsonExtrasBuilder;
         
         public abstract Builder<T> setAlert(String alert);
                 
         public abstract Builder<T> addExtra(String key, String value);
         public abstract Builder<T> addExtra(String key, Number value);
         public abstract Builder<T> addExtra(String key, Boolean value);
+        public abstract Builder<T> addExtra(String key, JsonObject value);
         public abstract Builder<T> addExtras(Map<String, String> extras);
         
         public abstract T build();
