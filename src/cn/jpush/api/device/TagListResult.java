@@ -9,11 +9,7 @@ import com.google.gson.annotations.Expose;
 
 public class TagListResult extends BaseResult {
     
-    @Expose public List<Tag> tags = new ArrayList<Tag>();
+    @Expose public List<String> tags = new ArrayList<String>();
     
-    public static class Tag {
-        @Expose public String tag;
-    }
-        
 }
 

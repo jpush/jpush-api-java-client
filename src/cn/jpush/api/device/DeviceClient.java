@@ -81,21 +81,18 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return BaseResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response, DefaultResult.class);
     }
     
     
     // ------------- tags
 
-    public TagListResult getTagList(String platform) throws APIConnectionException, APIRequestException {
+    public TagListResult getTagList() throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/list";
-        if (!StringUtils.isEmpty(platform)) {
-            url += "?platform=" + platform;
-        }
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
-        return BaseResult.fromResponse(response, TagListResult.class);
+        return TagListResult.fromResponse(response, TagListResult.class);
     }
     
     public BooleanResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
@@ -131,18 +128,18 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return BaseResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response, DefaultResult.class);
     }
     
     public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
         if (null != platform) {
-        	url += "?platform=" + platform; 
+        	url += "/?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return BaseResult.fromResponse(response, DefaultResult.class);        
+        return DefaultResult.fromResponse(response, DefaultResult.class);        
     }
     
     
@@ -151,23 +148,23 @@ public class DeviceClient {
     public AliasDeviceListResult getAliasDeviceList(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
         if (null != platform) {
-        	url += "?platform=" + platform; 
+        	url += "/?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
-        return BaseResult.fromResponse(response, AliasDeviceListResult.class);
+        return DefaultResult.fromResponse(response, AliasDeviceListResult.class);
     }
     
     public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
         if (null != platform) {
-        	url += "?platform=" + platform; 
+        	url += "/?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return BaseResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response, DefaultResult.class);
     }
         
 }

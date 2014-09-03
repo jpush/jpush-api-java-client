@@ -316,9 +316,9 @@ public class JPushClient {
     	return _deviceClient.updateDeviceTagAlias(registrationId, alias, clearTag, tagsToAdd, tagsToRemove);
     }
 
-	public TagListResult getTagList(String platform)
+	public TagListResult getTagList()
 			throws APIConnectionException, APIRequestException {
-		return _deviceClient.getTagList(platform);
+		return _deviceClient.getTagList();
 	}
 
 	public BooleanResult isDeviceInTag(String theTag, String registrationID)
