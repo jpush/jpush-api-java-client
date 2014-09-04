@@ -12,7 +12,6 @@ import cn.jpush.api.common.resp.BaseResult;
 import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
-import cn.jpush.api.utils.StringUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -96,8 +95,7 @@ public class DeviceClient {
     }
     
     public BooleanResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist";
-        
+        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist?registration_id=" + registrationID;
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return BaseResult.fromResponse(response, BooleanResult.class);        
