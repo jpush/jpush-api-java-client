@@ -8,12 +8,8 @@ import com.google.gson.annotations.Expose;
 
 public class TagAliasResult extends BaseResult {
 
-    @Expose public List<Tag> tag;
+    @Expose public List<String> tags;
     @Expose public String alias;
-    
-    public static class Tag {
-        @Expose public String tag;
-    }
-    
+        
 }
 

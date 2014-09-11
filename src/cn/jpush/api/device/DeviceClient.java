@@ -13,6 +13,7 @@ import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -51,7 +52,25 @@ public class DeviceClient {
         return BaseResult.fromResponse(response, TagAliasResult.class);
     }
     
-    public DefaultResult updateDeviceTagAlias(String registrationId, String alias, boolean clearTag, 
+    public DefaultResult updateDeviceTagAlias(String registrationId, boolean clearAlias, boolean clearTag) throws APIConnectionException, APIRequestException {
+    	Preconditions.checkArgument(clearAlias || clearTag, "It is not meaningful to do nothing.");
+    	
+        String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
+        
+        JsonObject top = new JsonObject();
+        if (clearAlias) {
+            top.addProperty("alias", "");
+        }
+        if (clearTag) {
+            top.addProperty("tags", "");
+        }
+        
+        ResponseWrapper response = _httpClient.sendPost(url, top.toString());
+        
+        return DefaultResult.fromResponse(response, DefaultResult.class);
+    }    
+    
+    public DefaultResult updateDeviceTagAlias(String registrationId, String alias,  
             Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
         
@@ -59,31 +78,27 @@ public class DeviceClient {
         if (null != alias) {
             top.addProperty("alias", alias);
         }
-        if (clearTag) {
-            top.addProperty("tag", "");
-        } else {
-            JsonObject tagObject = new JsonObject();
-            JsonArray tagsAdd = ServiceHelper.fromSet(tagsToAdd);
-            if (tagsAdd.size() > 0) {
-                tagObject.add("add", tagsAdd);
-            }
-            
-            JsonArray tagsRemove = ServiceHelper.fromSet(tagsToRemove);
-            if (tagsRemove.size() > 0) {
-                tagObject.add("remove", tagsRemove);
-            }
-            
-            if (tagObject.entrySet().size() > 0) {
-                top.add("tag", tagObject);
-            }
+        
+        JsonObject tagObject = new JsonObject();
+        JsonArray tagsAdd = ServiceHelper.fromSet(tagsToAdd);
+        if (tagsAdd.size() > 0) {
+            tagObject.add("add", tagsAdd);
+        }
+        
+        JsonArray tagsRemove = ServiceHelper.fromSet(tagsToRemove);
+        if (tagsRemove.size() > 0) {
+            tagObject.add("remove", tagsRemove);
+        }
+        
+        if (tagObject.entrySet().size() > 0) {
+            top.add("tags", tagObject);
         }
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
         return DefaultResult.fromResponse(response, DefaultResult.class);
     }
-    
-    
+
     // ------------- tags
 
     public TagListResult getTagList() throws APIConnectionException, APIRequestException {
@@ -132,7 +147,7 @@ public class DeviceClient {
     public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
         if (null != platform) {
-        	url += "/?platform=" + platform; 
+        	url += "?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendDelete(url);
@@ -146,7 +161,7 @@ public class DeviceClient {
     public AliasDeviceListResult getAliasDeviceList(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
         if (null != platform) {
-        	url += "/?platform=" + platform; 
+        	url += "?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendGet(url);
@@ -157,7 +172,7 @@ public class DeviceClient {
     public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
         String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
         if (null != platform) {
-        	url += "/?platform=" + platform; 
+        	url += "?platform=" + platform; 
         }
         
         ResponseWrapper response = _httpClient.sendDelete(url);

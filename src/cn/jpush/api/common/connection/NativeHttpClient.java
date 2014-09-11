@@ -90,7 +90,8 @@ public class NativeHttpClient implements IHttpClient {
     private ResponseWrapper _doRequest(String url, String content, 
             RequestMethod method) throws APIConnectionException, APIRequestException, 
             SocketTimeoutException {
-        LOG.debug("Send request to - " + url);
+    	
+        LOG.debug("Send request - " + method.toString() + " "+ url);
         if (null != content) {
             LOG.debug("Request Content - " + content);
         }
@@ -145,11 +146,14 @@ public class NativeHttpClient implements IHttpClient {
             } else {
                 in = conn.getErrorStream();
             }
-            InputStreamReader reader = new InputStreamReader(in, CHARSET);
-            char[] buff = new char[1024];
-            int len;
-            while ((len = reader.read(buff)) > 0) {
-                sb.append(buff, 0, len);
+            
+            if (null != in) {
+	            InputStreamReader reader = new InputStreamReader(in, CHARSET);
+	            char[] buff = new char[1024];
+	            int len;
+	            while ((len = reader.read(buff)) > 0) {
+	                sb.append(buff, 0, len);
+	            }
             }
             
             String responseContent = sb.toString();

@@ -310,10 +310,15 @@ public class JPushClient {
     	return _deviceClient.getDeviceTagAlias(registrationId);
     }
 
-    public DefaultResult updateDeviceTagAlias(String registrationId, String alias, boolean clearTag, 
+    public DefaultResult updateDeviceTagAlias(String registrationId, boolean clearAlias, boolean clearTag)
+    		throws APIConnectionException, APIRequestException {
+    	return _deviceClient.updateDeviceTagAlias(registrationId, clearAlias, clearTag);
+    }
+    
+    public DefaultResult updateDeviceTagAlias(String registrationId, String alias,  
             	Set<String> tagsToAdd, Set<String> tagsToRemove)
             throws APIConnectionException, APIRequestException {
-    	return _deviceClient.updateDeviceTagAlias(registrationId, alias, clearTag, tagsToAdd, tagsToRemove);
+    	return _deviceClient.updateDeviceTagAlias(registrationId, alias, tagsToAdd, tagsToRemove);
     }
 
 	public TagListResult getTagList()
