@@ -54,7 +54,7 @@ public class DevcieExample {
 		tagsToRemove.add("tag4");
 		tagsToRemove.add("tag3");
 		DefaultResult result = jpushClient.updateDeviceTagAlias(
-				REGISTRATION_ID1, ALIAS1, false, tagsToAdd, tagsToRemove);
+				REGISTRATION_ID1, ALIAS1, tagsToAdd, tagsToRemove);
 		assertTrue(result.isResultOK());
 	}
 

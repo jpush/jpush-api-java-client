@@ -26,6 +26,7 @@ public abstract class BaseTest {
     @Before
     public void before() {
         jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        
     }
 
 }
