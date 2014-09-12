@@ -32,7 +32,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		Set<String> tagsToRemove = new HashSet<String>();
 		tagsToRemove.add("tag_3");
 		tagsToRemove.add("tag_4");
-		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "alias_1", tagsToAdd, tagsToRemove);
+		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, ALIAS1, tagsToAdd, tagsToRemove);
 		assertTrue(result.isResultOK());
 	}
 	
@@ -42,7 +42,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
 		
 		assertTrue(result.isResultOK());
-		assertEquals("alias not equals", "alias_1", result.alias);
+		assertEquals("alias not equals", ALIAS1, result.alias);
 		
 		assertTrue("tag contains", result.tags.contains("tag_1"));
 		assertTrue("tag contains", result.tags.contains("tag_2"));
