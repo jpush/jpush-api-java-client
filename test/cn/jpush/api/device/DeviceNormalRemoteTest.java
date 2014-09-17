@@ -49,6 +49,12 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		assertFalse("tag not contains", result.tags.contains("tag_3"));
 		assertFalse("tag not contains", result.tags.contains("tag_4"));
 	}
+	@Test
+	@TestOrder(order = 111)
+	public void testGetAliasDeviceList_1() throws APIConnectionException, APIRequestException {
+		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, null);
+		assertTrue(result.registration_ids.contains(REGISTRATION_ID1));
+	}
 	
 	@Test
 	@TestOrder(order = 120)
@@ -90,6 +96,13 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		result = jpushClient.isDeviceInTag("tag_3", REGISTRATION_ID2);
 		assertFalse("", result.result);
 	}
+
+	@Test
+	@TestOrder(order = 211)
+	public void testAddRemoveDevicesFromTagResult() throws APIConnectionException, APIRequestException {
+		TagListResult result = jpushClient.getTagList();
+		assertTrue("", result.tags.contains("tag_3"));
+	}
 	
 	@Test
 	@TestOrder(order = 220)
@@ -105,6 +118,13 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		assertTrue(result.isResultOK());
 	}
 
+	@Test
+	@TestOrder(order = 251)
+	public void testDeleteResult() throws APIConnectionException, APIRequestException {
+		TagListResult result = jpushClient.getTagList();
+		assertFalse("", result.tags.contains("tag3"));
+	}
+	
 	@Test
 	@TestOrder(order = 260)
 	public void testDeleteTag_2() throws APIConnectionException, APIRequestException {
@@ -132,7 +152,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@TestOrder(order = 310)
 	public void testGetAliasDeviceList_2() throws APIConnectionException, APIRequestException {
 		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, null);
-		assertTrue(result.isResultOK());
+		assertTrue(result.registration_ids.size() == 0);
 	}
 	
 	@Test
@@ -141,6 +161,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		DefaultResult result = jpushClient.deleteAlias(ALIAS2, "android");
 		assertTrue(result.isResultOK());
 	}
+	
 	
 	@Test
 	@TestOrder(order = 330)
