@@ -101,6 +101,7 @@ public class PushPayloadTest {
     
     @Test
     public void testGlobalExceed() {
+    	System.out.println("Size of long text - " + LONG_TEXT_2.getBytes().length);
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())

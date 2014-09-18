@@ -67,7 +67,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return DefaultResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response);
     }    
     
     public DefaultResult updateDeviceTagAlias(String registrationId, String alias,  
@@ -96,7 +96,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return DefaultResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response);
     }
 
     // ------------- tags
@@ -141,7 +141,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
-        return DefaultResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response);
     }
     
     public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
@@ -152,7 +152,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return DefaultResult.fromResponse(response, DefaultResult.class);        
+        return DefaultResult.fromResponse(response);        
     }
     
     
@@ -166,7 +166,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
-        return DefaultResult.fromResponse(response, AliasDeviceListResult.class);
+        return BaseResult.fromResponse(response, AliasDeviceListResult.class);
     }
     
     public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
@@ -177,7 +177,7 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
-        return DefaultResult.fromResponse(response, DefaultResult.class);
+        return DefaultResult.fromResponse(response);
     }
         
 }
