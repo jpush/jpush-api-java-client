@@ -123,11 +123,7 @@ public class IosNotification extends PlatformNotification {
                 return this;
             }
             
-            if (badge == 0) {
-                LOG.warn("No action for incrBadge(0)");
-                return this;
-                
-            } else if (badge > 0) {
+            if (badge >= 0) {
                 this.badge = "+" + badge;
             } else {
                 this.badge = "" + badge;

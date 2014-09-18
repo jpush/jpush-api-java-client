@@ -64,6 +64,15 @@ public class IosNotificationTest {
     }
     
     @Test
+    public void testBadge_plus_0() {
+        IosNotification ios = IosNotification.newBuilder().incrBadge(0).build();
+        JsonObject json = new JsonObject();
+        json.add("badge", new JsonPrimitive("+0"));
+        json.add("sound", new JsonPrimitive(""));
+        Assert.assertEquals("", json, ios.toJSON());
+    }
+    
+    @Test
     public void testBadge_minus_2() {
         IosNotification ios = IosNotification.newBuilder().incrBadge(-2).build();
         JsonObject json = new JsonObject();
