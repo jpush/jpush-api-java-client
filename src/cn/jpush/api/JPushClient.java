@@ -60,6 +60,9 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
         _reportClient = new ReportClient(masterSecret, appKey);
     }
+    
+    
+    // ----------------------------- Push API
 
     /**
      * Send a push with PushPayload object.
@@ -88,6 +91,25 @@ public class JPushClient {
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         return _pushClient.sendPush(payloadString);
     }
+    
+    /**
+     * Validate a push action, but do NOT send it actually.
+     * 
+     * @param paylaod
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public PushResult sendPushValidate(PushPayload paylaod) throws APIConnectionException, APIRequestException {
+    	return _pushClient.sendPushValidate(paylaod);
+    }
+
+    public PushResult sendPushValidate(String payloadString) throws APIConnectionException, APIRequestException {
+    	return _pushClient.sendPushValidate(payloadString);
+    }
+
+    
+    // ------------------------------- Report API
 
     /**
      * Get received report. 

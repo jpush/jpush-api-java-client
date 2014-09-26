@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 public class PushClient {
     public static final String HOST_NAME_SSL = "https://api.jpush.cn";
     public static final String PUSH_PATH = "/v3/push";
+    public static final String PUSH_VALIDATE_PATH = "/v3/push/validate";
     
     private final NativeHttpClient _httpClient;
     private JsonParser _jsonParser = new JsonParser();
@@ -66,7 +67,7 @@ public class PushClient {
         ServiceHelper.checkBasic(appKey, masterSecret);
         
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._baseUrl = HOST_NAME_SSL + PUSH_PATH;
+        this._baseUrl = HOST_NAME_SSL;
         this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
 	}
 
@@ -106,7 +107,20 @@ public class PushClient {
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl, pushPayload.toString());
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, pushPayload.toString());
+        
+        return PushResult.fromResponse(response);
+    }
+    
+    public PushResult sendPushValidate(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
+        
+        if (_globalSettingEnabled) {
+            pushPayload.resetOptionsTimeToLive(_timeToLive);
+            pushPayload.resetOptionsApnsProduction(_apnsProduction);
+        }
+        
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, pushPayload.toString());
         
         return PushResult.fromResponse(response);
     }
@@ -120,10 +134,25 @@ public class PushClient {
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl, payloadString);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, payloadString);
         
         return PushResult.fromResponse(response);
     }
+    
+    public PushResult sendPushValidate(String payloadString) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(payloadString), "pushPayload should not be empty");
+        
+        try {
+            _jsonParser.parse(payloadString);
+        } catch (JsonParseException e) {
+            Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
+        }
+        
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, payloadString);
+        
+        return PushResult.fromResponse(response);
+    }
+
 
 }
 
