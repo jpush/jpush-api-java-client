@@ -20,9 +20,9 @@ import com.google.gson.JsonPrimitive;
 
 public class DeviceClient {
     public static final String HOST_NAME_SSL = "https://device.jpush.cn";
-    public static final String DEVICE_PATH = "/v3/device";
-    public static final String TAG_PATH = "/v3/tag";
-    public static final String ALIAS_PATH = "/v3/alias";
+    public static final String DEVICES_PATH = "/v3/devices";
+    public static final String TAGS_PATH = "/v3/tags";
+    public static final String ALIASES_PATH = "/v3/aliases";
     
     private final NativeHttpClient _httpClient;
 
@@ -45,7 +45,7 @@ public class DeviceClient {
     // -------------- device 
     
     public TagAliasResult getDeviceTagAlias(String registrationId) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
+        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
@@ -55,7 +55,7 @@ public class DeviceClient {
     public DefaultResult updateDeviceTagAlias(String registrationId, boolean clearAlias, boolean clearTag) throws APIConnectionException, APIRequestException {
     	Preconditions.checkArgument(clearAlias || clearTag, "It is not meaningful to do nothing.");
     	
-        String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
+        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
         
         JsonObject top = new JsonObject();
         if (clearAlias) {
@@ -72,7 +72,7 @@ public class DeviceClient {
     
     public DefaultResult updateDeviceTagAlias(String registrationId, String alias,  
             Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + DEVICE_PATH + "/" + registrationId;
+        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
         
         JsonObject top = new JsonObject();
         if (null != alias) {
@@ -102,7 +102,7 @@ public class DeviceClient {
     // ------------- tags
 
     public TagListResult getTagList() throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/list";
+        String url = HOST_NAME_SSL + TAGS_PATH + "/";
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
@@ -110,14 +110,14 @@ public class DeviceClient {
     }
     
     public BooleanResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag + "/exist?registration_id=" + registrationID;
+        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag + "/registration_ids/" + registrationID;
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return BaseResult.fromResponse(response, BooleanResult.class);        
     }
     
     public DefaultResult addRemoveDevicesFromTag(String theTag, Set<String> toAddUsers, Set<String> toRemoveUsers) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
+        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag;
         
         JsonObject top = new JsonObject();
         JsonObject registrationIds = new JsonObject();
@@ -145,7 +145,7 @@ public class DeviceClient {
     }
     
     public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAG_PATH + "/" + theTag;
+        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }
@@ -159,7 +159,7 @@ public class DeviceClient {
     // ------------- alias
     
     public AliasDeviceListResult getAliasDeviceList(String alias, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
+        String url = HOST_NAME_SSL + ALIASES_PATH + "/" + alias;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }
@@ -170,7 +170,7 @@ public class DeviceClient {
     }
     
     public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + ALIAS_PATH + "/" + alias;
+        String url = HOST_NAME_SSL + ALIASES_PATH + "/" + alias;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }
