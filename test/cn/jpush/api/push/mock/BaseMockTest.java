@@ -124,7 +124,58 @@ public class BaseMockTest implements IMockTest {
                     errorCode = 1003;
                     errorMessage = "Invalid param - notification is invalid - should not be string value. ";
                 } else {
-                    
+                	JsonObject notificationObject = notification.getAsJsonObject();
+                    if (notificationObject.has("android")) {
+                        JsonElement android = notificationObject.get("android");
+                        if (!android.isJsonObject()) {
+                        	responseCode = 400;
+                            errorCode = 1003;
+                            errorMessage = "Invalid param - notification is invalid - should not be string value. ";
+						}else {
+		                	JsonObject androidObject = android.getAsJsonObject();
+		                	if (!androidObject.has("alert")) {
+								responseCode = 400;
+								errorCode = 1002;
+								errorMessage = "Android notification missing alert field.";
+							}else if (androidObject.has("builder_id")) {
+								JsonElement builderIdJson = androidObject.get("builder_id");
+								String builderString = builderIdJson.getAsString();
+								if (!builderString.matches("^(1000|[1-9]{1,3})$")) {
+									responseCode = 400;
+									errorCode = 1003;
+									errorMessage = "n_builder_id should be 1~1000.";
+								}
+							} 
+						}
+					}else if (notificationObject.has("ios")) {
+						JsonElement ios = notificationObject.get("ios");
+                        if (!ios.isJsonObject()) {
+                        	responseCode = 400;
+                            errorCode = 1003;
+                            errorMessage = "Invalid param - notification is invalid - should not be string value. ";
+						}else {
+		                	JsonObject iosObject = ios.getAsJsonObject();
+		                	if (!iosObject.has("alert")) {
+								responseCode = 400;
+								errorCode = 1002;
+								errorMessage = "IOS notification missing alert field.";
+							}
+						}
+					}else if (notificationObject.has("winphone")) {
+						JsonElement winphone = notificationObject.get("winphone");
+                        if (!winphone.isJsonObject()) {
+                        	responseCode = 400;
+                            errorCode = 1003;
+                            errorMessage = "Invalid param - notification is invalid - should not be string value. ";
+						}else {
+		                	JsonObject winphoneObject = winphone.getAsJsonObject();
+		                	if (!winphoneObject.has("alert")) {
+								responseCode = 400;
+								errorCode = 1002;
+								errorMessage = "mpns message missing parameter(alert).";
+							}
+						}
+					}
                 }
                 
             } else if (json.has("message")) {
@@ -138,6 +189,12 @@ public class BaseMockTest implements IMockTest {
         
         }
         
+        if (_expectedErrorCode == 1005) {
+			responseCode = 400;
+			errorCode = 1005;
+			errorMessage = "message length should be less than 1000!";
+		}
+
         if (responseCode == 200) {
             _mockServer.enqueue(new MockResponse()
                 .setBody(getResponseOK(111, sendno)));
