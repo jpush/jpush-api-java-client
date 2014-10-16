@@ -1,11 +1,16 @@
 package cn.jpush.api.push.remote;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
@@ -25,7 +30,7 @@ public class SpecialCharacterTest extends BaseRemotePushTest {
 	    
 	    PushPayload payload = PushPayload.newBuilder()
 	            .setPlatform(Platform.all())
-	            .setAudience(Audience.tag(TAG1))
+	            .setAudience(Audience.alias("special_c"))
 	            .setMessage(message)
 	            .build();
 	    try {
@@ -41,7 +46,7 @@ public class SpecialCharacterTest extends BaseRemotePushTest {
     public int sendNotification(String alert) {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setAudience(Audience.tag(TAG1))
+                .setAudience(Audience.alias("special_c"))
                 .setNotification(Notification.alert(alert))
                 .build();
         try {
@@ -52,6 +57,14 @@ public class SpecialCharacterTest extends BaseRemotePushTest {
             return e.getErrorCode();
         }
         return 0;
+    }
+    
+    
+    @BeforeClass
+    public static void prepareAudience() throws Exception {
+    	JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+    	DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "special_c", null, null);
+    	assertThat(result.isResultOK(), is(true));
     }
     
 	@Test

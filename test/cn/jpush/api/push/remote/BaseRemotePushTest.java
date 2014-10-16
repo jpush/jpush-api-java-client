@@ -12,7 +12,7 @@ import cn.jpush.api.push.PushClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-public class BaseRemotePushTest extends BaseTest {
+public abstract class BaseRemotePushTest extends BaseTest {
     
     public static final String CONTENT_TYPE_JSON = "application/json";
     
@@ -23,7 +23,7 @@ public class BaseRemotePushTest extends BaseTest {
     public static final int TOO_BIG = 1005;
     public static final int APPKEY_NOT_EXIST = 1008;
     public static final int NO_TARGET = 1011;
-        
+
     protected static PushClient _client = null;
     
     @After

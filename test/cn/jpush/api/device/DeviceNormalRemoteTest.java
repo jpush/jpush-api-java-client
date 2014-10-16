@@ -32,7 +32,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		Set<String> tagsToRemove = new HashSet<String>();
 		tagsToRemove.add("tag3");
 		tagsToRemove.add("tag4");
-		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, ALIAS1, tagsToAdd, tagsToRemove);
+		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "alias1", tagsToAdd, tagsToRemove);
 		assertTrue(result.isResultOK());
 	}
 	
@@ -42,7 +42,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
 		
 		assertTrue(result.isResultOK());
-		assertEquals("alias not equals", ALIAS1, result.alias);
+		assertEquals("alias not equals", "alias1", result.alias);
 		
 		assertTrue("tag contains", result.tags.contains("tag1"));
 		assertTrue("tag contains", result.tags.contains("tag2"));
@@ -52,7 +52,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@Test
 	@TestOrder(order = 111)
 	public void testGetAliasDeviceList_1() throws APIConnectionException, APIRequestException {
-		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, null);
+		AliasDeviceListResult result = jpushClient.getAliasDeviceList("alias1", null);
 		assertTrue(result.registration_ids.contains(REGISTRATION_ID1));
 	}
 	
@@ -137,28 +137,28 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@Test
 	@TestOrder(order = 230)
 	public void testGetAliasDevices_1() throws Exception {
-		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, null);
+		AliasDeviceListResult result = jpushClient.getAliasDeviceList("alias1", null);
 		assertTrue(result.isResultOK());
 	}
 
 	@Test
 	@TestOrder(order = 300)
 	public void testGetAliasDeviceList() throws APIConnectionException, APIRequestException {
-		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, "android");
+		AliasDeviceListResult result = jpushClient.getAliasDeviceList("alias1", "android");
 		assertTrue(result.isResultOK());
 	}
 	
 	@Test
 	@TestOrder(order = 310)
 	public void testGetAliasDeviceList_2() throws APIConnectionException, APIRequestException {
-		AliasDeviceListResult result = jpushClient.getAliasDeviceList(ALIAS1, null);
+		AliasDeviceListResult result = jpushClient.getAliasDeviceList("alias1", null);
 		assertTrue(result.registration_ids.size() == 0);
 	}
 	
 	@Test
 	@TestOrder(order = 320)
 	public void testDeleteAlias() throws APIConnectionException, APIRequestException {
-		DefaultResult result = jpushClient.deleteAlias(ALIAS2, "android");
+		DefaultResult result = jpushClient.deleteAlias("alias2", "android");
 		assertTrue(result.isResultOK());
 	}
 	
@@ -166,7 +166,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@Test
 	@TestOrder(order = 330)
 	public void testDeleteAlias_2() throws APIConnectionException, APIRequestException {
-		DefaultResult result = jpushClient.deleteAlias(ALIAS2, null);
+		DefaultResult result = jpushClient.deleteAlias("alias2", null);
 		assertTrue(result.isResultOK());
 	}
 }

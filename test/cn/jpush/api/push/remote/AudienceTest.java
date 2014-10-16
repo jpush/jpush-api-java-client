@@ -1,11 +1,19 @@
 package cn.jpush.api.push.remote;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
@@ -13,6 +21,8 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.audience.AudienceType;
 import cn.jpush.api.push.model.notification.Notification;
+
+import com.google.common.collect.Sets;
 
 /**
  * Device1: 0900e8d85ef
@@ -29,6 +39,31 @@ import cn.jpush.api.push.model.notification.Notification;
  *
  */
 public class AudienceTest extends BaseRemotePushTest {
+    public static final String TAG1 = "audience_tag1";
+    public static final String TAG2 = "audience_tag2";
+    public static final String TAG_ALL = "audience_tag_all";
+    public static final String TAG_NO = "audience_tag_no";
+    public static final String ALIAS1 = "audience_alias1";
+    public static final String ALIAS2 = "audience_alias2";
+    public static final String ALIAS_NO = "audience_alias_no";
+    
+    @BeforeClass
+    public static void setAudiences() throws Exception {
+    	Set<String> tags1 = Sets.newHashSet();
+    	tags1.add(TAG1);
+    	tags1.add(TAG_ALL);
+
+    	Set<String> tags2 = Sets.newHashSet();
+    	tags1.add(TAG2);
+    	tags1.add(TAG_ALL);
+    	
+    	JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+    	DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, ALIAS1, tags1, null);
+    	assertThat(result.isResultOK(), is(true));
+    	
+    	result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID2, ALIAS2, tags2, null);
+    	assertThat(result.isResultOK(), is(true));
+    }
     
     // one --------
     
@@ -125,7 +160,7 @@ public class AudienceTest extends BaseRemotePushTest {
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
+        assertTrue("Should be OK", result.isResultOK());
     }
     
 
