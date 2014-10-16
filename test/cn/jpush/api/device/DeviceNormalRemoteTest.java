@@ -11,12 +11,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import cn.jpush.api.BaseTest;
+import cn.jpush.api.JUnitOrderedRunner;
+import cn.jpush.api.TestOrder;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.utils.JUnitOrderedRunner;
-import cn.jpush.api.utils.TestOrder;
 
 @RunWith(JUnitOrderedRunner.class)
 public class DeviceNormalRemoteTest extends BaseTest {

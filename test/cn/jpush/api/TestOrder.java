@@ -1,4 +1,4 @@
-package cn.jpush.api.utils;
+package cn.jpush.api;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

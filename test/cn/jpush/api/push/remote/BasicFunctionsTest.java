@@ -150,7 +150,7 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
         assertTrue(result.isResultOK());
     }
     
-    @Test
+    //@Test
     public void sendSimpleMessage_Pwinphone() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.winphone())

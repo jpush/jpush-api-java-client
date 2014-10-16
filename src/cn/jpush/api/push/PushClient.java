@@ -110,7 +110,7 @@ public class PushClient {
         
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, pushPayload.toString());
         
-        return PushResult.fromResponse(response);
+        return BaseResult.fromResponse(response, PushResult.class);
     }
     
     public PushResult sendPushValidate(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
@@ -137,7 +137,7 @@ public class PushClient {
         
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, payloadString);
         
-        return PushResult.fromResponse(response);
+        return BaseResult.fromResponse(response, PushResult.class);
     }
     
     public PushResult sendPushValidate(String payloadString) throws APIConnectionException, APIRequestException {
