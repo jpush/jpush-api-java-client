@@ -1,11 +1,14 @@
 package cn.jpush.api.push.model;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -23,8 +26,7 @@ public class MessageTest {
         JsonObject json = new JsonObject();
         json.add("msg_content", new JsonPrimitive("msg content"));
         
-        Assert.assertEquals("", json, message.toJSON());
-
+        assertThat(message.toJSON(), is((JsonElement) json));
     }
 
     @Test
@@ -45,7 +47,7 @@ public class MessageTest {
         
         json.add("extras", extras);
         
-        Assert.assertEquals("", json, message.toJSON());
+        assertThat(message.toJSON(), is((JsonElement) json));
     }
     
     @Test
@@ -66,8 +68,7 @@ public class MessageTest {
         extras.add("key2", new JsonPrimitive("value2"));
         json.add("extras", extras);
         
-        Assert.assertEquals("", json, message.toJSON());
-
+        assertThat(message.toJSON(), is((JsonElement) json));
     }
 
 

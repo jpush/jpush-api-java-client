@@ -1,10 +1,13 @@
 package cn.jpush.api.push.model;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
 import cn.jpush.api.common.ServiceHelper;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -31,7 +34,8 @@ public class OptionsTest {
         json.add("sendno", new JsonPrimitive(111));
         json.add("apns_production", new JsonPrimitive(false));
         Options options = Options.newBuilder().setSendno(111).build();
-        Assert.assertEquals("", json, options.toJSON());
+        
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
 
     @Test
@@ -44,7 +48,8 @@ public class OptionsTest {
         Options options = Options.newBuilder()
                 .setSendno(111)
                 .setTimeToLive(640).build();
-        Assert.assertEquals("", json, options.toJSON());
+        
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
 
     @Test
@@ -57,7 +62,8 @@ public class OptionsTest {
         Options options = Options.newBuilder()
                 .setSendno(111)
                 .setTimeToLive(0).build();
-        Assert.assertEquals("", json, options.toJSON());
+        
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
     
     @Test
@@ -69,7 +75,8 @@ public class OptionsTest {
         Options options = Options.newBuilder()
                 .setSendno(111)
                 .setTimeToLive(-1).build();
-        Assert.assertEquals("", json, options.toJSON());
+        
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
 
     @Test
@@ -84,7 +91,7 @@ public class OptionsTest {
                 .setSendno(sendno)
                 .build();
         
-        Assert.assertEquals("", json, options.toJSON());
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
     
     @Test
@@ -100,7 +107,7 @@ public class OptionsTest {
                 .setApnsProduction(true)
                 .build();
         
-        Assert.assertEquals("", json, options.toJSON());
+        assertThat(options.toJSON(), is((JsonElement) json));
     }
 
 
