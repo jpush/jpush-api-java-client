@@ -1,13 +1,14 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.push.model.PushModel;
+import cn.jpush.api.utils.Preconditions;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -19,15 +20,15 @@ public abstract class PlatformNotification implements PushModel {
     protected static final Logger LOG = LoggerFactory.getLogger(PlatformNotification.class);
 
     private String alert;
-    private final ImmutableMap<String, String> extras;
-    private final ImmutableMap<String, Number> numberExtras;
-    private final ImmutableMap<String, Boolean> booleanExtras;
-    private final ImmutableMap<String, JsonObject> jsonExtras;
+    private final Map<String, String> extras;
+    private final Map<String, Number> numberExtras;
+    private final Map<String, Boolean> booleanExtras;
+    private final Map<String, JsonObject> jsonExtras;
     
-    public PlatformNotification(String alert, ImmutableMap<String, String> extras, 
-            ImmutableMap<String, Number> numberExtras, 
-            ImmutableMap<String, Boolean> booleanExtras, 
-            ImmutableMap<String, JsonObject> jsonExtras) {
+    public PlatformNotification(String alert, Map<String, String> extras, 
+    		Map<String, Number> numberExtras, 
+    		Map<String, Boolean> booleanExtras, 
+    		Map<String, JsonObject> jsonExtras) {
         this.alert = alert;
         this.extras = extras;
         this.numberExtras = numberExtras;
@@ -104,19 +105,80 @@ public abstract class PlatformNotification implements PushModel {
     
     protected abstract static class Builder<T> {
         protected String alert;
-        protected ImmutableMap.Builder<String, String> extrasBuilder;
-        protected ImmutableMap.Builder<String, Number> numberExtrasBuilder;
-        protected ImmutableMap.Builder<String, Boolean> booleanExtrasBuilder;
-        protected ImmutableMap.Builder<String, JsonObject> jsonExtrasBuilder;
+        protected Map<String, String> extrasBuilder;
+        protected Map<String, Number> numberExtrasBuilder;
+        protected Map<String, Boolean> booleanExtrasBuilder;
+        protected Map<String, JsonObject> jsonExtrasBuilder;
         
         public abstract Builder<T> setAlert(String alert);
                 
-        public abstract Builder<T> addExtra(String key, String value);
-        public abstract Builder<T> addExtra(String key, Number value);
-        public abstract Builder<T> addExtra(String key, Boolean value);
-        public abstract Builder<T> addExtra(String key, JsonObject value);
-        public abstract Builder<T> addExtras(Map<String, String> extras);
+        public Builder<T> addExtra(String key, String value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == extrasBuilder) {
+                extrasBuilder = new HashMap<String, String>();
+            }
+            extrasBuilder.put(key, value);
+            return this;
+        }
+
+        public Builder<T> addExtras(Map<String, String> extras) {
+            if (null == extras) {
+                LOG.warn("Null extras param. Throw away it.");
+                return this;
+            }
+            
+            if (null == extrasBuilder) {
+                extrasBuilder = new HashMap<String, String>();
+            }
+            for (String key : extras.keySet()) {
+                extrasBuilder.put(key, extras.get(key));
+            }
+            return this;
+        }
         
+        public Builder<T> addExtra(String key, Number value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == numberExtrasBuilder) {
+                numberExtrasBuilder = new HashMap<String, Number>();
+            }
+            numberExtrasBuilder.put(key, value);
+            return this;
+        }
+        
+        public Builder<T> addExtra(String key, Boolean value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == booleanExtrasBuilder) {
+                booleanExtrasBuilder = new HashMap<String, Boolean>();
+            }
+            booleanExtrasBuilder.put(key, value);
+            return this;
+        }
+        
+        public Builder<T> addExtra(String key, JsonObject value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return this;
+            }
+            if (null == jsonExtrasBuilder) {
+            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
+            }
+            jsonExtrasBuilder.put(key, value);
+            return this;
+        }
+                
         public abstract T build();
     }
 

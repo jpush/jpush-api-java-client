@@ -12,8 +12,8 @@ import cn.jpush.api.common.resp.BaseResult;
 import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
+import cn.jpush.api.utils.Preconditions;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

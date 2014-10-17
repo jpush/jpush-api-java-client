@@ -9,9 +9,9 @@ import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BaseResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.utils.Preconditions;
 import cn.jpush.api.utils.StringUtils;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 

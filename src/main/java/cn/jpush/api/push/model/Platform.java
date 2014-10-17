@@ -1,9 +1,11 @@
 package cn.jpush.api.push.model;
 
-import cn.jpush.api.common.DeviceType;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import cn.jpush.api.common.DeviceType;
+import cn.jpush.api.utils.Preconditions;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -12,9 +14,9 @@ public class Platform implements PushModel {
     private static final String ALL = "all";
     
     private final boolean all;
-    private final ImmutableSet<DeviceType> deviceTypes;
+    private final Set<DeviceType> deviceTypes;
     
-    private Platform(boolean all, ImmutableSet<DeviceType> deviceTypes) {
+    private Platform(boolean all, Set<DeviceType> deviceTypes) {
         this.all = all;
         this.deviceTypes = deviceTypes;
     }
@@ -80,7 +82,7 @@ public class Platform implements PushModel {
     
     public static class Builder {
         private boolean all;
-        private ImmutableSet.Builder<DeviceType> deviceTypes;
+        private Set<DeviceType> deviceTypes;
         
         public Builder setAll(boolean all) {
             this.all = all;
@@ -89,7 +91,7 @@ public class Platform implements PushModel {
         
         public Builder addDeviceType(DeviceType deviceType) {
             if (null == deviceTypes) {
-                deviceTypes = ImmutableSet.builder();
+                deviceTypes = new HashSet<DeviceType>();
             }
             deviceTypes.add(deviceType);
             return this;
@@ -98,7 +100,7 @@ public class Platform implements PushModel {
         public Platform build() {
             Preconditions.checkArgument(! (all && null != deviceTypes), "Since all is enabled, any platform should not be set.");
             Preconditions.checkArgument(! (!all && null == deviceTypes), "No any deviceType is set.");
-            return new Platform(all, (null == deviceTypes) ? null : deviceTypes.build());
+            return new Platform(all, deviceTypes);
         }
     }
     

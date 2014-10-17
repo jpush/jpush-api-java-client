@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -21,8 +22,6 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.audience.AudienceType;
 import cn.jpush.api.push.model.notification.Notification;
-
-import com.google.common.collect.Sets;
 
 /**
  * Device1: 0900e8d85ef
@@ -49,11 +48,11 @@ public class AudienceTest extends BaseRemotePushTest {
     
     @BeforeClass
     public static void setAudiences() throws Exception {
-    	Set<String> tags1 = Sets.newHashSet();
+    	Set<String> tags1 = new HashSet<String>();
     	tags1.add(TAG1);
     	tags1.add(TAG_ALL);
 
-    	Set<String> tags2 = Sets.newHashSet();
+    	Set<String> tags2 = new HashSet<String>();
     	tags1.add(TAG2);
     	tags1.add(TAG_ALL);
     	

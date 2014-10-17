@@ -7,8 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.jpush.api.common.ServiceHelper;
-
-import com.google.common.base.Preconditions;
+import cn.jpush.api.utils.Preconditions;
 
 public class HttpProxy {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);

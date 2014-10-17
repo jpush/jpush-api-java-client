@@ -1,8 +1,8 @@
 package cn.jpush.api.push.model;
 
 import cn.jpush.api.common.ServiceHelper;
+import cn.jpush.api.utils.Preconditions;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

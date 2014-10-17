@@ -1,20 +1,21 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import cn.jpush.api.push.model.PushModel;
+import cn.jpush.api.utils.Preconditions;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class Notification implements PushModel {    
     private final String alert;
-    private final ImmutableSet<PlatformNotification> notifications;
+    private final Set<PlatformNotification> notifications;
     
-    private Notification(String alert, ImmutableSet<PlatformNotification> notifications) {
+    private Notification(String alert, Set<PlatformNotification> notifications) {
         this.alert = alert;
         this.notifications = notifications;
     }
@@ -129,7 +130,7 @@ public class Notification implements PushModel {
     
     public static class Builder {
         private String alert;
-        private ImmutableSet.Builder<PlatformNotification> builder;
+        private Set<PlatformNotification> builder;
         
         public Builder setAlert(String alert) {
             this.alert = alert;
@@ -138,7 +139,7 @@ public class Notification implements PushModel {
         
         public Builder addPlatformNotification(PlatformNotification notification) {
             if (null == builder) {
-                builder = ImmutableSet.builder();
+                builder = new HashSet<PlatformNotification>();
             }
             builder.add(notification);
             return this;
@@ -147,7 +148,7 @@ public class Notification implements PushModel {
         public Notification build() {
             Preconditions.checkArgument(! (null == builder && null == alert), 
                     "No notification payload is set.");
-            return new Notification(alert, (null == builder) ? null : builder.build());
+            return new Notification(alert, builder);
         }
     }
 }

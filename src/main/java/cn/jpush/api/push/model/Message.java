@@ -1,9 +1,10 @@
 package cn.jpush.api.push.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import cn.jpush.api.utils.Preconditions;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -17,14 +18,14 @@ public class Message implements PushModel {
     private final String title;
     private final String msgContent;
     private final String contentType;
-    private final ImmutableMap<String, String> extras;
-    private final ImmutableMap<String, Number> numberExtras;
-    private final ImmutableMap<String, Boolean> booleanExtras;
+    private final Map<String, String> extras;
+    private final Map<String, Number> numberExtras;
+    private final Map<String, Boolean> booleanExtras;
     
     private Message(String title, String msgContent, String contentType, 
-            ImmutableMap<String, String> extras, 
-            ImmutableMap<String, Number> numberExtras,
-            ImmutableMap<String, Boolean> booleanExtras) {
+    		Map<String, String> extras, 
+    		Map<String, Number> numberExtras,
+    		Map<String, Boolean> booleanExtras) {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
@@ -86,9 +87,9 @@ public class Message implements PushModel {
         private String title;
         private String msgContent;
         private String contentType;
-        private ImmutableMap.Builder<String, String> extrasBuilder;
-        private ImmutableMap.Builder<String, Number> numberExtrasBuilder;
-        private ImmutableMap.Builder<String, Boolean> booleanExtrasBuilder;
+        private Map<String, String> extrasBuilder;
+        private Map<String, Number> numberExtrasBuilder;
+        private Map<String, Boolean> booleanExtrasBuilder;
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -108,7 +109,7 @@ public class Message implements PushModel {
         public Builder addExtra(String key, String value) {
             Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
             if (null == extrasBuilder) {
-                extrasBuilder = ImmutableMap.builder();
+                extrasBuilder = new HashMap<String, String>();
             }
             extrasBuilder.put(key, value);
             return this;
@@ -117,7 +118,7 @@ public class Message implements PushModel {
         public Builder addExtras(Map<String, String> extras) {
             Preconditions.checkArgument(! (null == extras), "extras should not be null.");
             if (null == extrasBuilder) {
-                extrasBuilder = ImmutableMap.builder();
+                extrasBuilder = new HashMap<String, String>();
             }
             for (String key : extras.keySet()) {
                 extrasBuilder.put(key, extras.get(key));
@@ -128,7 +129,7 @@ public class Message implements PushModel {
         public Builder addExtra(String key, Number value) {
             Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
             if (null == numberExtrasBuilder) {
-                numberExtrasBuilder = ImmutableMap.builder();
+                numberExtrasBuilder = new HashMap<String, Number>();
             }
             numberExtrasBuilder.put(key, value);
             return this;
@@ -137,7 +138,7 @@ public class Message implements PushModel {
         public Builder addExtra(String key, Boolean value) {
             Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
             if (null == booleanExtrasBuilder) {
-                booleanExtrasBuilder = ImmutableMap.builder();
+                booleanExtrasBuilder = new HashMap<String, Boolean>();
             }
             booleanExtrasBuilder.put(key, value);
             return this;
@@ -147,9 +148,7 @@ public class Message implements PushModel {
             Preconditions.checkArgument(! (null == msgContent), 
                     "msgContent should be set");
             return new Message(title, msgContent, contentType, 
-                    (null == extrasBuilder) ? null : extrasBuilder.build(), 
-                    (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
-                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build());
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder);
         }
     }
 }

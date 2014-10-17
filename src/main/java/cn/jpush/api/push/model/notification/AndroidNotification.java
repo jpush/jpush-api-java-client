@@ -1,9 +1,10 @@
 package cn.jpush.api.push.model.notification;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import cn.jpush.api.utils.Preconditions;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -18,10 +19,10 @@ public class AndroidNotification extends PlatformNotification {
     private final int builderId;
     
     private AndroidNotification(String alert, String title, int builderId, 
-            ImmutableMap<String, String> extras, 
-            ImmutableMap<String, Number> numberExtras, 
-            ImmutableMap<String, Boolean> booleanExtras, 
-            ImmutableMap<String, JsonObject> jsonExtras) {
+            Map<String, String> extras, 
+            Map<String, Number> numberExtras, 
+            Map<String, Boolean> booleanExtras, 
+            Map<String, JsonObject> jsonExtras) {
         super(alert, extras, numberExtras, booleanExtras, jsonExtras);
         
         this.title = title;
@@ -83,7 +84,7 @@ public class AndroidNotification extends PlatformNotification {
                 return this;
             }
             if (null == extrasBuilder) {
-                extrasBuilder = ImmutableMap.builder();
+                extrasBuilder = new HashMap<String, String>();
             }
             extrasBuilder.put(key, value);
             return this;
@@ -96,7 +97,7 @@ public class AndroidNotification extends PlatformNotification {
             }
             
             if (null == extrasBuilder) {
-                extrasBuilder = ImmutableMap.builder();
+                extrasBuilder = new HashMap<String, String>();
             }
             for (String key : extras.keySet()) {
                 extrasBuilder.put(key, extras.get(key));
@@ -111,7 +112,7 @@ public class AndroidNotification extends PlatformNotification {
                 return this;
             }
             if (null == numberExtrasBuilder) {
-                numberExtrasBuilder = ImmutableMap.builder();
+                numberExtrasBuilder = new HashMap<String, Number>();
             }
             numberExtrasBuilder.put(key, value);
             return this;
@@ -124,7 +125,7 @@ public class AndroidNotification extends PlatformNotification {
                 return this;
             }
             if (null == booleanExtrasBuilder) {
-                booleanExtrasBuilder = ImmutableMap.builder();
+                booleanExtrasBuilder = new HashMap<String, Boolean>();
             }
             booleanExtrasBuilder.put(key, value);
             return this;
@@ -137,18 +138,16 @@ public class AndroidNotification extends PlatformNotification {
                 return this;
             }
             if (null == jsonExtrasBuilder) {
-            	jsonExtrasBuilder = ImmutableMap.builder();
+            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
             }
             jsonExtrasBuilder.put(key, value);
             return this;
         }
         
+        
         public AndroidNotification build() {
             return new AndroidNotification(alert, title, builderId, 
-                    (null == extrasBuilder) ? null : extrasBuilder.build(), 
-                    (null == numberExtrasBuilder) ? null : numberExtrasBuilder.build(),
-                    (null == booleanExtrasBuilder) ? null : booleanExtrasBuilder.build(), 
-                    (null == jsonExtrasBuilder) ? null : jsonExtrasBuilder.build());
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
 }
