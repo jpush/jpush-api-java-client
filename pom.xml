@@ -109,7 +109,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.5.1</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -150,8 +150,6 @@
 				<version>2.17</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-					<parallel>methods</parallel>
-					<threadCount>10</threadCount>
 					<groups>cn.jpush.api.FastTests</groups>
 					<argLine>-Dfile.encoding=UTF-8</argLine>
 					<excludes>
