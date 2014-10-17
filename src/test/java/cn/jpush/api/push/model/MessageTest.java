@@ -7,11 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import cn.jpush.api.FastTests;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+@Category(FastTests.class)
 public class MessageTest {
     
     @Test(expected = IllegalArgumentException.class)

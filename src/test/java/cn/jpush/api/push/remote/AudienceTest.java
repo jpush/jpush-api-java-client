@@ -10,8 +10,10 @@ import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.SlowTests;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.DefaultResult;
@@ -37,6 +39,7 @@ import cn.jpush.api.push.model.notification.Notification;
  * alias_no: no Device
  *
  */
+@Category(SlowTests.class)
 public class AudienceTest extends BaseRemotePushTest {
     public static final String TAG1 = "audience_tag1";
     public static final String TAG2 = "audience_tag2";

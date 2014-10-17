@@ -2,8 +2,10 @@ package cn.jpush.api.push.remote;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.SlowTests;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.model.Platform;
@@ -14,6 +16,7 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+@Category(SlowTests.class)
 public class ExceptionTest extends BaseRemotePushTest {
     
     @Test

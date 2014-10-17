@@ -4,13 +4,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import cn.jpush.api.FastTests;
 import cn.jpush.api.common.ServiceHelper;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+@Category(FastTests.class)
 public class OptionsTest {
 
     @Test(expected = IllegalArgumentException.class)

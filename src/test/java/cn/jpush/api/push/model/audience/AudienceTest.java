@@ -2,11 +2,15 @@ package cn.jpush.api.push.model.audience;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import cn.jpush.api.FastTests;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+@Category(FastTests.class)
 public class AudienceTest {
 
     @Test

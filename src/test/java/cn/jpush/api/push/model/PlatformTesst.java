@@ -5,13 +5,16 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import cn.jpush.api.FastTests;
 import cn.jpush.api.common.DeviceType;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+@Category(FastTests.class)
 public class PlatformTesst {
 
     @Test

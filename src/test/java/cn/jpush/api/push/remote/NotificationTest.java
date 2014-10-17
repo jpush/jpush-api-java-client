@@ -3,7 +3,9 @@ package cn.jpush.api.push.remote;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import cn.jpush.api.SlowTests;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
@@ -13,6 +15,7 @@ import cn.jpush.api.push.model.notification.Notification;
 
 import com.google.gson.JsonObject;
 
+@Category(SlowTests.class)
 public class NotificationTest extends BaseRemotePushTest {
     
     @Test

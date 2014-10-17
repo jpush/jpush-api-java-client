@@ -3,10 +3,13 @@ package cn.jpush.api.report;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import cn.jpush.api.BaseTest;
+import cn.jpush.api.SlowTests;
 import cn.jpush.api.common.TimeUnit;
 
+@Category(SlowTests.class)
 public class ReportFunctionTests extends BaseTest {
     
 	@Test

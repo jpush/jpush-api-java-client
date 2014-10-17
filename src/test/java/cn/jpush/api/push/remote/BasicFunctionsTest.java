@@ -3,7 +3,9 @@ package cn.jpush.api.push.remote;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import cn.jpush.api.SlowTests;
 import cn.jpush.api.common.DeviceType;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
@@ -15,6 +17,7 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.WinphoneNotification;
 
+@Category(SlowTests.class)
 public class BasicFunctionsTest extends BaseRemotePushTest {
 	
 	@Test
