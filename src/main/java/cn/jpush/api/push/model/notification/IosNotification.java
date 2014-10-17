@@ -35,6 +35,7 @@ public class IosNotification extends PlatformNotification {
     private static final String BADGE = "badge";
     private static final String SOUND = "sound";
     private static final String CONTENT_AVAILABLE = "content-available";
+    private static final String CATEGORY = "category";
     
     private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
             + "and can be prefixed with + to add, - to minus";
@@ -45,9 +46,11 @@ public class IosNotification extends PlatformNotification {
     private final String sound;
     private final String badge;
     private final boolean contentAvailable;
+    private final String category;
     
     private IosNotification(String alert, String sound, String badge, 
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
+            String category,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -59,6 +62,7 @@ public class IosNotification extends PlatformNotification {
         this.contentAvailable = contentAvailable;
         this.soundDisabled = soundDisabled;
         this.badgeDisabled = badgeDisabled;
+        this.category = category;
     }
     
     public static Builder newBuilder() {
@@ -96,6 +100,9 @@ public class IosNotification extends PlatformNotification {
         if (contentAvailable) {
             json.add(CONTENT_AVAILABLE, new JsonPrimitive(1));
         }
+        if (null != category) {
+        	json.add(CATEGORY, new JsonPrimitive(category));
+        }
         
         return json;
     }
@@ -107,6 +114,7 @@ public class IosNotification extends PlatformNotification {
         private boolean contentAvailable = false;
         private boolean soundDisabled = false;
         private boolean badgeDisabled = false;
+        private String category;
         
         public Builder setSound(String sound) {
             this.sound = sound;
@@ -156,6 +164,11 @@ public class IosNotification extends PlatformNotification {
         public Builder setContentAvailable(boolean contentAvailable) {
             this.contentAvailable = contentAvailable;
             return this;
+        }
+        
+        public Builder setCategory(String category) {
+        	this.category = category;
+        	return this;
         }
         
         public Builder setAlert(String alert) {
@@ -233,7 +246,7 @@ public class IosNotification extends PlatformNotification {
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
-                    soundDisabled, badgeDisabled,   
+                    soundDisabled, badgeDisabled, category,  
             		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
