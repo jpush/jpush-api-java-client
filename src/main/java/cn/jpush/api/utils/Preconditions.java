@@ -13,9 +13,9 @@
  */
 package cn.jpush.api.utils;
 
-import com.sun.istack.internal.Nullable;
-
 /**
+ * Copied from Google Guava.
+ * 
  * Static convenience methods that help a method or constructor check whether it was invoked
  * correctly (whether its <i>preconditions</i> have been met). These methods generally accept a
  * {@code boolean} expression which is expected to be {@code true} (or in the case of {@code
