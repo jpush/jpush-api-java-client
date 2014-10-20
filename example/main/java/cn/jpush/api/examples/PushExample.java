@@ -13,6 +13,7 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
+import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
@@ -75,6 +76,21 @@ public class PushExample {
                 .setPlatform(Platform.android())
                 .setAudience(Audience.tag("tag1"))
                 .setNotification(Notification.android(ALERT, TITLE, null))
+                .build();
+    }
+    
+    public static PushPayload buildPushObject_android_and_ios() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.android_ios())
+                .setAudience(Audience.tag("tag1"))
+                .setNotification(Notification.newBuilder()
+                		.setAlert("alert content")
+                		.addPlatformNotification(AndroidNotification.newBuilder()
+                				.setTitle("Android Title").build())
+                		.addPlatformNotification(IosNotification.newBuilder()
+                				.incrBadge(1)
+                				.addExtra("extra_key", "extra_value").build())
+                		.build())
                 .build();
     }
     
