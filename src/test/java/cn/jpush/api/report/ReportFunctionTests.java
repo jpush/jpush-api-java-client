@@ -26,35 +26,30 @@ public class ReportFunctionTests extends BaseTest {
         assertTrue(result.received_list.size() > 0);
     }
 
-    @Test
     public void getMessagesTest() throws Exception {
         MessagesResult result = jpushClient.getReportMessages("1613113584");
         assertTrue(result.isResultOK());
         assertTrue(result.messages.size() > 0);
     }
 
-    @Test
     public void getMessagesTest2() throws Exception {
         MessagesResult result = jpushClient.getReportMessages("1613113584,   ,1229760629,  ");
         assertTrue(result.isResultOK());
         assertTrue(result.messages.size() > 0);
     }
 
-    @Test
     public void getUsersTest() throws Exception {
         UsersResult result = jpushClient.getReportUsers(TimeUnit.MONTH, "2014-05", 1);
         assertTrue(result.isResultOK());
         assertTrue(result.items.size() > 0);
     }
 
-    @Test
     public void getUserTest2() throws  Exception {
         UsersResult result = jpushClient.getReportUsers(TimeUnit.DAY, "2014-05-10", 5);
         assertTrue(result.isResultOK());
         assertTrue(result.items.size() > 0);
     }
 
-    @Test
     public void getUserTest3() throws Exception {
         UsersResult result = jpushClient.getReportUsers(TimeUnit.HOUR, "2014-05-10 06", 10);
         assertTrue(result.isResultOK());
