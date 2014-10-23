@@ -113,6 +113,19 @@ public class OptionsTest {
         assertThat(options.toJSON(), is((JsonElement) json));
     }
 
-
+    @Test
+    public void testBigPushDuration() {
+        int sendno = ServiceHelper.generateSendno();
+        Options options = Options.newBuilder()
+        		.setSendno(sendno)
+                .setBigPushDuration(10)
+                .build();
+        
+        JsonObject json = new JsonObject();
+        json.add("big_push_duration", new JsonPrimitive(11));
+        json.add("sendno", new JsonPrimitive(sendno));
+        
+        assertThat(options.toJSON(), is((JsonElement) json));
+    }
 }
 
