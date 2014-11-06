@@ -34,7 +34,6 @@
 ### 依赖包
 * [slf4j](http://www.slf4j.org/) / log4j (Logger)
 * [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
-* [guava](https://code.google.com/p/guava-libraries/) (Google Java Utils)
 
 > 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
 
@@ -85,7 +84,7 @@
 
 ### 推送样例
 
-> 以下片断来自项目代码里的文件：cn.jpush.api.examples.PushExample
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.PushExample
 
 ```
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
@@ -188,11 +187,11 @@
 
 ### 统计获取样例
 
-> 以下片断来自项目代码里的文件：cn.jpush.api.examples.ReportsExample
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ReportsExample
 
 ```
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-		try {
+	try {
             ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
             LOG.debug("Got result - " + result);
             
@@ -208,3 +207,26 @@
             LOG.info("Error Message: " + e.getErrorMessage());
         }
 ```
+
+### Tag/Alias 样例
+
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.DeviceExample
+
+```
+		try {
+			TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
+			
+			LOG.info(result.alias);
+			LOG.info(result.tags.toString());
+			
+		} catch (APIConnectionException e) {
+			LOG.error("Connection error. Should retry later. ", e);
+			
+		} catch (APIRequestException e) {
+			LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            		LOG.info("HTTP Status: " + e.getStatus());
+            		LOG.info("Error Code: " + e.getErrorCode());
+            		LOG.info("Error Message: " + e.getErrorMessage());
+		}
+```
+
