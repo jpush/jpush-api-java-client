@@ -16,22 +16,17 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 /**
- * Entrance for sending Push.
+ * Entrance for JPush IM API.
  * 
- * For the following parameters, you can set them by instance creation. 
- * This action will override setting in PushPayload Optional.
- * * apnsProduction If not present, the default is true.
- * * timeToLive If not present, the default is 86400(s) (one day).
  * 
- * Can be used directly.
  */
 public class IMClient {
-    public static final String HOST_NAME_SSL = "https://api.jpush.cn";
+    public static final String HOST_NAME_SSL = "";	//"https://im.api.jpush.cn";
     public static final String PUSH_PATH = "/v3/push";
     public static final String PUSH_VALIDATE_PATH = "/v3/push/validate";
     
     private final NativeHttpClient _httpClient;
-    private JsonParser _jsonParser = new JsonParser();
+    private static JsonParser _jsonParser = new JsonParser();
 
     // If not present, true by default.
     private boolean _apnsProduction = true;
@@ -43,8 +38,9 @@ public class IMClient {
     
     private String _baseUrl;
     
+    
     /**
-     * Create a Push Client.
+     * Create a IM Client.
      * 
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -58,7 +54,7 @@ public class IMClient {
 	}
 	
 	/**
-	 * Create a Push Client with max retry times.
+	 * Create a IM Client with max retry times.
 	 * 
 	 * @param masterSecret  API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
@@ -73,7 +69,7 @@ public class IMClient {
 	}
 
 	/**
-     * Create a Push Client with global settings.
+     * Create a IM Client with global settings.
      * 
      * If you want different settings from default globally, this constructor is what you needed.
      * 

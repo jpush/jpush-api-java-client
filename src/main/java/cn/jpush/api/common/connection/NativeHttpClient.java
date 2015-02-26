@@ -26,6 +26,15 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.ResponseWrapper;
 
+/**
+ * The implementation has no connection pool mechanism, used origin java connection.
+ * 
+ * 本实现没有连接池机制，基于 Java 原始的 HTTP 连接实现。
+ * 
+ * 遇到连接超时，会自动重连指定的次数（默认为 3）；如果是读取超时，则不会自动重连。
+ * 
+ * 可选支持 HTTP 代理，同时支持 2 种方式：1) HTTP 头上加上 Proxy-Authorization 信息；2）全局配置 Authenticator.setDefault；
+ */
 public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
     private static final String KEYWORDS_CONNECT_TIMED_OUT = "connect timed out";
@@ -35,6 +44,9 @@ public class NativeHttpClient implements IHttpClient {
     private String _authCode;
     private HttpProxy _proxy;
     
+    /**
+     * 默认的重连次数是 3
+     */
     public NativeHttpClient(String authCode) {
         this(authCode, DEFAULT_MAX_RETRY_TIMES, null);
     }
@@ -45,6 +57,11 @@ public class NativeHttpClient implements IHttpClient {
         
         this._authCode = authCode;
         this._proxy = proxy;
+        
+        if (_proxy.isAuthenticationNeeded()) {
+        	Authenticator.setDefault(new SimpleProxyAuthenticator(
+                _proxy.getUsername(), _proxy.getPassword()));
+        }
         
         initSSL();
     }
@@ -108,8 +125,6 @@ public class NativeHttpClient implements IHttpClient {
 			    conn = (HttpURLConnection) aUrl.openConnection(_proxy.getNetProxy());
 			    if (_proxy.isAuthenticationNeeded()) {
 			        conn.setRequestProperty("Proxy-Authorization", _proxy.getProxyAuthorization());
-			        Authenticator.setDefault(new SimpleProxyAuthenticator(
-			                _proxy.getUsername(), _proxy.getPassword()));
 			    }
 			} else {
 			    conn = (HttpURLConnection) aUrl.openConnection();
