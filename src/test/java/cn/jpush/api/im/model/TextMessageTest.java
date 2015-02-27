@@ -6,12 +6,24 @@ public class TextMessageTest {
 
 	@Test
 	public void testCreate() {
-		TextMessage text = TextMessage.newBuilder()
+		ImMessage msg = ImMessage.newBuilder()
 				.setTarget("single", "javen", "Javen Fang")
-				.setText("Hello, JPush IM!")
 				.setFrom("user", "fang", "Fang Javen")
+				.setMessage(TextMessage.newBuilder()
+						.setText("test text ")
+						.build())
 				.build();
 		
-		System.out.println(text.toJson());
+		System.out.println(msg.toJson());
 	}
+	
+	@Test
+	public void testParse() throws Exception {
+		String json = "{\"msg_type\":\"text\", \"msg_body\":{  \"text\":\"test text msg\"    }}";
+		
+		ImMessage msg = ImMessage.fromJson(json);
+		
+		System.out.println(msg.toJson());
+	}
+	
 }

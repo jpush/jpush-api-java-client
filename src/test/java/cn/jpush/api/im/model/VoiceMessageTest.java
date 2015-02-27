@@ -6,13 +6,14 @@ public class VoiceMessageTest {
 
 	@Test
 	public void testCreate() {
-		VoiceMessage voice = VoiceMessage.newBuilder()
+		ImMessage msg = ImMessage.newBuilder()
 				.setTarget("single", "javen", "Javen Fang")
 				.setFrom("user", "fang", "Fang Javen")
-				.setDuration(22)
-				.setMedia("/path/image/aaaa", 43214321L, "voice")
+				.setMessage(TextMessage.newBuilder()
+						.setText("test text ")
+						.build())
 				.build();
 		
-		System.out.println(voice.toJson());
+		System.out.println(msg.toJson());
 	}
 }

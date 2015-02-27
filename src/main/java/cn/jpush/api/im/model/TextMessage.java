@@ -1,15 +1,12 @@
 package cn.jpush.api.im.model;
 
-public class TextMessage extends ImMessage {
-	protected String text;
+import com.google.gson.annotations.Expose;
+
+public class TextMessage extends BaseMessage {
+	@Expose private String text;
 	
-	private TextMessage(String targetType, String targetId, String targetName,
-			String fromType, String fromId, String fromName,
-			String extras, String text) {
-		
-		super(targetType, targetId, targetName, 
-				fromType, fromId, fromName, 
-				MsgType.text, extras);
+	private TextMessage(String text) {
+		super(MsgType.text);
 		
 		this.text = text;
 	}
@@ -20,7 +17,7 @@ public class TextMessage extends ImMessage {
 	}
 	
 	
-	public static class Builder extends ImMessage.Builder<TextMessage, TextMessage.Builder> {
+	public static class Builder {
 		private String text;
 		
 		public Builder setText(String text) {
@@ -33,10 +30,7 @@ public class TextMessage extends ImMessage {
 		}
 		
 		public TextMessage build() {
-			return new TextMessage(
-					targetType, targetId, targetName, 
-					fromType, fromId, fromName, 
-					extras, text);
+			return new TextMessage(text);
 		}
 	}
 	

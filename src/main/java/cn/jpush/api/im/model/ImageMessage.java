@@ -1,20 +1,16 @@
 package cn.jpush.api.im.model;
 
+import com.google.gson.annotations.Expose;
+
 public class ImageMessage extends MediaMessage {
-	protected int width;
-	protected int height;
-	protected String imgLink;
+	@Expose private int width;
+	@Expose private int height;
+	@Expose private String imgLink;
 	
-	
-	private ImageMessage(String targetType, String targetId, String targetName,
-			String fromType, String fromId, String fromName,
-			String mediaId, long mediaCrc32, String format,
-			String extras, int width, int height, String imgLink) {
+	private ImageMessage(String mediaId, long mediaCrc32, String format,
+			int width, int height, String imgLink) {
 		
-		super(targetType, targetId, targetName, 
-				fromType, fromId, fromName, 
-				MsgType.image, extras, 
-				mediaId, mediaCrc32, format);
+		super(MsgType.image, mediaId, mediaCrc32, format);
 		
 		this.width = width;
 		this.height = height;
@@ -30,6 +26,7 @@ public class ImageMessage extends MediaMessage {
 		private int height;
 		private String imgLink;
 		
+		@Override
 		protected Builder getThis() {
 			return this;
 		}
@@ -48,11 +45,8 @@ public class ImageMessage extends MediaMessage {
 		
 		@Override
 		public ImageMessage build() {
-			
-			return new ImageMessage(targetType, targetId, targetName, 
-					fromType, fromId, fromName, 
-					mediaId, mediaCrc32, format, 
-					extras, width, height, imgLink);
+			return new ImageMessage(mediaId, mediaCrc32, format, 
+					width, height, imgLink);
 		}
 		
 	}

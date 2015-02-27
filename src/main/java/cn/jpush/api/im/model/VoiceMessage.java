@@ -1,18 +1,14 @@
 package cn.jpush.api.im.model;
 
+import com.google.gson.annotations.Expose;
 
 public class VoiceMessage extends MediaMessage {
-	protected int duration;	//s
+	@Expose private int duration;	//s
 	
-	private VoiceMessage(String targetType, String targetId, String targetName,
-			String fromType, String fromId, String fromName,
-			String mediaId, long mediaCrc32, String format, 
-			String extras, int duration) {
+	private VoiceMessage(String mediaId, long mediaCrc32, String format, 
+			int duration) {
 		
-		super(targetType, targetId, targetName, 
-				fromType, fromId, fromName, 
-				MsgType.voice, extras, 
-				mediaId, mediaCrc32, format);
+		super(MsgType.voice, mediaId, mediaCrc32, format);
 		
 		this.duration = duration;
 	}
@@ -36,11 +32,7 @@ public class VoiceMessage extends MediaMessage {
 		
 		@Override
 		public VoiceMessage build() {
-			
-			return new VoiceMessage(targetType, targetId, targetName, 
-					fromType, fromId, fromName, 
-					mediaId, mediaCrc32, format, 
-					extras, duration);
+			return new VoiceMessage(mediaId, mediaCrc32, format, duration);
 		}
 		
 	}
