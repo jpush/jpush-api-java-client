@@ -3,12 +3,14 @@ bin/
 .metadata/
 target/
 test-output/
+.idea/
 
 *.class
 *.project
 *.DS_Store
 *.war
 *.ear
+*.iml
 
 pom.xml.releaseBackup
 release.properties
