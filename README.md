@@ -230,3 +230,53 @@
 		}
 ```
 
+### IM User management 样例
+
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.IMUserExample
+
+```
+        JMessageClient client = new JMessageClient(appkey, masterSecret);
+        try {
+
+            List<RegisterInfo> users = new ArrayList<RegisterInfo>();
+
+            RegisterInfo user = RegisterInfo.newBuilder()
+                    .setUsername("test_user")
+                    .setPassword("test_pass")
+                    .build();
+
+            RegisterInfo user1 = RegisterInfo.newBuilder()
+                    .setUsername("test_user1")
+                    .setPassword("test_pass1")
+                    .build();
+
+            users.add(user);
+            users.add(user1);
+
+            RegisterInfo[] regUsers = new RegisterInfo[users.size()];
+
+            String res = client.registerUsers(users.toArray(regUsers));
+            System.out.println(res);
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIRequestException e) {
+            System.out.println(e.getErrorMessage());
+        }
+```
+
+### IM Group management 样例
+
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.IMGroupExample
+
+```
+        JMessageClient client = new JMessageClient(appkey, masterSecret);
+        try {
+            String res = client.createGroup("test_user", "test_gname1", "description", "test_user");
+            System.out.println(res);
+        } catch (APIConnectionException e) {
+            System.out.println(e.getMessage());
+        } catch (APIRequestException e) {
+            System.out.println(e.getErrorMessage());
+        }
+```
+
