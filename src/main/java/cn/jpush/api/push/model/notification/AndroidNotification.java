@@ -1,9 +1,6 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import cn.jpush.api.utils.Preconditions;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -58,9 +55,13 @@ public class AndroidNotification extends PlatformNotification {
     }
     
     
-    public static class Builder extends PlatformNotification.Builder<AndroidNotification> {
+    public static class Builder extends PlatformNotification.Builder<AndroidNotification, Builder> {
         private String title;
         private int builderId;
+        
+        protected Builder getThis() {
+        	return this;
+        }
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -74,73 +75,6 @@ public class AndroidNotification extends PlatformNotification {
         
         public Builder setAlert(String alert) {
             this.alert = alert;
-            return this;
-        }
-        
-        public Builder addExtra(String key, String value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
-            if (null == value) {
-                LOG.debug("Extra value is null, throw away it.");
-                return this;
-            }
-            if (null == extrasBuilder) {
-                extrasBuilder = new HashMap<String, String>();
-            }
-            extrasBuilder.put(key, value);
-            return this;
-        }
-        
-        public Builder addExtras(Map<String, String> extras) {
-            if (null == extras) {
-                LOG.warn("Null extras param. Throw away it.");
-                return this;
-            }
-            
-            if (null == extrasBuilder) {
-                extrasBuilder = new HashMap<String, String>();
-            }
-            for (String key : extras.keySet()) {
-                extrasBuilder.put(key, extras.get(key));
-            }
-            return this;
-        }
-        
-        public Builder addExtra(String key, Number value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
-            if (null == value) {
-                LOG.debug("Extra value is null, throw away it.");
-                return this;
-            }
-            if (null == numberExtrasBuilder) {
-                numberExtrasBuilder = new HashMap<String, Number>();
-            }
-            numberExtrasBuilder.put(key, value);
-            return this;
-        }
-        
-        public Builder addExtra(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
-            if (null == value) {
-                LOG.debug("Extra value is null, throw away it.");
-                return this;
-            }
-            if (null == booleanExtrasBuilder) {
-                booleanExtrasBuilder = new HashMap<String, Boolean>();
-            }
-            booleanExtrasBuilder.put(key, value);
-            return this;
-        }
-        
-        public Builder addExtra(String key, JsonObject value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
-            if (null == value) {
-                LOG.debug("Extra value is null, throw away it.");
-                return this;
-            }
-            if (null == jsonExtrasBuilder) {
-            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
-            }
-            jsonExtrasBuilder.put(key, value);
             return this;
         }
         

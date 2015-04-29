@@ -103,32 +103,40 @@ public abstract class PlatformNotification implements PushModel {
 
     protected abstract String getPlatform();
     
-    protected abstract static class Builder<T> {
+    protected abstract static class Builder<T extends PlatformNotification, B extends Builder<T, B>> {
+    	private B theBuilder;
+    	
         protected String alert;
         protected Map<String, String> extrasBuilder;
         protected Map<String, Number> numberExtrasBuilder;
         protected Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
         
-        public abstract Builder<T> setAlert(String alert);
+        public Builder () {
+        	theBuilder = getThis();
+        }
+        
+        protected abstract B getThis();
+        
+        public abstract B setAlert(String alert);
                 
-        public Builder<T> addExtra(String key, String value) {
+        public B addExtra(String key, String value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
-                return this;
+                return theBuilder;
             }
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
             extrasBuilder.put(key, value);
-            return this;
+            return theBuilder;
         }
 
-        public Builder<T> addExtras(Map<String, String> extras) {
+        public B addExtras(Map<String, String> extras) {
             if (null == extras) {
                 LOG.warn("Null extras param. Throw away it.");
-                return this;
+                return theBuilder;
             }
             
             if (null == extrasBuilder) {
@@ -137,46 +145,46 @@ public abstract class PlatformNotification implements PushModel {
             for (String key : extras.keySet()) {
                 extrasBuilder.put(key, extras.get(key));
             }
-            return this;
+            return theBuilder;
         }
         
-        public Builder<T> addExtra(String key, Number value) {
+        public B addExtra(String key, Number value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
-                return this;
+                return theBuilder;
             }
             if (null == numberExtrasBuilder) {
                 numberExtrasBuilder = new HashMap<String, Number>();
             }
             numberExtrasBuilder.put(key, value);
-            return this;
+            return theBuilder;
         }
         
-        public Builder<T> addExtra(String key, Boolean value) {
+        public B addExtra(String key, Boolean value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
-                return this;
+                return theBuilder;
             }
             if (null == booleanExtrasBuilder) {
                 booleanExtrasBuilder = new HashMap<String, Boolean>();
             }
             booleanExtrasBuilder.put(key, value);
-            return this;
+            return theBuilder;
         }
         
-        public Builder<T> addExtra(String key, JsonObject value) {
+        public B addExtra(String key, JsonObject value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
-                return this;
+                return theBuilder;
             }
             if (null == jsonExtrasBuilder) {
             	jsonExtrasBuilder = new HashMap<String, JsonObject>();
             }
             jsonExtrasBuilder.put(key, value);
-            return this;
+            return theBuilder;
         }
                 
         public abstract T build();
