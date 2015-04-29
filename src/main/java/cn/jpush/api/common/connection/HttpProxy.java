@@ -10,7 +10,7 @@ import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.utils.Preconditions;
 
 public class HttpProxy {
-    private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpProxy.class);
 
     private String host;
     private int port;
