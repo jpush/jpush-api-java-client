@@ -1,9 +1,11 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.jmessage.JMessageClient;
-
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.jmessage.base.connection.APIRequestException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IMGroupExample {
 
@@ -16,7 +18,7 @@ public class IMGroupExample {
         JMessageClient client = new JMessageClient(appkey, masterSecret);
         try {
             String res = client.createGroup("test_user", "test_gname1", "description", "test_user");
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -31,7 +33,7 @@ public class IMGroupExample {
 
         try {
             String res = client.getGroupInfo(10003767);
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -46,7 +48,7 @@ public class IMGroupExample {
 
         try {
             String res = client.getGroupMembers(10003767);
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -61,7 +63,7 @@ public class IMGroupExample {
 
         try {
             String res = client.getGroupListByAppkey(0, 30);
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

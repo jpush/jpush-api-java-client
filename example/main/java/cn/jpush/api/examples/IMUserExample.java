@@ -1,10 +1,10 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.jmessage.JMessageClient;
-
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.jmessage.base.connection.APIRequestException;
 import cn.jpush.api.jmessage.base.model.RegisterInfo;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class IMUserExample {
             RegisterInfo[] regUsers = new RegisterInfo[users.size()];
 
             String res = client.registerUsers(users.toArray(regUsers));
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -56,7 +56,7 @@ public class IMUserExample {
 
         try {
             String res = client.getUserInfo("test_user");
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -99,7 +99,7 @@ public class IMUserExample {
 
         try {
             String res = client.getUserList(0, 30);
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
@@ -114,7 +114,7 @@ public class IMUserExample {
 
         try {
             String res = client.getGroupListByUser("test_user");
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
