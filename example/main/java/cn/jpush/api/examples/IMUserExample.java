@@ -1,5 +1,6 @@
-package cn.jpush.api.jmessage;
+package cn.jpush.api.examples;
 
+import cn.jpush.api.jmessage.JMessageClient;
 
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.jmessage.base.connection.APIRequestException;
@@ -42,9 +43,11 @@ public class IMUserExample {
             String res = client.registerUsers(users.toArray(regUsers));
             System.out.println(res);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            System.out.println(e.getErrorMessage());
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -55,9 +58,11 @@ public class IMUserExample {
             String res = client.getUserInfo("test_user");
             System.out.println(res);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -67,9 +72,11 @@ public class IMUserExample {
         try {
             client.updateUserPassword("test_user", "test_new_pass");
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -79,9 +86,11 @@ public class IMUserExample {
         try {
             client.updateUserInfo("test_user", "test_nick", "2000-01-12", "help me!", 1, "shenzhen", "nanshan", null);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -92,9 +101,11 @@ public class IMUserExample {
             String res = client.getUserList(0, 30);
             System.out.println(res);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -105,9 +116,11 @@ public class IMUserExample {
             String res = client.getGroupListByUser("test_user");
             System.out.println(res);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
@@ -117,14 +130,16 @@ public class IMUserExample {
         try {
             client.deleteUser("test_user_119");
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            e.printStackTrace();
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        testRegisterUsers();
+        testGetGroupsByUser();
     }
 
 }
