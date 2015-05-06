@@ -256,11 +256,13 @@
             RegisterInfo[] regUsers = new RegisterInfo[users.size()];
 
             String res = client.registerUsers(users.toArray(regUsers));
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
-            e.printStackTrace();
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            System.out.println(e.getErrorMessage());
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
 ```
 
@@ -272,11 +274,13 @@
         JMessageClient client = new JMessageClient(appkey, masterSecret);
         try {
             String res = client.createGroup("test_user", "test_gname1", "description", "test_user");
-            System.out.println(res);
+            LOG.info(res);
         } catch (APIConnectionException e) {
-            System.out.println(e.getMessage());
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
-            System.out.println(e.getErrorMessage());
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Message: " + e.getMessage());
         }
 ```
 
