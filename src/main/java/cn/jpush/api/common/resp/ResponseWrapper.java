@@ -39,7 +39,7 @@ public class ResponseWrapper {
     }
     
     public boolean isServerResponse() {
-        if (responseCode == 200) return true;
+        if (responseCode / 100 == 2) return true;
         if (responseCode > 0 && null != error && error.error.code > 0) return true;
         return false;
     }
