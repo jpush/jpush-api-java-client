@@ -1,6 +1,5 @@
 package cn.jpush.api.common.resp;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
