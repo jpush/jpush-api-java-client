@@ -58,7 +58,7 @@ public class NativeHttpClient implements IHttpClient {
         this._authCode = authCode;
         this._proxy = proxy;
         
-        if (_proxy.isAuthenticationNeeded()) {
+        if ( null != _proxy && _proxy.isAuthenticationNeeded()) {
         	Authenticator.setDefault(new SimpleProxyAuthenticator(
                 _proxy.getUsername(), _proxy.getPassword()));
         }
@@ -79,6 +79,11 @@ public class NativeHttpClient implements IHttpClient {
     public ResponseWrapper sendPost(String url, String content) 
             throws APIConnectionException, APIRequestException {
 		return doRequest(url, content, RequestMethod.POST);
+	}
+
+	public ResponseWrapper sendPut(String url, String content)
+			throws APIConnectionException, APIRequestException {
+		return doRequest(url, content, RequestMethod.PUT);
 	}
         
     public ResponseWrapper doRequest(String url, String content, 
@@ -139,14 +144,14 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setRequestProperty("Accept-Charset", CHARSET);
 			conn.setRequestProperty("Charset", CHARSET);
 			conn.setRequestProperty("Authorization", _authCode);
-            
+			conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
+
 			if (RequestMethod.GET == method) {
 			    conn.setDoOutput(false);
 			} else if (RequestMethod.DELETE == method) {
 			    conn.setDoOutput(false);
-			} else if (RequestMethod.POST == method) {
+			} else if (RequestMethod.POST == method || RequestMethod.PUT == method) {
                 conn.setDoOutput(true);
-				conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
                 byte[] data = content.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Length", String.valueOf(data.length));
 	            out = conn.getOutputStream();
@@ -156,7 +161,7 @@ public class NativeHttpClient implements IHttpClient {
             
             int status = conn.getResponseCode();
             InputStream in = null;
-            if (status == 200) {
+            if (status / 100 == 2) {
                 in = conn.getInputStream();
             } else {
                 in = conn.getErrorStream();
@@ -180,11 +185,11 @@ public class NativeHttpClient implements IHttpClient {
             String reset = conn.getHeaderField(RATE_LIMIT_Reset);
             wrapper.setRateLimit(quota, remaining, reset);
             
-            if (status == 200) {
-				LOG.debug("Succeed to get response - 200 OK");
+            if (status >= 200 && status < 300) {
+				LOG.debug("Succeed to get response OK - responseCode:" + status);
 				LOG.debug("Response Content - " + responseContent);
 				
-            } else if (status > 200 && status < 400) {
+            } else if (status >= 300 && status < 400) {
                 LOG.warn("Normal response but unexpected - responseCode:" + status + ", responseContent:" + responseContent);
                 
 			} else {
@@ -200,7 +205,7 @@ public class NativeHttpClient implements IHttpClient {
                     wrapper.setErrorObject();
                     break;
 			    case 403:
-			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist?");
+			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist or your params is invalid.");
 	                wrapper.setErrorObject();
 			        break;
 			    case 410:

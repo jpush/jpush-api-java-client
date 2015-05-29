@@ -1,5 +1,7 @@
 package cn.jpush.api.common.resp;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +37,26 @@ public class ResponseWrapper {
     }
     
     public void setErrorObject() {
-        error = _gson.fromJson(responseContent, ErrorObject.class);
+        try {
+            error = _gson.fromJson(responseContent, ErrorObject.class);
+        } catch (JsonSyntaxException e) {
+            int index = responseContent.indexOf("error");
+            if( -1 != index ) {
+                int from = responseContent.indexOf("{", index);
+                int to = responseContent.indexOf("}", from);
+                String errorStr = responseContent.substring(from, to + 1);
+                error = new ErrorObject();
+                try {
+                    error.error = _gson.fromJson(errorStr, ErrorEntity.class);
+                } catch (JsonSyntaxException e1) {
+                    LOG.error("unknown response content:" + responseContent, e);
+                }
+            }
+        }
     }
     
     public boolean isServerResponse() {
-        if (responseCode == 200) return true;
+        if (responseCode / 100 == 2) return true;
         if (responseCode > 0 && null != error && error.error.code > 0) return true;
         return false;
     }
