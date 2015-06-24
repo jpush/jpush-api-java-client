@@ -103,11 +103,11 @@ public class ReportClient {
             for (String s : splits) {
                 s = s.trim();
                 if (!StringUtils.isEmpty(s)) {
-                    Integer.parseInt(s);
+                    Long.parseLong(s);
                 }
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Every msg_id should be valid Integer number which splits by ','");
+            throw new IllegalArgumentException("Every msg_id should be valid Long number which splits by ','");
         }
     }
 
