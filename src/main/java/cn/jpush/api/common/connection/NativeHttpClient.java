@@ -26,6 +26,15 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.ResponseWrapper;
 
+/**
+ * The implementation has no connection pool mechanism, used origin java connection.
+ * 
+ * 本实现没有连接池机制，基于 Java 原始的 HTTP 连接实现。
+ * 
+ * 遇到连接超时，会自动重连指定的次数（默认为 3）；如果是读取超时，则不会自动重连。
+ * 
+ * 可选支持 HTTP 代理，同时支持 2 种方式：1) HTTP 头上加上 Proxy-Authorization 信息；2）全局配置 Authenticator.setDefault；
+ */
 public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
     private static final String KEYWORDS_CONNECT_TIMED_OUT = "connect timed out";
@@ -35,6 +44,9 @@ public class NativeHttpClient implements IHttpClient {
     private String _authCode;
     private HttpProxy _proxy;
     
+    /**
+     * 默认的重连次数是 3
+     */
     public NativeHttpClient(String authCode) {
         this(authCode, DEFAULT_MAX_RETRY_TIMES, null);
     }
@@ -45,6 +57,11 @@ public class NativeHttpClient implements IHttpClient {
         
         this._authCode = authCode;
         this._proxy = proxy;
+        
+        if ( null != _proxy && _proxy.isAuthenticationNeeded()) {
+        	Authenticator.setDefault(new SimpleProxyAuthenticator(
+                _proxy.getUsername(), _proxy.getPassword()));
+        }
         
         initSSL();
     }
@@ -62,6 +79,11 @@ public class NativeHttpClient implements IHttpClient {
     public ResponseWrapper sendPost(String url, String content) 
             throws APIConnectionException, APIRequestException {
 		return doRequest(url, content, RequestMethod.POST);
+	}
+
+	public ResponseWrapper sendPut(String url, String content)
+			throws APIConnectionException, APIRequestException {
+		return doRequest(url, content, RequestMethod.PUT);
 	}
         
     public ResponseWrapper doRequest(String url, String content, 
@@ -108,8 +130,6 @@ public class NativeHttpClient implements IHttpClient {
 			    conn = (HttpURLConnection) aUrl.openConnection(_proxy.getNetProxy());
 			    if (_proxy.isAuthenticationNeeded()) {
 			        conn.setRequestProperty("Proxy-Authorization", _proxy.getProxyAuthorization());
-			        Authenticator.setDefault(new SimpleProxyAuthenticator(
-			                _proxy.getUsername(), _proxy.getPassword()));
 			    }
 			} else {
 			    conn = (HttpURLConnection) aUrl.openConnection();
@@ -124,14 +144,14 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setRequestProperty("Accept-Charset", CHARSET);
 			conn.setRequestProperty("Charset", CHARSET);
 			conn.setRequestProperty("Authorization", _authCode);
-            
+			conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
+
 			if (RequestMethod.GET == method) {
 			    conn.setDoOutput(false);
 			} else if (RequestMethod.DELETE == method) {
 			    conn.setDoOutput(false);
-			} else if (RequestMethod.POST == method) {
+			} else if (RequestMethod.POST == method || RequestMethod.PUT == method) {
                 conn.setDoOutput(true);
-				conn.setRequestProperty("Content-Type", CONTENT_TYPE_JSON);
                 byte[] data = content.getBytes(CHARSET);
 				conn.setRequestProperty("Content-Length", String.valueOf(data.length));
 	            out = conn.getOutputStream();
@@ -141,7 +161,7 @@ public class NativeHttpClient implements IHttpClient {
             
             int status = conn.getResponseCode();
             InputStream in = null;
-            if (status == 200) {
+            if (status / 100 == 2) {
                 in = conn.getInputStream();
             } else {
                 in = conn.getErrorStream();
@@ -165,11 +185,11 @@ public class NativeHttpClient implements IHttpClient {
             String reset = conn.getHeaderField(RATE_LIMIT_Reset);
             wrapper.setRateLimit(quota, remaining, reset);
             
-            if (status == 200) {
-				LOG.debug("Succeed to get response - 200 OK");
+            if (status >= 200 && status < 300) {
+				LOG.debug("Succeed to get response OK - responseCode:" + status);
 				LOG.debug("Response Content - " + responseContent);
 				
-            } else if (status > 200 && status < 400) {
+            } else if (status >= 300 && status < 400) {
                 LOG.warn("Normal response but unexpected - responseCode:" + status + ", responseContent:" + responseContent);
                 
 			} else {
@@ -185,7 +205,7 @@ public class NativeHttpClient implements IHttpClient {
                     wrapper.setErrorObject();
                     break;
 			    case 403:
-			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist?");
+			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist or your params is invalid.");
 	                wrapper.setErrorObject();
 			        break;
 			    case 410:

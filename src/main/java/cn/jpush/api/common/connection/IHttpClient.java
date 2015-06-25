@@ -23,6 +23,7 @@ public interface IHttpClient {
     public enum RequestMethod {
         GET, 
         POST,
+        PUT,
         DELETE
     }
     
@@ -63,4 +64,6 @@ public interface IHttpClient {
             throws APIConnectionException, APIRequestException;
     
 
+    public ResponseWrapper sendPut(String url, String content)
+            throws APIConnectionException, APIRequestException;
 }

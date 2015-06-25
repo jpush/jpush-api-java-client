@@ -73,5 +73,17 @@ public class StringUtils {
         return s != null && s.length() > 0;
     }
 
+	public static boolean isLineBroken(String s) {
+		if ( null == s ) {
+			return false;
+		}
+		if  (s.contains("\n")) {
+			return true;
+		}
+		if (s.contains("\r\n")) {
+			return true;
+		}
+		return false;
+	}
 
 }
