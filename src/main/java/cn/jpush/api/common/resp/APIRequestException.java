@@ -31,7 +31,7 @@ public class APIRequestException extends Exception implements IRateLimiting {
     
     public int getErrorCode() {
         ErrorObject eo = getErrorObject();
-        if (null != eo) {
+        if (null != eo && null != eo.error) {
             return eo.error.code;
         }
         return -1;
@@ -39,7 +39,7 @@ public class APIRequestException extends Exception implements IRateLimiting {
     
     public String getErrorMessage() {
         ErrorObject eo = getErrorObject();
-        if (null != eo) {
+        if (null != eo && null != eo.error) {
             return eo.error.message;
         }
         return null;
