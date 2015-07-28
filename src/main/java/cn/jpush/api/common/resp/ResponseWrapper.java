@@ -9,6 +9,8 @@ import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Scanner;
+
 public class ResponseWrapper {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseWrapper.class);
     private static final int RESPONSE_CODE_NONE = -1;
@@ -48,7 +50,7 @@ public class ResponseWrapper {
             if( element instanceof JsonArray) {
                 JsonArray array = (JsonArray) element;
                 for(int i = 0; i < array.size(); i++) {
-                    if(array.get(i).getAsString().contains("error")) {
+                    if(array.get(i).getAsJsonObject().has("error")) {
                         errorObj = array.get(i).getAsJsonObject();
                         break;
                     }
@@ -91,15 +93,15 @@ public class ResponseWrapper {
 		return _gson.toJson(this);
 	}
 	
-	public class ErrorObject {
+	public static class ErrorObject {
 	    public long msg_id;
-	    public ErrorEntity error;
+        public ErrorEntity error;
 	}
 	
-	public class ErrorEntity {
+	public static class ErrorEntity {
 	    public int code;
 	    public String message;
-	    
+
 	    @Override
         public String toString() {
             return _gson.toJson(this);
