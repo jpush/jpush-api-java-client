@@ -1,5 +1,6 @@
 package cn.jpush.api.examples;
 
+import cn.jpush.api.common.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +22,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-	private static final String appKey ="dd1066407b044738b6479275";
-	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
+	private static final String appKey ="e5c0d34f58732cf09b2d4d74";
+	private static final String masterSecret = "4cdda6d3c8b029941dbc5cb3";
 	
 	public static final String TITLE = "Test from API example";
     public static final String ALERT = "Test from API Example - alert";
@@ -31,7 +32,7 @@ public class PushExample {
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
-	    testSendPush();
+        testSendPushWithCustomConfig();
 	}
 	
 	
@@ -126,7 +127,32 @@ public class PushExample {
                         .build())
                 .build();
     }
-    
-    
+
+    public static void testSendPushWithCustomConfig() {
+        ClientConfig config = ClientConfig.getInstance();
+        // Setup the custom hostname
+        config.setPushHostName("https://api.jpush.cn");
+
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3, null, config);
+
+        // For push, all you need do is to build PushPayload object.
+        PushPayload payload = buildPushObject_all_all_alert();
+
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+        }
+    }
+
 }
 

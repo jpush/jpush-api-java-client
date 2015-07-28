@@ -3,6 +3,7 @@ package cn.jpush.api;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.resp.APIConnectionException;
@@ -55,6 +56,45 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy);
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy);
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy);
+    }
+
+    /**
+     * Create a JPush Client by custom Client configuration.
+     *
+     * If you are using JPush privacy cloud, maybe this constructor is what you needed.
+     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes Client request retry times.
+     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     */
+    public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+        _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+    }
+
+    /**
+     * Create a JPush Client by custom Client configuration with global settings.
+     *
+     * If you are using JPush privacy cloud, and you want different settings from default globally,
+     * maybe this constructor is what you needed.
+     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes Client request retry times.
+     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
+     * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
+     */
+    public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf,
+                       boolean apnsProduction, long timeToLive) {
+        _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _pushClient.setDefaults(apnsProduction, timeToLive);
     }
     
 	/**

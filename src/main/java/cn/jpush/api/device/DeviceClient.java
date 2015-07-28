@@ -2,6 +2,7 @@ package cn.jpush.api.device;
 
 import java.util.Set;
 
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.connection.IHttpClient;
@@ -19,12 +20,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class DeviceClient {
-    public static final String HOST_NAME_SSL = "https://device.jpush.cn";
-    public static final String DEVICES_PATH = "/v3/devices";
-    public static final String TAGS_PATH = "/v3/tags";
-    public static final String ALIASES_PATH = "/v3/aliases";
-    
+
     private final NativeHttpClient _httpClient;
+    private String hostName;
+    private String devicesPath;
+    private String tagsPath;
+    private String aliasesPath;
 
     public DeviceClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
@@ -35,17 +36,33 @@ public class DeviceClient {
     }
     
     public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        ServiceHelper.checkBasic(appKey, masterSecret);
-        
-        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
     }
 
-    
+    /**
+     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes Max retry times
+     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     */
+    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        hostName = (String) conf.get(ClientConfig.DEVICE_HOST_NAME);
+        devicesPath = (String) conf.get(ClientConfig.DEVICES_PATH);
+        tagsPath = (String) conf.get(ClientConfig.TAGS_PATH);
+        aliasesPath = (String) conf.get(ClientConfig.ALIASES_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+    }
+
     // -------------- device 
     
     public TagAliasResult getDeviceTagAlias(String registrationId) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
+        String url = hostName + devicesPath + "/" + registrationId;
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
@@ -55,7 +72,7 @@ public class DeviceClient {
     public DefaultResult updateDeviceTagAlias(String registrationId, boolean clearAlias, boolean clearTag) throws APIConnectionException, APIRequestException {
     	Preconditions.checkArgument(clearAlias || clearTag, "It is not meaningful to do nothing.");
     	
-        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
+        String url = hostName + devicesPath + "/" + registrationId;
         
         JsonObject top = new JsonObject();
         if (clearAlias) {
@@ -72,7 +89,7 @@ public class DeviceClient {
     
     public DefaultResult updateDeviceTagAlias(String registrationId, String alias,  
             Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + DEVICES_PATH + "/" + registrationId;
+        String url = hostName + devicesPath + "/" + registrationId;
         
         JsonObject top = new JsonObject();
         if (null != alias) {
@@ -102,7 +119,7 @@ public class DeviceClient {
     // ------------- tags
 
     public TagListResult getTagList() throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAGS_PATH + "/";
+        String url = hostName + tagsPath + "/";
         
         ResponseWrapper response = _httpClient.sendGet(url);
         
@@ -110,14 +127,14 @@ public class DeviceClient {
     }
     
     public BooleanResult isDeviceInTag(String theTag, String registrationID) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag + "/registration_ids/" + registrationID;
+        String url = hostName + tagsPath + "/" + theTag + "/registration_ids/" + registrationID;
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return BaseResult.fromResponse(response, BooleanResult.class);        
     }
     
     public DefaultResult addRemoveDevicesFromTag(String theTag, Set<String> toAddUsers, Set<String> toRemoveUsers) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag;
+        String url = hostName + tagsPath + "/" + theTag;
         
         JsonObject top = new JsonObject();
         JsonObject registrationIds = new JsonObject();
@@ -145,7 +162,7 @@ public class DeviceClient {
     }
     
     public DefaultResult deleteTag(String theTag, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + TAGS_PATH + "/" + theTag;
+        String url = hostName + tagsPath + "/" + theTag;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }
@@ -159,7 +176,7 @@ public class DeviceClient {
     // ------------- alias
     
     public AliasDeviceListResult getAliasDeviceList(String alias, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + ALIASES_PATH + "/" + alias;
+        String url = hostName + aliasesPath + "/" + alias;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }
@@ -170,7 +187,7 @@ public class DeviceClient {
     }
     
     public DefaultResult deleteAlias(String alias, String platform) throws APIConnectionException, APIRequestException {
-        String url = HOST_NAME_SSL + ALIASES_PATH + "/" + alias;
+        String url = hostName + aliasesPath + "/" + alias;
         if (null != platform) {
         	url += "?platform=" + platform; 
         }

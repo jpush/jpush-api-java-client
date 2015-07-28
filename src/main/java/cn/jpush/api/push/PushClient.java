@@ -1,5 +1,6 @@
 package cn.jpush.api.push;
 
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.connection.IHttpClient;
@@ -26,11 +27,12 @@ import com.google.gson.JsonParser;
  * Can be used directly.
  */
 public class PushClient {
-    public static final String HOST_NAME_SSL = "https://api.jpush.cn";
-    public static final String PUSH_PATH = "/v3/push";
-    public static final String PUSH_VALIDATE_PATH = "/v3/push/validate";
-    
+
     private final NativeHttpClient _httpClient;
+    private String _baseUrl;
+    private String _pushPath;
+    private String _pushValidatePath;
+
     private JsonParser _jsonParser = new JsonParser();
 
     // If not present, true by default.
@@ -40,9 +42,7 @@ public class PushClient {
     private long _timeToLive = 60 * 60 * 24;
     
     private boolean _globalSettingEnabled = false;
-    
-    private String _baseUrl;
-    
+
     /**
      * Create a Push Client.
      * 
@@ -65,12 +65,20 @@ public class PushClient {
 	 * @param maxRetryTimes max retry times
 	 */
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        ServiceHelper.checkBasic(appKey, masterSecret);
-        
-        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._baseUrl = HOST_NAME_SSL;
-        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
 	}
+
+    public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
+        this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
+        this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+
+    }
 
 	/**
      * Create a Push Client with global settings.
@@ -108,7 +116,7 @@ public class PushClient {
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, pushPayload.toString());
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, pushPayload.toString());
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -121,7 +129,7 @@ public class PushClient {
             pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, pushPayload.toString());
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, pushPayload.toString());
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -135,7 +143,7 @@ public class PushClient {
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_PATH, payloadString);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, payloadString);
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -149,7 +157,7 @@ public class PushClient {
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + PUSH_VALIDATE_PATH, payloadString);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, payloadString);
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
