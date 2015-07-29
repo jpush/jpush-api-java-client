@@ -9,8 +9,6 @@ import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Scanner;
-
 public class ResponseWrapper {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseWrapper.class);
     private static final int RESPONSE_CODE_NONE = -1;
