@@ -25,6 +25,11 @@ import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.ReportClient;
 import cn.jpush.api.report.UsersResult;
+import cn.jpush.api.schedule.ScheduleClient;
+import cn.jpush.api.schedule.ScheduleListResult;
+import cn.jpush.api.schedule.ScheduleResult;
+import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jpush.api.schedule.model.TriggerPayload;
 
 /**
  * The global entrance of JPush API library.
@@ -33,6 +38,7 @@ public class JPushClient {
     private final PushClient _pushClient;
 	private final ReportClient _reportClient;
 	private final DeviceClient _deviceClient;
+    private final ScheduleClient _scheduleClient;
 	
 	/**
 	 * Create a JPush Client.
@@ -44,18 +50,21 @@ public class JPushClient {
 	    _pushClient = new PushClient(masterSecret, appKey);
 	    _reportClient = new ReportClient(masterSecret, appKey);
 	    _deviceClient = new DeviceClient(masterSecret, appKey);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey);
 	}
 	
 	public JPushClient(String masterSecret, String appKey, int maxRetryTimes) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes);
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes);
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes);
 	}
 	
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy);
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy);
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes, proxy);
     }
 
     /**
@@ -73,6 +82,7 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
     }
 
     /**
@@ -94,6 +104,7 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
         _reportClient = new ReportClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes, proxy, conf);
         _pushClient.setDefaults(apnsProduction, timeToLive);
     }
     
@@ -111,6 +122,7 @@ public class JPushClient {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
         _reportClient = new ReportClient(masterSecret, appKey);
         _deviceClient = new DeviceClient(masterSecret, appKey);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey);
     }
     
     
@@ -392,7 +404,58 @@ public class JPushClient {
 			throws APIConnectionException, APIRequestException {
 		return _deviceClient.deleteAlias(alias, platform);
 	}
-    
-    
+
+    public ScheduleResult createSingleSchedule(String name, String time, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setSingleTime(time)
+                .buildSingle();
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setName(name)
+                .setEnabled(true)
+                .setTrigger(trigger)
+                .setPush(push)
+                .build();
+
+        return _scheduleClient.createSchedule(payload);
+    }
+
+    public ScheduleResult createPeriodicalSchedule(String name, String start, String end, String time,
+            TriggerPayload.TimeUnit timeUnit, int frequency, String[] point, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setPeriodTime(start, end, time)
+                .setTimeFrequency(timeUnit, frequency, point )
+                .buildPeriodical();
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setName(name)
+                .setEnabled(true)
+                .setTrigger(trigger)
+                .setPush(push)
+                .build();
+
+        return _scheduleClient.createSchedule(payload);
+    }
+
+    public ScheduleResult getSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        return  _scheduleClient.getSchedule(scheduleId);
+    }
+
+    public ScheduleListResult getScheduleList(int page)
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.getScheduleList(page);
+    }
+
+    public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload)
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.updateSchedule(scheduleId, payload);
+    }
+
+    public void deleteSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        _scheduleClient.deleteSchedule(scheduleId);
+    }
+
 }
 
