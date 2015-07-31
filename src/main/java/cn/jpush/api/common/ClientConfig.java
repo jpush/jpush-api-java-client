@@ -1,6 +1,5 @@
 package cn.jpush.api.common;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +40,14 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final String REPORT_MESSAGE_PATH = "report.message.path";
     public static final Object REPORT_MESSAGE_PATH_SCHEMA = String.class;
 
+    public static final String SCHEDULE_HOST_NAME = "schedule.host.name";
+    public static final Object SCHEDULE_HOST_NAME_SCHEMA = String.class;
+
+    public static final String SCHEDULE_PATH = "schedule.path";
+    public static final Object SCHEDULE_PATH_SCHEMA = String.class;
+
     private ClientConfig() {
-        super();
+        super(12);
         this.put(DEVICE_HOST_NAME, "https://device.jpush.cn");
         this.put(DEVICES_PATH, "/v3/devices");
         this.put(TAGS_PATH, "/v3/tags");
@@ -56,6 +61,9 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(REPORT_RECEIVE_PATH, "/v3/received");
         this.put(REPORT_USER_PATH, "/v3/users");
         this.put(REPORT_MESSAGE_PATH, "/v3/messages");
+
+        this.put(SCHEDULE_HOST_NAME, "https://api.jpush.cn");
+        this.put(SCHEDULE_PATH, "/v3/schedules");
     }
 
     public static ClientConfig getInstance() {
@@ -96,6 +104,14 @@ public class ClientConfig extends HashMap<String, Object> {
      */
     public void setReportHostName(String hostName) {
         setReportHostName(this, hostName);
+    }
+
+    public static void setScheduleHostName(Map conf, String hostName) {
+        conf.put(SCHEDULE_HOST_NAME, hostName);
+    }
+
+    public void setScheduleHostName(String hostName) {
+        setScheduleHostName(this, hostName);
     }
 
 }
