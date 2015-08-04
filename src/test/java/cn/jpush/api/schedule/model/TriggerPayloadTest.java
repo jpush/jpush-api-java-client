@@ -33,6 +33,38 @@ public class TriggerPayloadTest {
         Assert.assertEquals("", json, trigger.toJSON());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test_null_time() {
+        String time = null;
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setSingleTime(time)
+                .buildSingle();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_empty_time() {
+        String time = "";
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setSingleTime(time)
+                .buildSingle();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_invalid_time() {
+        String time = "2015-07-32 10:12:23";
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setSingleTime(time)
+                .buildSingle();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_incorrect_time_format() {
+        String time = "2015-07-30T10:12:23";
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setSingleTime(time)
+                .buildSingle();
+    }
+
     /**
      * Method: buildPeriodical()
      */
@@ -65,5 +97,30 @@ public class TriggerPayloadTest {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test_null_start() {
+        String start = null;
+        String end = "2015-08-30 10:12:23";
+        String time = "10:12:00";
+        String[] point = {"MON", "TUE"};
+
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setPeriodTime(start, end, time)
+                .setTimeFrequency(TriggerPayload.TimeUnit.week, 2, point)
+                .buildPeriodical();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_empty_end() {
+        String start = "2015-08-30 10:12:23";
+        String end = "";
+        String time = "10:12:00";
+        String[] point = {"MON", "TUE"};
+
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setPeriodTime(start, end, time)
+                .setTimeFrequency(TriggerPayload.TimeUnit.week, 2, point)
+                .buildPeriodical();
+    }
 
 } 

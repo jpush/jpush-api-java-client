@@ -11,4 +11,24 @@ public class ScheduleResult extends BaseResult{
     @Expose Boolean enabled;
     @Expose JsonObject trigger;
     @Expose JsonObject push;
+
+    public String getSchedule_id() {
+        return schedule_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public JsonObject getTrigger() {
+        return trigger;
+    }
+
+    public JsonObject getPush() {
+        return push;
+    }
 }

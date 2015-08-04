@@ -87,27 +87,26 @@
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.PushExample
 
 ```Java
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
-        
-        // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_all_alert();
-        
-        try {
-            PushResult result = jpushClient.sendPush(payload);
-            LOG.info("Got result - " + result);
-            
-        } catch (APIConnectionException e) {
-            // Connection error, should retry later
-            LOG.error("Connection error, should retry later", e);
-            
-        } catch (APIRequestException e) {
-            // Should review the error, and fix the request
-            LOG.error("Should review the error, and fix the request", e);
-            LOG.info("HTTP Status: " + e.getStatus());
-            LOG.info("Error Code: " + e.getErrorCode());
-            LOG.info("Error Message: " + e.getErrorMessage());
-        }
+    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
 
+    // For push, all you need do is to build PushPayload object.
+    PushPayload payload = buildPushObject_all_all_alert();
+
+    try {
+        PushResult result = jpushClient.sendPush(payload);
+        LOG.info("Got result - " + result);
+
+    } catch (APIConnectionException e) {
+        // Connection error, should retry later
+        LOG.error("Connection error, should retry later", e);
+
+    } catch (APIRequestException e) {
+        // Should review the error, and fix the request
+        LOG.error("Should review the error, and fix the request", e);
+        LOG.info("HTTP Status: " + e.getStatus());
+        LOG.info("Error Code: " + e.getErrorCode());
+        LOG.info("Error Message: " + e.getErrorMessage());
+    }
 ```
 
 进行推送的关键在于构建一个 PushPayload 对象。以下示例一般的构建对象的用法。
@@ -190,22 +189,22 @@
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ReportsExample
 
 ```Java
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-	try {
-            ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
-            LOG.debug("Got result - " + result);
-            
-        } catch (APIConnectionException e) {
-            // Connection error, should retry later
-            LOG.error("Connection error, should retry later", e);
-            
-        } catch (APIRequestException e) {
-            // Should review the error, and fix the request
-            LOG.error("Should review the error, and fix the request", e);
-            LOG.info("HTTP Status: " + e.getStatus());
-            LOG.info("Error Code: " + e.getErrorCode());
-            LOG.info("Error Message: " + e.getErrorMessage());
-        }
+    JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+    try {
+        ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
+        LOG.debug("Got result - " + result);
+
+    } catch (APIConnectionException e) {
+        // Connection error, should retry later
+        LOG.error("Connection error, should retry later", e);
+
+    } catch (APIRequestException e) {
+        // Should review the error, and fix the request
+        LOG.error("Should review the error, and fix the request", e);
+        LOG.info("HTTP Status: " + e.getStatus());
+        LOG.info("Error Code: " + e.getErrorCode());
+        LOG.info("Error Message: " + e.getErrorMessage());
+    }
 ```
 
 ### Tag/Alias 样例
@@ -213,19 +212,39 @@
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.DeviceExample
 
 ```Java
-		try {
-			TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
-			
-			LOG.info(result.alias);
-			LOG.info(result.tags.toString());
-			
-		} catch (APIConnectionException e) {
-			LOG.error("Connection error. Should retry later. ", e);
-			
-		} catch (APIRequestException e) {
-			LOG.error("Error response from JPush server. Should review and fix it. ", e);
-            		LOG.info("HTTP Status: " + e.getStatus());
-            		LOG.info("Error Code: " + e.getErrorCode());
-            		LOG.info("Error Message: " + e.getErrorMessage());
-		}
+    try {
+        TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
+
+        LOG.info(result.alias);
+        LOG.info(result.tags.toString());
+    } catch (APIConnectionException e) {
+        LOG.error("Connection error. Should retry later. ", e);
+    } catch (APIRequestException e) {
+        LOG.error("Error response from JPush server. Should review and fix it. ", e);
+        LOG.info("HTTP Status: " + e.getStatus());
+        LOG.info("Error Code: " + e.getErrorCode());
+        LOG.info("Error Message: " + e.getErrorMessage());
+    }
+```
+
+### Schedule 样例
+
+> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ScheduleExample
+
+```Java
+    JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+    String name = "test_schedule_example";
+    String time = "2016-07-30 12:30:25";
+    PushPayload push = PushPayload.alertAll("test schedule example.");
+    try {
+        ScheduleResult result = jpushClient.createSingleSchedule(name, time, push);
+        LOG.info("schedule result is " + result);
+    } catch (APIConnectionException e) {
+        LOG.error("Connection error. Should retry later. ", e);
+    } catch (APIRequestException e) {
+        LOG.error("Error response from JPush server. Should review and fix it. ", e);
+        LOG.info("HTTP Status: " + e.getStatus());
+        LOG.info("Error Code: " + e.getErrorCode());
+        LOG.info("Error Message: " + e.getErrorMessage());
+    }
 ```
