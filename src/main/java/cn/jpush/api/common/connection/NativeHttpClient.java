@@ -208,6 +208,10 @@ public class NativeHttpClient implements IHttpClient {
 			        LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist or your params is invalid.");
 	                wrapper.setErrorObject();
 			        break;
+				case 404:
+					LOG.error("Request page is not found! Maybe your params is invalid.");
+					wrapper.setErrorObject();
+					break;
 			    case 410:
                     LOG.error("Request resource is no longer in service. Please according to notice on official website.");
 			        wrapper.setErrorObject();

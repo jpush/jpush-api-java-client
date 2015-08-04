@@ -93,7 +93,7 @@ public class TriggerPayload implements IModel {
         /**
          * Setup time for single trigger.
          * @param time The execute time, format yyyy-MM-dd HH:mm:ss
-         * @return
+         * @return this Builder
          */
         public Builder setSingleTime(String time) {
             this.time = time;
@@ -106,7 +106,7 @@ public class TriggerPayload implements IModel {
          * @param start The start time, format yyyy-MM-dd HH:mm:ss
          * @param end The end time, format yyyy-MM-dd HH:mm:ss
          * @param time The execute time, format HH:mm:ss
-         * @return
+         * @return this Builder
          */
         public Builder setPeriodTime(String start, String end, String time) {
             this.start = start;
@@ -123,7 +123,7 @@ public class TriggerPayload implements IModel {
          *              If time unit is day, the point should be null.
          *              If time unit is week, should be the abbreviation of the days. eg. {"MON", "TUE"}
          *              If time unit is month, should be the date of the days. eg. {"01", "03"}
-         * @return
+         * @return this Builder
          */
         public Builder setTimeFrequency(TimeUnit time_unit, int frequency, String[] point) {
             this.time_unit = time_unit;

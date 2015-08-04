@@ -9,10 +9,10 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jpush.api.utils.Preconditions;
+import cn.jpush.api.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Proxy;
 
 public class ScheduleClient {
 
@@ -52,28 +52,43 @@ public class ScheduleClient {
     }
 
     public ScheduleResult createSchedule(SchedulePayload payload) throws APIConnectionException, APIRequestException {
+
+        Preconditions.checkArgument(null != payload, "payload should not be null");
+
         ResponseWrapper response = _httpClient.sendPost(hostName  + schedulePath, payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
 
     public ScheduleListResult getScheduleList(int page) throws APIConnectionException, APIRequestException{
+
+        Preconditions.checkArgument(page > 0, "page should more than 0.");
+
         ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "?page=" + page);
         return ScheduleListResult.fromResponse(response, ScheduleListResult.class);
     }
 
     public ScheduleResult getSchedule(String scheduleId) throws APIConnectionException, APIRequestException{
-        ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "/" + scheduleId);
 
+        Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
+
+        ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "/" + scheduleId);
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
 
     public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload) throws APIConnectionException, APIRequestException{
+
+        Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
+        Preconditions.checkArgument(null != payload, "payload should not be null");
+
         ResponseWrapper response = _httpClient.sendPut(hostName +  schedulePath + "/" + scheduleId,
                 payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
 
     public void deleteSchedule(String scheduleId) throws APIConnectionException, APIRequestException{
+
+        Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
+
         _httpClient.sendDelete(hostName + schedulePath + "/" + scheduleId);
     }
 
