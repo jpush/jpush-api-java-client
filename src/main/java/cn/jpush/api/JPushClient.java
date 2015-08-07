@@ -442,6 +442,11 @@ public class JPushClient {
         return  _scheduleClient.getSchedule(scheduleId);
     }
 
+    public ScheduleListResult getScheduleList()
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.getScheduleList(1);
+    }
+
     public ScheduleListResult getScheduleList(int page)
             throws APIConnectionException, APIRequestException {
         return _scheduleClient.getScheduleList(page);
