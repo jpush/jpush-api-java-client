@@ -5,6 +5,7 @@ import java.util.Set;
 
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.TimeUnit;
+import cn.jpush.api.common.Week;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -30,6 +31,7 @@ import cn.jpush.api.schedule.ScheduleListResult;
 import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
+import cn.jpush.api.utils.Preconditions;
 
 /**
  * The global entrance of JPush API library.
@@ -405,6 +407,17 @@ public class JPushClient {
 		return _deviceClient.deleteAlias(alias, platform);
 	}
 
+    // ----------------------- Schedule
+
+    /**
+     * Create a single schedule.
+     * @param name The schedule name.
+     * @param time The push time, format is 'yyyy-MM-dd HH:mm:ss'
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
     public ScheduleResult createSingleSchedule(String name, String time, PushPayload push)
             throws APIConnectionException, APIRequestException {
         TriggerPayload trigger = TriggerPayload.newBuilder()
@@ -420,8 +433,184 @@ public class JPushClient {
         return _scheduleClient.createSchedule(payload);
     }
 
-    public ScheduleResult createPeriodicalSchedule(String name, String start, String end, String time,
-            TriggerPayload.TimeUnit timeUnit, int frequency, String[] point, PushPayload push)
+    /**
+     * Create a daily schedule push everyday.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createDailySchedule(String name, String start, String end, String time, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, 1, null, push);
+    }
+
+    /**
+     * Create a daily schedule push with a custom frequency.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'
+     * @param frequency The custom frequency.
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createDailySchedule(String name, String start, String end, String time, int frequency, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, frequency, null, push);
+    }
+
+    /**
+     * Create a weekly schedule push every week at the appointed days.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'
+     * @param days The appointed days.
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, Week[] days, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(null != days && days.length > 0, "The days must not be empty.");
+
+        String[] points = new String[days.length];
+        for(int i = 0 ; i < days.length; i++) {
+            points[i] = days[i].name();
+        }
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, 1, points, push);
+    }
+
+    /**
+     * Create a weekly schedule push with a custom frequency at the appointed days.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'.
+     * @param frequency The custom frequency.
+     * @param days The appointed days.
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, int frequency, Week[] days, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(null != days && days.length > 0, "The days must not be empty.");
+
+        String[] points = new String[days.length];
+        for(int i = 0 ; i < days.length; i++) {
+            points[i] = days[i].name();
+        }
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, frequency, points, push);
+    }
+
+    /**
+     * Create a monthly schedule push every month at the appointed days.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'.
+     * @param points The appointed days.
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, String[] points, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(null != points && points.length > 0, "The points must not be empty.");
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, 1, points, push);
+    }
+
+    /**
+     * Create a monthly schedule push with a custom frequency at the appointed days.
+     * @param name The schedule name.
+     * @param start The schedule comes into effect date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
+     * @param time The push time, format 'HH:mm:ss'.
+     * @param frequency The custom frequency.
+     * @param points The appointed days.
+     * @param push The push payload.
+     * @return The created scheduleResult instance.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, int frequency, String[] points, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(null != points && points.length > 0, "The points must not be empty.");
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, frequency, points, push);
+    }
+
+    /**
+     * Get the schedule information by the schedule id.
+     * @param scheduleId The schedule id.
+     * @return The schedule information.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult getSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        return  _scheduleClient.getSchedule(scheduleId);
+    }
+
+    /**
+     * Get the schedule list size and the first page.
+     * @return The schedule list size and the first page.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleListResult getScheduleList()
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.getScheduleList(1);
+    }
+
+    /**
+     * Get the schedule list by the page.
+     * @param page The page to search.
+     * @return The schedule list of the appointed page.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleListResult getScheduleList(int page)
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.getScheduleList(page);
+    }
+
+    /**
+     * Update a schedule by the id.
+     * @param scheduleId The schedule id to update.
+     * @param payload The new schedule payload.
+     * @return The new schedule information.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload)
+            throws APIConnectionException, APIRequestException {
+        return _scheduleClient.updateSchedule(scheduleId, payload);
+    }
+
+    /**
+     * Delete a schedule by id.
+     * @param scheduleId The schedule id.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public void deleteSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        _scheduleClient.deleteSchedule(scheduleId);
+    }
+
+    private ScheduleResult createPeriodicalSchedule(String name, String start, String end, String time,
+                                                    TimeUnit timeUnit, int frequency, String[] point, PushPayload push)
             throws APIConnectionException, APIRequestException {
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setPeriodTime(start, end, time)
@@ -435,31 +624,6 @@ public class JPushClient {
                 .build();
 
         return _scheduleClient.createSchedule(payload);
-    }
-
-    public ScheduleResult getSchedule(String scheduleId)
-            throws APIConnectionException, APIRequestException {
-        return  _scheduleClient.getSchedule(scheduleId);
-    }
-
-    public ScheduleListResult getScheduleList()
-            throws APIConnectionException, APIRequestException {
-        return _scheduleClient.getScheduleList(1);
-    }
-
-    public ScheduleListResult getScheduleList(int page)
-            throws APIConnectionException, APIRequestException {
-        return _scheduleClient.getScheduleList(page);
-    }
-
-    public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload)
-            throws APIConnectionException, APIRequestException {
-        return _scheduleClient.updateSchedule(scheduleId, payload);
-    }
-
-    public void deleteSchedule(String scheduleId)
-            throws APIConnectionException, APIRequestException {
-        _scheduleClient.deleteSchedule(scheduleId);
     }
 
 }

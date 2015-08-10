@@ -1,6 +1,7 @@
 package cn.jpush.api.schedule.model;
 
 import cn.jpush.api.FastTests;
+import cn.jpush.api.common.TimeUnit;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -77,7 +78,7 @@ public class TriggerPayloadTest {
 
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setPeriodTime(start, end, time)
-                .setTimeFrequency(TriggerPayload.TimeUnit.week, 2, point)
+                .setTimeFrequency(TimeUnit.WEEK, 2, point)
                 .buildPeriodical();
 
         JsonObject json = new JsonObject();
@@ -85,7 +86,7 @@ public class TriggerPayloadTest {
         periodical.addProperty("start", start);
         periodical.addProperty("end", end);
         periodical.addProperty("time", time);
-        periodical.addProperty("time_unit", TriggerPayload.TimeUnit.week.name());
+        periodical.addProperty("time_unit", TimeUnit.WEEK.name().toLowerCase());
         periodical.addProperty("frequency", 2);
         JsonArray array = new JsonArray();
         array.add(new JsonPrimitive("MON"));
@@ -106,7 +107,7 @@ public class TriggerPayloadTest {
 
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setPeriodTime(start, end, time)
-                .setTimeFrequency(TriggerPayload.TimeUnit.week, 2, point)
+                .setTimeFrequency(TimeUnit.WEEK, 2, point)
                 .buildPeriodical();
     }
 
@@ -119,7 +120,7 @@ public class TriggerPayloadTest {
 
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setPeriodTime(start, end, time)
-                .setTimeFrequency(TriggerPayload.TimeUnit.week, 2, point)
+                .setTimeFrequency(TimeUnit.WEEK, 2, point)
                 .buildPeriodical();
     }
 
