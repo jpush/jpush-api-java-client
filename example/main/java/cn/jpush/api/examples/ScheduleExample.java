@@ -87,17 +87,17 @@ public class ScheduleExample {
 
     public static void testCreateMonthlySchedule() {
         JPushClient jPushClient = new JPushClient(masterSecret, appKey);
-        String name = "test_weekly_schedule";
+        String name = "test_monthly_schedule";
         String start = "2015-08-06 12:16:13";
         String end = "2115-08-06 12:16:13";
         String time = "14:00:00";
         String[] points = {"01", "02"};
-        PushPayload push = PushPayload.alertAll("test weekly example.");
+        PushPayload push = PushPayload.alertAll("test monthly example.");
         try {
             ScheduleResult result = jPushClient.createMonthlySchedule(name, start, end, time, points, push);
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
-            LOG.error("Connection error. Should retry later. ", e);
+            LOG.error("Connection error. Should retry later.", e);
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());
