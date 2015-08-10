@@ -586,6 +586,88 @@ public class JPushClient {
     }
 
     /**
+     * Update the schedule name
+     * @param scheduleId The schedule id.
+     * @param name The new name.
+     * @return The schedule information after updated.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult updateScheduleName(String scheduleId, String name)
+            throws APIConnectionException, APIRequestException {
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setName(name)
+                .build();
+
+        return updateSchedule(scheduleId, payload);
+    }
+
+    /**
+     * Enable the schedule.
+     * @param scheduleId The schedule id.
+     * @return The schedule information after updated.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult enableSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setEnabled(true)
+                .build();
+
+        return updateSchedule(scheduleId, payload);
+    }
+
+    /**
+     * Disable the schedule.
+     * @param scheduleId The schedule id.
+     * @return The schedule information after updated.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult disableSchedule(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setEnabled(false)
+                .build();
+        return updateSchedule(scheduleId, payload);
+    }
+
+    /**
+     * Update the trigger of the schedule.
+     * @param scheduleId The schedule id.
+     * @param trigger The new trigger.
+     * @return The schedule information after updated.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult updateScheduleTrigger(String scheduleId, TriggerPayload trigger)
+            throws APIConnectionException, APIRequestException {
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setTrigger(trigger)
+                .build();
+
+        return updateSchedule(scheduleId, payload);
+    }
+
+    /**
+     * Update the push content of the schedule.
+     * @param scheduleId The schedule id.
+     * @param push The new push payload.
+     * @return The schedule information after updated.
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public ScheduleResult updateSchedulePush(String scheduleId, PushPayload push)
+            throws APIConnectionException, APIRequestException {
+        SchedulePayload payload = SchedulePayload.newBuilder()
+                .setPush(push)
+                .build();
+
+        return updateSchedule(scheduleId, payload);
+    }
+
+    /**
      * Update a schedule by the id.
      * @param scheduleId The schedule id to update.
      * @param payload The new schedule payload.
