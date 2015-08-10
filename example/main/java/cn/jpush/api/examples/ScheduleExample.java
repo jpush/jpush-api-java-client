@@ -1,6 +1,7 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.Week;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.model.PushPayload;
@@ -35,6 +36,68 @@ public class ScheduleExample {
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    public static void testCreateDailySchedule() {
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        String name = "test_daily_schedule";
+        String start = "2015-08-06 12:16:13";
+        String end = "2115-08-06 12:16:13";
+        String time = "14:00:00";
+        PushPayload push = PushPayload.alertAll("test daily example.");
+        try {
+            ScheduleResult result = jPushClient.createDailySchedule(name, start, end, time, push);
+            LOG.info("schedule result is " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    public static void testCreateWeeklySchedule() {
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        String name = "test_weekly_schedule";
+        String start = "2015-08-06 12:16:13";
+        String end = "2115-08-06 12:16:13";
+        String time = "14:00:00";
+        Week[] days = {Week.MON, Week.FIR};
+        PushPayload push = PushPayload.alertAll("test weekly example.");
+        try {
+            ScheduleResult result = jPushClient.createWeeklySchedule(name, start, end, time, days, push);
+            LOG.info("schedule result is " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    public static void testCreateMonthlySchedule() {
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        String name = "test_monthly_schedule";
+        String start = "2015-08-06 12:16:13";
+        String end = "2115-08-06 12:16:13";
+        String time = "14:00:00";
+        String[] points = {"01", "02"};
+        PushPayload push = PushPayload.alertAll("test monthly example.");
+        try {
+            ScheduleResult result = jPushClient.createMonthlySchedule(name, start, end, time, points, push);
+            LOG.info("schedule result is " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later.", e);
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());

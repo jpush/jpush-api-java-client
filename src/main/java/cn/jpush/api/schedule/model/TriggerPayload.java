@@ -1,9 +1,11 @@
 package cn.jpush.api.schedule.model;
 
+import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.utils.Preconditions;
 import cn.jpush.api.utils.StringUtils;
 import cn.jpush.api.utils.TimeUtils;
 import com.google.gson.*;
+
 
 public class TriggerPayload implements IModel {
 
@@ -56,9 +58,9 @@ public class TriggerPayload implements IModel {
                 p.addProperty("start", start);
                 p.addProperty("end", end);
                 p.addProperty("time", time);
-                p.addProperty("time_unit", time_unit.name());
+                p.addProperty("time_unit", time_unit.name().toLowerCase());
                 p.addProperty("frequency", frequency);
-                if( !TimeUnit.day.equals(time_unit) ) {
+                if( !TimeUnit.DAY.equals(time_unit) ) {
                     JsonArray array = new JsonArray();
                     for (String aPoint : point) {
                         array.add(new JsonPrimitive(aPoint));
@@ -75,10 +77,6 @@ public class TriggerPayload implements IModel {
 
     public static enum Type {
         single, periodical
-    }
-
-    public static enum TimeUnit {
-        day, week, month
     }
 
     public static class Builder{
