@@ -146,9 +146,24 @@ public class TriggerPayload implements IModel {
             Preconditions.checkArgument(TimeUtils.isTimeFormat(time), "The time format is incorrect.");
 
             Preconditions.checkNotNull(time_unit, "The time_unit must not be null.");
+            Preconditions.checkArgument(isTimeUnitOk(time_unit), "The time unit must be DAY, WEEK or MONTH.");
+
             Preconditions.checkArgument(frequency > 0 && frequency < 101, "The frequency must be a int between 1 and 100.");
 
             return new TriggerPayload(start, end, time, time_unit, frequency, point);
+        }
+
+        private boolean isTimeUnitOk(TimeUnit timeUnit) {
+            switch (timeUnit) {
+                case HOUR:
+                    return false;
+                case DAY:
+                case WEEK:
+                case MONTH:
+                    return true;
+                default:
+                    return false;
+            }
         }
 
     }

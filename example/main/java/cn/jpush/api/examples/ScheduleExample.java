@@ -1,6 +1,7 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.Week;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -8,6 +9,7 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.schedule.ScheduleListResult;
 import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jpush.api.schedule.model.TriggerPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +72,7 @@ public class ScheduleExample {
         String start = "2015-08-06 12:16:13";
         String end = "2115-08-06 12:16:13";
         String time = "14:00:00";
-        Week[] days = {Week.MON, Week.FIR};
+        Week[] days = {Week.MON, Week.FRI};
         PushPayload push = PushPayload.alertAll("test weekly example.");
         try {
             ScheduleResult result = jPushClient.createWeeklySchedule(name, start, end, time, days, push);
@@ -145,8 +147,15 @@ public class ScheduleExample {
     public static void testUpdateSchedule() {
         String scheduleId = "95bbd066-3a88-11e5-8e62-0021f652c102";
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        String[] points = {Week.MON.name(), Week.FRI.name()};
+        TriggerPayload trigger = TriggerPayload.newBuilder()
+                .setPeriodTime("2015-08-01 12:10:00", "2015-08-30 12:12:12", "15:00:00")
+                .setTimeFrequency(TimeUnit.WEEK, 2, points)
+                .buildPeriodical();
         SchedulePayload payload = SchedulePayload.newBuilder()
+                .setName("test_update_schedule")
                 .setEnabled(false)
+                .setTrigger(trigger)
                 .build();
         try {
             jpushClient.updateSchedule(scheduleId, payload);
