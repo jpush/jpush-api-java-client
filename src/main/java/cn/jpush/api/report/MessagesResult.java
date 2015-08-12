@@ -26,12 +26,16 @@ public class MessagesResult extends BaseResult {
         @Expose public int target;
         @Expose public int online_push;
         @Expose public int click;
+        @Expose public int msg_click;
     }
     
     public static class Ios {
         @Expose public int apns_sent;
         @Expose public int apns_target;
         @Expose public int click;
+        @Expose public int target;
+        @Expose public int received;
+        @Expose public int msg_click;
     }
     	
 	static MessagesResult fromResponse(ResponseWrapper responseWrapper) {

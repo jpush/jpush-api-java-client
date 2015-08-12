@@ -1,16 +1,20 @@
 package cn.jpush.api.common.resp;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
 
 public class ResponseWrapper {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseWrapper.class);
     private static final int RESPONSE_CODE_NONE = -1;
     
     private static Gson _gson = new Gson();
+    private static JsonParser jsonParser = new JsonParser();
     
     public int responseCode = RESPONSE_CODE_NONE;
     public String responseContent;
@@ -36,21 +40,43 @@ public class ResponseWrapper {
     }
     
     public void setErrorObject() {
+        error = new ErrorObject();
+        error.error = new ErrorEntity();
         try {
-            error = _gson.fromJson(responseContent, ErrorObject.class);
-        } catch (JsonSyntaxException e) {
-            int index = responseContent.indexOf("error");
-            if( -1 != index ) {
-                int from = responseContent.indexOf("{", index);
-                int to = responseContent.indexOf("}", from);
-                String errorStr = responseContent.substring(from, to + 1);
-                error = new ErrorObject();
-                try {
-                    error.error = _gson.fromJson(errorStr, ErrorEntity.class);
-                } catch (JsonSyntaxException e1) {
-                    LOG.error("unknown response content:" + responseContent, e);
+            JsonElement element = jsonParser.parse(responseContent);
+            JsonObject errorObj = null;
+            if( element instanceof JsonArray) {
+                JsonArray array = (JsonArray) element;
+                for(int i = 0; i < array.size(); i++) {
+                    if(array.get(i).getAsJsonObject().has("error")) {
+                        errorObj = array.get(i).getAsJsonObject();
+                        break;
+                    }
+                }
+            } else if(element instanceof JsonObject) {
+                errorObj = (JsonObject) element;
+            } else {
+                // nothing
+            }
+            if(null != errorObj) {
+                JsonObject errorMsg = errorObj;
+                if(errorObj.has("msg_id")) {
+                    error.msg_id = errorObj.get("msg_id").getAsLong();
+                }
+                if (errorObj.has("error")) {
+                    errorMsg = (JsonObject) errorObj.get("error");
+                }
+                if(errorMsg.has("code")) {
+                    error.error.code = errorMsg.get("code").getAsInt();
+                }
+                if(errorMsg.has("message")) {
+                    error.error.message = errorMsg.get("message").getAsString();
                 }
             }
+        } catch(JsonSyntaxException e) {
+            LOG.error("Unexpected - responseContent:" + responseContent, e);
+        } catch (Exception e) {
+            LOG.error("Unexpected - responseContent:" + responseContent, e);
         }
     }
     
@@ -65,19 +91,19 @@ public class ResponseWrapper {
 		return _gson.toJson(this);
 	}
 	
-	public class ErrorObject {
+	public static class ErrorObject {
 	    public long msg_id;
-	    public ErrorEntity error;
+        public ErrorEntity error;
 	}
 	
-	public class ErrorEntity {
+	public static class ErrorEntity {
 	    public int code;
 	    public String message;
-	    
+
 	    @Override
-	    public String toString() {
-	        return _gson.toJson(this);
-	    }
+        public String toString() {
+            return _gson.toJson(this);
+        }
 	}
 	
 }

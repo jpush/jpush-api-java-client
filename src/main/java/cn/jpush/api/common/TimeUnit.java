@@ -4,7 +4,7 @@ public enum TimeUnit {
 
     HOUR,
     DAY, 
-    MONTH
-    
-    
+    MONTH,
+    WEEK
+
 }

@@ -3,6 +3,7 @@ package cn.jpush.api.report;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.connection.HttpProxy;
@@ -15,12 +16,12 @@ import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.utils.StringUtils;
 
 public class ReportClient {    
-    private static final String REPORT_HOST_NAME = "https://report.jpush.cn";
-    private static final String REPORT_RECEIVE_PATH = "/v3/received";
-    private static final String REPORT_USER_PATH = "/v3/users";
-    private static final String REPORT_MESSAGE_PATH = "/v3/messages";
 
     private final NativeHttpClient _httpClient;
+    private String _hostName;
+    private String _receivePath;
+    private String _userPath;
+    private String _messagePath;
 
     public ReportClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES, null);
@@ -31,11 +32,20 @@ public class ReportClient {
 	}
 	
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        ServiceHelper.checkBasic(appKey, masterSecret);
-        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        
-        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
 	}
+
+    public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        _hostName = (String) conf.get(ClientConfig.REPORT_HOST_NAME);
+        _receivePath = (String) conf.get(ClientConfig.REPORT_RECEIVE_PATH);
+        _userPath = (String) conf.get(ClientConfig.REPORT_USER_PATH);
+        _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+    }
 	
 	
     public ReceivedsResult getReceiveds(String[] msgIdArray) 
@@ -47,7 +57,7 @@ public class ReportClient {
             throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
         
-        String url = REPORT_HOST_NAME + REPORT_RECEIVE_PATH + "?msg_ids=" + msgIds;
+        String url = _hostName + _receivePath + "?msg_ids=" + msgIds;
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return ReceivedsResult.fromResponse(response);
@@ -57,7 +67,7 @@ public class ReportClient {
             throws APIConnectionException, APIRequestException {
         checkMsgids(msgIds);
         
-        String url = REPORT_HOST_NAME + REPORT_MESSAGE_PATH + "?msg_ids=" + msgIds;
+        String url = _hostName + _messagePath + "?msg_ids=" + msgIds;
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return MessagesResult.fromResponse(response);
@@ -71,7 +81,7 @@ public class ReportClient {
         } catch (Exception e) {
         }
         
-        String url = REPORT_HOST_NAME + REPORT_USER_PATH
+        String url = _hostName + _userPath
                 + "?time_unit=" + timeUnit.toString()
                 + "&start=" + startEncoded + "&duration=" + duration;
         ResponseWrapper response = _httpClient.sendGet(url);

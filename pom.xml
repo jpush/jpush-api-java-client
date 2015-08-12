@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.2.5-SNAPSHOT</version>
+	<version>3.2.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -21,7 +21,8 @@
 		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdkVersion>1.6</jdkVersion>
-		<jdkVersion.test>1.8</jdkVersion.test>
+		<jdkVersion.test>1.6</jdkVersion.test>
+		<!--<additionalparam>-Xdoclint:none</additionalparam>-->
 	</properties>
 
 	<parent>
