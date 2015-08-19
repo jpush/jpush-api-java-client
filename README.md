@@ -29,7 +29,7 @@
 ```
 ### jar 包方式
 
-* 请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
+请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
 
 
 ### 依赖包
