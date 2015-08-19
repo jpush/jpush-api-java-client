@@ -76,7 +76,7 @@
 ### 导入本项目
 
 * 可以采用 `git clone https://github.com/jpush/jpush-api-java-client.git jpush-api-src` 命令下载源码
-* 如果不使用git，可以去release页面下载源码包并解压
+* 如果不使用git，请到[Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载源码包并解压
 * 采用eclipse导入下载的源码工程，推荐采用maven的方式，方便依赖包的管理
 * 假如采用导入普通项目的方式，项目报错，检查Build Path，Libraries
  * 依赖jar包都在libs目录下可以找到，没有加入的请添加到Build Path，Libraries
