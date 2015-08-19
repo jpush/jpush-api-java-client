@@ -31,6 +31,7 @@
 
 请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
 
+
 ### 依赖包
 * [slf4j](http://www.slf4j.org/) / log4j (Logger)
 * [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
@@ -68,11 +69,26 @@
 
 如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
 
+## 编译源码
+
+> 如果开发者想基于本项目做一些扩展的开发，或者想了解本项目源码，可以参考此章，否则可略过此章。
+
+### 导入本项目
+
+* 可以采用 `git clone https://github.com/jpush/jpush-api-java-client.git jpush-api-src` 命令下载源码
+* 如果不使用git，请到[Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载源码包并解压
+* 采用eclipse导入下载的源码工程，推荐采用maven的方式，方便依赖包的管理
+* 假如采用导入普通项目的方式，项目报错，检查Build Path，Libraries
+ * 依赖jar包都在libs目录下可以找到，没有加入的请添加到Build Path，Libraries
+ * 默认采用了log4j做日志框架，开发者可根据自己需求替换logback、commons-logging等日志框架
+ * 极个别情况下，如果test目录报错，请手动添加test的依赖jar包mockwebserver-2.0.0.jar、okhttp-2.0.0.jar、okio-1.0.0.jar
+* 开发者需要注意，将本项目的编码格式设置为UTF-8
+
 ### 构建本项目
 
 可以用 Eclipse 类 IDE 导出 jar 包。建议直接使用 maven，执行命令：
 
-	maven package
+	mvn package
 
 ### 自动化测试
 
