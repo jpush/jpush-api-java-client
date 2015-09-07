@@ -1,9 +1,4 @@
 package cn.jpush.api.push.remote;
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.SlowTests;
 import cn.jpush.api.common.resp.APIConnectionException;
@@ -12,9 +7,12 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import static org.junit.Assert.assertEquals;
 
 @Category(SlowTests.class)
 public class ExceptionTest extends BaseRemotePushTest {
@@ -160,7 +158,7 @@ public class ExceptionTest extends BaseRemotePushTest {
             assertEquals(INVALID_PARAMS, e.getErrorCode());
         }
     }
-    
+    /*
     @Test
     public void invalidParams_notification_winphone() {
         JsonObject payload = new JsonObject();
@@ -181,7 +179,7 @@ public class ExceptionTest extends BaseRemotePushTest {
             assertEquals(INVALID_PARAMS, e.getErrorCode());
         }
     }
-    
+    */
     @Test
     public void invalidParams_notification_android_builderidNotNumber() {
         JsonObject payload = new JsonObject();

@@ -23,9 +23,19 @@ public abstract class BaseResult implements IRateLimiting {
         }
         return null;
     }
+
+    public int getResponseCode() {
+        if(null != responseWrapper) {
+            return responseWrapper.responseCode;
+        }
+        return -1;
+    }
     
     public boolean isResultOK() {
-        return RESPONSE_OK == responseWrapper.responseCode;
+        if(null != responseWrapper) {
+            return ( responseWrapper.responseCode / 200 ) == 1;
+        }
+        return false;
     }
     
     public static <T extends BaseResult> T fromResponse(
