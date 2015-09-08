@@ -1,8 +1,5 @@
 package cn.jpush.api;
 
-import java.util.Map;
-import java.util.Set;
-
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.Week;
@@ -11,16 +8,14 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.device.AliasDeviceListResult;
-import cn.jpush.api.device.DeviceClient;
-import cn.jpush.api.device.TagAliasResult;
-import cn.jpush.api.device.TagListResult;
+import cn.jpush.api.device.*;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
@@ -32,6 +27,9 @@ import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
 import cn.jpush.api.utils.Preconditions;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The global entrance of JPush API library.
@@ -249,12 +247,56 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
+
+    /**
+     * Send an iOS notification with alias.
+     * If you want to send alert as a Json object, maybe this method is what you needed.
+     *
+     * @param alert The wrapper of APNs alert.
+     * @param extras The extra params.
+     * @param alias The alias list.
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public PushResult sendIosNotificationWithAlias(IosAlert alert,
+                                                   Map<String, String> extras, String... alias)
+            throws APIConnectionException, APIRequestException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.alias(alias))
+                .setNotification(Notification.ios(alert, extras))
+                .build();
+        return _pushClient.sendPush(payload);
+    }
     
     /**
      * Shortcut
      */
     public PushResult sendIosNotificationWithRegistrationID(String alert, 
             Map<String, String> extras, String... registrationID) 
+            throws APIConnectionException, APIRequestException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.registrationId(registrationID))
+                .setNotification(Notification.ios(alert, extras))
+                .build();
+        return _pushClient.sendPush(payload);
+    }
+
+    /**
+     * Send an iOS notification with registrationIds.
+     * If you want to send alert as a Json object, maybe this method is what you needed.
+     *
+     * @param alert The wrapper of APNs alert.
+     * @param extras The extra params.
+     * @param registrationID The registration ids.
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public PushResult sendIosNotificationWithRegistrationID(IosAlert alert,
+                                                            Map<String, String> extras, String... registrationID)
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
@@ -406,6 +448,12 @@ public class JPushClient {
 			throws APIConnectionException, APIRequestException {
 		return _deviceClient.deleteAlias(alias, platform);
 	}
+
+    public Map<String, OnlineStatus> getUserOnlineStatus(String... registrationIds)
+            throws APIConnectionException, APIRequestException
+    {
+        return _deviceClient.getUserOnlineStatus(registrationIds);
+    }
 
     // ----------------------- Schedule
 

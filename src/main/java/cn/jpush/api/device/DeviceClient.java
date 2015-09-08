@@ -1,23 +1,21 @@
 package cn.jpush.api.device;
 
-import java.util.Set;
-
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.BaseResult;
-import cn.jpush.api.common.resp.BooleanResult;
-import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.common.resp.ResponseWrapper;
+import cn.jpush.api.common.resp.*;
 import cn.jpush.api.utils.Preconditions;
-
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.Set;
 
 public class DeviceClient {
 
@@ -195,6 +193,27 @@ public class DeviceClient {
         ResponseWrapper response = _httpClient.sendDelete(url);
         
         return DefaultResult.fromResponse(response);
+    }
+
+    // -------------- devices status
+
+    public Map<String, OnlineStatus> getUserOnlineStatus(String... registrationIds)
+            throws APIConnectionException, APIRequestException
+    {
+        Preconditions.checkArgument((null != registrationIds && registrationIds.length > 0),
+                "The registration id list should not be empty.");
+
+        String url = hostName + devicesPath + "/status";
+        JsonObject json = new JsonObject();
+        JsonArray array = new JsonArray();
+        for(int i = 0; i < registrationIds.length; i++) {
+            array.add(new JsonPrimitive(registrationIds[i]));
+        }
+        json.add("registration_ids", array);
+        Type type = new TypeToken<Map<String, OnlineStatus>>(){}.getType();
+        ResponseWrapper response = _httpClient.sendPost(url, json.toString());
+        Map<String, OnlineStatus> map = new Gson().fromJson(response.responseContent, type);
+        return map;
     }
         
 }
