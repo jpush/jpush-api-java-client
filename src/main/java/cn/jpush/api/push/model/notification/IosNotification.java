@@ -1,12 +1,11 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.Map;
-
 import cn.jpush.api.common.ServiceHelper;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import java.util.Map;
 
 /**
  * APNs 通知类
@@ -46,7 +45,7 @@ public class IosNotification extends PlatformNotification {
     private final boolean contentAvailable;
     private final String category;
     
-    private IosNotification(String alert, String sound, String badge, 
+    private IosNotification(Object alert, String sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             String category,
             Map<String, String> extras, 
@@ -173,11 +172,11 @@ public class IosNotification extends PlatformNotification {
         	return this;
         }
         
-        public Builder setAlert(String alert) {
+        public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
         }
-        
+
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 

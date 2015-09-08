@@ -1,18 +1,16 @@
 package cn.jpush.api.push.model.notification;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
+import cn.jpush.api.FastTests;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import cn.jpush.api.FastTests;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @Category(FastTests.class)
 public class IosNotificationTest {
@@ -152,6 +150,7 @@ public class IosNotificationTest {
     	
         assertThat(ios.toJSON(), is((JsonElement) json));
     }
+
 }
 
 
