@@ -151,22 +151,6 @@ public class IosNotificationTest {
         assertThat(ios.toJSON(), is((JsonElement) json));
     }
 
-    @Test
-    public void testAlertJson() {
-
-        IosNotification ios = IosNotification.alert("{\"title\":\"Game Request\",\"body\":\"Bob wants to play poker\",\"action-loc-key\":\"PLAY\" }");
-
-        JsonObject json = new JsonObject();
-        JsonObject alert = new JsonObject();
-        alert.add("title", new JsonPrimitive("Game Request"));
-        alert.add("body", new JsonPrimitive("Bob wants to play poker"));
-        alert.add("action-loc-key", new JsonPrimitive("PLAY"));
-
-        json.add("alert", alert);
-        json.add("sound", new JsonPrimitive(""));
-        json.add("badge", new JsonPrimitive("+1"));
-        assertEquals("", json, ios.toJSON());
-    }
 }
 
 
