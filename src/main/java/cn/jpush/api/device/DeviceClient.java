@@ -200,8 +200,10 @@ public class DeviceClient {
     public Map<String, OnlineStatus> getUserOnlineStatus(String... registrationIds)
             throws APIConnectionException, APIRequestException
     {
-        Preconditions.checkArgument((null != registrationIds && registrationIds.length > 0),
-                "The registration id list should not be empty.");
+        Preconditions.checkArgument((null != registrationIds ),
+                "The registration id list should not be null.");
+        Preconditions.checkArgument(registrationIds.length > 0 && registrationIds.length <= 1000,
+                "The length of registration id list should between 1 and 1000.");
 
         String url = hostName + devicesPath + "/status";
         JsonObject json = new JsonObject();
