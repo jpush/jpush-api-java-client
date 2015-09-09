@@ -14,17 +14,19 @@
 
 版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
 
+> 非常欢迎各位开发者提交代码，贡献一份力量，review过有效的代码将会合入本项目。
+
 
 ## 安装
 
 ### maven 方式
 将下边的依赖条件放到你项目的 maven pom.xml 文件里。
 
-```
+```Java
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.2.6</version>
+    <version>3.2.7</version>
 </dependency>
 ```
 ### jar 包方式
@@ -40,31 +42,29 @@
 
 如果使用 Maven 构建项目，则需要在你的项目 pom.xml 里增加：
 
-```
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		
-		<!-- For log4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-		</dependency>
-		
+```Java
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.2.4</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.5</version>
+    </dependency>
 
+    <!-- For log4j -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.5</version>
+    </dependency>
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.16</version>
+    </dependency>
 ```
 
 如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
