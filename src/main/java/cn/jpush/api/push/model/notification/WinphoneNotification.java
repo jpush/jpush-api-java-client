@@ -1,10 +1,10 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.Map;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import java.util.Map;
 
 public class WinphoneNotification extends PlatformNotification {
     private static final String NOTIFICATION_WINPHONE = "winphone";
@@ -15,7 +15,7 @@ public class WinphoneNotification extends PlatformNotification {
     private final String title;
     private final String openPage;
     
-    private WinphoneNotification(String alert, String title, String openPage, 
+    private WinphoneNotification(Object alert, String title, String openPage,
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras,
@@ -73,7 +73,7 @@ public class WinphoneNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder setAlert(String alert) {
+        public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
         }

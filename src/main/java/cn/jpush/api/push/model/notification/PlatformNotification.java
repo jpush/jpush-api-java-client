@@ -1,17 +1,15 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jpush.api.push.model.PushModel;
 import cn.jpush.api.utils.Preconditions;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class PlatformNotification implements PushModel {
     public static final String ALERT = "alert";
@@ -19,13 +17,13 @@ public abstract class PlatformNotification implements PushModel {
     
     protected static final Logger LOG = LoggerFactory.getLogger(PlatformNotification.class);
 
-    private String alert;
+    private Object alert;
     private final Map<String, String> extras;
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
     
-    public PlatformNotification(String alert, Map<String, String> extras, 
+    public PlatformNotification(Object alert, Map<String, String> extras,
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras, 
     		Map<String, JsonObject> jsonExtras) {
@@ -41,7 +39,13 @@ public abstract class PlatformNotification implements PushModel {
         JsonObject json = new JsonObject();
         
         if (null != alert) {
-            json.add(ALERT, new JsonPrimitive(this.alert));
+            if ( alert instanceof JsonObject) {
+                json.add(ALERT, (JsonObject) alert);
+            } else if (alert instanceof IosAlert) {
+                json.add(PlatformNotification.ALERT, ((IosAlert) alert).toJSON());
+            } else {
+                json.add(PlatformNotification.ALERT, new JsonPrimitive(alert.toString()));
+            }
         }
 
         JsonObject extrasObject = null;
@@ -93,11 +97,11 @@ public abstract class PlatformNotification implements PushModel {
         return json;
     }
     
-    protected String getAlert() {
+    protected Object getAlert() {
         return this.alert;
     }
     
-    protected void setAlert(String alert) {
+    protected void setAlert(Object alert) {
         this.alert = alert;
     }
 
@@ -106,7 +110,7 @@ public abstract class PlatformNotification implements PushModel {
     protected abstract static class Builder<T extends PlatformNotification, B extends Builder<T, B>> {
     	private B theBuilder;
     	
-        protected String alert;
+        protected Object alert;
         protected Map<String, String> extrasBuilder;
         protected Map<String, Number> numberExtrasBuilder;
         protected Map<String, Boolean> booleanExtrasBuilder;
@@ -118,7 +122,7 @@ public abstract class PlatformNotification implements PushModel {
         
         protected abstract B getThis();
         
-        public abstract B setAlert(String alert);
+        public abstract B setAlert(Object alert);
                 
         public B addExtra(String key, String value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");

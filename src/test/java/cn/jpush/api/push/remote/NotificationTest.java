@@ -1,19 +1,19 @@
 package cn.jpush.api.push.remote;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import cn.jpush.api.SlowTests;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.Notification;
-
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import static org.junit.Assert.assertTrue;
 
 @Category(SlowTests.class)
 public class NotificationTest extends BaseRemotePushTest {
@@ -99,9 +99,36 @@ public class NotificationTest extends BaseRemotePushTest {
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());
     }
-    
-    
-    
-    
+
+    @Test
+    public void sendNotification_ios_alert_jsonStr() throws Exception {
+        JsonObject alert = new JsonObject();
+        alert.add("title", new JsonPrimitive("Game Request"));
+        alert.add("body", new JsonPrimitive("Bob wants to play poker"));
+        alert.add("action-loc-key", new JsonPrimitive("PLAY"));
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.ios())
+                .setNotification(Notification.alert(alert.toString()))
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertTrue(result.isResultOK());
+    }
+
+    @Test
+    public void sendNotification_ios_alert_jsonObj() throws Exception {
+        IosAlert alert = IosAlert.newBuilder()
+                .setTitleAndBody("ios title", "test ios title")
+                .build();
+
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.ios())
+                .setNotification(Notification.alert(alert))
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertTrue(result.isResultOK());
+    }
+
 }
 

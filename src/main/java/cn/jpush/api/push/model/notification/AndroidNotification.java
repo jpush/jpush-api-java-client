@@ -1,10 +1,10 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.Map;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import java.util.Map;
 
 public class AndroidNotification extends PlatformNotification {
     public static final String NOTIFICATION_ANDROID = "android";
@@ -15,7 +15,7 @@ public class AndroidNotification extends PlatformNotification {
     private final String title;
     private final int builderId;
     
-    private AndroidNotification(String alert, String title, int builderId, 
+    private AndroidNotification(Object alert, String title, int builderId,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -73,7 +73,7 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
         
-        public Builder setAlert(String alert) {
+        public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
         }

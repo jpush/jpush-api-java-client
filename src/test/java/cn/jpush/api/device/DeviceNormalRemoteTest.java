@@ -1,15 +1,5 @@
 package cn.jpush.api.device;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import cn.jpush.api.BaseTest;
 import cn.jpush.api.JUnitOrderedRunner;
 import cn.jpush.api.TestOrder;
@@ -17,6 +7,14 @@ import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BooleanResult;
 import cn.jpush.api.common.resp.DefaultResult;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 @RunWith(JUnitOrderedRunner.class)
 public class DeviceNormalRemoteTest extends BaseTest {
@@ -168,5 +166,12 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	public void testDeleteAlias_2() throws APIConnectionException, APIRequestException {
 		DefaultResult result = jpushClient.deleteAlias("alias2", null);
 		assertTrue(result.isResultOK());
+	}
+
+	@Test
+	@TestOrder(order = 340)
+	public void testTetUserOnlineStatus() throws APIConnectionException, APIRequestException{
+		Map<String, OnlineStatus> result =  jpushClient.getUserOnlineStatus(REGISTRATION_ID1, REGISTRATION_ID2);
+		assertTrue(result.get(REGISTRATION_ID1) != null);
 	}
 }

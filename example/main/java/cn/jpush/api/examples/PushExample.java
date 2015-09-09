@@ -1,6 +1,7 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.common.ClientConfig;
+import cn.jpush.api.push.model.notification.IosAlert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,8 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
+import java.util.HashMap;
+
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
@@ -32,7 +35,8 @@ public class PushExample {
     public static final String TAG = "tag_api";
 
 	public static void main(String[] args) {
-        testSendPushWithCustomConfig();
+//        testSendPushWithCustomConfig();
+        testSendIosAlert();
 	}
 	
 	
@@ -151,6 +155,26 @@ public class PushExample {
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
+        }
+    }
+
+    public static void testSendIosAlert() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+
+        IosAlert alert = IosAlert.newBuilder()
+                .setTitleAndBody("test alert", "test ios alert json")
+                .setActionLocKey("PLAY")
+                .build();
+        try {
+            PushResult result = jpushClient.sendIosNotificationWithAlias(alert, new HashMap<String, String>(), "alias1");
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
         }
     }
 

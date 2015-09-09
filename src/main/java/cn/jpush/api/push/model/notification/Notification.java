@@ -1,21 +1,20 @@
 package cn.jpush.api.push.model.notification;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import cn.jpush.api.push.model.PushModel;
 import cn.jpush.api.utils.Preconditions;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class Notification implements PushModel {    
-    private final String alert;
+    private final Object alert;
     private final Set<PlatformNotification> notifications;
     
-    private Notification(String alert, Set<PlatformNotification> notifications) {
+    private Notification(Object alert, Set<PlatformNotification> notifications) {
         this.alert = alert;
         this.notifications = notifications;
     }
@@ -31,7 +30,7 @@ public class Notification implements PushModel {
      * @param alert Notification alert
      * @return first level notification object
      */
-    public static Notification alert(String alert) {
+    public static Notification alert(Object alert) {
         return newBuilder().setAlert(alert).build();
     }
     
@@ -51,7 +50,7 @@ public class Notification implements PushModel {
     /**
      * shortcut
      */
-    public static Notification ios(String alert, Map<String, String> extras) {
+    public static Notification ios(Object alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
                     .setAlert(alert)
@@ -111,7 +110,13 @@ public class Notification implements PushModel {
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
         if (null != alert) {
-            json.add(PlatformNotification.ALERT, new JsonPrimitive(alert));
+            if(alert instanceof JsonObject) {
+                json.add(PlatformNotification.ALERT, (JsonObject) alert);
+            } else if (alert instanceof IosAlert) {
+                json.add(PlatformNotification.ALERT, ((IosAlert) alert).toJSON());
+            } else {
+                json.add(PlatformNotification.ALERT, new JsonPrimitive(alert.toString()));
+            }
         }
         if (null != notifications) {
             for (PlatformNotification pn : notifications) {
@@ -129,10 +134,10 @@ public class Notification implements PushModel {
     }
     
     public static class Builder {
-        private String alert;
+        private Object alert;
         private Set<PlatformNotification> builder;
         
-        public Builder setAlert(String alert) {
+        public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
         }
