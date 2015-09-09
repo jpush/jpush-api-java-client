@@ -42,9 +42,9 @@ public abstract class PlatformNotification implements PushModel {
             if ( alert instanceof JsonObject) {
                 json.add(ALERT, (JsonObject) alert);
             } else if (alert instanceof IosAlert) {
-                json.add(PlatformNotification.ALERT, ((IosAlert) alert).toJSON());
+                json.add(ALERT, ((IosAlert) alert).toJSON());
             } else {
-                json.add(PlatformNotification.ALERT, new JsonPrimitive(alert.toString()));
+                json.add(ALERT, new JsonPrimitive(alert.toString()));
             }
         }
 
