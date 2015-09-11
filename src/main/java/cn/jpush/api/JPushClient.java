@@ -27,6 +27,7 @@ import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
 import cn.jpush.api.utils.Preconditions;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 import java.util.Set;
@@ -269,6 +270,28 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
+
+    /**
+     * Send an iOS notification with alias.
+     * If you want to send alert as a Json object, maybe this method is what you needed.
+     *
+     * @param alert The wrapper of APNs alert.
+     * @param extras The extra params.
+     * @param alias The alias list.
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public PushResult sendIosNotificationWithAlias(JsonObject alert,
+                                                   Map<String, String> extras, String... alias)
+            throws APIConnectionException, APIRequestException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.alias(alias))
+                .setNotification(Notification.ios(alert, extras))
+                .build();
+        return _pushClient.sendPush(payload);
+    }
     
     /**
      * Shortcut
@@ -296,6 +319,28 @@ public class JPushClient {
      * @throws APIRequestException
      */
     public PushResult sendIosNotificationWithRegistrationID(IosAlert alert,
+                                                            Map<String, String> extras, String... registrationID)
+            throws APIConnectionException, APIRequestException {
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.registrationId(registrationID))
+                .setNotification(Notification.ios(alert, extras))
+                .build();
+        return _pushClient.sendPush(payload);
+    }
+
+    /**
+     * Send an iOS notification with registrationIds.
+     * If you want to send alert as a Json object, maybe this method is what you needed.
+     *
+     * @param alert The wrapper of APNs alert.
+     * @param extras The extra params.
+     * @param registrationID The registration ids.
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public PushResult sendIosNotificationWithRegistrationID(JsonObject alert,
                                                             Map<String, String> extras, String... registrationID)
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()

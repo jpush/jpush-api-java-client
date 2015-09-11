@@ -39,7 +39,7 @@ public class IosAlert implements PushModel {
             json.addProperty("title", title);
         }
 
-        if( StringUtils.isNotEmpty(title) ) {
+        if( StringUtils.isNotEmpty(body) ) {
             json.addProperty("body", body);
         }
 

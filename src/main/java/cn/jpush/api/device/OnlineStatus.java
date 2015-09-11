@@ -24,8 +24,8 @@ public class OnlineStatus {
     @Override
     public String toString() {
         if(null == last_online_time) {
-            return "OnlineStatus " + online;
+            return "status: " + online;
         }
-        return "OnlineStatus " + online + " ," + last_online_time;
+        return "status: " + online + " , last_online_time: " + last_online_time;
     }
 }
