@@ -261,7 +261,8 @@ public class NativeHttpClient implements IHttpClient {
         TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
         tmCerts[0] = new SimpleTrustManager();
 		try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
+//            SSLContext sslContext = SSLContext.getInstance("SSL");
+			SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 			sslContext.init(null, tmCerts, null);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 			
