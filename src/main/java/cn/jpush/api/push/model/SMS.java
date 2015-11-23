@@ -20,7 +20,11 @@ public class SMS implements PushModel {
     }
 
     /**
-     * Create a SMS content.
+     * Create a SMS content with a delay time.
+     * JPush will send a SMS if the message doesn't received within the delay time. If the delay time is 0, the SMS will be sent immediately.
+     * Please note the delay time only works on Android.
+     * If you are pushing to iOS, the SMS will be sent immediately, whether or not the delay time is 0.
+     *
      * @param content The SMS content.
      * @param delayTime The seconds you want to delay, should be greater than or equal to 0.
      * @return
