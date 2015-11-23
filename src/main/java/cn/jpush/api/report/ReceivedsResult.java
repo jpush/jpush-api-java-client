@@ -1,14 +1,13 @@
 package cn.jpush.api.report;
 
+import cn.jpush.api.common.resp.BaseResult;
+import cn.jpush.api.common.resp.ResponseWrapper;
+import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.jpush.api.common.resp.BaseResult;
-import cn.jpush.api.common.resp.ResponseWrapper;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.reflect.TypeToken;
 
 public class ReceivedsResult extends BaseResult {
     private static final Type RECEIVED_TYPE = new TypeToken<List<Received>>(){}.getType();
@@ -20,6 +19,8 @@ public class ReceivedsResult extends BaseResult {
 	    @Expose public long msg_id;
 	    @Expose public int android_received;
 	    @Expose public int ios_apns_sent;
+        @Expose public int ios_msg_receive;
+        @Expose public int wp_mpns_sent;
 	}
 	
 	static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {
