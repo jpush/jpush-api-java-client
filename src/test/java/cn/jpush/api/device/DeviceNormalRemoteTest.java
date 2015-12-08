@@ -174,4 +174,11 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		Map<String, OnlineStatus> result =  jpushClient.getUserOnlineStatus(REGISTRATION_ID1, REGISTRATION_ID2);
 		assertTrue(result.get(REGISTRATION_ID1) != null);
 	}
+
+	@Test
+	@TestOrder(order = 360)
+	public void testBindMobile() throws APIConnectionException, APIRequestException {
+		DefaultResult result = jpushClient.bindMobile(REGISTRATION_ID1, "13000000000");
+		assertTrue(result.isResultOK());
+	}
 }
