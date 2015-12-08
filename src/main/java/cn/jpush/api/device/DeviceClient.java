@@ -7,6 +7,7 @@ import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.*;
 import cn.jpush.api.utils.Preconditions;
+import cn.jpush.api.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -111,6 +112,20 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         
+        return DefaultResult.fromResponse(response);
+    }
+
+    public DefaultResult bindMobile(String registrationId, String mobile)
+            throws APIConnectionException, APIRequestException
+    {
+        Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
+
+        String url = hostName + devicesPath + "/" + registrationId;
+        JsonObject top = new JsonObject();
+        if (null != mobile) {
+            top.addProperty("mobile", mobile);
+        }
+        ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         return DefaultResult.fromResponse(response);
     }
 

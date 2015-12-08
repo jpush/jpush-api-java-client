@@ -858,6 +858,12 @@ public class JPushClient {
         return _deviceClient.getUserOnlineStatus(registrationIds);
     }
 
+    public DefaultResult bindMobile(String registrationId, String mobile)
+            throws APIConnectionException, APIRequestException
+    {
+        return _deviceClient.bindMobile(registrationId, mobile);
+    }
+
     // ----------------------- Schedule
 
     /**
