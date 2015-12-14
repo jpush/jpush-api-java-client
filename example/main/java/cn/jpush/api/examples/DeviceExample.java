@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class DevcieExample {
-	protected static final Logger LOG = LoggerFactory.getLogger(DevcieExample.class);
+public class DeviceExample {
+	protected static final Logger LOG = LoggerFactory.getLogger(DeviceExample.class);
 
 	private static final String appKey = "dd1066407b044738b6479275";
 	private static final String masterSecret = "6b135be0037a5c1e693c3dfa";
