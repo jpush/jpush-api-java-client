@@ -26,7 +26,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.2.7</version>
+    <version>3.2.8</version>
 </dependency>
 ```
 ### jar 包方式
@@ -200,6 +200,26 @@
     }
 ```
 
+* 构建推送对象：推送内容包含SMS信息
+
+```Java
+    public static void testSendWithSMS() {
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+        try {
+            SMS sms = SMS.content("Test SMS", 10);
+            PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+```
+
 ### 统计获取样例
 
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ReportsExample
@@ -227,12 +247,29 @@
 
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.DeviceExample
 
+* 获取Tag Alias
 ```Java
     try {
         TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
 
         LOG.info(result.alias);
         LOG.info(result.tags.toString());
+    } catch (APIConnectionException e) {
+        LOG.error("Connection error. Should retry later. ", e);
+    } catch (APIRequestException e) {
+        LOG.error("Error response from JPush server. Should review and fix it. ", e);
+        LOG.info("HTTP Status: " + e.getStatus());
+        LOG.info("Error Code: " + e.getErrorCode());
+        LOG.info("Error Message: " + e.getErrorMessage());
+    }
+```
+
+* 绑定手机号
+
+```Java
+    try {
+        DefaultResult result =  jpushClient.bindMobile(REGISTRATION_ID1, "13000000000");
+        LOG.info("Got result " + result);
     } catch (APIConnectionException e) {
         LOG.error("Connection error. Should retry later. ", e);
     } catch (APIRequestException e) {

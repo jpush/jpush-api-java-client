@@ -3,11 +3,14 @@ package cn.jpush.api.utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.regex.Pattern;
 
 
 public class StringUtils {
 	private final static String[] hexDigits = { "0", "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+
+	private static Pattern pattern = Pattern.compile("^(1[34578][0-9])(\\d{4})(\\d{4})$");
 
 	private static String byteArrayToHexString(byte[] b) {
 		StringBuffer resultSb = new StringBuffer();
@@ -81,6 +84,16 @@ public class StringUtils {
 			return true;
 		}
 		if (s.contains("\r\n")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isMobileNumber(String s) {
+		if (null == s) {
+			return false;
+		}
+		if (pattern.matcher(s).matches()) {
 			return true;
 		}
 		return false;

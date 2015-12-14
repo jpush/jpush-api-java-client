@@ -1,5 +1,6 @@
 package cn.jpush.api.examples;
 
+import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.device.OnlineStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,20 @@ public class DevcieExample {
 
 			LOG.info(result.get(REGISTRATION_ID1).toString());
 			LOG.info(result.get(REGISTRATION_ID2).toString());
+		} catch (APIConnectionException e) {
+			LOG.error("Connection error. Should retry later. ", e);
+		} catch (APIRequestException e) {
+			LOG.error("Error response from JPush server. Should review and fix it. ", e);
+			LOG.info("HTTP Status: " + e.getStatus());
+			LOG.info("Error Code: " + e.getErrorCode());
+			LOG.info("Error Message: " + e.getErrorMessage());
+		}
+	}
+
+	public static void testBindMobile() {
+		try {
+			DefaultResult result =  jpushClient.bindMobile(REGISTRATION_ID1, "13000000000");
+			LOG.info("Got result " + result);
 		} catch (APIConnectionException e) {
 			LOG.error("Connection error. Should retry later. ", e);
 		} catch (APIRequestException e) {

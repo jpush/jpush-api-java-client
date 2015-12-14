@@ -27,6 +27,7 @@ public class PushPayload implements PushModel {
     private static final String NOTIFICATION = "notification";
     private static final String MESSAGE = "message";
     private static final String OPTIONS = "options";
+    private static final String SMS = "sms_message";
     
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 1200;  // Definition acording to JPush Docs
     private static final int MAX_IOS_PAYLOAD_LENGTH = 220;  // Definition acording to JPush Docs
@@ -38,15 +39,17 @@ public class PushPayload implements PushModel {
     private final Notification notification;
     private final Message message;
     private Options options;
+    private SMS sms;
     
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options) {
+            Notification notification, Message message, Options options, SMS sms) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
         this.message = message;
         this.options = options;
+        this.sms = sms;
     }
     
     /**
@@ -65,6 +68,15 @@ public class PushPayload implements PushModel {
             .setAudience(Audience.all())
             .setNotification(Notification.alert(alert)).build();
     }
+
+    public static PushPayload alertAll(String alert, SMS sms) {
+        return new Builder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(Notification.alert(alert))
+                .setSMS(sms)
+                .build();
+    }
     
     /**
      * The shortcut of building a simple message object to all platforms and all audiences
@@ -74,6 +86,15 @@ public class PushPayload implements PushModel {
             .setPlatform(Platform.all())
             .setAudience(Audience.all())
             .setMessage(Message.content(msgContent)).build();
+    }
+
+    public static PushPayload messageAll(String msgContent, SMS sms) {
+        return new Builder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setMessage(Message.content(msgContent))
+                .setSMS(sms)
+                .build();
     }
     
     public static PushPayload fromJSON(String payloadString) {
@@ -120,6 +141,9 @@ public class PushPayload implements PushModel {
         }
         if (null != options) {
             json.add(OPTIONS, options.toJSON());
+        }
+        if (null != sms) {
+            json.add(SMS, sms.toJSON());
         }
                 
         return json;
@@ -178,6 +202,7 @@ public class PushPayload implements PushModel {
         private Notification notification = null;
         private Message message = null;
         private Options options = null;
+        private SMS sms = null;
         
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
@@ -203,7 +228,12 @@ public class PushPayload implements PushModel {
             this.options = options;
             return this;
         }
-        
+
+        public Builder setSMS(SMS sms) {
+            this.sms = sms;
+            return this;
+        }
+
         public PushPayload build() {
             Preconditions.checkArgument(! (null == audience || null == platform), "audience and platform both should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
@@ -213,7 +243,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options);
+            return new PushPayload(platform, audience, notification, message, options, sms);
         }
     }
 }
