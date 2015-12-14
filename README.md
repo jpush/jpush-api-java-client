@@ -311,9 +311,7 @@
 		config.setMaxRetryTimes(5);
 		config.setConnectionTimeout(10 * 1000);// 10 seconds
 		config.setSSLVersion("TLSv1.1");
-
 		ClientConfig.setReadTimeout(ClientConfig.getInstance(), 30 * 1000);// 30 seconds
-
 		JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
 	}
 ```
