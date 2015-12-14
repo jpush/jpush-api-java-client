@@ -1,19 +1,18 @@
 package cn.jpush.api.report;
 
-import java.net.URLEncoder;
-import java.util.regex.Pattern;
-
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.TimeUnit;
 import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.BaseResult;
 import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.utils.StringUtils;
+
+import java.net.URLEncoder;
+import java.util.regex.Pattern;
 
 public class ReportClient {    
 
@@ -24,18 +23,31 @@ public class ReportClient {
     private String _messagePath;
 
     public ReportClient(String masterSecret, String appKey) {
-        this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES, null);
+        this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
-    
+
+    @Deprecated
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes) {
 	    this(masterSecret, appKey, maxRetryTimes, null);
 	}
-	
+
+    @Deprecated
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setMaxRetryTimes(maxRetryTimes);
+
+        _hostName = (String) conf.get(ClientConfig.REPORT_HOST_NAME);
+        _receivePath = (String) conf.get(ClientConfig.REPORT_RECEIVE_PATH);
+        _userPath = (String) conf.get(ClientConfig.REPORT_USER_PATH);
+        _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        _httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
 
-    public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+    public ReportClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         ServiceHelper.checkBasic(appKey, masterSecret);
 
         _hostName = (String) conf.get(ClientConfig.REPORT_HOST_NAME);
@@ -44,7 +56,7 @@ public class ReportClient {
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        _httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 	
 	
