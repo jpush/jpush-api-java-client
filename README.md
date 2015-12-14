@@ -305,15 +305,14 @@
 ### Custom Client 样例
 
 > 一下片断来自项目代码里面的文件：example / cn.jpush.api.examples.DeviceExample
+
 ```Java
     public static void testCustomClient() {
 		ClientConfig config = ClientConfig.getInstance();
 		config.setMaxRetryTimes(5);
 		config.setConnectionTimeout(10 * 1000);// 10 seconds
 		config.setSSLVersion("TLSv1.1");
-
 		ClientConfig.setReadTimeout(ClientConfig.getInstance(), 30 * 1000);// 30 seconds
-
 		JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
 	}
 ```
