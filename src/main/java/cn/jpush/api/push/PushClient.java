@@ -3,7 +3,6 @@ package cn.jpush.api.push;
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -12,7 +11,6 @@ import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.utils.Preconditions;
 import cn.jpush.api.utils.StringUtils;
-
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
@@ -50,9 +48,10 @@ public class PushClient {
      * @param appKey The KEY of one application on JPush.
      */
 	public PushClient(String masterSecret, String appKey) {
-	    this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
+	    this(masterSecret, appKey, null, ClientConfig.getInstance());
 	}
-	
+
+    @Deprecated
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes) {
 	    this(masterSecret, appKey, maxRetryTimes, null);
 	}
@@ -64,11 +63,22 @@ public class PushClient {
 	 * @param appKey The KEY of one application on JPush.
 	 * @param maxRetryTimes max retry times
 	 */
+    @Deprecated
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setMaxRetryTimes(maxRetryTimes);
+
+        this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
+        this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
+        this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
 
-    public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+    public PushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         ServiceHelper.checkBasic(appKey, masterSecret);
 
         this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
@@ -76,7 +86,7 @@ public class PushClient {
         this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 
     }
 

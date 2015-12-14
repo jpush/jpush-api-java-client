@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class ClientConfig extends HashMap<String, Object> {
 
-    private static ClientConfig instance = new ClientConfig();
-
     public static final String DEVICE_HOST_NAME = "device.host.name";
     public static final Object DEVICE_HOST_NAME_SCHEMA = String.class;
 
@@ -46,8 +44,26 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final String SCHEDULE_PATH = "schedule.path";
     public static final Object SCHEDULE_PATH_SCHEMA = String.class;
 
+    public static final String SSL_VERSION = "ssl.version";
+    public static final Object SSL_VERSION_SCHEMA = String.class;
+    public static final String DEFAULT_SSL_VERSION = "TLS";
+
+    public static final String MAX_RETRY_TIMES = "max.retry.times";
+    public static final Object MAX_RETRY_TIMES_SCHEMA = Integer.class;
+    public static final int DEFULT_MAX_RETRY_TIMES = 3;
+
+    public static final String READ_TIMEOUT = "read.timeout";
+    public static final Object READ_TIMEOUT_SCHEMA = Integer.class;
+    public static final int DEFAULT_READ_TIMEOUT = 30 * 1000;
+
+    public static final String CONNECTION_TIMEOUT = "connection.timeout";
+    public static final Object CONNECTION_TIMEOUT_SCHEMA = Integer.class;
+    public static final int DEFAULT_CONNECTION_TIMEOUT = 5 * 1000;
+
+    private static ClientConfig instance = new ClientConfig();
+
     private ClientConfig() {
-        super(12);
+        super(20);
         this.put(DEVICE_HOST_NAME, "https://device.jpush.cn");
         this.put(DEVICES_PATH, "/v3/devices");
         this.put(TAGS_PATH, "/v3/tags");
@@ -64,6 +80,12 @@ public class ClientConfig extends HashMap<String, Object> {
 
         this.put(SCHEDULE_HOST_NAME, "https://api.jpush.cn");
         this.put(SCHEDULE_PATH, "/v3/schedules");
+
+        this.put(SSL_VERSION, DEFAULT_SSL_VERSION);
+        this.put(MAX_RETRY_TIMES, DEFULT_MAX_RETRY_TIMES);
+        this.put(READ_TIMEOUT, DEFAULT_READ_TIMEOUT);
+        this.put(CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+
     }
 
     public static ClientConfig getInstance() {
@@ -112,6 +134,54 @@ public class ClientConfig extends HashMap<String, Object> {
 
     public void setScheduleHostName(String hostName) {
         setScheduleHostName(this, hostName);
+    }
+
+    public void setSSLVersion(String sslVer) {
+        setSSLVersion(this, sslVer);
+    }
+
+    public static void setSSLVersion(Map conf, String sslVer) {
+        conf.put(SSL_VERSION, sslVer);
+    }
+
+    public void setMaxRetryTimes(int maxRetryTimes) {
+        setMaxRetryTimes(this, maxRetryTimes);
+    }
+
+    public static void setMaxRetryTimes(Map conf, int maxRetryTimes) {
+        conf.put(MAX_RETRY_TIMES, maxRetryTimes);
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        setReadTimeout(this, readTimeout);
+    }
+
+    public static void setReadTimeout(Map conf, int readTimeout) {
+        conf.put(READ_TIMEOUT, readTimeout);
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        setConnectionTimeout(this, connectionTimeout);
+    }
+
+    public static void setConnectionTimeout(Map conf, int connectionTimeout) {
+        conf.put(CONNECTION_TIMEOUT, connectionTimeout);
+    }
+
+    public String getSSLVersion() {
+        return (String) this.get(SSL_VERSION);
+    }
+
+    public Integer getMaxRetryTimes() {
+        return (Integer) this.get(MAX_RETRY_TIMES);
+    }
+
+    public Integer getReadTimeout() {
+        return (Integer) this.get(READ_TIMEOUT);
+    }
+
+    public Integer getConnectionTimeout() {
+        return (Integer) this.get(CONNECTION_TIMEOUT);
     }
 
 }
