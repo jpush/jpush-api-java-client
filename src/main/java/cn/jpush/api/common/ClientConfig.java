@@ -60,10 +60,32 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final Object CONNECTION_TIMEOUT_SCHEMA = Integer.class;
     public static final int DEFAULT_CONNECTION_TIMEOUT = 5 * 1000;
 
+    /**
+     * Global APNs environment setting.
+     * Setting to -1, if you want to use PushPayload Options{@link cn.jpush.api.push.model.Options#apnsProduction}.
+     * Default value is -1.
+     * Setting to 0, if you want to use global setting as development environment.
+     * Setting to 1, if you want to use global setting as production environment.
+     *
+     */
+    public static final String APNS_PRODUCTION = "apns.production";
+    public static final Object APNS_PRODUCTION_SCHEMA = Integer.class;
+    public static final int DEFAULT_APNS_PRODUCTION = -1;
+
+    /**
+     * Global time_to_live setting. Time unit is second.
+     * Setting to -1, if you want to use PushPayload Options{@link cn.jpush.api.push.model.Options#timeToLive}.
+     * Default value is -1.
+     * It will override PushPayload Options, while it is a positive integer value.
+     */
+    public static final String TIME_TO_LIVE = "time.to.live";
+    public static final Object TIME_TO_LIVE_SCHEMA = Long.class;
+    public static final long DEFAULT_TIME_TO_LIVE = -1;
+
     private static ClientConfig instance = new ClientConfig();
 
     private ClientConfig() {
-        super(20);
+        super(32);
         this.put(DEVICE_HOST_NAME, "https://device.jpush.cn");
         this.put(DEVICES_PATH, "/v3/devices");
         this.put(TAGS_PATH, "/v3/tags");
@@ -85,6 +107,9 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(MAX_RETRY_TIMES, DEFULT_MAX_RETRY_TIMES);
         this.put(READ_TIMEOUT, DEFAULT_READ_TIMEOUT);
         this.put(CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+
+        this.put(APNS_PRODUCTION, DEFAULT_APNS_PRODUCTION);
+        this.put(TIME_TO_LIVE, DEFAULT_TIME_TO_LIVE);
 
     }
 
@@ -184,4 +209,28 @@ public class ClientConfig extends HashMap<String, Object> {
         return (Integer) this.get(CONNECTION_TIMEOUT);
     }
 
+    public static void setApnsProduction(Map conf, boolean production) {
+        if(production) {
+            conf.put(APNS_PRODUCTION, 1);
+        } else {
+            conf.put(APNS_PRODUCTION, 0);
+        }
+    }
+
+    public void setApnsProduction(boolean production) {
+        setApnsProduction(this, production);
+    }
+
+    public static void setTimeToLive(Map conf, long timeToLive) {
+        conf.put(TIME_TO_LIVE, timeToLive);
+    }
+
+    public void setTimeToLive(long timeToLive) {
+        setTimeToLive(this, timeToLive);
+    }
+
+    public void setGolbalPushSetting(boolean apnsProduction, long timeToLive) {
+        setApnsProduction(this, apnsProduction);
+        setTimeToLive(timeToLive);
+    }
 }

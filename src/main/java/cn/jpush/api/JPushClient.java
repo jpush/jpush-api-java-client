@@ -55,6 +55,25 @@ public class JPushClient {
         _scheduleClient = new ScheduleClient(masterSecret, appKey);
 	}
 
+    /**
+     * Create a JPush Client by custom Client configuration.
+     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     */
+    public JPushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
+        _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
+        _reportClient = new ReportClient(masterSecret, appKey, proxy, conf);
+        _deviceClient = new DeviceClient(masterSecret, appKey, proxy, conf);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
+    }
+
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
 	public JPushClient(String masterSecret, String appKey, int maxRetryTimes) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes);
@@ -63,6 +82,10 @@ public class JPushClient {
         _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes);
 	}
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         _pushClient = new PushClient(masterSecret, appKey, maxRetryTimes, proxy);
@@ -75,6 +98,7 @@ public class JPushClient {
      * Create a JPush Client by custom Client configuration.
      *
      * If you are using JPush privacy cloud, maybe this constructor is what you needed.
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -82,23 +106,25 @@ public class JPushClient {
      * @param proxy The proxy, if there is no proxy, should be null.
      * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
      */
+    @Deprecated
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
-        this(masterSecret, appKey, proxy, conf);
         conf.setMaxRetryTimes(maxRetryTimes);
-    }
 
-    public JPushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
         _reportClient = new ReportClient(masterSecret, appKey, proxy, conf);
         _deviceClient = new DeviceClient(masterSecret, appKey, proxy, conf);
         _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
+
     }
+
+
 
     /**
      * Create a JPush Client by custom Client configuration with global settings.
      *
      * If you are using JPush privacy cloud, and you want different settings from default globally,
      * maybe this constructor is what you needed.
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGolbalPushSetting} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -111,8 +137,12 @@ public class JPushClient {
     @Deprecated
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf,
                        boolean apnsProduction, long timeToLive) {
-        this(masterSecret, appKey, proxy, conf, apnsProduction, timeToLive);
         conf.setMaxRetryTimes(maxRetryTimes);
+        _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
+        _reportClient = new ReportClient(masterSecret, appKey, proxy, conf);
+        _deviceClient = new DeviceClient(masterSecret, appKey, proxy, conf);
+        _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
+        _pushClient.setDefaults(apnsProduction, timeToLive);
 
     }
 
@@ -121,6 +151,7 @@ public class JPushClient {
      *
      * If you are using JPush privacy cloud, and you want different settings from default globally,
      * maybe this constructor is what you needed.
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGolbalPushSetting} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -129,6 +160,7 @@ public class JPushClient {
      * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
      * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
      */
+    @Deprecated
     public JPushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf,
                        boolean apnsProduction, long timeToLive) {
         _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
@@ -142,12 +174,14 @@ public class JPushClient {
 	 * Create a JPush Client with global settings.
 	 * 
 	 * If you want different settings from default globally, this constructor is what you needed.
-	 * 
+	 * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGolbalPushSetting} instead of this constructor.
+     *
 	 * @param masterSecret API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
 	 * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
 	 * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
 	 */
+    @Deprecated
     public JPushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
         _reportClient = new ReportClient(masterSecret, appKey);
