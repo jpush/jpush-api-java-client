@@ -29,11 +29,19 @@ public class DeviceClient {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
     public DeviceClient(String masterSecret, String appKey, int maxRetryTimes) {
         this(masterSecret, appKey, maxRetryTimes, null);
     }
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
     public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         ClientConfig conf = ClientConfig.getInstance();

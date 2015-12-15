@@ -26,11 +26,19 @@ public class ReportClient {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes) {
 	    this(masterSecret, appKey, maxRetryTimes, null);
 	}
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
     @Deprecated
 	public ReportClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
         ServiceHelper.checkBasic(appKey, masterSecret);
