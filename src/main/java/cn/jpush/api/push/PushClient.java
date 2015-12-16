@@ -121,7 +121,7 @@ public class PushClient {
     }
 
     /**
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGolbalPushSetting} instead of this method.
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this method.
      *
      * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
      * @param timeToLive Global time_to_live setting. It will override PushPayload Options.

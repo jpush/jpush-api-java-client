@@ -229,7 +229,7 @@ public class ClientConfig extends HashMap<String, Object> {
         setTimeToLive(this, timeToLive);
     }
 
-    public void setGolbalPushSetting(boolean apnsProduction, long timeToLive) {
+    public void setGlobalPushSetting(boolean apnsProduction, long timeToLive) {
         setApnsProduction(this, apnsProduction);
         setTimeToLive(timeToLive);
     }
