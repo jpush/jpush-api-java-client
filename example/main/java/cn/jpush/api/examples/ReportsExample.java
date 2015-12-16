@@ -16,7 +16,7 @@ public class ReportsExample {
 
     // demo App defined in resources/jpush-api.conf 
 	private static final String appKey = "dd1066407b044738b6479275";
-	private static final String masterSecret = "2b38ce69b1de2a7fa95706ea";
+	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
 
 	public static void main(String[] args) {
 		testGetReport();
