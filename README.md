@@ -304,15 +304,30 @@
 
 ### Custom Client 样例
 
-> 一下片断来自项目代码里面的文件：example / cn.jpush.api.examples.DeviceExample
+> 一下片断来自项目代码里面的文件：example / cn.jpush.api.examples.ClientExample
 
 ```Java
     public static void testCustomClient() {
 		ClientConfig config = ClientConfig.getInstance();
-		config.setMaxRetryTimes(5);
-		config.setConnectionTimeout(10 * 1000);// 10 seconds
-		config.setSSLVersion("TLSv1.1");
-		ClientConfig.setReadTimeout(ClientConfig.getInstance(), 30 * 1000);// 30 seconds
-		JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
+        config.setMaxRetryTimes(5);
+        config.setConnectionTimeout(10 * 1000);	// 10 seconds
+        config.setSSLVersion("TLSv1.1");		// JPush server supports SSLv3, TLSv1, TLSv1.1, TLSv1.2
+
+        ClientConfig.setReadTimeout(ClientConfig.getInstance(), 30 * 1000);	// 30 seconds
+
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
 	}
+
+    public static void testCustomPushClient() {
+        ClientConfig config = ClientConfig.getInstance();
+        config.setApnsProduction(false); 	// development env
+        config.setTimeToLive(60 * 60 * 24); // one day
+
+    //	config.setGlobalPushSetting(false, 60 * 60 * 24); // development env, one day
+
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config); 	// JPush client
+
+    //	PushClient pushClient = new PushClient(masterSecret, appKey, null, config); 	// push client only
+
+    }
 ```

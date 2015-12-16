@@ -1,7 +1,6 @@
 package cn.jpush.api.examples;
 
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.DefaultResult;
@@ -28,7 +27,6 @@ public class DeviceExample {
 	public static void main(String[] args) {
 //		testGetDeviceTagAlias();
 //		testGetUserOnlineStatus();
-		testCustomClient();
 	}
 	
 	public static void testGetDeviceTagAlias() {
@@ -77,17 +75,6 @@ public class DeviceExample {
 			LOG.info("Error Code: " + e.getErrorCode());
 			LOG.info("Error Message: " + e.getErrorMessage());
 		}
-	}
-
-	public static void testCustomClient() {
-		ClientConfig config = ClientConfig.getInstance();
-		config.setMaxRetryTimes(5);
-		config.setConnectionTimeout(10 * 1000);// 10 seconds
-		config.setSSLVersion("TLSv1.1");
-
-		ClientConfig.setReadTimeout(ClientConfig.getInstance(), 30 * 1000);// 30 seconds
-
-		JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
 	}
 	
 }
