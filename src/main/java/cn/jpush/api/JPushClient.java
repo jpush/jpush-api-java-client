@@ -145,30 +145,6 @@ public class JPushClient {
         _pushClient.setDefaults(apnsProduction, timeToLive);
 
     }
-
-    /**
-     * Create a JPush Client by custom Client configuration with global settings.
-     *
-     * If you are using JPush privacy cloud, and you want different settings from default globally,
-     * maybe this constructor is what you needed.
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this constructor.
-     *
-     * @param masterSecret API access secret of the appKey.
-     * @param appKey The KEY of one application on JPush.
-     * @param proxy The proxy, if there is no proxy, should be null.
-     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
-     * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
-     * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
-     */
-    @Deprecated
-    public JPushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf,
-                       boolean apnsProduction, long timeToLive) {
-        _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
-        _reportClient = new ReportClient(masterSecret, appKey, proxy, conf);
-        _deviceClient = new DeviceClient(masterSecret, appKey, proxy, conf);
-        _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
-        _pushClient.setDefaults(apnsProduction, timeToLive);
-    }
     
 	/**
 	 * Create a JPush Client with global settings.
