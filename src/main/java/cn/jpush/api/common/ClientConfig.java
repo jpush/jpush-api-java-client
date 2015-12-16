@@ -1,7 +1,6 @@
 package cn.jpush.api.common;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ClientConfig extends HashMap<String, Object> {
 
@@ -117,20 +116,12 @@ public class ClientConfig extends HashMap<String, Object> {
         return instance;
     }
 
-    public static void setDeviceHostName(Map conf, String hostName) {
-        conf.put(DEVICE_HOST_NAME, hostName);
-    }
-
     /**
      * Setup custom device api host name, if using the JPush privacy cloud.
      * @param hostName the custom api host name, default is JPush domain name
      */
     public void setDeviceHostName(String hostName) {
-        setDeviceHostName(this, hostName);
-    }
-
-    public static void setPushHostName(Map conf, String hostName) {
-        conf.put(PUSH_HOST_NAME, hostName);
+        this.put(DEVICE_HOST_NAME, hostName);
     }
 
     /**
@@ -138,11 +129,7 @@ public class ClientConfig extends HashMap<String, Object> {
      * @param hostName the custom api host name, default is JPush domain name
      */
     public void setPushHostName(String hostName) {
-        setPushHostName(this, hostName);
-    }
-
-    public static void setReportHostName(Map conf, String hostName) {
-        conf.put(REPORT_HOST_NAME, hostName);
+        this.put(PUSH_HOST_NAME, hostName);
     }
 
     /**
@@ -150,47 +137,27 @@ public class ClientConfig extends HashMap<String, Object> {
      * @param hostName the custom api host name, default is JPush domain name
      */
     public void setReportHostName(String hostName) {
-        setReportHostName(this, hostName);
-    }
-
-    public static void setScheduleHostName(Map conf, String hostName) {
-        conf.put(SCHEDULE_HOST_NAME, hostName);
+        this.put(REPORT_HOST_NAME, hostName);
     }
 
     public void setScheduleHostName(String hostName) {
-        setScheduleHostName(this, hostName);
+        this.put(SCHEDULE_HOST_NAME, hostName);
     }
 
     public void setSSLVersion(String sslVer) {
-        setSSLVersion(this, sslVer);
-    }
-
-    public static void setSSLVersion(Map conf, String sslVer) {
-        conf.put(SSL_VERSION, sslVer);
+        this.put(SSL_VERSION, sslVer);
     }
 
     public void setMaxRetryTimes(int maxRetryTimes) {
-        setMaxRetryTimes(this, maxRetryTimes);
-    }
-
-    public static void setMaxRetryTimes(Map conf, int maxRetryTimes) {
-        conf.put(MAX_RETRY_TIMES, maxRetryTimes);
+        this.put(MAX_RETRY_TIMES, maxRetryTimes);
     }
 
     public void setReadTimeout(int readTimeout) {
-        setReadTimeout(this, readTimeout);
-    }
-
-    public static void setReadTimeout(Map conf, int readTimeout) {
-        conf.put(READ_TIMEOUT, readTimeout);
+        this.put(READ_TIMEOUT, readTimeout);
     }
 
     public void setConnectionTimeout(int connectionTimeout) {
-        setConnectionTimeout(this, connectionTimeout);
-    }
-
-    public static void setConnectionTimeout(Map conf, int connectionTimeout) {
-        conf.put(CONNECTION_TIMEOUT, connectionTimeout);
+        this.put(CONNECTION_TIMEOUT, connectionTimeout);
     }
 
     public String getSSLVersion() {
@@ -209,28 +176,20 @@ public class ClientConfig extends HashMap<String, Object> {
         return (Integer) this.get(CONNECTION_TIMEOUT);
     }
 
-    public static void setApnsProduction(Map conf, boolean production) {
+    public void setApnsProduction(boolean production) {
         if(production) {
-            conf.put(APNS_PRODUCTION, 1);
+            this.put(APNS_PRODUCTION, 1);
         } else {
-            conf.put(APNS_PRODUCTION, 0);
+            this.put(APNS_PRODUCTION, 0);
         }
     }
 
-    public void setApnsProduction(boolean production) {
-        setApnsProduction(this, production);
-    }
-
-    public static void setTimeToLive(Map conf, long timeToLive) {
-        conf.put(TIME_TO_LIVE, timeToLive);
-    }
-
     public void setTimeToLive(long timeToLive) {
-        setTimeToLive(this, timeToLive);
+        this.put(TIME_TO_LIVE, timeToLive);
     }
 
     public void setGlobalPushSetting(boolean apnsProduction, long timeToLive) {
-        setApnsProduction(this, apnsProduction);
+        setApnsProduction(apnsProduction);
         setTimeToLive(timeToLive);
     }
 }
