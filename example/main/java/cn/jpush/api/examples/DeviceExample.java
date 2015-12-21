@@ -1,22 +1,21 @@
 package cn.jpush.api.examples;
 
-import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.device.OnlineStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.common.resp.DefaultResult;
+import cn.jpush.api.device.OnlineStatus;
 import cn.jpush.api.device.TagAliasResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class DevcieExample {
-	protected static final Logger LOG = LoggerFactory.getLogger(DevcieExample.class);
+public class DeviceExample {
+	protected static final Logger LOG = LoggerFactory.getLogger(DeviceExample.class);
 
 	private static final String appKey = "dd1066407b044738b6479275";
-	private static final String masterSecret = "6b135be0037a5c1e693c3dfa";
+	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
 	private static final String TAG1 = "tag1";
 	private static final String ALIAS1 = "alias1";
 	private static final String ALIAS2 = "alias2";
@@ -27,7 +26,7 @@ public class DevcieExample {
 
 	public static void main(String[] args) {
 //		testGetDeviceTagAlias();
-		testGetUserOnlineStatus();
+//		testGetUserOnlineStatus();
 	}
 	
 	public static void testGetDeviceTagAlias() {

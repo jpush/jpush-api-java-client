@@ -3,7 +3,6 @@ package cn.jpush.api.device;
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.*;
 import cn.jpush.api.utils.Preconditions;
@@ -27,26 +26,26 @@ public class DeviceClient {
     private String aliasesPath;
 
     public DeviceClient(String masterSecret, String appKey) {
-        this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
-    }
-    
-    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes) {
-        this(masterSecret, appKey, maxRetryTimes, null);
-    }
-    
-    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
+        this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
 
     /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
      *
-     * @param masterSecret API access secret of the appKey.
-     * @param appKey The KEY of one application on JPush.
-     * @param maxRetryTimes Max retry times
-     * @param proxy The proxy, if there is no proxy, should be null.
-     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
      */
-    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+    @Deprecated
+    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes) {
+        this(masterSecret, appKey, maxRetryTimes, null);
+    }
+
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
+    @Deprecated
+    public DeviceClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setMaxRetryTimes(maxRetryTimes);
         ServiceHelper.checkBasic(appKey, masterSecret);
 
         hostName = (String) conf.get(ClientConfig.DEVICE_HOST_NAME);
@@ -55,7 +54,28 @@ public class DeviceClient {
         aliasesPath = (String) conf.get(ClientConfig.ALIASES_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        _httpClient = new NativeHttpClient(authCode, proxy, conf);
+
+    }
+
+    /**
+     * Create a Device Client by client configuration.
+     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     */
+    public DeviceClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        hostName = (String) conf.get(ClientConfig.DEVICE_HOST_NAME);
+        devicesPath = (String) conf.get(ClientConfig.DEVICES_PATH);
+        tagsPath = (String) conf.get(ClientConfig.TAGS_PATH);
+        aliasesPath = (String) conf.get(ClientConfig.ALIASES_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        _httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
     // -------------- device 

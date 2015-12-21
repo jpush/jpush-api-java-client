@@ -3,7 +3,6 @@ package cn.jpush.api.push;
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -12,7 +11,6 @@ import cn.jpush.api.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.utils.Preconditions;
 import cn.jpush.api.utils.StringUtils;
-
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
@@ -36,12 +34,10 @@ public class PushClient {
     private JsonParser _jsonParser = new JsonParser();
 
     // If not present, true by default.
-    private boolean _apnsProduction = true;
+    private int _apnsProduction;
     
     // If not present, the default value is 86400(s) (one day)
-    private long _timeToLive = 60 * 60 * 24;
-    
-    private boolean _globalSettingEnabled = false;
+    private long _timeToLive;
 
     /**
      * Create a Push Client.
@@ -50,33 +46,55 @@ public class PushClient {
      * @param appKey The KEY of one application on JPush.
      */
 	public PushClient(String masterSecret, String appKey) {
-	    this(masterSecret, appKey, IHttpClient.DEFAULT_MAX_RETRY_TIMES);
+	    this(masterSecret, appKey, null, ClientConfig.getInstance());
 	}
-	
+
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+     */
+    @Deprecated
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes) {
 	    this(masterSecret, appKey, maxRetryTimes, null);
 	}
 	
 	/**
 	 * Create a Push Client with max retry times.
-	 * 
+	 * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+     *
 	 * @param masterSecret  API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
 	 * @param maxRetryTimes max retry times
 	 */
+    @Deprecated
 	public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setMaxRetryTimes(maxRetryTimes);
+
+        this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
+        this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
+        this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+
+        this._apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
+        this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
 
-    public PushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+    public PushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         ServiceHelper.checkBasic(appKey, masterSecret);
 
         this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
         this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
         this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
 
+        this._apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
+        this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
+
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 
     }
 
@@ -84,24 +102,38 @@ public class PushClient {
      * Create a Push Client with global settings.
      * 
      * If you want different settings from default globally, this constructor is what you needed.
-     * 
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+     *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
      * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
      * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
      */
+    @Deprecated
     public PushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
         this(masterSecret, appKey);
-        
-        this._apnsProduction = apnsProduction;
+        if(apnsProduction) {
+            _apnsProduction = 1;
+        } else {
+            _apnsProduction = 0;
+        }
         this._timeToLive = timeToLive;
-        this._globalSettingEnabled = true;
     }
-    
+
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this method.
+     *
+     * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
+     * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
+     */
+    @Deprecated
     public void setDefaults(boolean apnsProduction, long timeToLive) {
-        this._apnsProduction = apnsProduction;
+        if(apnsProduction) {
+            _apnsProduction = 1;
+        } else {
+            _apnsProduction = 0;
+        }
         this._timeToLive = timeToLive;
-        this._globalSettingEnabled = true;
     }
     
     public void setBaseUrl(String baseUrl) {
@@ -111,11 +143,16 @@ public class PushClient {
     public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
         
-        if (_globalSettingEnabled) {
-            pushPayload.resetOptionsTimeToLive(_timeToLive);
-            pushPayload.resetOptionsApnsProduction(_apnsProduction);
+        if (_apnsProduction > 0) {
+            pushPayload.resetOptionsApnsProduction(true);
+        } else if(_apnsProduction == 0) {
+            pushPayload.resetOptionsApnsProduction(false);
         }
-        
+
+        if (_timeToLive >= 0) {
+            pushPayload.resetOptionsTimeToLive(_timeToLive);
+        }
+
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, pushPayload.toString());
         
         return BaseResult.fromResponse(response, PushResult.class);
@@ -124,9 +161,14 @@ public class PushClient {
     public PushResult sendPushValidate(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
         
-        if (_globalSettingEnabled) {
+        if (_apnsProduction > 0) {
+            pushPayload.resetOptionsApnsProduction(true);
+        } else if(_apnsProduction == 0) {
+            pushPayload.resetOptionsApnsProduction(false);
+        }
+
+        if (_timeToLive >= 0) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
-            pushPayload.resetOptionsApnsProduction(_apnsProduction);
         }
         
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, pushPayload.toString());
@@ -161,7 +203,6 @@ public class PushClient {
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
-
 
 }
 

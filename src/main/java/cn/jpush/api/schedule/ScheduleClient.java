@@ -3,7 +3,6 @@ package cn.jpush.api.schedule;
 import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.ServiceHelper;
 import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.IHttpClient;
 import cn.jpush.api.common.connection.NativeHttpClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -23,32 +22,50 @@ public class ScheduleClient {
     private String schedulePath;
 
     public ScheduleClient(String masterSecret, String appkey) {
-        this(masterSecret, appkey, IHttpClient.DEFAULT_MAX_RETRY_TIMES, null, ClientConfig.getInstance());
+        this(masterSecret, appkey, null, ClientConfig.getInstance());
     }
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
+    @Deprecated
     public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes) {
-        this(masterSecret, appKey, maxRetryTimes, null, ClientConfig.getInstance());
+        this(masterSecret, appKey, maxRetryTimes, null);
     }
 
+    /**
+     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     *
+     */
+    @Deprecated
     public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
-        this(masterSecret, appKey, maxRetryTimes, proxy, ClientConfig.getInstance());
+        ServiceHelper.checkBasic(appKey, masterSecret);
+
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setMaxRetryTimes(maxRetryTimes);
+
+        hostName = (String) conf.get(ClientConfig.SCHEDULE_HOST_NAME);
+        schedulePath = (String) conf.get(ClientConfig.SCHEDULE_PATH);
+
+        String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
     /**
      * Create a Schedule Client with custom configuration.
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
-     * @param maxRetryTimes Max retry times
      * @param proxy The proxy, if there is no proxy, should be null.
      * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
      */
-    public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf) {
+    public ScheduleClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         ServiceHelper.checkBasic(appKey, masterSecret);
         hostName = (String) conf.get(ClientConfig.SCHEDULE_HOST_NAME);
         schedulePath = (String) conf.get(ClientConfig.SCHEDULE_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, maxRetryTimes, proxy);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
     public ScheduleResult createSchedule(SchedulePayload payload) throws APIConnectionException, APIRequestException {

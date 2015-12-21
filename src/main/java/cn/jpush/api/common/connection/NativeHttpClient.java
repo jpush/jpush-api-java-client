@@ -1,5 +1,6 @@
 package cn.jpush.api.common.connection;
 
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.common.resp.ResponseWrapper;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.net.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.MessageFormat;
 
 /**
  * The implementation has no connection pool mechanism, used origin java connection.
@@ -28,31 +30,34 @@ public class NativeHttpClient implements IHttpClient {
     private static final Logger LOG = LoggerFactory.getLogger(NativeHttpClient.class);
     private static final String KEYWORDS_CONNECT_TIMED_OUT = "connect timed out";
     private static final String KEYWORDS_READ_TIMED_OUT = "Read timed out";
-    
-    private int _maxRetryTimes = 0;
+
+	private final int _connectionTimeout;
+	private final int _readTimeout;
+    private final int _maxRetryTimes;
+	private final String _sslVer;
+
     private String _authCode;
     private HttpProxy _proxy;
     
-    /**
-     * 默认的重连次数是 3
-     */
-    public NativeHttpClient(String authCode) {
-        this(authCode, DEFAULT_MAX_RETRY_TIMES, null);
-    }
-    
-    public NativeHttpClient(String authCode, int maxRetryTimes, HttpProxy proxy) {
-        this._maxRetryTimes = maxRetryTimes;
-        LOG.info("Created instance with _maxRetryTimes = " + _maxRetryTimes);
-        
-        this._authCode = authCode;
-        this._proxy = proxy;
-        
+    public NativeHttpClient(String authCode, HttpProxy proxy, ClientConfig config ) {
+        _maxRetryTimes = config.getMaxRetryTimes();
+		_connectionTimeout = config.getConnectionTimeout();
+		_readTimeout = config.getReadTimeout();
+		_sslVer = config.getSSLVersion();
+
+		_authCode = authCode;
+		_proxy = proxy;
+
+		String message = MessageFormat.format("Created instance with "
+						+ "connectionTimeout {0}, readTimeout {1}, maxRetryTimes {2}, SSL Version {3}",
+				_connectionTimeout, _readTimeout, _maxRetryTimes, _sslVer);
+        LOG.info(message);
+
         if ( null != _proxy && _proxy.isAuthenticationNeeded()) {
         	Authenticator.setDefault(new SimpleProxyAuthenticator(
                 _proxy.getUsername(), _proxy.getPassword()));
         }
-        
-        initSSL();
+        initSSL(_sslVer);
     }
     
     public ResponseWrapper sendGet(String url) 
@@ -133,8 +138,8 @@ public class NativeHttpClient implements IHttpClient {
 			    conn = (HttpURLConnection) aUrl.openConnection();
 			}
 			
-			conn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
-			conn.setReadTimeout(DEFAULT_READ_TIMEOUT);
+			conn.setConnectTimeout(_connectionTimeout);
+			conn.setReadTimeout(_readTimeout);
 			conn.setUseCaches(false);
 			conn.setRequestMethod(method.name());
 			conn.setRequestProperty("User-Agent", JPUSH_USER_AGENT);
@@ -257,11 +262,11 @@ public class NativeHttpClient implements IHttpClient {
 		return wrapper;
 	}
 
-	protected void initSSL() {
+	protected void initSSL(String sslVer) {
         TrustManager[] tmCerts = new javax.net.ssl.TrustManager[1];
         tmCerts[0] = new SimpleTrustManager();
 		try {
-			SSLContext sslContext = SSLContext.getInstance("TLS");
+			SSLContext sslContext = SSLContext.getInstance(sslVer);
 			sslContext.init(null, tmCerts, null);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 			

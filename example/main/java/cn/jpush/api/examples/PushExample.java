@@ -22,8 +22,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-	private static final String appKey ="e5c0d34f58732cf09b2d4d74";
-	private static final String masterSecret = "4cdda6d3c8b029941dbc5cb3";
+	private static final String appKey ="dd1066407b044738b6479275";
+	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
 	
 	public static final String TITLE = "Test from API example";
     public static final String ALERT = "Test from API Example - alert";
