@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class UsersResult extends BaseResult {
 
+    private static final long serialVersionUID = -963296929272770550L;
     @Expose public TimeUnit time_unit;
     @Expose public String start;
     @Expose public int duration;

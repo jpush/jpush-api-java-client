@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 
 public class ScheduleResult extends BaseResult{
 
+    private static final long serialVersionUID = 995450157929190757L;
     @Expose String schedule_id;
     @Expose String name;
     @Expose Boolean enabled;

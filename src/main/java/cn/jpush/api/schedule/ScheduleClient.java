@@ -21,6 +21,12 @@ public class ScheduleClient {
     private String hostName;
     private String schedulePath;
 
+    // If not present, true by default.
+    private int apnsProduction;
+
+    // If not present, the default value is 86400(s) (one day)
+    private long timeToLive;
+
     public ScheduleClient(String masterSecret, String appkey) {
         this(masterSecret, appkey, null, ClientConfig.getInstance());
     }
@@ -47,6 +53,8 @@ public class ScheduleClient {
 
         hostName = (String) conf.get(ClientConfig.SCHEDULE_HOST_NAME);
         schedulePath = (String) conf.get(ClientConfig.SCHEDULE_PATH);
+        apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
+        timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -63,6 +71,8 @@ public class ScheduleClient {
         ServiceHelper.checkBasic(appKey, masterSecret);
         hostName = (String) conf.get(ClientConfig.SCHEDULE_HOST_NAME);
         schedulePath = (String) conf.get(ClientConfig.SCHEDULE_PATH);
+        apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
+        timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -71,6 +81,16 @@ public class ScheduleClient {
     public ScheduleResult createSchedule(SchedulePayload payload) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(null != payload, "payload should not be null");
+
+        if (apnsProduction > 0) {
+            payload.resetPushApnsProduction(true);
+        } else if(apnsProduction == 0) {
+            payload.resetPushApnsProduction(false);
+        }
+
+        if (timeToLive >= 0) {
+            payload.resetPushTimeToLive(timeToLive);
+        }
 
         ResponseWrapper response = _httpClient.sendPost(hostName  + schedulePath, payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
@@ -96,6 +116,16 @@ public class ScheduleClient {
 
         Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
         Preconditions.checkArgument(null != payload, "payload should not be null");
+
+        if (apnsProduction > 0) {
+            payload.resetPushApnsProduction(true);
+        } else if(apnsProduction == 0) {
+            payload.resetPushApnsProduction(false);
+        }
+
+        if (timeToLive >= 0) {
+            payload.resetPushTimeToLive(timeToLive);
+        }
 
         ResponseWrapper response = _httpClient.sendPut(hostName +  schedulePath + "/" + scheduleId,
                 payload.toString());

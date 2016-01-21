@@ -3,14 +3,18 @@ package cn.jpush.api.common.resp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public abstract class BaseResult implements IRateLimiting {
+import java.io.Serializable;
+
+public abstract class BaseResult implements IRateLimiting, Serializable {
     public static final int ERROR_CODE_NONE = -1;
     public static final int ERROR_CODE_OK = 0;
     public static final String ERROR_MESSAGE_NONE = "None error message.";
     
     protected static final int RESPONSE_OK = 200;
     protected static Gson _gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    
+
+    private static final long serialVersionUID = 4810924314887130678L;
+
     private ResponseWrapper responseWrapper;
     
     public void setResponseWrapper(ResponseWrapper responseWrapper) {

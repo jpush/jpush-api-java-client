@@ -9,10 +9,14 @@ import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ResponseWrapper {
+import java.io.Serializable;
+
+public class ResponseWrapper implements Serializable {
+
     private static final Logger LOG = LoggerFactory.getLogger(ResponseWrapper.class);
     private static final int RESPONSE_CODE_NONE = -1;
-    
+    private static final long serialVersionUID = -4227962073448507865L;
+
     private static Gson _gson = new Gson();
     private static JsonParser jsonParser = new JsonParser();
     

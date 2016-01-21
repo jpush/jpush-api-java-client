@@ -11,6 +11,7 @@ import java.util.List;
 
 public class MessagesResult extends BaseResult {
     private static final Type MESSAGE_TYPE = new TypeToken<List<Message>>() {}.getType();
+    private static final long serialVersionUID = -1582895355000647292L;
 
     @Expose
     public List<Message> messages = new ArrayList<Message>();
