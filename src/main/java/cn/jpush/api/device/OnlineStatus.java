@@ -1,9 +1,13 @@
 package cn.jpush.api.device;
 
-public class OnlineStatus {
+import java.io.Serializable;
 
-    Boolean online;
-    String last_online_time;
+public class OnlineStatus implements Serializable {
+
+    private static final long serialVersionUID = -5436655826293828109L;
+
+    private Boolean online;
+    private String last_online_time;
 
     public Boolean getOnline() {
         return online;

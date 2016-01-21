@@ -49,6 +49,18 @@ public class SchedulePayload implements IModel {
         return gson.toJson(toJSON());
     }
 
+    public void resetPushApnsProduction(boolean apnsProduction) {
+        if(null != push) {
+            push.resetOptionsApnsProduction(apnsProduction);
+        }
+    }
+
+    public void resetPushTimeToLive(long timeToLive) {
+        if(null != push) {
+            push.resetOptionsTimeToLive(timeToLive);
+        }
+    }
+
     public static class Builder{
         private String name;
         private Boolean enabled;
