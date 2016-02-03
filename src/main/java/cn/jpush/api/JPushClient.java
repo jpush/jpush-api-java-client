@@ -138,12 +138,12 @@ public class JPushClient {
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy, ClientConfig conf,
                        boolean apnsProduction, long timeToLive) {
         conf.setMaxRetryTimes(maxRetryTimes);
+        conf.setApnsProduction(apnsProduction);
+        conf.setTimeToLive(timeToLive);
         _pushClient = new PushClient(masterSecret, appKey, proxy, conf);
         _reportClient = new ReportClient(masterSecret, appKey, proxy, conf);
         _deviceClient = new DeviceClient(masterSecret, appKey, proxy, conf);
         _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
-        _pushClient.setDefaults(apnsProduction, timeToLive);
-
     }
     
 	/**
@@ -159,7 +159,10 @@ public class JPushClient {
 	 */
     @Deprecated
     public JPushClient(String masterSecret, String appKey, boolean apnsProduction, long timeToLive) {
-        _pushClient = new PushClient(masterSecret, appKey, apnsProduction, timeToLive);
+        ClientConfig conf = ClientConfig.getInstance();
+        conf.setApnsProduction(apnsProduction);
+        conf.setTimeToLive(timeToLive);
+        _pushClient = new PushClient(masterSecret, appKey);
         _reportClient = new ReportClient(masterSecret, appKey);
         _deviceClient = new DeviceClient(masterSecret, appKey);
         _scheduleClient = new ScheduleClient(masterSecret, appKey);
