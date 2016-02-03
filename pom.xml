@@ -35,7 +35,7 @@
 		<url>https://github.com/jpush/jpush-api-java-client</url>
 		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<tag>v3.2.7</tag>
+		<tag>v3.2.8</tag>
 	</scm>
 
 	<dependencies>
