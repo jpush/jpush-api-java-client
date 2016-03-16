@@ -138,7 +138,12 @@ public class DeviceClient {
     public DefaultResult bindMobile(String registrationId, String mobile)
             throws APIConnectionException, APIRequestException
     {
-        Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
+
+        if ("".equals(mobile)) {
+            // delete bind while mobile is empty.
+        } else {
+            Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
+        }
 
         String url = hostName + devicesPath + "/" + registrationId;
         JsonObject top = new JsonObject();
