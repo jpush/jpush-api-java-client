@@ -72,7 +72,9 @@ public class JPushClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
-     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The max retry times.
      */
     @Deprecated
 	public JPushClient(String masterSecret, String appKey, int maxRetryTimes) {
@@ -84,7 +86,10 @@ public class JPushClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
-     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The max retry times.
+     * @param proxy The proxy, if there is no proxy, should be null.
      */
     @Deprecated
     public JPushClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
@@ -116,8 +121,6 @@ public class JPushClient {
         _scheduleClient = new ScheduleClient(masterSecret, appKey, proxy, conf);
 
     }
-
-
 
     /**
      * Create a JPush Client by custom Client configuration with global settings.
@@ -174,8 +177,8 @@ public class JPushClient {
      * 
      * @param pushPayload payload object of a push. 
      * @return PushResult The result object of a Push. Can be printed to a JSON.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
 	public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
 	    return _pushClient.sendPush(pushPayload);
@@ -190,8 +193,8 @@ public class JPushClient {
      * 
      * @param  payloadString payload of a push.
      * @return PushResult. Can be printed to a JSON.
-	 * @throws APIConnectionException
-	 * @throws APIRequestException
+	 * @throws APIConnectionException if a remote or network exception occurs.
+	 * @throws APIRequestException if a request exception occurs.
 	 */
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         return _pushClient.sendPush(payloadString);
@@ -200,13 +203,13 @@ public class JPushClient {
     /**
      * Validate a push action, but do NOT send it actually.
      * 
-     * @param paylaod
-     * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @param payload payload of a push.
+     * @return PushResult. Can be printed to a JSON.
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
-    public PushResult sendPushValidate(PushPayload paylaod) throws APIConnectionException, APIRequestException {
-    	return _pushClient.sendPushValidate(paylaod);
+    public PushResult sendPushValidate(PushPayload payload) throws APIConnectionException, APIRequestException {
+    	return _pushClient.sendPushValidate(payload);
     }
 
     public PushResult sendPushValidate(String payloadString) throws APIConnectionException, APIRequestException {
@@ -221,8 +224,8 @@ public class JPushClient {
      * 
      * @param msgIds 100 msgids to batch getting is supported.
      * @return ReceivedResult. Can be printed to JSON.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ReceivedsResult getReportReceiveds(String msgIds) throws APIConnectionException, APIRequestException {
 	    return _reportClient.getReceiveds(msgIds);
@@ -238,10 +241,7 @@ public class JPushClient {
     
     
     // ------------------------------ Shortcuts - notification
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendNotificationAll(String alert) throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.alertAll(alert);
         return _pushClient.sendPush(payload);
@@ -254,17 +254,14 @@ public class JPushClient {
      * @param alert The notification content.
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @return push result
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendNotificationAll(String alert, SMS sms) throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.alertAll(alert, sms);
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendAndroidNotificationWithAlias(String title, String alert, 
             Map<String, String> extras, String... alias) 
             throws APIConnectionException, APIRequestException {
@@ -286,8 +283,8 @@ public class JPushClient {
      * @param extras The extra parameter.
      * @param alias The users' alias.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendAndroidNotificationWithAlias(String title, String alert, SMS sms,
                                                        Map<String, String> extras, String... alias)
@@ -300,10 +297,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendAndroidNotificationWithRegistrationID(String title, String alert, 
             Map<String, String> extras, String... registrationID) 
             throws APIConnectionException, APIRequestException {
@@ -325,8 +319,8 @@ public class JPushClient {
      * @param extras The extra parameter.
      * @param registrationID The registration id generated by JPush.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendAndroidNotificationWithRegistrationID(String title, String alert, SMS sms,
                                                                 Map<String, String> extras, String... registrationID)
@@ -339,10 +333,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendIosNotificationWithAlias(String alert,
             Map<String, String> extras, String... alias) 
             throws APIConnectionException, APIRequestException {
@@ -362,8 +353,8 @@ public class JPushClient {
      * @param extras The extra parameter.
      * @param alias The users' alias.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithAlias(String alert, SMS sms,
                                                    Map<String, String> extras, String... alias)
@@ -385,8 +376,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithAlias(IosAlert alert,
                                                    Map<String, String> extras, String... alias)
@@ -409,8 +400,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithAlias(IosAlert alert, SMS sms,
                                                    Map<String, String> extras, String... alias)
@@ -432,8 +423,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithAlias(JsonObject alert,
                                                    Map<String, String> extras, String... alias)
@@ -456,8 +447,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithAlias(JsonObject alert, SMS sms,
                                                    Map<String, String> extras, String... alias)
@@ -470,10 +461,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendIosNotificationWithRegistrationID(String alert, 
             Map<String, String> extras, String... registrationID) 
             throws APIConnectionException, APIRequestException {
@@ -494,8 +482,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param registrationID The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithRegistrationID(String alert, SMS sms,
                                                             Map<String, String> extras, String... registrationID)
@@ -517,8 +505,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param registrationID The registration ids.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithRegistrationID(IosAlert alert,
                                                             Map<String, String> extras, String... registrationID)
@@ -541,8 +529,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param registrationID The registration ids.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithRegistrationID(IosAlert alert, SMS sms,
                                                             Map<String, String> extras, String... registrationID)
@@ -564,8 +552,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param registrationID The registration ids.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithRegistrationID(JsonObject alert,
                                                             Map<String, String> extras, String... registrationID)
@@ -588,8 +576,8 @@ public class JPushClient {
      * @param extras The extra params.
      * @param registrationID The registration ids.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosNotificationWithRegistrationID(JsonObject alert, SMS sms,
                                                             Map<String, String> extras, String... registrationID)
@@ -621,8 +609,8 @@ public class JPushClient {
      * @param msgContent The message content.
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendMessageAll(String msgContent, SMS sms) throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.messageAll(msgContent, sms);
@@ -654,8 +642,8 @@ public class JPushClient {
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendAndroidMessageWithAlias(String title, String msgContent, SMS sms, String... alias)
             throws APIConnectionException, APIRequestException {
@@ -696,8 +684,8 @@ public class JPushClient {
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @param registrationID The registration id list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendAndroidMessageWithRegistrationID(String title, String msgContent, SMS sms, String... registrationID)
             throws APIConnectionException, APIRequestException {
@@ -738,8 +726,8 @@ public class JPushClient {
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @param alias The alias list.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosMessageWithAlias(String title, String msgContent, SMS sms, String... alias)
             throws APIConnectionException, APIRequestException {
@@ -755,9 +743,6 @@ public class JPushClient {
         return _pushClient.sendPush(payload);
     }
     
-    /**
-     * Shortcut
-     */
     public PushResult sendIosMessageWithRegistrationID(String title, String msgContent, String... registrationID) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
@@ -780,8 +765,8 @@ public class JPushClient {
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @param registrationID The registrationIds generated by JPush.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendIosMessageWithRegistrationID(String title, String msgContent, SMS sms, String... registrationID)
             throws APIConnectionException, APIRequestException {
@@ -822,8 +807,8 @@ public class JPushClient {
      * @param sms The SMS content and delay time. If null, sms doesn't work, no effect on Push feature.
      * @param registrationID The registrationIds generated by JPush.
      * @return push result.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public PushResult sendMessageWithRegistrationID(String title, String msgContent, SMS sms, String... registrationID)
             throws APIConnectionException, APIRequestException {
@@ -911,8 +896,8 @@ public class JPushClient {
      * @param time The push time, format is 'yyyy-MM-dd HH:mm:ss'
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createSingleSchedule(String name, String time, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -937,8 +922,8 @@ public class JPushClient {
      * @param time The push time, format 'HH:mm:ss'
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createDailySchedule(String name, String start, String end, String time, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -954,8 +939,8 @@ public class JPushClient {
      * @param frequency The custom frequency.
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createDailySchedule(String name, String start, String end, String time, int frequency, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -971,8 +956,8 @@ public class JPushClient {
      * @param days The appointed days.
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, Week[] days, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -995,8 +980,8 @@ public class JPushClient {
      * @param days The appointed days.
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, int frequency, Week[] days, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -1018,8 +1003,8 @@ public class JPushClient {
      * @param points The appointed days.
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, String[] points, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -1037,8 +1022,8 @@ public class JPushClient {
      * @param points The appointed days.
      * @param push The push payload.
      * @return The created scheduleResult instance.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, int frequency, String[] points, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -1050,8 +1035,8 @@ public class JPushClient {
      * Get the schedule information by the schedule id.
      * @param scheduleId The schedule id.
      * @return The schedule information.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult getSchedule(String scheduleId)
             throws APIConnectionException, APIRequestException {
@@ -1061,8 +1046,8 @@ public class JPushClient {
     /**
      * Get the schedule list size and the first page.
      * @return The schedule list size and the first page.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleListResult getScheduleList()
             throws APIConnectionException, APIRequestException {
@@ -1073,8 +1058,8 @@ public class JPushClient {
      * Get the schedule list by the page.
      * @param page The page to search.
      * @return The schedule list of the appointed page.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleListResult getScheduleList(int page)
             throws APIConnectionException, APIRequestException {
@@ -1086,8 +1071,8 @@ public class JPushClient {
      * @param scheduleId The schedule id.
      * @param name The new name.
      * @return The schedule information after updated.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult updateScheduleName(String scheduleId, String name)
             throws APIConnectionException, APIRequestException {
@@ -1102,8 +1087,8 @@ public class JPushClient {
      * Enable the schedule.
      * @param scheduleId The schedule id.
      * @return The schedule information after updated.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult enableSchedule(String scheduleId)
             throws APIConnectionException, APIRequestException {
@@ -1118,8 +1103,8 @@ public class JPushClient {
      * Disable the schedule.
      * @param scheduleId The schedule id.
      * @return The schedule information after updated.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult disableSchedule(String scheduleId)
             throws APIConnectionException, APIRequestException {
@@ -1134,8 +1119,8 @@ public class JPushClient {
      * @param scheduleId The schedule id.
      * @param trigger The new trigger.
      * @return The schedule information after updated.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult updateScheduleTrigger(String scheduleId, TriggerPayload trigger)
             throws APIConnectionException, APIRequestException {
@@ -1151,8 +1136,8 @@ public class JPushClient {
      * @param scheduleId The schedule id.
      * @param push The new push payload.
      * @return The schedule information after updated.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult updateSchedulePush(String scheduleId, PushPayload push)
             throws APIConnectionException, APIRequestException {
@@ -1168,8 +1153,8 @@ public class JPushClient {
      * @param scheduleId The schedule id to update.
      * @param payload The new schedule payload.
      * @return The new schedule information.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload)
             throws APIConnectionException, APIRequestException {
@@ -1179,8 +1164,8 @@ public class JPushClient {
     /**
      * Delete a schedule by id.
      * @param scheduleId The schedule id.
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
      */
     public void deleteSchedule(String scheduleId)
             throws APIConnectionException, APIRequestException {

@@ -31,6 +31,9 @@ public class DeviceClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The max retry times.
      *
      */
     @Deprecated
@@ -40,6 +43,10 @@ public class DeviceClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The max retry times.
+     * @param proxy The HTTP proxy.
      *
      */
     @Deprecated
@@ -136,20 +143,19 @@ public class DeviceClient {
     }
 
     public DefaultResult bindMobile(String registrationId, String mobile)
-            throws APIConnectionException, APIRequestException
-    {
+            throws APIConnectionException, APIRequestException {
+        Preconditions.checkNotNull(mobile, "The mobile must not be null.");
 
-        if ("".equals(mobile)) {
+        if ( StringUtils.isEmpty(mobile) ) {
             // delete bind while mobile is empty.
+            mobile = "";
         } else {
             Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
         }
 
         String url = hostName + devicesPath + "/" + registrationId;
         JsonObject top = new JsonObject();
-        if (null != mobile) {
-            top.addProperty("mobile", mobile);
-        }
+        top.addProperty("mobile", mobile);
         ResponseWrapper response = _httpClient.sendPost(url, top.toString());
         return DefaultResult.fromResponse(response);
     }
