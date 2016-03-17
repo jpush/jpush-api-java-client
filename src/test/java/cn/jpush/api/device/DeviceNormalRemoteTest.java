@@ -181,4 +181,19 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		DefaultResult result = jpushClient.bindMobile(REGISTRATION_ID1, "13000000000");
 		assertTrue(result.isResultOK());
 	}
+
+	@Test
+	@TestOrder(order = 361)
+	public void testBindMobile_null() throws APIConnectionException, APIRequestException {
+		DefaultResult result = jpushClient.bindMobile(REGISTRATION_ID1, null);
+		assertTrue(result.isResultOK());
+	}
+
+	@Test
+	@TestOrder(order = 362)
+	public void testBindMobile_empty() throws APIConnectionException, APIRequestException {
+		DefaultResult result = jpushClient.bindMobile(REGISTRATION_ID1, "");
+		assertTrue(result.isResultOK());
+	}
+
 }
