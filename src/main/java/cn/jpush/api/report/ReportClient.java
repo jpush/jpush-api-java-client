@@ -28,6 +28,9 @@ public class ReportClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * @param masterSecret  API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes max retry times.
      *
      */
     @Deprecated
@@ -37,6 +40,10 @@ public class ReportClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * @param masterSecret  API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes max retry times
+     * @param proxy The max retry times.
      *
      */
     @Deprecated
