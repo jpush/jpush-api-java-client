@@ -144,8 +144,6 @@ public class DeviceClient {
 
     public DefaultResult bindMobile(String registrationId, String mobile)
             throws APIConnectionException, APIRequestException {
-        Preconditions.checkNotNull(mobile, "The mobile must not be null.");
-
         if ( StringUtils.isEmpty(mobile) ) {
             // delete bind while mobile is empty.
             mobile = "";
