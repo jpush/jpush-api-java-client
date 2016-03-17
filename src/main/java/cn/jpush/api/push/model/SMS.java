@@ -27,7 +27,7 @@ public class SMS implements PushModel {
      *
      * @param content The SMS content.
      * @param delayTime The seconds you want to delay, should be greater than or equal to 0.
-     * @return
+     * @return SMS payload.
      */
     public static SMS content(String content, int delayTime) {
         return new Builder()

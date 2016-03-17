@@ -593,10 +593,7 @@ public class JPushClient {
 
     
     // ---------------------- shortcuts - message
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendMessageAll(String msgContent) throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.messageAll(msgContent);
         return _pushClient.sendPush(payload);
@@ -616,10 +613,7 @@ public class JPushClient {
         PushPayload payload = PushPayload.messageAll(msgContent, sms);
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendAndroidMessageWithAlias(String title, String msgContent, String... alias) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
@@ -658,10 +652,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendAndroidMessageWithRegistrationID(String title, String msgContent, String... registrationID) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
@@ -700,10 +691,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
-    /**
-     * Shortcut
-     */
+
     public PushResult sendIosMessageWithAlias(String title, String msgContent, String... alias) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
@@ -742,7 +730,7 @@ public class JPushClient {
                 .build();
         return _pushClient.sendPush(payload);
     }
-    
+
     public PushResult sendIosMessageWithRegistrationID(String title, String msgContent, String... registrationID) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
@@ -782,9 +770,6 @@ public class JPushClient {
         return _pushClient.sendPush(payload);
     }
 
-    /**
-     * Shortcut
-     */
     public PushResult sendMessageWithRegistrationID(String title, String msgContent, String... registrationID) 
             throws APIConnectionException, APIRequestException {
         PushPayload payload = PushPayload.newBuilder()
