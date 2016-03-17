@@ -33,6 +33,9 @@ public class ScheduleClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The mas retry times.
      *
      */
     @Deprecated
@@ -42,7 +45,10 @@ public class ScheduleClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
-     *
+     * @param masterSecret API access secret of the appKey.
+     * @param appKey The KEY of one application on JPush.
+     * @param maxRetryTimes The mas retry times.
+     * @param proxy The proxy, if there is no proxy, should be null.
      */
     @Deprecated
     public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
