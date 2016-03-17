@@ -51,9 +51,10 @@ public class PushPayload implements PushModel {
         this.options = options;
         this.sms = sms;
     }
-    
+
     /**
      * The entrance for building a PushPayload object.
+     * @return PushPayload builder
      */
     public static Builder newBuilder() {
         return new Builder();
@@ -61,6 +62,8 @@ public class PushPayload implements PushModel {
     
     /**
      * The shortcut of building a simple alert notification object to all platforms and all audiences
+     * @param alert The alert message.
+     * @return PushPayload
      */
     public static PushPayload alertAll(String alert) {
         return new Builder()
@@ -80,6 +83,8 @@ public class PushPayload implements PushModel {
     
     /**
      * The shortcut of building a simple message object to all platforms and all audiences
+     * @param msgContent The message content.
+     * @return PushPayload
      */
     public static PushPayload messageAll(String msgContent) {
         return new Builder()
