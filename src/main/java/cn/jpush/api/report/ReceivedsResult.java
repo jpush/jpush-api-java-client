@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ReceivedsResult extends BaseResult {
     private static final Type RECEIVED_TYPE = new TypeToken<List<Received>>() {}.getType();
+    private static final long serialVersionUID = 1761456104618847304L;
 
     @Expose
     public List<Received> received_list = new ArrayList<Received>();
@@ -24,7 +25,7 @@ public class ReceivedsResult extends BaseResult {
         @Expose
         public int ios_apns_sent;
         @Expose
-        public int ios_msg_receive;
+        public int ios_msg_received;
         @Expose
         public int wp_mpns_sent;
     }
