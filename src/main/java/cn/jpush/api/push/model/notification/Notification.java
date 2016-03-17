@@ -33,10 +33,7 @@ public class Notification implements PushModel {
     public static Notification alert(Object alert) {
         return newBuilder().setAlert(alert).build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification android(String alert, String title, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(AndroidNotification.newBuilder()
@@ -46,10 +43,7 @@ public class Notification implements PushModel {
                     .build())
                 .build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification ios(Object alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
@@ -58,10 +52,7 @@ public class Notification implements PushModel {
                     .build())
                 .build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification ios_auto_badge() {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
@@ -70,10 +61,7 @@ public class Notification implements PushModel {
                     .build())
                 .build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification ios_set_badge(int badge) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
@@ -82,10 +70,7 @@ public class Notification implements PushModel {
                     .build())
                 .build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification ios_incr_badge(int badge) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
@@ -94,10 +79,7 @@ public class Notification implements PushModel {
                     .build())
                 .build();
     }
-    
-    /**
-     * shortcut
-     */
+
     public static Notification winphone(String alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(WinphoneNotification.newBuilder()
