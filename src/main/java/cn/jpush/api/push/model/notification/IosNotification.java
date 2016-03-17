@@ -8,8 +8,8 @@ import com.google.gson.JsonPrimitive;
 import java.util.Map;
 
 /**
- * APNs 通知类
- * <p>
+ * <p><b>APNs 通知类</b></p>
+ * <br>
  * 支持 APNs 默认的几个参数：
  * <ul>
  * <li>alert: 继承自父类 PlatformNotification 的 alert 属性；本类设置则覆盖。</li>
@@ -18,14 +18,12 @@ import java.util.Map;
  * <li>content-available: 用来支持后台推送。如果该值赋值为 1，表示开启后台推送。</li>
  * <li>extras: JSON object. 支持更多的自定义字段信息。</li>
  * </ul>
- * </p>
- * <p>
+ * <br>
  * 需要特别留意的是，JPush SDK 会对以下几个值有特别的默认设置考虑：
  * <ul>
- * <li>badge: 默认为 "+1"。如果需要取消 badge 值，需要显式地调用 disableBadge().</li>
- * <li>sound: 默认为 ""，即默认的声音提示。如果需要取消 sound 值，即不要声音，需要显式地调用 disableSound(). </li>
+ * <li>badge: 默认为 "+1"。如果需要取消 badge 值，需要显式地调用 disableBadge()。</li>
+ * <li>sound: 默认为 ""，即默认的声音提示。如果需要取消 sound 值，即不要声音，需要显式地调用 disableSound()。</li>
  * </ul>
- * </p>
  */
 public class IosNotification extends PlatformNotification {
     public static final String NOTIFICATION_IOS = "ios";
