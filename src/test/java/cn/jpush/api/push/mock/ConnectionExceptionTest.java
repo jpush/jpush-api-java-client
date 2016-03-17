@@ -21,8 +21,8 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.SocketPolicy;
 
 /**
- * Record: MockResponse->throttleBody will delay response body, but sometimes has no effect.
- * MockResponse->setBodyDelayTimeMs has no effect for delay test.
+ * Record: MockResponse.throttleBody will delay response body, but sometimes has no effect.
+ * MockResponse.setBodyDelayTimeMs has no effect for delay test.
  * 
  */
 public class ConnectionExceptionTest implements IMockTest {
