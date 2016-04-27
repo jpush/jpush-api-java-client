@@ -98,7 +98,7 @@ public class JPushClient {
         _deviceClient = new DeviceClient(masterSecret, appKey, maxRetryTimes, proxy);
         _scheduleClient = new ScheduleClient(masterSecret, appKey, maxRetryTimes, proxy);
     }
-
+    
     /**
      * Create a JPush Client by custom Client configuration.
      *
