@@ -30,7 +30,7 @@ public class PushPayload implements PushModel {
     private static final String SMS = "sms_message";
     
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
-    private static final int MAX_IOS_PAYLOAD_LENGTH = 220;  // Definition acording to JPush Docs
+    private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
     
     private static Gson _gson = new Gson();
     
