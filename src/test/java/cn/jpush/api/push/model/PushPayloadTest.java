@@ -107,11 +107,23 @@ public class PushPayloadTest {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
-                .setMessage(Message.content(LONG_TEXT_3))
+                .setMessage(Message.content(LONG_TEXT_2))
                 .build();
-    	System.out.println("Size: " + LONG_TEXT_3.getBytes().length);
-        Assert.assertTrue("Should exceed - " + LONG_TEXT_3.getBytes().length, 
+    	System.out.println("Size: " + LONG_TEXT_2.getBytes().length);
+        Assert.assertFalse("Shouldn't exceed - " + LONG_TEXT_2.getBytes().length, 
         		payload.isGlobalExceedLength());
+    }
+    
+    @Test
+    public void testGlobalExeed2() {
+    	PushPayload payload = PushPayload.newBuilder()
+    			.setPlatform(Platform.all())
+    			.setAudience(Audience.all())
+    			.setMessage(Message.content(LONG_TEXT_3))
+    			.build();
+    	System.out.println("Size: " + LONG_TEXT_3.getBytes().length);
+    	Assert.assertTrue("Should exeed - " + LONG_TEXT_3.getBytes().length,
+    			payload.isGlobalExceedLength());
     }
     
     @Test
@@ -122,7 +134,7 @@ public class PushPayloadTest {
                 .setNotification(Notification.alert(LONG_TEXT_1))
                 .build();
     	System.out.println("Size: " + LONG_TEXT_1.getBytes().length);
-        Assert.assertTrue("Should exceed - " + LONG_TEXT_1.getBytes().length, 
+        Assert.assertFalse("Shouldn't exceed - " + LONG_TEXT_1.getBytes().length, 
         		payload.isIosExceedLength());
     }
 
@@ -132,10 +144,10 @@ public class PushPayloadTest {
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder().addPlatformNotification(
-                        IosNotification.alert(LONG_TEXT_1)).build())
+                        IosNotification.alert(LONG_TEXT_3)).build())
                 .build();
-    	System.out.println("Size: " + LONG_TEXT_1.getBytes().length);
-        Assert.assertTrue("Should exceed - " + LONG_TEXT_1.getBytes().length, 
+    	System.out.println("Size: " + LONG_TEXT_3.getBytes().length);
+        Assert.assertTrue("Should exceed - " + LONG_TEXT_3.getBytes().length, 
         		payload.isIosExceedLength());
     }
 
