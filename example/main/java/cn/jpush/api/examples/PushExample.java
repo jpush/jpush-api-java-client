@@ -1,22 +1,23 @@
 package cn.jpush.api.examples;
 
-import cn.jpush.api.common.ClientConfig;
-import cn.jpush.api.push.model.*;
-import cn.jpush.api.push.model.notification.IosAlert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.ClientConfig;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.notification.AndroidNotification;
+import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
@@ -33,7 +34,7 @@ public class PushExample {
 
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
-        testSendIosAlert();
+        buildPushObject_with_extra();
 	}
 	
 	
@@ -94,6 +95,37 @@ public class PushExample {
                 				.addExtra("extra_key", "extra_value").build())
                 		.build())
                 .build();
+    }
+
+    public static void buildPushObject_with_extra() {
+
+        JsonObject jsonExtra = new JsonObject();
+        jsonExtra.addProperty("extra1", 1);
+        jsonExtra.addProperty("extra2", false);
+
+        Map<String, String> extras = new HashMap<String, String>();
+        extras.put("extra_1", "val1");
+        extras.put("extra_2", "val2");
+
+        PushPayload payload = PushPayload.newBuilder()
+                .setPlatform(Platform.android_ios())
+                .setAudience(Audience.tag("tag1"))
+                .setNotification(Notification.newBuilder()
+                        .setAlert("alert content")
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setTitle("Android Title")
+                                .addExtras(extras)
+                                .addExtra("booleanExtra", false)
+                                .addExtra("numberExtra", 1)
+                                .addExtra("jsonExtra", jsonExtra)
+                                .build())
+                        .addPlatformNotification(IosNotification.newBuilder()
+                                .incrBadge(1)
+                                .addExtra("extra_key", "extra_value").build())
+                        .build())
+                .build();
+
+        System.out.println(payload.toJSON());
     }
     
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
