@@ -167,7 +167,7 @@ public class PushExample {
         // Setup the custom hostname
         config.setPushHostName("https://api.jpush.cn");
 
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3, null, config);
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, config);
 
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_all_alert();
