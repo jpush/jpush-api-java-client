@@ -2,11 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cn.jiguang.commom</groupId>
-	<artifactId>jiguang-client-common</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<artifactId>jiguang-common</artifactId>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 
-	<name>jiguang-client-common</name>
+	<name>jiguang-common</name>
 	<url>http://maven.apache.org</url>
 
 	<licenses>
