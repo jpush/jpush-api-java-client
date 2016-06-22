@@ -3,7 +3,7 @@
 
 	<groupId>cn.jiguang.commom</groupId>
 	<artifactId>jiguang-client-common</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>jiguang-client-common</name>
