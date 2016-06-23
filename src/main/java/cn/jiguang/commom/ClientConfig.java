@@ -61,7 +61,7 @@ public class ClientConfig extends HashMap<String, Object> {
 
     /**
      * Global APNs environment setting.
-     * Setting to -1, if you want to use PushPayload Options{@link cn.jpush.api.push.model.Options#apnsProduction}.
+     * Setting to -1, if you want to use PushPayload Options.
      * Default value is -1.
      * Setting to 0, if you want to use global setting as development environment.
      * Setting to 1, if you want to use global setting as production environment.
@@ -73,7 +73,7 @@ public class ClientConfig extends HashMap<String, Object> {
 
     /**
      * Global time_to_live setting. Time unit is second.
-     * Setting to -1, if you want to use PushPayload Options{@link cn.jpush.api.push.model.Options#timeToLive}.
+     * Setting to -1, if you want to use PushPayload Options.
      * Default value is -1.
      * It will override PushPayload Options, while it is a positive integer value.
      */
