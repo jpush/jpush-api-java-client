@@ -19,7 +19,7 @@ Common lib for JiGuang Java clients.
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jiguang-common</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 </dependency>
 ```
 ### jar 包方式
@@ -51,7 +51,7 @@ Common lib for JiGuang Java clients.
 <dependency>
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jiguang-common</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 </dependency>
 <!-- For log4j -->
 <dependency>
