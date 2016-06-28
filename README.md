@@ -1,18 +1,20 @@
-# jiguang-java-client-common
+# JiGuang Common for Java
+
 Common lib for JiGuang Java clients. 
 
 ## 概述
 
-这是极光 java client 的公共封装开发包，为 jpush, jmessage, jsms 等 client 提供公共依赖。
+这是极光 Java client 的公共封装开发包，为 jpush, jmessage, jsms 等 client 提供公共依赖。
 
 版本更新：[Release页面](https://github.com/jpush/jiguang-java-client-common/releases)。下载更新请到这里。
 
-> 非常欢迎各位开发者提交代码，贡献一份力量，review过有效的代码将会合入本项目。
+> 非常欢迎各位开发者提交代码，贡献一份力量，Review 过有效的代码将会合入本项目。
 
 
 ## 安装
 
 ### maven 方式
+
 将下边的依赖条件放到你项目的 maven pom.xml 文件里。
 
 ```Java
@@ -22,6 +24,7 @@ Common lib for JiGuang Java clients.
     <version>0.1.2</version>
 </dependency>
 ```
+
 ### jar 包方式
 
 请到 [Release页面](https://github.com/jpush/jiguang-java-client-common/releases)下载相应版本的发布包。
