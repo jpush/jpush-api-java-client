@@ -76,7 +76,7 @@ public class JPushClient {
     }
 
     /**
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
      * @param maxRetryTimes The max retry times.
@@ -90,7 +90,7 @@ public class JPushClient {
 	}
 
     /**
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
      * @param maxRetryTimes The max retry times.
@@ -108,7 +108,7 @@ public class JPushClient {
      * Create a JPush Client by custom Client configuration.
      *
      * If you are using JPush privacy cloud, maybe this constructor is what you needed.
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -132,7 +132,7 @@ public class JPushClient {
      *
      * If you are using JPush privacy cloud, and you want different settings from default globally,
      * maybe this constructor is what you needed.
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setGlobalPushSetting} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -158,7 +158,7 @@ public class JPushClient {
 	 * Create a JPush Client with global settings.
 	 * 
 	 * If you want different settings from default globally, this constructor is what you needed.
-	 * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this constructor.
+	 * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setGlobalPushSetting} instead of this constructor.
      *
 	 * @param masterSecret API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
