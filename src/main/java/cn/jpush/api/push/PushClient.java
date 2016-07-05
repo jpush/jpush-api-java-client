@@ -51,7 +51,7 @@ public class PushClient {
 	}
 
     /**
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig} instead of this constructor.
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
      * @param maxRetryTimes The max retry times.
@@ -63,7 +63,7 @@ public class PushClient {
 	
 	/**
 	 * Create a Push Client with max retry times.
-	 * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+	 * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig} instead of this constructor.
      *
 	 * @param masterSecret  API access secret of the appKey.
 	 * @param appKey The KEY of one application on JPush.
@@ -107,7 +107,7 @@ public class PushClient {
      * Create a Push Client with global settings.
      * 
      * If you want different settings from default globally, this constructor is what you needed.
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig} instead of this constructor.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig} instead of this constructor.
      *
      * @param masterSecret API access secret of the appKey.
      * @param appKey The KEY of one application on JPush.
@@ -126,7 +126,7 @@ public class PushClient {
     }
 
     /**
-     * This will be removed in the future. Please use ClientConfig{@link cn.jpush.api.common.ClientConfig#setGlobalPushSetting} instead of this method.
+     * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setGlobalPushSetting} instead of this method.
      *
      * @param apnsProduction Global APNs environment setting. It will override PushPayload Options.
      * @param timeToLive Global time_to_live setting. It will override PushPayload Options.
