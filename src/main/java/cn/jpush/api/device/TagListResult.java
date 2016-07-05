@@ -1,10 +1,11 @@
 package cn.jpush.api.device;
 
-import cn.jpush.api.common.resp.BaseResult;
-import com.google.gson.annotations.Expose;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
+
+import cn.jiguang.common.resp.BaseResult;
 
 public class TagListResult extends BaseResult {
 

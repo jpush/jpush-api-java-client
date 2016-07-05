@@ -3,11 +3,11 @@ package cn.jpush.api.push.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.jpush.api.utils.Preconditions;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.utils.Preconditions;
 
 public class Message implements PushModel {    
     private static final String TITLE = "title";

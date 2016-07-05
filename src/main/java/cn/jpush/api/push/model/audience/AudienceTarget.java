@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.jpush.api.push.model.PushModel;
-import cn.jpush.api.utils.Preconditions;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jpush.api.push.model.PushModel;
 
 public class AudienceTarget implements PushModel {
     private final AudienceType audienceType;

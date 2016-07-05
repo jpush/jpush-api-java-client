@@ -7,12 +7,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import cn.jpush.api.FastTests;
-import cn.jpush.api.common.DeviceType;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.DeviceType;
+import cn.jpush.api.FastTests;
 
 @Category(FastTests.class)
 public class PlatformTesst {

@@ -1,14 +1,24 @@
 package cn.jpush.api;
 
-import cn.jpush.api.common.ClientConfig;
-import cn.jpush.api.common.TimeUnit;
-import cn.jpush.api.common.Week;
-import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.BooleanResult;
-import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.device.*;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.gson.JsonObject;
+
+import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.commom.Week;
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.connection.HttpProxy;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.BooleanResult;
+import cn.jiguang.common.resp.DefaultResult;
+import cn.jpush.api.device.AliasDeviceListResult;
+import cn.jpush.api.device.DeviceClient;
+import cn.jpush.api.device.OnlineStatus;
+import cn.jpush.api.device.TagAliasResult;
+import cn.jpush.api.device.TagListResult;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;
@@ -27,11 +37,6 @@ import cn.jpush.api.schedule.ScheduleListResult;
 import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
-import cn.jpush.api.utils.Preconditions;
-import com.google.gson.JsonObject;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The global entrance of JPush API library.

@@ -1,8 +1,12 @@
 package cn.jpush.api.push.model.notification;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.utils.StringUtils;
 import cn.jpush.api.push.model.PushModel;
-import cn.jpush.api.utils.StringUtils;
-import com.google.gson.*;
 
 public class IosAlert implements PushModel {
 

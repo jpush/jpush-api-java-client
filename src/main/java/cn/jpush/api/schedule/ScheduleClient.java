@@ -1,17 +1,18 @@
 package cn.jpush.api.schedule;
 
-import cn.jpush.api.common.ClientConfig;
-import cn.jpush.api.common.ServiceHelper;
-import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.NativeHttpClient;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.ResponseWrapper;
-import cn.jpush.api.schedule.model.SchedulePayload;
-import cn.jpush.api.utils.Preconditions;
-import cn.jpush.api.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.commom.ServiceHelper;
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.connection.HttpProxy;
+import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jpush.api.schedule.model.SchedulePayload;
 
 public class ScheduleClient {
 

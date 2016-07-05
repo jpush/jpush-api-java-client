@@ -1,18 +1,19 @@
 package cn.jpush.api.report;
 
-import cn.jpush.api.common.ClientConfig;
-import cn.jpush.api.common.ServiceHelper;
-import cn.jpush.api.common.TimeUnit;
-import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.connection.NativeHttpClient;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.BaseResult;
-import cn.jpush.api.common.resp.ResponseWrapper;
-import cn.jpush.api.utils.StringUtils;
 
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
+
+import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.commom.ServiceHelper;
+import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.connection.HttpProxy;
+import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.BaseResult;
+import cn.jiguang.common.resp.ResponseWrapper;
 
 public class ReportClient {    
 

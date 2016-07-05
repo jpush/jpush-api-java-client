@@ -5,10 +5,10 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import cn.jiguang.common.connection.HttpProxy;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.BaseTest;
-import cn.jpush.api.common.connection.HttpProxy;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.model.PushPayload;
 
 public class PushClientTest extends BaseTest {

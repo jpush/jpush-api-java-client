@@ -1,11 +1,12 @@
 package cn.jpush.api.push.model.notification;
 
-import cn.jpush.api.common.ServiceHelper;
+import java.util.Map;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.util.Map;
+import cn.jiguang.commom.ServiceHelper;
 
 /**
  * <p><b>APNs 通知类</b></p>

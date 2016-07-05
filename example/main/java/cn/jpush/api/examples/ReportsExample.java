@@ -3,10 +3,10 @@ package cn.jpush.api.examples;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.common.TimeUnit;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.UsersResult;

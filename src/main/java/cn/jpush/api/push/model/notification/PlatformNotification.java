@@ -1,15 +1,17 @@
 package cn.jpush.api.push.model.notification;
 
-import cn.jpush.api.push.model.PushModel;
-import cn.jpush.api.utils.Preconditions;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jpush.api.push.model.PushModel;
 
 public abstract class PlatformNotification implements PushModel {
     public static final String ALERT = "alert";
