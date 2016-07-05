@@ -12,11 +12,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.DefaultResult;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.SlowTests;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.DefaultResult;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;

@@ -1,7 +1,8 @@
 package cn.jpush.api.push;
 
-import cn.jpush.api.common.resp.BaseResult;
 import com.google.gson.annotations.Expose;
+
+import cn.jiguang.common.resp.BaseResult;
 
 public class PushResult extends BaseResult {
 

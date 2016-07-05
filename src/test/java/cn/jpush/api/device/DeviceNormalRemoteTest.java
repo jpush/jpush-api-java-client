@@ -1,20 +1,23 @@
 package cn.jpush.api.device;
 
-import cn.jpush.api.BaseTest;
-import cn.jpush.api.JUnitOrderedRunner;
-import cn.jpush.api.TestOrder;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.BooleanResult;
-import cn.jpush.api.common.resp.DefaultResult;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.BooleanResult;
+import cn.jiguang.common.resp.DefaultResult;
+import cn.jpush.api.BaseTest;
+import cn.jpush.api.JUnitOrderedRunner;
+import cn.jpush.api.TestOrder;
 
 @RunWith(JUnitOrderedRunner.class)
 public class DeviceNormalRemoteTest extends BaseTest {

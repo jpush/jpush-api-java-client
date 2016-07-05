@@ -1,11 +1,21 @@
 package cn.jpush.api.examples;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.common.ClientConfig;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.*;
+import cn.jpush.api.push.model.Message;
+import cn.jpush.api.push.model.Options;
+import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.notification.AndroidNotification;
@@ -13,11 +23,6 @@ import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
@@ -34,7 +39,8 @@ public class PushExample {
 
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
-        buildPushObject_with_extra();
+//        testSendIosAlert();
+		testSendPush();
 	}
 	
 	

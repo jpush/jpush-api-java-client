@@ -1,14 +1,15 @@
 package cn.jpush.api.push.model.notification;
 
-import cn.jpush.api.push.model.PushModel;
-import cn.jpush.api.utils.Preconditions;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jpush.api.push.model.PushModel;
 
 public class Notification implements PushModel {    
     private final Object alert;

@@ -1,10 +1,11 @@
 package cn.jpush.api.schedule;
 
 
-import cn.jpush.api.common.resp.BaseResult;
+import java.util.List;
+
 import com.google.gson.annotations.Expose;
 
-import java.util.List;
+import cn.jiguang.common.resp.BaseResult;
 
 public class ScheduleListResult extends BaseResult{
 

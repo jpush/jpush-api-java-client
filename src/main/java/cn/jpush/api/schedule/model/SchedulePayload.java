@@ -1,10 +1,11 @@
 package cn.jpush.api.schedule.model;
 
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import cn.jiguang.commom.utils.StringUtils;
+import cn.jpush.api.push.model.PushPayload;
 
 public class SchedulePayload implements IModel {
 

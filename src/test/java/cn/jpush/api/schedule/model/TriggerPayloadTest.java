@@ -1,13 +1,15 @@
 package cn.jpush.api.schedule.model;
 
-import cn.jpush.api.FastTests;
-import cn.jpush.api.common.TimeUnit;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.TimeUnit;
+import cn.jpush.api.FastTests;
 
 /**
  * TriggerPayload Tester.

@@ -1,13 +1,14 @@
 package cn.jpush.api.report;
 
-import cn.jpush.api.common.resp.BaseResult;
-import cn.jpush.api.common.resp.ResponseWrapper;
-import com.google.gson.annotations.Expose;
-import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+
+import cn.jiguang.common.resp.BaseResult;
+import cn.jiguang.common.resp.ResponseWrapper;
 
 public class ReceivedsResult extends BaseResult {
     private static final Type RECEIVED_TYPE = new TypeToken<List<Received>>() {}.getType();

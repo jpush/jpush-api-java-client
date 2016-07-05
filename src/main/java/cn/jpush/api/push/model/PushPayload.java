@@ -1,16 +1,16 @@
 package cn.jpush.api.push.model;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import cn.jiguang.commom.utils.Preconditions;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.PlatformNotification;
-import cn.jpush.api.utils.Preconditions;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 /**
  * The object you should build for sending a push.

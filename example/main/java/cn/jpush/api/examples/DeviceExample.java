@@ -1,15 +1,16 @@
 package cn.jpush.api.examples;
 
-import cn.jpush.api.JPushClient;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.common.resp.DefaultResult;
-import cn.jpush.api.device.OnlineStatus;
-import cn.jpush.api.device.TagAliasResult;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.DefaultResult;
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.device.OnlineStatus;
+import cn.jpush.api.device.TagAliasResult;
 
 public class DeviceExample {
 	protected static final Logger LOG = LoggerFactory.getLogger(DeviceExample.class);

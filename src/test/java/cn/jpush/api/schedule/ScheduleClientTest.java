@@ -1,15 +1,16 @@
 package cn.jpush.api.schedule;
 
-import cn.jpush.api.BaseTest;
-import cn.jpush.api.SlowTests;
-import cn.jpush.api.common.resp.APIConnectionException;
-import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.schedule.model.SchedulePayload;
-import cn.jpush.api.schedule.model.TriggerPayload;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jpush.api.BaseTest;
+import cn.jpush.api.SlowTests;
+import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jpush.api.schedule.model.TriggerPayload;
 
 /**
  * ScheduleClient Tester.

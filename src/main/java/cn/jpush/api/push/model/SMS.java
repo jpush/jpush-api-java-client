@@ -1,9 +1,10 @@
 package cn.jpush.api.push.model;
 
-import cn.jpush.api.utils.Preconditions;
-import cn.jpush.api.utils.StringUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.commom.utils.StringUtils;
 
 public class SMS implements PushModel {
 
