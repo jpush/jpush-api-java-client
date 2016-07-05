@@ -21,28 +21,19 @@
 
 ### maven 方式
 将下边的依赖条件放到你项目的 maven pom.xml 文件里。
+> 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
 
 ```Java
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.2.9</version>
+    <version>3.2.10</version>
 </dependency>
-```
-### jar 包方式
-
-请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
-
-
-### 依赖包
-* [slf4j](http://www.slf4j.org/) / log4j (Logger)
-* [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
-
-> 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
-
-如果使用 Maven 构建项目，则需要在你的项目 pom.xml 里增加：
-
-```Java
+<dependency>
+    <groupId>cn.jpush.api</groupId>
+    <artifactId>jiguang-common</artifactId>
+    <version>0.1.3</version>
+</dependency>
     <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
@@ -63,11 +54,22 @@
     <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.16</version>
+        <version>1.2.17</version>
     </dependency>
 ```
+### jar 包方式
 
-如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
+请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
+
+
+### 依赖包
+* [slf4j](http://www.slf4j.org/) / log4j (Logger)
+* [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
+* [jiguang-commom](https://github.com/jpush/jiguang-java-client-common)
+
+> 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
+
+如果不使用 Maven 构建项目，则[项目 libs/ 目录](https://github.com/jpush/jpush-api-java-client/tree/master/libs)下有依赖的 jar 可复制到你的项目里去。
 
 ## 编译源码
 
