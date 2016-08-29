@@ -32,7 +32,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jiguang-common</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
 </dependency>
     <dependency>
         <groupId>com.google.code.gson</groupId>
