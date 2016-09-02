@@ -1,4 +1,4 @@
-package cn.jiguang.commom.utils;
+package cn.jiguang.common.utils;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

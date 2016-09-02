@@ -1,4 +1,4 @@
-package cn.jiguang.commom;
+package cn.jiguang.common;
 
 public enum Week {
     MON,

@@ -6,8 +6,8 @@ import java.net.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.utils.Preconditions;
 
 public class HttpProxy {
     private static final Logger LOG = LoggerFactory.getLogger(HttpProxy.class);

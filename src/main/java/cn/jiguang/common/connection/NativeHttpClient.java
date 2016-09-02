@@ -3,7 +3,7 @@ package cn.jiguang.common.connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
@@ -304,7 +304,7 @@ public class NativeHttpClient implements IHttpClient {
 	    }
 	}
 	
-    private static class SimpleProxyAuthenticator extends java.net.Authenticator {
+    public static class SimpleProxyAuthenticator extends java.net.Authenticator {
         private String username;
         private String password;
 

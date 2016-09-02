@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package cn.jiguang.commom.utils;
+package cn.jiguang.common.utils;
 
 /**
  * Copied from Google Guava.

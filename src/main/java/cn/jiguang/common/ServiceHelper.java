@@ -1,4 +1,4 @@
-package cn.jiguang.commom;
+package cn.jiguang.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.utils.Base64;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.utils.Base64;
+import cn.jiguang.common.utils.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

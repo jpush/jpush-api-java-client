@@ -1,4 +1,4 @@
-package cn.jiguang.commom;
+package cn.jiguang.common;
 
 import java.util.HashMap;
 

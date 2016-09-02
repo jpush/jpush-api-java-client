@@ -1,4 +1,4 @@
-package cn.jiguang.commom.utils;
+package cn.jiguang.common.utils;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;
