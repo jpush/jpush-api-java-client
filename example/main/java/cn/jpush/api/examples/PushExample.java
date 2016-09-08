@@ -3,10 +3,10 @@ package cn.jpush.api.examples;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jiguang.common.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;

@@ -1,12 +1,13 @@
 package cn.jpush.api.schedule;
 
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.NettyHttp2Client;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -17,7 +18,7 @@ import cn.jpush.api.schedule.model.SchedulePayload;
 public class ScheduleClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScheduleClient.class);
-    private final NativeHttpClient _httpClient;
+    private final NettyHttp2Client _httpClient;
 
     private String hostName;
     private String schedulePath;
@@ -30,7 +31,7 @@ public class ScheduleClient {
 
     public ScheduleClient(String masterSecret, String appkey) {
         this(masterSecret, appkey, null, ClientConfig.getInstance());
-    }
+}
 
     /**
      * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
@@ -64,7 +65,7 @@ public class ScheduleClient {
         timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
+        this._httpClient = new NettyHttp2Client(authCode, proxy, conf, hostName);
     }
 
     /**
@@ -82,7 +83,7 @@ public class ScheduleClient {
         timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
+        this._httpClient = new NettyHttp2Client(authCode, proxy, conf, hostName);
     }
 
     public ScheduleResult createSchedule(SchedulePayload payload) throws APIConnectionException, APIRequestException {

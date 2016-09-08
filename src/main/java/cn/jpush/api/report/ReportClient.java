@@ -4,20 +4,21 @@ package cn.jpush.api.report;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.TimeUnit;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.connection.NettyHttp2Client;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.StringUtils;
 
 public class ReportClient {    
 
-    private final NativeHttpClient _httpClient;
+    private final NettyHttp2Client _httpClient;
     private String _hostName;
     private String _receivePath;
     private String _userPath;
@@ -60,7 +61,7 @@ public class ReportClient {
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, proxy, conf);
+        _httpClient = new NettyHttp2Client(authCode, proxy, conf, _hostName);
 	}
 
     public ReportClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
@@ -72,7 +73,7 @@ public class ReportClient {
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, proxy, conf);
+        _httpClient = new NettyHttp2Client(authCode, proxy, conf, _hostName);
     }
 	
 	
@@ -101,7 +102,7 @@ public class ReportClient {
         return MessagesResult.fromResponse(response);
     }
     
-    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) 
+    public UsersResult getUsers(TimeUnit timeUnit, String start, int duration)
             throws APIConnectionException, APIRequestException {        
         String startEncoded = null;
         try {

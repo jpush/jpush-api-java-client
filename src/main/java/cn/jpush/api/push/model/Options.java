@@ -1,12 +1,12 @@
 package cn.jpush.api.push.model;
 
 
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.utils.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
 
 public class Options implements PushModel {
     private static final String SENDNO = "sendno";

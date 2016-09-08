@@ -4,16 +4,17 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.NettyHttp2Client;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -25,7 +26,7 @@ import cn.jiguang.common.resp.ResponseWrapper;
 
 public class DeviceClient {
 
-    private final NativeHttpClient _httpClient;
+    private final NettyHttp2Client _httpClient;
     private String hostName;
     private String devicesPath;
     private String tagsPath;
@@ -67,7 +68,7 @@ public class DeviceClient {
         aliasesPath = (String) conf.get(ClientConfig.ALIASES_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, proxy, conf);
+        _httpClient = new NettyHttp2Client(authCode, proxy, conf, hostName);
 
     }
 
@@ -88,7 +89,7 @@ public class DeviceClient {
         aliasesPath = (String) conf.get(ClientConfig.ALIASES_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        _httpClient = new NativeHttpClient(authCode, proxy, conf);
+        _httpClient = new NettyHttp2Client(authCode, proxy, conf, hostName);
     }
 
     // -------------- device 

@@ -3,10 +3,10 @@ package cn.jpush.api.report;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.common.TimeUnit;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import cn.jiguang.commom.TimeUnit;
 import cn.jiguang.common.resp.BaseResult;
 
 public class UsersResult extends BaseResult {

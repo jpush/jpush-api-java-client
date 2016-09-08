@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jiguang.common.utils.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.utils.Preconditions;
 import cn.jpush.api.push.model.PushModel;
 
 public class Notification implements PushModel {    
@@ -107,7 +107,7 @@ public class Notification implements PushModel {
                     pn.setAlert(this.alert);
                 }
                 
-                Preconditions.checkArgument(! (null == pn.getAlert()), 
+                Preconditions.checkArgument(! (null == pn.getAlert()),
                         "For any platform notification, alert field is needed. It can be empty string.");
 
                 json.add(pn.getPlatform(), pn.toJSON());

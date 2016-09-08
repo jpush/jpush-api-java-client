@@ -2,10 +2,10 @@ package cn.jpush.api.push.remote;
 
 import static org.junit.Assert.assertTrue;
 
+import cn.jiguang.common.DeviceType;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import cn.jiguang.commom.DeviceType;
 import cn.jpush.api.SlowTests;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Message;

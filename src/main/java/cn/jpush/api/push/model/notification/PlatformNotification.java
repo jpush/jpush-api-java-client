@@ -3,6 +3,7 @@ package cn.jpush.api.push.model.notification;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jiguang.common.utils.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.utils.Preconditions;
 import cn.jpush.api.push.model.PushModel;
 
 public abstract class PlatformNotification implements PushModel {

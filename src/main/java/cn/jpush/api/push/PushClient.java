@@ -1,18 +1,19 @@
 package cn.jpush.api.push;
 
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.connection.NettyHttp2Client;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+
 import cn.jpush.api.push.model.PushPayload;
 
 /**
@@ -27,7 +28,7 @@ import cn.jpush.api.push.model.PushPayload;
  */
 public class PushClient {
 
-    private final NativeHttpClient _httpClient;
+    private final NettyHttp2Client _httpClient;
     private String _baseUrl;
     private String _pushPath;
     private String _pushValidatePath;
@@ -85,7 +86,7 @@ public class PushClient {
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
+        this._httpClient = new NettyHttp2Client(authCode, proxy, conf, _baseUrl);
 	}
 
     public PushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
@@ -99,7 +100,7 @@ public class PushClient {
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
+        this._httpClient = new NettyHttp2Client(authCode, proxy, conf, _baseUrl);
 
     }
 

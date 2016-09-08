@@ -2,10 +2,10 @@ package cn.jpush.api.report;
 
 import static org.junit.Assert.assertTrue;
 
+import cn.jiguang.common.TimeUnit;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import cn.jiguang.commom.TimeUnit;
 import cn.jpush.api.BaseTest;
 import cn.jpush.api.SlowTests;
 

@@ -1,15 +1,15 @@
 package cn.jpush.api.schedule.model;
 
+import cn.jiguang.common.TimeUnit;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
+import cn.jiguang.common.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.TimeUnit;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
-import cn.jiguang.commom.utils.TimeUtils;
 
 
 public class TriggerPayload implements IModel {
