@@ -6,329 +6,58 @@
 
 ## 概述
 
-这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
-
-对应的 REST API 文档：<http://docs.jpush.io/server/server_overview/>
-
-本开发包 Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
-
-版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
-
-> 非常欢迎各位开发者提交代码，贡献一份力量，review过有效的代码将会合入本项目。
+这是 JPush REST API 的 Java 版本封装开发包，此分支主要新增 Http2 支持，关于安装此处不再赘述，可以参考 master 分支下的 ReadMe。
 
 
-## 安装
-
-### maven 方式
-将下边的依赖条件放到你项目的 maven pom.xml 文件里。
-> 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
-
-```Java
+## 使用
+本项目使用了 Netty 第三方工具提供的 Http2 支持，建议使用 maven 方式导入，可以参考本项目的 pom.xml。其中有一个依赖需要注意：
+```
 <dependency>
-    <groupId>cn.jpush.api</groupId>
-    <artifactId>jpush-client</artifactId>
-    <version>3.2.10</version>
+	<groupId>io.netty</groupId>
+	<artifactId>netty-tcnative-boringssl-static</artifactId>
+	<version>1.1.33.Fork22</version>
+	<classifier>windows-x86_64</classifier>
 </dependency>
-<dependency>
-    <groupId>cn.jpush.api</groupId>
-    <artifactId>jiguang-common</artifactId>
-    <version>0.1.4</version>
-</dependency>
-    <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.2.4</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.5</version>
-    </dependency>
-
-    <!-- For log4j -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.7.5</version>
-    </dependency>
-    <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
-    </dependency>
 ```
-### jar 包方式
+这个依赖根据平台不同而需要修改其中的 classifier 值，详情参考此网页 http://netty.io/wiki/forked-tomcat-native.html#wiki-h3-16 。
 
-请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
-
-
-### 依赖包
-* [slf4j](http://www.slf4j.org/) / log4j (Logger)
-* [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
-* [jiguang-commom](https://github.com/jpush/jiguang-java-client-common)
-
-> 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
-
-如果不使用 Maven 构建项目，则[项目 libs/ 目录](https://github.com/jpush/jpush-api-java-client/tree/master/libs)下有依赖的 jar 可复制到你的项目里去。
-
-## 编译源码
-
-> 如果开发者想基于本项目做一些扩展的开发，或者想了解本项目源码，可以参考此章，否则可略过此章。
-
-### 导入本项目
-
-* 可以采用 `git clone https://github.com/jpush/jpush-api-java-client.git jpush-api-src` 命令下载源码
-* 如果不使用git，请到[Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载源码包并解压
-* 采用eclipse导入下载的源码工程，推荐采用maven的方式，方便依赖包的管理
-* 假如采用导入普通项目的方式，项目报错，检查Build Path，Libraries
- * 依赖jar包都在libs目录下可以找到，没有加入的请添加到Build Path，Libraries
- * 默认采用了log4j做日志框架，开发者可根据自己需求替换logback、commons-logging等日志框架
- * 极个别情况下，如果test目录报错，请手动添加test的依赖jar包mockwebserver-2.0.0.jar、okhttp-2.0.0.jar、okio-1.0.0.jar
-* 开发者需要注意，将本项目的编码格式设置为UTF-8
-
-### 构建本项目
-
-可以用 Eclipse 类 IDE 导出 jar 包。建议直接使用 maven，执行命令：
-
-	mvn package
-
-### 自动化测试
-
-在项目目录下执行命令：
-
-	mvn test
-
-## 使用样例
-
-### 推送样例
-
-> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.PushExample
-
-```Java
-    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
-
-    // For push, all you need do is to build PushPayload object.
-    PushPayload payload = buildPushObject_all_all_alert();
-
-    try {
-        PushResult result = jpushClient.sendPush(payload);
-        LOG.info("Got result - " + result);
-
-    } catch (APIConnectionException e) {
-        // Connection error, should retry later
-        LOG.error("Connection error, should retry later", e);
-
-    } catch (APIRequestException e) {
-        // Should review the error, and fix the request
-        LOG.error("Should review the error, and fix the request", e);
-        LOG.info("HTTP Status: " + e.getStatus());
-        LOG.info("Error Code: " + e.getErrorCode());
-        LOG.info("Error Message: " + e.getErrorMessage());
-    }
+## 关于接口调用
+首先要调用 NettyHttp2Client 的构造函数（之前用的是 NativeHttpClient）：
 ```
-
-进行推送的关键在于构建一个 PushPayload 对象。以下示例一般的构建对象的用法。
-
-* 快捷地构建推送对象：所有平台，所有设备，内容为 ALERT 的通知。
-
-```Java
-	public static PushPayload buildPushObject_all_all_alert() {
-	    return PushPayload.alertAll(ALERT);
-	}
+NettyHttp2Client client = new NettyHttp2Client(authCode, proxy, conf, _baseUrl);
 ```
+前三个参数和 NativeHttpClient 一样，最后一个参数要传入一个 host url。可以参考 PushClient 的做法。
 
-* 构建推送对象：所有平台，推送目标是别名为 "alias1"，通知内容为 ALERT。
-
-```Java
-    public static PushPayload buildPushObject_all_alias_alert() {
-        return PushPayload.newBuilder()
-                .setPlatform(Platform.all())
-                .setAudience(Audience.alias("alias1"))
-                .setNotification(Notification.alert(ALERT))
-                .build();
-    }
+发送单个请求的做法和之前一致，可以参考 example 下的相关示例。NettyHttp2Client 新增发送批量请求的接口:
 ```
-
-* 构建推送对象：平台是 Android，目标是 tag 为 "tag1" 的设备，内容是 Android 通知 ALERT，并且标题为 TITLE。
-
-```Java
-    public static PushPayload buildPushObject_android_tag_alertWithTitle() {
-        return PushPayload.newBuilder()
-                .setPlatform(Platform.android())
-                .setAudience(Audience.tag("tag1"))
-                .setNotification(Notification.android(ALERT, TITLE, null))
-                .build();
-    }
+NettyHttp2Client.setRequest(HttpMethod, Queue<Http2Request>).execute(BaseCallback)
 ```
-
-* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 5，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。APNs 的推送环境是“生产”（如果不显式设置的话，Library 会默认指定为开发）
-
-```Java
-    public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
-        return PushPayload.newBuilder()
-                .setPlatform(Platform.ios())
-                .setAudience(Audience.tag_and("tag1", "tag_all"))
-                .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(IosNotification.newBuilder()
-                                .setAlert(ALERT)
-                                .setBadge(5)
-                                .setSound("happy")
-                                .addExtra("from", "JPush")
-                                .build())
-                        .build())
-                 .setMessage(Message.content(MSG_CONTENT))
-                 .setOptions(Options.newBuilder()
-                         .setApnsProduction(true)
-                         .build())
-                 .build();
-    }
+示例代码如下：
 ```
-
-* 构建推送对象：平台是 Andorid 与 iOS，推送目标是 （"tag1" 与 "tag2" 的交集）并（"alias1" 与 "alias2" 的交集），推送内容是 - 内容为 MSG_CONTENT 的消息，并且附加字段 from = JPush。
-
-```Java
-    public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
-        return PushPayload.newBuilder()
-                .setPlatform(Platform.android_ios())
-                .setAudience(Audience.newBuilder()
-                        .addAudienceTarget(AudienceTarget.tag("tag1", "tag2"))
-                        .addAudienceTarget(AudienceTarget.alias("alias1", "alias2"))
-                        .build())
-                .setMessage(Message.newBuilder()
-                        .setMsgContent(MSG_CONTENT)
-                        .addExtra("from", "JPush")
-                        .build())
-                .build();
-    }
-```
-
-* 构建推送对象：推送内容包含SMS信息
-
-```Java
-    public static void testSendWithSMS() {
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey);
+public void testSendPushesReuse() {
+        ClientConfig config = ClientConfig.getInstance();
+        String host = (String) config.get(ClientConfig.PUSH_HOST_NAME);
+        NettyHttp2Client client = new NettyHttp2Client(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
+                null, config, host);
+        Queue<Http2Request> queue = new LinkedList<Http2Request>();
+        String url = (String) config.get(ClientConfig.PUSH_PATH);
+        PushPayload payload = buildPushObject_all_all_alert();
+        for (int i=0; i<100; i++) {
+            queue.offer(new Http2Request(url, payload.toString()));
+        }
         try {
-            SMS sms = SMS.content("Test SMS", 10);
-            PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
-            LOG.info("Got result - " + result);
-        } catch (APIConnectionException e) {
-            LOG.error("Connection error. Should retry later. ", e);
-        } catch (APIRequestException e) {
-            LOG.error("Error response from JPush server. Should review and fix it. ", e);
-            LOG.info("HTTP Status: " + e.getStatus());
-            LOG.info("Error Code: " + e.getErrorCode());
-            LOG.info("Error Message: " + e.getErrorMessage());
+            long before = System.currentTimeMillis();
+            LOG.info("before: " + before);
+            client.setRequestQueue(HttpMethod.POST, queue).execute(new NettyHttp2Client.BaseCallback() {
+                @Override
+                public void onSucceed(ResponseWrapper wrapper) {
+                    PushResult result = BaseResult.fromResponse(wrapper, PushResult.class);
+                    LOG.info("Got result - " + result);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 ```
-
-### 统计获取样例
-
-> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ReportsExample
-
-```Java
-    JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-    try {
-        ReceivedsResult result = jpushClient.getReportReceiveds("1942377665");
-        LOG.debug("Got result - " + result);
-
-    } catch (APIConnectionException e) {
-        // Connection error, should retry later
-        LOG.error("Connection error, should retry later", e);
-
-    } catch (APIRequestException e) {
-        // Should review the error, and fix the request
-        LOG.error("Should review the error, and fix the request", e);
-        LOG.info("HTTP Status: " + e.getStatus());
-        LOG.info("Error Code: " + e.getErrorCode());
-        LOG.info("Error Message: " + e.getErrorMessage());
-    }
-```
-
-### Tag/Alias 样例
-
-> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.DeviceExample
-
-* 获取Tag Alias
-```Java
-    try {
-        TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
-
-        LOG.info(result.alias);
-        LOG.info(result.tags.toString());
-    } catch (APIConnectionException e) {
-        LOG.error("Connection error. Should retry later. ", e);
-    } catch (APIRequestException e) {
-        LOG.error("Error response from JPush server. Should review and fix it. ", e);
-        LOG.info("HTTP Status: " + e.getStatus());
-        LOG.info("Error Code: " + e.getErrorCode());
-        LOG.info("Error Message: " + e.getErrorMessage());
-    }
-```
-
-* 绑定手机号
-
-```Java
-    try {
-        DefaultResult result =  jpushClient.bindMobile(REGISTRATION_ID1, "13000000000");
-        LOG.info("Got result " + result);
-    } catch (APIConnectionException e) {
-        LOG.error("Connection error. Should retry later. ", e);
-    } catch (APIRequestException e) {
-        LOG.error("Error response from JPush server. Should review and fix it. ", e);
-        LOG.info("HTTP Status: " + e.getStatus());
-        LOG.info("Error Code: " + e.getErrorCode());
-        LOG.info("Error Message: " + e.getErrorMessage());
-    }
-```
-
-### Schedule 样例
-
-> 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.ScheduleExample
-
-```Java
-    JPushClient jpushClient = new JPushClient(masterSecret, appKey);
-    String name = "test_schedule_example";
-    String time = "2016-07-30 12:30:25";
-    PushPayload push = PushPayload.alertAll("test schedule example.");
-    try {
-        ScheduleResult result = jpushClient.createSingleSchedule(name, time, push);
-        LOG.info("schedule result is " + result);
-    } catch (APIConnectionException e) {
-        LOG.error("Connection error. Should retry later. ", e);
-    } catch (APIRequestException e) {
-        LOG.error("Error response from JPush server. Should review and fix it. ", e);
-        LOG.info("HTTP Status: " + e.getStatus());
-        LOG.info("Error Code: " + e.getErrorCode());
-        LOG.info("Error Message: " + e.getErrorMessage());
-    }
-```
-
-### Custom Client 样例
-
-> 一下片断来自项目代码里面的文件：example / cn.jpush.api.examples.ClientExample
-
-* 配置的SSLVersion表示指定至少支持的协议版本，也可能支持其他多个协议版本，最终支持的协议版本列表取决于JRE和运行环境
-```Java
-    public static void testCustomClient() {
-		ClientConfig config = ClientConfig.getInstance();
-        config.setMaxRetryTimes(5);
-        config.setConnectionTimeout(10 * 1000);	// 10 seconds
-        config.setSSLVersion("TLSv1.1");		// JPush server supports SSLv3, TLSv1, TLSv1.1, TLSv1.2
-
-        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
-	}
-
-    public static void testCustomPushClient() {
-        ClientConfig config = ClientConfig.getInstance();
-        config.setApnsProduction(false); 	// development env
-        config.setTimeToLive(60 * 60 * 24); // one day
-
-    //	config.setGlobalPushSetting(false, 60 * 60 * 24); // development env, one day
-
-        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config); 	// JPush client
-
-    //	PushClient pushClient = new PushClient(masterSecret, appKey, null, config); 	// push client only
-
-    }
-```
+此为链接复用的接口，相对于循环发送单个请求，效率明显提高。可以参考 PushClientTest，写一下测试用例验证一下。
