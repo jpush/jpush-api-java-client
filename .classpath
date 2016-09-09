@@ -38,5 +38,6 @@
 	<classpathentry kind="lib" path="libs/slf4j-log4j12-1.7.7.jar"/>
 	<classpathentry kind="lib" path="libs/slf4j-api-1.7.7.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/jiguang-common-http2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
