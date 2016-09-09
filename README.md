@@ -24,9 +24,9 @@
 ## 关于接口调用
 首先要调用 NettyHttp2Client 的构造函数（之前用的是 NativeHttpClient）：
 ```
-NettyHttp2Client client = new NettyHttp2Client(authCode, proxy, conf, _baseUrl);
+NettyHttp2Client client = new NettyHttp2Client(authCode, proxy, conf, hostName);
 ```
-前三个参数和 NativeHttpClient 一样，最后一个参数要传入一个 host url。可以参考 PushClient 的做法。
+前三个参数和 NativeHttpClient 一样，最后一个参数要传入一个主机域名。可以参考 PushClient 的做法。
 
 发送单个请求的做法和之前一致，可以参考 example 下的相关示例。NettyHttp2Client 新增发送批量请求的接口:
 ```
