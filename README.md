@@ -14,6 +14,8 @@
 
 版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
 
+新增 http2 分支，支持用 Http/2 协议发送请求。可以切换到此分支拉取代码。接口没有变更，需要使用 NettyHttp2Client 替换之前的 NativeHttpClient，具体可以查看 http2 分支下的 ReadMe。
+
 > 非常欢迎各位开发者提交代码，贡献一份力量，review过有效的代码将会合入本项目。
 
 
