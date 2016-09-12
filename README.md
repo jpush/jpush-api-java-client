@@ -19,7 +19,7 @@
 	<classifier>windows-x86_64</classifier>
 </dependency>
 ```
-这个依赖根据平台不同而需要修改其中的 classifier 值，详情参考此网页 http://netty.io/wiki/forked-tomcat-native.html#wiki-h3-16 。
+这个依赖根据平台不同而需要修改其中的 classifier 值，例如 window 64位平台 classifier 值为 windows-x86_64， Linux 64位平台，值为 linux-x86_64， Mac 平台值为 osx-x86_64。详情参考此网页 http://netty.io/wiki/forked-tomcat-native.html#wiki-h3-16 。
 
 ## 关于接口调用
 首先要调用 NettyHttp2Client 的构造函数（之前用的是 NativeHttpClient）：
