@@ -8,7 +8,6 @@ import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.connection.HttpProxy;
-import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttp2Client;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;

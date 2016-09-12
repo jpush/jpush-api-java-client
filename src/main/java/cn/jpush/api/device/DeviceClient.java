@@ -16,7 +16,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
 import cn.jiguang.common.connection.HttpProxy;
-import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
