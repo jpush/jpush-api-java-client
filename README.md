@@ -66,11 +66,6 @@ public void testSendPushesReuse() {
     <artifactId>jpush-client</artifactId>
     <version>3.2.10</version>
 </dependency>
-<dependency>
-    <groupId>cn.jpush.api</groupId>
-    <artifactId>jiguang-common</artifactId>
-    <version>0.1.4</version>
-</dependency>
     <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
