@@ -14,7 +14,7 @@
 
 版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
 
-**注意：此分支的使用和之前一样。目前对 HTTP/2 的支持只有 jar 方式提供，可前往 [libs](https://github.com/jpush/jpush-api-java-client/tree/http2/libs) 文件夹下载对应平台的版本。**
+**注意：此分支的使用和之前一样。**
 
 新增一个批量发送请求的接口：
 
@@ -61,6 +61,38 @@ public void testSendPushesReuse() {
 > 其中 slf4j 可以与 logback, log4j, commons-logging 等日志框架一起工作，可根据你的需要配置使用。
 
 ```Java
+<dependency>
+	<groupId>io.netty</groupId>
+	<artifactId>netty-handler</artifactId>
+	<version>4.1.0.Final</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/io.netty/netty-transport-native-epoll -->
+	<dependency>
+	<groupId>io.netty</groupId>
+	<artifactId>netty-transport-native-epoll</artifactId>
+	<version>4.1.0.Final</version>
+</dependency>
+
+
+<dependency>
+	<groupId>io.netty</groupId>
+	<artifactId>netty-codec-http2</artifactId>
+	<version>4.1.0.Final</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/io.netty/netty-tcnative-boringssl-static -->
+<dependency>
+	<groupId>io.netty</groupId>
+	<artifactId>netty-tcnative-boringssl-static</artifactId>
+	<version>1.1.33.Fork22</version>
+	<!-- 根据平台修改-->
+	<classifier>windows-x86_64</classifier>
+</dependency>
+<dependency>
+	<groupId>org.javassist</groupId>
+	<artifactId>javassist</artifactId>
+	<version>3.20.0-GA</version>
+</dependency>
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
