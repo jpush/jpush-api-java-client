@@ -14,7 +14,7 @@
 
 版本更新：[Release页面](https://github.com/jpush/jpush-api-java-client/releases)。下载更新请到这里。
 
-**注意：此分支的使用和之前一样。**
+**注意：此分支的使用和之前一样。目前对 HTTP/2 的支持只有 jar 方式提供，可前往 [libs](https://github.com/jpush/jpush-api-java-client/tree/http2/libs) 文件夹下载对应平台的版本。**
 
 新增一个批量发送请求的接口：
 
