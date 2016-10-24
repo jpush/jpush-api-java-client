@@ -119,6 +119,21 @@ public class Audience implements PushModel {
         }
         return json;
     }
+
+    public JsonElement toSerializeJSON() {
+        JsonObject json = new JsonObject();
+        if (all) {
+            json.add(ALL, new JsonPrimitive(true));
+        } else {
+            json.add(ALL, new JsonPrimitive(false));
+        }
+        if (null != targets) {
+            for (AudienceTarget target : targets) {
+                json.add(target.getAudienceTypeValue(), target.toJSON());
+            }
+        }
+        return json;
+    }
     
     public static class Builder {
         private boolean all = false;

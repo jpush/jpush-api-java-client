@@ -110,9 +110,9 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
     public void sendSimpleNotification_Pall_Nall() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.newBuilder()
-                        .addDeviceType(DeviceType.IOS)
-                        .addDeviceType(DeviceType.WinPhone)
-                        .addDeviceType(DeviceType.Android).build())
+                        .addDeviceType("ios")
+                        .addDeviceType("winphone")
+                        .addDeviceType("android").build())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .addPlatformNotification(WinphoneNotification.alert("Pall Nall wp alert"))

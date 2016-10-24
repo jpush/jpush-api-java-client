@@ -5,18 +5,17 @@ import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
-import cn.jiguang.commom.DeviceType;
 import cn.jiguang.commom.utils.Preconditions;
 
 public class Platform implements PushModel {    
     private static final String ALL = "all";
     
     private final boolean all;
-    private final Set<DeviceType> deviceTypes;
+    private final Set<String> deviceTypes;
     
-    private Platform(boolean all, Set<DeviceType> deviceTypes) {
+    private Platform(boolean all, Set<String> deviceTypes) {
         this.all = all;
         this.deviceTypes = deviceTypes;
     }
@@ -30,35 +29,35 @@ public class Platform implements PushModel {
     }
     
     public static Platform android() {
-        return newBuilder().addDeviceType(DeviceType.Android).build();
+        return newBuilder().addDeviceType("android").build();
     }
     
     public static Platform ios() {
-        return newBuilder().addDeviceType(DeviceType.IOS).build();
+        return newBuilder().addDeviceType("ios").build();
     }
     
     public static Platform winphone() {
-        return newBuilder().addDeviceType(DeviceType.WinPhone).build();
+        return newBuilder().addDeviceType("winphone").build();
     }
     
     public static Platform android_ios() {
         return newBuilder()
-                .addDeviceType(DeviceType.Android)
-                .addDeviceType(DeviceType.IOS)
+                .addDeviceType("android")
+                .addDeviceType("ios")
                 .build();
     }
     
     public static Platform android_winphone() {
         return newBuilder()
-                .addDeviceType(DeviceType.Android)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType("android")
+                .addDeviceType("winphone")
                 .build();
     }
     
     public static Platform ios_winphone() {
         return newBuilder()
-                .addDeviceType(DeviceType.IOS)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType("ios")
+                .addDeviceType("winphone")
                 .build();
     }
     
@@ -73,25 +72,40 @@ public class Platform implements PushModel {
         }
         
         JsonArray json = new JsonArray();
-        for (DeviceType deviceType : deviceTypes) {
-            json.add(new JsonPrimitive(deviceType.value()));
+        for (String deviceType : deviceTypes) {
+            json.add(new JsonPrimitive(deviceType));
         }
+        return json;
+    }
+
+    public JsonElement toSerializeJSON() {
+        JsonObject json = new JsonObject();
+        if (all) {
+            json.add(ALL, new JsonPrimitive(true));
+        } else {
+            json.add(ALL, new JsonPrimitive(false));
+        }
+        JsonArray jsonArray = new JsonArray();
+        for (String deviceType : deviceTypes) {
+            jsonArray.add(new JsonPrimitive(deviceType));
+        }
+        json.add("deviceTypes", jsonArray);
         return json;
     }
     
     
     public static class Builder {
         private boolean all;
-        private Set<DeviceType> deviceTypes;
+        private Set<String> deviceTypes;
         
         public Builder setAll(boolean all) {
             this.all = all;
             return this;
         }
         
-        public Builder addDeviceType(DeviceType deviceType) {
+        public Builder addDeviceType(String deviceType) {
             if (null == deviceTypes) {
-                deviceTypes = new HashSet<DeviceType>();
+                deviceTypes = new HashSet<String>();
             }
             deviceTypes.add(deviceType);
             return this;

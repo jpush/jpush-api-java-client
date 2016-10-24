@@ -11,7 +11,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.DeviceType;
 import cn.jpush.api.FastTests;
 
 @Category(FastTests.class)
@@ -32,7 +31,7 @@ public class PlatformTesst {
 
     @Test
     public void testAndroid() {
-        Platform android = Platform.newBuilder().addDeviceType(DeviceType.Android).build();
+        Platform android = Platform.newBuilder().addDeviceType("winphone").build();
         JsonArray array = new JsonArray();
         array.add(new JsonPrimitive("android"));
         

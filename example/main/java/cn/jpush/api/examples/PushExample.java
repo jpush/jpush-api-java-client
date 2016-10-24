@@ -51,10 +51,12 @@ public class PushExample {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
         
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_all_alert();
-        
+        PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+        String payloadJson = payload.toSerializeJSON().toString();
+        System.out.print(payloadJson);
+        PushPayload newPayload = PushPayload.fromJSON(payloadJson);
         try {
-            PushResult result = jpushClient.sendPush(payload);
+            PushResult result = jpushClient.sendPush(newPayload);
             LOG.info("Got result - " + result);
             
         } catch (APIConnectionException e) {
@@ -68,6 +70,31 @@ public class PushExample {
             LOG.info("Msg ID: " + e.getMsgId());
         }
 	}
+
+	//use Payload.fromJSON to build payload instance
+    public static void testSendPush_fromJSON() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
+
+        String payloadString = "{\"platform\":{\"all\":\"false\",\"deviceTypes\":[\"android\",\"ios\"]},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
+        //also equals
+        //String payloadString = "{\"platform\":{\"all\":\"true\"},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
+        PushPayload payload = PushPayload.fromJSON(payloadString);
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+        }
+    }
 	
 	public static PushPayload buildPushObject_all_all_alert() {
 	    return PushPayload.alertAll(ALERT);
