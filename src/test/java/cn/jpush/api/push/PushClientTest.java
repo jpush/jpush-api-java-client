@@ -1,14 +1,18 @@
 package cn.jpush.api.push;
 
-import static cn.jpush.api.examples.PushExample.buildPushObject_ios_tagAnd_alertWithExtrasAndMessage;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import cn.jiguang.commom.ClientConfig;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.examples.PushExample;
+import cn.jpush.api.push.model.Message;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.InterfaceAdapter;
+import cn.jpush.api.push.model.notification.IosNotification;
+import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.PlatformNotification;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,6 +54,25 @@ public class PushClientTest extends BaseTest {
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
         }
+    }
+
+    private static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.ios())
+                .setAudience(Audience.tag_and("tag1", "tag_all"))
+                .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(IosNotification.newBuilder()
+                                .setAlert(ALERT)
+                                .setBadge(5)
+                                .setSound("happy")
+                                .addExtra("from", "JPush")
+                                .build())
+                        .build())
+                .setMessage(Message.content(MSG_CONTENT))
+                .setOptions(Options.newBuilder()
+                        .setApnsProduction(true)
+                        .build())
+                .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
