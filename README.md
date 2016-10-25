@@ -4,9 +4,11 @@ Common lib for JiGuang Java clients.
 
 ## 概述
 
-这是极光 Java client 的公共封装开发包，为 jpush, jmessage, jsms 等 client 提供公共依赖。
+这是极光 Java client 的公共封装开发包，为 [jpush](https://github.com/jpush/jpush-api-java-client), [jmessage](https://github.com/jpush/jmessage-api-java-client), [jsms](https://github.com/jpush/jsms-api-java-client) 等 client 提供公共依赖。
 
 版本更新：[Release页面](https://github.com/jpush/jiguang-java-client-common/releases)。下载更新请到这里。
+
+**新增 http2 分支，使用 Netty 第三方工具支持使用 Http/2 发送请求，详情参考 http2 分支下的 ReadMe**
 
 > 非常欢迎各位开发者提交代码，贡献一份力量，Review 过有效的代码将会合入本项目。
 
