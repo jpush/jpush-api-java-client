@@ -3,10 +3,10 @@ package cn.jpush.api.push;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;

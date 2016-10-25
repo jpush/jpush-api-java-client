@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.ServiceHelper;
+import cn.jiguang.common.ServiceHelper;
 
 /**
  * <p><b>APNs 通知类</b></p>

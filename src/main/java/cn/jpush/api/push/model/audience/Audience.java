@@ -9,7 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.utils.Preconditions;
 import cn.jpush.api.push.model.PushModel;
 
 public class Audience implements PushModel {

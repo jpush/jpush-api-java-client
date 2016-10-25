@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.resp.BaseResult;
 
 public class UsersResult extends BaseResult {

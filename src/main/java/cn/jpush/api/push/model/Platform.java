@@ -3,11 +3,11 @@ package cn.jpush.api.push.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.jiguang.commom.DeviceType;
+import cn.jiguang.common.DeviceType;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.utils.Preconditions;
 
 public class Platform implements PushModel {    
     private static final String ALL = "all";

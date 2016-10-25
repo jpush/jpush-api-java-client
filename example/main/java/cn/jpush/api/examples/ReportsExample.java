@@ -3,7 +3,7 @@ package cn.jpush.api.examples;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;

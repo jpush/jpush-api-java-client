@@ -3,7 +3,7 @@ package cn.jpush.api.push.model;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import cn.jiguang.commom.DeviceType;
+import cn.jiguang.common.DeviceType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

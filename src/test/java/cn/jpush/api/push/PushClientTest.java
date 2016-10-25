@@ -3,7 +3,7 @@ package cn.jpush.api.push;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.common.ClientConfig;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Options;
