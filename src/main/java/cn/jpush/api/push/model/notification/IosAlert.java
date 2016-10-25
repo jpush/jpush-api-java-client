@@ -11,6 +11,7 @@ import cn.jpush.api.push.model.PushModel;
 public class IosAlert implements PushModel {
 
     private final String title;
+    private final String subtitle;
     private final String body;
     private final String title_loc_key;
     private final String[] title_loc_args;
@@ -19,9 +20,10 @@ public class IosAlert implements PushModel {
     private final String[] loc_args;
     private final String launch_image;
 
-    private IosAlert(String title, String body, String title_loc_key, String[] title_loc_args,
+    private IosAlert(String title, String subtitle, String body, String title_loc_key, String[] title_loc_args,
                     String action_loc_key, String loc_key, String[] loc_args, String launch_image) {
         this.title = title;
+        this.subtitle = subtitle;
         this.body = body;
         this.title_loc_key = title_loc_key;
         this.title_loc_args = title_loc_args;
@@ -41,6 +43,10 @@ public class IosAlert implements PushModel {
 
         if( StringUtils.isNotEmpty(title) ) {
             json.addProperty("title", title);
+        }
+
+        if ( StringUtils.isNotEmpty(subtitle) ) {
+            json.addProperty("subtitle", subtitle);
         }
 
         if( StringUtils.isNotEmpty(body) ) {
@@ -87,6 +93,7 @@ public class IosAlert implements PushModel {
 
     public static class Builder {
         private String title;
+        private String subtitle;
         private String body;
         private String title_loc_key;
         private String[] title_loc_args;
@@ -95,8 +102,9 @@ public class IosAlert implements PushModel {
         private String[] loc_args;
         private String launch_image;
 
-        public Builder setTitleAndBody(String title, String body){
+        public Builder setTitleAndBody(String title, String subtitle, String body){
             this.title = title;
+            this.subtitle = subtitle;
             this.body = body;
             return this;
         }
@@ -124,7 +132,7 @@ public class IosAlert implements PushModel {
         }
 
         public IosAlert build() {
-            return new IosAlert(title, body, title_loc_key, title_loc_args, action_loc_key,
+            return new IosAlert(title, subtitle, body, title_loc_key, title_loc_args, action_loc_key,
                     loc_key, loc_args, launch_image);
         }
     }
