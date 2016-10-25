@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import cn.jiguang.commom.ClientConfig;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.examples.PushExample;
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;

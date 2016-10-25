@@ -118,7 +118,7 @@ public class NotificationTest extends BaseRemotePushTest {
     @Test
     public void sendNotification_ios_alert_jsonObj() throws Exception {
         IosAlert alert = IosAlert.newBuilder()
-                .setTitleAndBody("ios title", "test ios title")
+                .setTitleAndBody("ios title", "test subtitle", "test ios title")
                 .build();
 
         PushPayload payload = PushPayload.newBuilder()
