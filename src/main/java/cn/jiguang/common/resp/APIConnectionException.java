@@ -10,7 +10,7 @@ package cn.jiguang.common.resp;
  * For Push action, if the exception is "Read timed out" you may not want to retry it.
  */
 public class APIConnectionException extends Exception {
-    private static final long serialVersionUID = -2615370590441195647L;
+    private static final long serialVersionUID = 1L;
     private boolean readTimedout = false;
     private int doneRetriedTimes = 0;
 
