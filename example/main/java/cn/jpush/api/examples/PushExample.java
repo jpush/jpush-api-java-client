@@ -223,7 +223,7 @@ public class PushExample {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 
         IosAlert alert = IosAlert.newBuilder()
-                .setTitleAndBody("test alert", "test ios alert json")
+                .setTitleAndBody("test alert", "subtitle", "test ios alert json")
                 .setActionLocKey("PLAY")
                 .build();
         try {
