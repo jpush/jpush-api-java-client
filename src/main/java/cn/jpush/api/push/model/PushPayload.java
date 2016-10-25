@@ -154,30 +154,6 @@ public class PushPayload implements PushModel {
         return json;
     }
 
-    public JsonElement toSerializeJSON() {
-        JsonObject json =  new JsonObject();
-        if (null != platform) {
-            json.add(PLATFORM, platform.toSerializeJSON());
-        }
-        if (null != audience) {
-            json.add(AUDIENCE, audience.toSerializeJSON());
-        }
-        if (null != notification) {
-            json.add(NOTIFICATION, notification.toJSON());
-        }
-        if (null != message) {
-            json.add(MESSAGE, message.toJSON());
-        }
-        if (null != options) {
-            json.add(OPTIONS, options.toJSON());
-        }
-        if (null != sms) {
-            json.add(SMS, sms.toJSON());
-        }
-
-        return json;
-    }
-    
     public boolean isGlobalExceedLength() {
         int messageLength = 0;
         JsonObject payload = (JsonObject) this.toJSON();

@@ -1,5 +1,6 @@
 package cn.jpush.api.push;
 
+import static cn.jpush.api.examples.PushExample.buildPushObject_ios_tagAnd_alertWithExtrasAndMessage;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -7,6 +8,10 @@ import cn.jiguang.commom.ClientConfig;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.examples.PushExample;
 import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.notification.InterfaceAdapter;
+import cn.jpush.api.push.model.notification.PlatformNotification;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
 import cn.jiguang.common.connection.HttpProxy;
@@ -25,12 +30,14 @@ public class PushClientTest extends BaseTest {
     public void testSendPush() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-
-//        String payloadString = "{\"platform\":{\"all\":\"true\"},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
-        String payloadString = "{\"platform\":{\"all\":\"false\",\"deviceTypes\":[\"android\",\"ios\"]},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
-        PushPayload payload = PushPayload.fromJSON(payloadString);
+        PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
+                .create();
+        String payloadJson = gson.toJson(payload);
+        PushPayload newPayload = gson.fromJson(payloadJson, PushPayload.class);
         try {
-            PushResult result = jpushClient.sendPush(payload);
+            PushResult result = jpushClient.sendPush(newPayload);
             LOG.info("Got result - " + result);
 
         } catch (APIConnectionException e) {

@@ -82,7 +82,7 @@ public class Message implements PushModel {
         
         return json;
     }
-    
+
     public static class Builder {
         private String title;
         private String msgContent;

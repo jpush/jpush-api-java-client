@@ -115,7 +115,7 @@ public class Notification implements PushModel {
         }
         return json;
     }
-    
+
     public static class Builder {
         private Object alert;
         private Set<PlatformNotification> builder;

@@ -3,6 +3,9 @@ package cn.jpush.api.examples;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.api.push.model.notification.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +21,6 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
-import cn.jpush.api.push.model.notification.AndroidNotification;
-import cn.jpush.api.push.model.notification.IosAlert;
-import cn.jpush.api.push.model.notification.IosNotification;
-import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 
 public class PushExample {
@@ -52,9 +51,14 @@ public class PushExample {
         
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-        String payloadJson = payload.toSerializeJSON().toString();
-        System.out.print(payloadJson);
-        PushPayload newPayload = PushPayload.fromJSON(payloadJson);
+        System.out.println("原始String类型payload： " + payload.toString());
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
+                .create();
+        String payloadJson = gson.toJson(payload);
+        System.out.println("gosn.toJSON： " + payloadJson);
+        PushPayload newPayload = gson.fromJson(payloadJson, PushPayload.class);
+        System.out.println("newPayload：" + newPayload.toString());
         try {
             PushResult result = jpushClient.sendPush(newPayload);
             LOG.info("Got result - " + result);
