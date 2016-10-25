@@ -39,7 +39,8 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
+        testSendPush_fromJSON();
 	}
 	
 	
@@ -51,16 +52,8 @@ public class PushExample {
         
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-        System.out.println("原始String类型payload： " + payload.toString());
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
-                .create();
-        String payloadJson = gson.toJson(payload);
-        System.out.println("gosn.toJSON： " + payloadJson);
-        PushPayload newPayload = gson.fromJson(payloadJson, PushPayload.class);
-        System.out.println("newPayload：" + newPayload.toString());
         try {
-            PushResult result = jpushClient.sendPush(newPayload);
+            PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
             
         } catch (APIConnectionException e) {
@@ -75,15 +68,16 @@ public class PushExample {
         }
 	}
 
-	//use Payload.fromJSON to build payload instance
+	//use String to build PushPayload instance
     public static void testSendPush_fromJSON() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
-
-        String payloadString = "{\"platform\":{\"all\":\"false\",\"deviceTypes\":[\"android\",\"ios\"]},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
-        //also equals
-        //String payloadString = "{\"platform\":{\"all\":\"true\"},\"audience\":{\"all\":\"true\"},\"notification\":{\"alert\":\"Test\",\"ios\":{\"alert\":\"第 1 条\",\"extras\":{\"extra_key\":\"extra_value\"},\"badge\":\"+1\",\"sound\":\"\"},\"android\":{\"alert\":\"第 1 条\",\"extras\":{\"android_key\":\"android_value\"}}},\"options\":{\"sendno\":182145298,\"apns_production\":false}}";
-        PushPayload payload = PushPayload.fromJSON(payloadString);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
+                .create();
+        // Since the type of DeviceType is enum, thus the value should be uppercase, same with the AudienceType.
+        String payloadString = "{\"platform\":{\"all\":false,\"deviceTypes\":[\"IOS\"]},\"audience\":{\"all\":false,\"targets\":[{\"audienceType\":\"TAG_AND\",\"values\":[\"tag1\",\"tag_all\"]}]},\"notification\":{\"notifications\":[{\"soundDisabled\":false,\"badgeDisabled\":false,\"sound\":\"happy\",\"badge\":\"5\",\"contentAvailable\":false,\"alert\":\"Test from API Example - alert\",\"extras\":{\"from\":\"JPush\"},\"type\":\"cn.jpush.api.push.model.notification.IosNotification\"}]},\"message\":{\"msgContent\":\"Test from API Example - msgContent\"},\"options\":{\"sendno\":1429488213,\"overrideMsgId\":0,\"timeToLive\":-1,\"apnsProduction\":true,\"bigPushDuration\":0}}";
+        PushPayload payload = gson.fromJson(payloadString, PushPayload.class);
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
