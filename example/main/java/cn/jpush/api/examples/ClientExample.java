@@ -3,7 +3,7 @@ package cn.jpush.api.examples;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.common.ClientConfig;
 import cn.jpush.api.JPushClient;
 
 public class ClientExample {

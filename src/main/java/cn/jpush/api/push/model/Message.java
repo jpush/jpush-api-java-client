@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.utils.Preconditions;
 
 public class Message implements PushModel {    
     private static final String TITLE = "title";
@@ -82,7 +82,7 @@ public class Message implements PushModel {
         
         return json;
     }
-    
+
     public static class Builder {
         private String title;
         private String msgContent;

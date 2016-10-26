@@ -3,10 +3,13 @@ package cn.jpush.api.examples;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.api.push.model.notification.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.jiguang.commom.ClientConfig;
+import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
@@ -18,10 +21,6 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
-import cn.jpush.api.push.model.notification.AndroidNotification;
-import cn.jpush.api.push.model.notification.IosAlert;
-import cn.jpush.api.push.model.notification.IosNotification;
-import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonObject;
 
 public class PushExample {
@@ -40,7 +39,8 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
+        testSendPush_fromJSON();
 	}
 	
 	
@@ -51,8 +51,7 @@ public class PushExample {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
         
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_all_alert();
-        
+        PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
@@ -68,6 +67,32 @@ public class PushExample {
             LOG.info("Msg ID: " + e.getMsgId());
         }
 	}
+
+	//use String to build PushPayload instance
+    public static void testSendPush_fromJSON() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
+                .create();
+        // Since the type of DeviceType is enum, thus the value should be uppercase, same with the AudienceType.
+        String payloadString = "{\"platform\":{\"all\":false,\"deviceTypes\":[\"IOS\"]},\"audience\":{\"all\":false,\"targets\":[{\"audienceType\":\"TAG_AND\",\"values\":[\"tag1\",\"tag_all\"]}]},\"notification\":{\"notifications\":[{\"soundDisabled\":false,\"badgeDisabled\":false,\"sound\":\"happy\",\"badge\":\"5\",\"contentAvailable\":false,\"alert\":\"Test from API Example - alert\",\"extras\":{\"from\":\"JPush\"},\"type\":\"cn.jpush.api.push.model.notification.IosNotification\"}]},\"message\":{\"msgContent\":\"Test from API Example - msgContent\"},\"options\":{\"sendno\":1429488213,\"overrideMsgId\":0,\"timeToLive\":-1,\"apnsProduction\":true,\"bigPushDuration\":0}}";
+        PushPayload payload = gson.fromJson(payloadString, PushPayload.class);
+        try {
+            PushResult result = jpushClient.sendPush(payload);
+            LOG.info("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+        }
+    }
 	
 	public static PushPayload buildPushObject_all_all_alert() {
 	    return PushPayload.alertAll(ALERT);
@@ -198,7 +223,7 @@ public class PushExample {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 
         IosAlert alert = IosAlert.newBuilder()
-                .setTitleAndBody("test alert", "test ios alert json")
+                .setTitleAndBody("test alert", "subtitle", "test ios alert json")
                 .setActionLocKey("PLAY")
                 .build();
         try {

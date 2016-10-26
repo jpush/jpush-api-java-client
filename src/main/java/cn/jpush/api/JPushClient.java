@@ -5,10 +5,10 @@ import java.util.Set;
 
 import com.google.gson.JsonObject;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.TimeUnit;
-import cn.jiguang.commom.Week;
-import cn.jiguang.commom.utils.Preconditions;
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.TimeUnit;
+import cn.jiguang.common.Week;
+import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;

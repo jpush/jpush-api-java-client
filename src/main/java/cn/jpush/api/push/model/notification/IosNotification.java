@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.ServiceHelper;
+import cn.jiguang.common.ServiceHelper;
 
 /**
  * <p><b>APNs 通知类</b></p>
@@ -35,6 +35,7 @@ public class IosNotification extends PlatformNotification {
     private static final String BADGE = "badge";
     private static final String SOUND = "sound";
     private static final String CONTENT_AVAILABLE = "content-available";
+    private static final String MUTABLE_CONTENT = "mutable-content";
     private static final String CATEGORY = "category";
     
     private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
@@ -47,10 +48,12 @@ public class IosNotification extends PlatformNotification {
     private final String badge;
     private final boolean contentAvailable;
     private final String category;
+    private final boolean mutableContent;
+
     
     private IosNotification(Object alert, String sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
-            String category,
+            String category, boolean mutableContent,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -63,6 +66,7 @@ public class IosNotification extends PlatformNotification {
         this.soundDisabled = soundDisabled;
         this.badgeDisabled = badgeDisabled;
         this.category = category;
+        this.mutableContent = mutableContent;
     }
     
     public static Builder newBuilder() {
@@ -103,7 +107,10 @@ public class IosNotification extends PlatformNotification {
         if (null != category) {
         	json.add(CATEGORY, new JsonPrimitive(category));
         }
-        
+        if (mutableContent) {
+            json.add(MUTABLE_CONTENT, new JsonPrimitive(1));
+        }
+
         return json;
     }
     
@@ -115,7 +122,8 @@ public class IosNotification extends PlatformNotification {
         private boolean soundDisabled = false;
         private boolean badgeDisabled = false;
         private String category;
-        
+        private boolean mutableContent;
+
         protected Builder getThis() {
         	return this;
         }
@@ -181,10 +189,15 @@ public class IosNotification extends PlatformNotification {
             return this;
         }
 
+        public Builder setMutableContent(boolean mutableContent) {
+            this.mutableContent = mutableContent;
+            return this;
+        }
+
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
-                    soundDisabled, badgeDisabled, category,  
+                    soundDisabled, badgeDisabled, category, mutableContent,
             		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }

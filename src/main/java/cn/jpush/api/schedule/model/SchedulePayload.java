@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.utils.StringUtils;
 import cn.jpush.api.push.model.PushPayload;
 
 public class SchedulePayload implements IModel {

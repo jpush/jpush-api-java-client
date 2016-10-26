@@ -3,8 +3,8 @@ package cn.jpush.api.push.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 
 public class SMS implements PushModel {
 

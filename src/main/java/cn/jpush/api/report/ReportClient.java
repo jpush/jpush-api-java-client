@@ -4,10 +4,10 @@ package cn.jpush.api.report;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
-import cn.jiguang.commom.ClientConfig;
-import cn.jiguang.commom.ServiceHelper;
-import cn.jiguang.commom.TimeUnit;
-import cn.jiguang.commom.utils.StringUtils;
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.TimeUnit;
+import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;

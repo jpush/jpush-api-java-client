@@ -6,10 +6,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.TimeUnit;
-import cn.jiguang.commom.utils.Preconditions;
-import cn.jiguang.commom.utils.StringUtils;
-import cn.jiguang.commom.utils.TimeUtils;
+import cn.jiguang.common.TimeUnit;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
+import cn.jiguang.common.utils.TimeUtils;
 
 
 public class TriggerPayload implements IModel {

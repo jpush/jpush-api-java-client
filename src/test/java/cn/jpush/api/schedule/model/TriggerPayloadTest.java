@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.TimeUnit;
+import cn.jiguang.common.TimeUnit;
 import cn.jpush.api.FastTests;
 
 /**

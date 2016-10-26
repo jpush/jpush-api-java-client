@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.commom.ServiceHelper;
+import cn.jiguang.common.ServiceHelper;
 import cn.jpush.api.FastTests;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
