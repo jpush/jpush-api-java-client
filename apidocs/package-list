@@ -1,7 +1,4 @@
 cn.jpush.api
-cn.jpush.api.common
-cn.jpush.api.common.connection
-cn.jpush.api.common.resp
 cn.jpush.api.device
 cn.jpush.api.push
 cn.jpush.api.push.model
@@ -10,4 +7,3 @@ cn.jpush.api.push.model.notification
 cn.jpush.api.report
 cn.jpush.api.schedule
 cn.jpush.api.schedule.model
-cn.jpush.api.utils
