@@ -8,7 +8,7 @@
 
 这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
 
-对应的 REST API 文档：[REST API - Push](http://docs-test.jiguang.cn/jpush/server/push/rest_api_v3_push/), [REST API - Report](http://docs-test.jiguang.cn/jpush/server/push/rest_api_v3_report/).
+对应的 REST API 文档：[REST API - Push](https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/), [REST API - Report](https://docs.jiguang.cn/jpush/server/push/rest_api_v3_report/).
 
 本开发包 Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 
