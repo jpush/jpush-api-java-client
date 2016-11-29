@@ -43,12 +43,6 @@
 			<artifactId>okhttp</artifactId>
 			<version>3.3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-release-plugin</artifactId>
-			<version>2.5.3</version>
-			<type>maven-plugin</type>
-		</dependency>
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -83,16 +77,16 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp</groupId>
-			<artifactId>mockwebserver</artifactId>
-			<version>2.0.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
