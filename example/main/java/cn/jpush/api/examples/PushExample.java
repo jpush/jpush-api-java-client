@@ -40,7 +40,7 @@ public class PushExample {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
 //		testSendPush();
-        testSendPush_fromJSON();
+//        testSendPush_fromJSON();
 	}
 	
 	

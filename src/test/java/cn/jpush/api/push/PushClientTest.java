@@ -5,16 +5,9 @@ import static org.junit.Assert.fail;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.model.Message;
-import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.audience.Audience;
-import cn.jpush.api.push.model.notification.InterfaceAdapter;
-import cn.jpush.api.push.model.notification.IosNotification;
-import cn.jpush.api.push.model.notification.Notification;
-import cn.jpush.api.push.model.notification.PlatformNotification;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import cn.jpush.api.push.model.notification.*;
 import org.junit.Test;
 
 import cn.jiguang.common.connection.HttpProxy;
@@ -33,14 +26,9 @@ public class PushClientTest extends BaseTest {
     public void testSendPush() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
-                .create();
-        String payloadJson = gson.toJson(payload);
-        PushPayload newPayload = gson.fromJson(payloadJson, PushPayload.class);
+        PushPayload payload = buildPushObject_android_and_ios();
         try {
-            PushResult result = jpushClient.sendPush(newPayload);
+            PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
 
         } catch (APIConnectionException e) {
@@ -55,21 +43,17 @@ public class PushClientTest extends BaseTest {
         }
     }
 
-    private static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
+    private static PushPayload buildPushObject_android_and_ios() {
         return PushPayload.newBuilder()
-                .setPlatform(Platform.ios())
-                .setAudience(Audience.tag_and("tag1", "tag_all"))
+                .setPlatform(Platform.android_ios())
+                .setAudience(Audience.tag("tag1"))
                 .setNotification(Notification.newBuilder()
+                        .setAlert("alert content")
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setTitle("Android Title").build())
                         .addPlatformNotification(IosNotification.newBuilder()
-                                .setAlert(ALERT)
-                                .setBadge(5)
-                                .setSound("happy")
-                                .addExtra("from", "JPush")
-                                .build())
-                        .build())
-                .setMessage(Message.content(MSG_CONTENT))
-                .setOptions(Options.newBuilder()
-                        .setApnsProduction(true)
+                                .incrBadge(1)
+                                .addExtra("extra_key", "extra_value").build())
                         .build())
                 .build();
     }
