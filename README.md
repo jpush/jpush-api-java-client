@@ -8,7 +8,7 @@
 
 这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
 
-对应的 REST API 文档：[REST API - Push](http://docs-test.jiguang.cn/jpush/server/push/rest_api_v3_push/), [REST API - Report](http://docs-test.jiguang.cn/jpush/server/push/rest_api_v3_report/).
+对应的 REST API 文档：[REST API - Push](https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/), [REST API - Report](https://docs.jiguang.cn/jpush/server/push/rest_api_v3_report/).
 
 本开发包 Javadoc：[API Docs](http://jpush.github.io/jpush-api-java-client/apidocs/)
 
@@ -174,7 +174,7 @@
     }
 ```
 
-* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的并集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 5，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。APNs 的推送环境是“生产”（如果不显式设置的话，Library 会默认指定为开发）
+* 构建推送对象：平台是 iOS，推送目标是 "tag1", "tag_all" 的交集，推送内容同时包括通知与消息 - 通知信息是 ALERT，角标数字为 5，通知声音为 "happy"，并且附加字段 from = "JPush"；消息内容是 MSG_CONTENT。通知是 APNs 推送通道的，消息是 JPush 应用内消息通道的。APNs 的推送环境是“生产”（如果不显式设置的话，Library 会默认指定为开发）
 
 ```Java
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
@@ -197,7 +197,7 @@
     }
 ```
 
-* 构建推送对象：平台是 Andorid 与 iOS，推送目标是 （"tag1" 与 "tag2" 的交集）并（"alias1" 与 "alias2" 的交集），推送内容是 - 内容为 MSG_CONTENT 的消息，并且附加字段 from = JPush。
+* 构建推送对象：平台是 Andorid 与 iOS，推送目标是 （"tag1" 与 "tag2" 的并集）交（"alias1" 与 "alias2" 的并集），推送内容是 - 内容为 MSG_CONTENT 的消息，并且附加字段 from = JPush。
 
 ```Java
     public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
