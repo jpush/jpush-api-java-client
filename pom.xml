@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.2.12-SNAPSHOT</version>
+	<version>3.2.13-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -30,6 +30,13 @@
 		<artifactId>oss-parent</artifactId>
 		<version>9</version>
 	</parent>
+
+	<scm>
+		<url>https://github.com/jpush/jpush-api-java-client</url>
+		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
+		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
+		<tag>v3.2.13</tag>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -230,9 +237,4 @@
 	</reporting>
 
 
-  <scm>
-    <connection>scm:svn:http://svn.sonatype.org/spice/tags/v3.2.12</connection>
-    <developerConnection>scm:svn:https://svn.sonatype.org/spice/tags/v3.2.12</developerConnection>
-    <url>http://svn.sonatype.org/spice/tags/v3.2.12</url>
-  </scm>
 </project>
