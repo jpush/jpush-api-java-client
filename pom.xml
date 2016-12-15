@@ -31,13 +31,6 @@
 		<version>9</version>
 	</parent>
 
-	<scm>
-		<url>https://github.com/jpush/jpush-api-java-client</url>
-		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
-		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<tag>v3.2.11</tag>
-	</scm>
-
 	<dependencies>
 		<dependency>
 			<groupId>cn.jpush.api</groupId>
@@ -236,4 +229,10 @@
 		</plugins>
 	</reporting>
 
+
+  <scm>
+    <connection>scm:svn:http://svn.sonatype.org/spice/tags/v3.2.12</connection>
+    <developerConnection>scm:svn:https://svn.sonatype.org/spice/tags/v3.2.12</developerConnection>
+    <url>http://svn.sonatype.org/spice/tags/v3.2.12</url>
+  </scm>
 </project>
