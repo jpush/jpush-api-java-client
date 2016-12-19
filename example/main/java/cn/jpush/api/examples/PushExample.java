@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jpush.api.push.model.notification.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,6 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
-import com.google.gson.JsonObject;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
