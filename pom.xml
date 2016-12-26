@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jiguang-common</artifactId>
-	<version>0.1.9-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jiguang-java-client-common</url>
 	<name>Jiguang Client Common Dependencies</name>
@@ -34,16 +34,16 @@
 		<url>https://github.com/jpush/jiguang-java-client-common</url>
 		<connection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</developerConnection>
-		<tag>v0.1.7</tag>
+		<tag>v1.0.0</tag>
 	</scm>
 
 	<dependencies>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.1.6.Final</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.6.Final</version>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
