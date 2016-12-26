@@ -97,8 +97,6 @@ public class NettyHttpClient implements IHttpClient {
             _channel.closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            _workerGroup.shutdownGracefully();
         }
 
     }
@@ -196,8 +194,6 @@ public class NettyHttpClient implements IHttpClient {
             wrapper = initializer.getResponse();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            _workerGroup.shutdownGracefully();
         }
         return wrapper;
     }
