@@ -10,6 +10,39 @@ Common lib for JiGuang Java clients.
 
 **新增 http2 分支，使用 Netty 第三方工具支持使用 Http/2 发送请求，详情参考 http2 分支下的 ReadMe**
 
+**新增 NettyHttpClient，解决在多线程中使用 java sdk 请求超时问题。用法如下：**
+
+- 同步方式（以 PushClient 为例）
+
+```
+//在 PushClient 中将 NativeHttpClient 改为 NettyHttpClient, 发送请求方式和之前一样。
+this._httpClient = new NettyHttpClient(authCode, proxy, conf);
+
+```
+
+- 异步方式
+
+```
+public void testSendPushWithCallback() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        String host = (String) clientConfig.get(ClientConfig.PUSH_HOST_NAME);
+        NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
+                null, clientConfig);
+        try {
+            URI uri = new URI(host + clientConfig.get(ClientConfig.PUSH_PATH));
+            PushPayload payload = buildPushObject_all_alias_alert();
+            client.sendRequest(HttpMethod.POST, payload.toString(), uri, new NettyHttpClient.BaseCallback() {
+                @Override
+                public void onSucceed(ResponseWrapper responseWrapper) {
+                    LOG.info("Got result: " + responseWrapper.responseContent);
+                }
+            });
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+```
+
 > 非常欢迎各位开发者提交代码，贡献一份力量，Review 过有效的代码将会合入本项目。
 
 
@@ -24,7 +57,7 @@ Common lib for JiGuang Java clients.
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jiguang-common</artifactId>
-    <version>0.1.4</version>
+    <version>1.0.0</version>
 </dependency>
 <dependency>
 	<groupId>com.google.code.gson</groupId>
