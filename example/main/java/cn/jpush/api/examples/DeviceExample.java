@@ -26,7 +26,7 @@ public class DeviceExample {
 	private static JPushClient jpushClient = new JPushClient(masterSecret, appKey);
 
 	public static void main(String[] args) {
-//		testGetDeviceTagAlias();
+		testGetDeviceTagAlias();
 //		testGetUserOnlineStatus();
 	}
 	

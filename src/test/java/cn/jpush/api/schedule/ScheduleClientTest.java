@@ -11,6 +11,8 @@ import cn.jpush.api.SlowTests;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ScheduleClient Tester.
@@ -21,6 +23,8 @@ import cn.jpush.api.schedule.model.TriggerPayload;
 
 @Category(SlowTests.class)
 public class ScheduleClientTest extends BaseTest {
+
+    protected static final Logger LOG = LoggerFactory.getLogger(ScheduleClientTest.class);
 
     public static final int NOT_EXIST = 8104;
     public static final int AUTH_FAILED = 8101;
@@ -93,7 +97,11 @@ public class ScheduleClientTest extends BaseTest {
         } catch (APIConnectionException e) {
             e.printStackTrace();
         } catch (APIRequestException e) {
-            Assert.assertTrue(e.getErrorMessage(), false);
+            e.printStackTrace();
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
         } finally {
             if(!success && null != result) {
                 try {

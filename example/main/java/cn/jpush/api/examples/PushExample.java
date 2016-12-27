@@ -1,11 +1,16 @@
 package cn.jpush.api.examples;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.NettyHttpClient;
+import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.notification.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
+import io.netty.handler.codec.http.HttpMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +26,6 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
-import com.google.gson.JsonObject;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
@@ -29,6 +33,9 @@ public class PushExample {
     // demo App defined in resources/jpush-api.conf 
 	private static final String appKey ="dd1066407b044738b6479275";
 	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
+
+    protected static final String APP_KEY ="d4ee2375846bc30fa51334f5";
+    protected static final String MASTER_SECRET = "2bf52ee46fdeaadb8718fc15";
 	
 	public static final String TITLE = "Test from API example";
     public static final String ALERT = "Test from API Example - alert";
@@ -39,25 +46,101 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-//		testSendPush();
-        testSendPush_fromJSON();
+		testSendPush();
+//        testSendPush_fromJSON();
+//        testSendPushes();
+//        testSendPushesWithMultiCallback();
 	}
+
+	// 使用 NettyHttpClient 异步接口发送请求
+    public static void testSendPushes() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
+                null, clientConfig);
+        for (int i = 0; i < 4; i++) {
+            NettyHttpClient.BaseCallback callback = new NettyHttpClient.BaseCallback() {
+                @Override
+                public void onSucceed(ResponseWrapper responseWrapper) {
+                    System.out.println("callback i");
+                }
+            };
+            MyThread thread = new MyThread(client, callback);
+            thread.start();
+        }
+    }
+
+    public static void testSendPushesWithMultiCallback() {
+        NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
+                null, ClientConfig.getInstance());
+        String host = (String) ClientConfig.getInstance().get(ClientConfig.PUSH_HOST_NAME);
+        URI uri = null;
+        try {
+            uri = new URI(host + (String) ClientConfig.getInstance().get(ClientConfig.PUSH_PATH));
+            PushPayload payload = PushPayload.alertAll("test");
+            System.out.println(payload.toString());
+            NettyHttpClient.BaseCallback callback1 = new NettyHttpClient.BaseCallback() {
+                @Override
+                public void onSucceed(ResponseWrapper responseWrapper) {
+                    System.out.println("callback1 Got result: " + responseWrapper.responseContent);
+                }
+            };
+            NettyHttpClient.BaseCallback callback2 = new NettyHttpClient.BaseCallback() {
+                @Override
+                public void onSucceed(ResponseWrapper responseWrapper) {
+                    System.out.println("callback2 Got result: " + responseWrapper.responseContent);
+                }
+            };
+            MyThread thread1 = new MyThread(client, callback1);
+            MyThread thread2 = new MyThread(client, callback2);
+            thread1.start();
+            thread2.start();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class MyThread extends Thread {
+
+        private NettyHttpClient client;
+        private NettyHttpClient.BaseCallback callback;
+
+        public MyThread(NettyHttpClient client, NettyHttpClient.BaseCallback callback) {
+            this.client = client;
+            this.callback = callback;
+        }
+
+        @Override
+        public void run() {
+            // super.run();
+            System.out.println("running send push");
+            try {
+                String host = (String) ClientConfig.getInstance().get(ClientConfig.PUSH_HOST_NAME);
+                URI uri = new URI(host + (String) ClientConfig.getInstance().get(ClientConfig.PUSH_PATH));
+                PushPayload payload = PushPayload.alertAll("test");
+                System.out.println(payload.toString());
+                client.sendRequest(HttpMethod.POST, payload.toString(), uri, callback);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 	
 	
 	public static void testSendPush() {
 	    // HttpProxy proxy = new HttpProxy("localhost", 3128);
 	    // Can use this https proxy: https://github.com/Exa-Networks/exaproxy
 		ClientConfig clientConfig = ClientConfig.getInstance();
-        JPushClient jpushClient = new JPushClient(masterSecret, appKey, null, clientConfig);
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
         
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+        PushPayload payload = buildPushObject_android_newly_support();
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
             
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
+            LOG.error("Sendno: " + payload.getSendno());
             
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
@@ -65,6 +148,7 @@ public class PushExample {
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
+            LOG.error("Sendno: " + payload.getSendno());
         }
 	}
 
@@ -84,6 +168,7 @@ public class PushExample {
 
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
+            LOG.error("Sendno: " + payload.getSendno());
 
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
@@ -91,6 +176,7 @@ public class PushExample {
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
+            LOG.error("Sendno: " + payload.getSendno());
         }
     }
 	
@@ -177,6 +263,33 @@ public class PushExample {
                          .setApnsProduction(true)
                          .build())
                  .build();
+    }
+
+    public static PushPayload buildPushObject_android_newly_support() {
+        JsonObject inbox = new JsonObject();
+        inbox.add("line1", new JsonPrimitive("line1 string"));
+        inbox.add("line2", new JsonPrimitive("line2 string"));
+        inbox.add("contentTitle", new JsonPrimitive("title string"));
+        inbox.add("summaryText", new JsonPrimitive("+3 more"));
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert(ALERT)
+                        .setBigPicPath("path to big picture")
+                        .setBigText("long text")
+                        .setBuilderId(1)
+                        .setCategory("CATEGORY_SOCIAL")
+                        .setInbox(inbox)
+                        .setStyle(1)
+                        .setTitle("Alert test")
+                        .setPriority(1)
+                        .build())
+                .build();
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.registrationId("18071adc030dcba91c0"))
+                .setNotification(notification)
+                .setOptions(Options.sendno())
+                .build();
     }
     
     public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
