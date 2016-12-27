@@ -63,7 +63,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     @Test
@@ -76,7 +75,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     @Test
@@ -89,7 +87,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     @Test
@@ -102,7 +99,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     
@@ -150,7 +146,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                 .setMessage(Message.content("Pios msg"))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     //@Test

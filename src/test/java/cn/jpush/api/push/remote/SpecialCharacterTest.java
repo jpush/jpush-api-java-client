@@ -66,7 +66,7 @@ public class SpecialCharacterTest extends BaseRemotePushTest {
     @BeforeClass
     public static void prepareAudience() throws Exception {
     	JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
-    	DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "special_c", null, null);
+    	DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID3, "special_c", null, null);
     	assertThat(result.isResultOK(), is(true));
     }
     

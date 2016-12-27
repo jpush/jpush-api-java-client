@@ -97,7 +97,6 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setNotification(Notification.ios_auto_badge())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
 
     @Test
@@ -112,7 +111,6 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setNotification(Notification.alert(alert.toString()))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
 
     @Test
@@ -127,7 +125,6 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setNotification(Notification.alert(alert))
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
 
 }

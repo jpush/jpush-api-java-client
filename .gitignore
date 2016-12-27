@@ -12,6 +12,6 @@ test-output/
 *.ear
 *.iml
 
-pom.xml.releaseBackup
+*.releaseBackup
 release.properties
 

@@ -12,6 +12,7 @@ public abstract class BaseTest {
     
     public static final String REGISTRATION_ID1 = "0900e8d85ef";
     public static final String REGISTRATION_ID2 = "0a04ad7d8b4";
+    public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
 
     
     protected JPushClient jpushClient = null;

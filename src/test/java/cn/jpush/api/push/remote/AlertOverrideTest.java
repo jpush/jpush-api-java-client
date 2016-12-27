@@ -59,7 +59,6 @@ public class AlertOverrideTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
     @Test
@@ -73,7 +72,6 @@ public class AlertOverrideTest extends BaseRemotePushTest {
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
     }
     
 	
