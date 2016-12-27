@@ -114,7 +114,7 @@
 > 以下片断来自项目代码里的文件：example / cn.jpush.api.examples.PushExample
 
 ```Java
-    JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
+    JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
 
     // For push, all you need do is to build PushPayload object.
     PushPayload payload = buildPushObject_all_all_alert();
