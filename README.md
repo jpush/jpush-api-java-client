@@ -108,6 +108,19 @@
 	mvn test
 
 ## 使用样例
+如果使用 NettyHttpClient(v3.2.15 版本新增），需要在响应返回后手动调用一下 NettyHttpClient 中的 close 方法，否则进程不会退出。代码示例：
+```
+...
+try {
+    PushResult result = jpushClient.sendPush(payload);
+    LOG.info("Got result - " + result);
+    Thread.sleep(5000);
+    // 定义一个 close 方法，最终调用 NettyHttpClient 中的 close 方法即可。
+    jpushClient.close();
+} catch(InterruptedException e) {
+    e.printStackTrace();
+}
+```
 
 ### 推送样例
 
@@ -122,7 +135,7 @@
     try {
         PushResult result = jpushClient.sendPush(payload);
         LOG.info("Got result - " + result);
-
+	
     } catch (APIConnectionException e) {
         // Connection error, should retry later
         LOG.error("Connection error, should retry later", e);
