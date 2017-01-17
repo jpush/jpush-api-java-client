@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.concurrent.CountDownLatch;
 
@@ -88,13 +89,14 @@ public class NettyHttpClient implements IHttpClient {
         }
         request.headers().set(HttpHeaderNames.HOST, uri.getHost());
         request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
-        request.headers().set("Content-Type","application/json;charset=utf-8");
+        request.headers().set("Content-Type", "application/json;charset=utf-8");
 
         LOG.info("Sending request. " + request);
         LOG.info("Send body: " + content);
         _channel.writeAndFlush(request);
         try {
             _channel.closeFuture().sync();
+            _workerGroup.shutdownGracefully();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -185,7 +187,7 @@ public class NettyHttpClient implements IHttpClient {
             }
             request.headers().set(HttpHeaderNames.HOST, uri.getHost());
             request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
-            request.headers().set("Content-Type","application/json;charset=utf-8");
+            request.headers().set("Content-Type", "application/json;charset=utf-8");
             connect.awaitUninterruptibly();
             LOG.info("Sending request. " + request);
             LOG.info("Send body: " + body);
@@ -219,7 +221,7 @@ public class NettyHttpClient implements IHttpClient {
         }
         request.headers().set(HttpHeaderNames.HOST, uri.getHost());
         request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
-        request.headers().set("Content-Type","application/json;charset=utf-8");
+        request.headers().set("Content-Type", "application/json;charset=utf-8");
         LOG.info("Sending request. " + request);
         LOG.info("Send body: " + body);
         _channel.writeAndFlush(request);
