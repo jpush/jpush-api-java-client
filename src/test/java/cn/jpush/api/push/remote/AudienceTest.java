@@ -98,14 +98,18 @@ public class AudienceTest extends BaseRemotePushTest {
                 .setAudience(Audience.alias(ALIAS1))
                 .setNotification(Notification.alert(ALERT))
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void sendByRegistrationID() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setAudience(Audience.registrationId(REGISTRATION_ID1))
+                .setAudience(Audience.registrationId(REGISTRATION_ID3))
                 .setNotification(Notification.alert(ALERT))
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -171,7 +175,11 @@ public class AudienceTest extends BaseRemotePushTest {
                 .setAudience(Audience.registrationId(REGISTRATION_ID1, REGISTRATION_ID2))
                 .setNotification(Notification.alert(ALERT))
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
 
 

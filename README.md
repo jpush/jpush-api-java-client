@@ -26,7 +26,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.2.15</version>
+    <version>3.2.16</version>
 </dependency>
 ```
 ### jar 包方式
@@ -46,7 +46,7 @@
     <dependency>
         <groupId>cn.jpush.api</groupId>
         <artifactId>jiguang-common</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
     <dependency>
         <groupId>io.netty</groupId>

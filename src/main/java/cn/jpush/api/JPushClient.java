@@ -1179,5 +1179,8 @@ public class JPushClient {
         return _scheduleClient.createSchedule(payload);
     }
 
+//    public void close() {
+//        _pushClient.close();
+//    }
 }
 

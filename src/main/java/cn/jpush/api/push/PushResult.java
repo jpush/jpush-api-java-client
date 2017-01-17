@@ -10,6 +10,7 @@ public class PushResult extends BaseResult {
 
     @Expose public long msg_id;
     @Expose public int sendno;
+    @Expose public int statusCode;
     
 }
 
