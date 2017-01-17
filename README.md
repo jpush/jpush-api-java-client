@@ -12,15 +12,17 @@ Common lib for JiGuang Java clients.
 
 **新增 NettyHttpClient，解决在多线程中使用 java sdk 请求超时问题。用法如下：**
 
-- 同步方式（以 PushClient 为例）
+- 同步方式（以 PushClient 为例），发送完请求后，请务必调用 close 方法，否则不会自动结束进程。
 
 ```
 //在 PushClient 中将 NativeHttpClient 改为 NettyHttpClient, 发送请求方式和之前一样。
 this._httpClient = new NettyHttpClient(authCode, proxy, conf);
+...
+
 
 ```
 
-- 异步方式
+- 异步方式，异步方式在调用结束后自动关闭。
 
 ```
 public void testSendPushWithCallback() {
