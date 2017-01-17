@@ -272,7 +272,7 @@ public class ExceptionTest extends BaseRemotePushTest {
         } catch (APIConnectionException e) {
             e.printStackTrace();
         } catch (APIRequestException e) {
-            assertEquals(INVALID_PARAMS, e.getErrorCode());
+            assertEquals(LACK_OF_PARAMS, e.getErrorCode());
         }
     }
     

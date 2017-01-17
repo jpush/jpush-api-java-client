@@ -2,6 +2,7 @@ package cn.jpush.api.push.remote;
 
 import static org.junit.Assert.assertTrue;
 
+import cn.jiguang.common.resp.APIRequestException;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -58,7 +59,11 @@ public class AlertOverrideTest extends BaseRemotePushTest {
                         .addPlatformNotification(IosNotification.alert("ios alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     @Test
@@ -71,7 +76,11 @@ public class AlertOverrideTest extends BaseRemotePushTest {
                         .addPlatformNotification(WinphoneNotification.alert("winphone alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
 	

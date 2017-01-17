@@ -28,7 +28,7 @@ import cn.jpush.api.push.model.PushPayload;
  */
 public class PushClient {
 
-    private final NettyHttpClient _httpClient;
+    private final NativeHttpClient _httpClient;
     private String _baseUrl;
     private String _pushPath;
     private String _pushValidatePath;
@@ -86,7 +86,7 @@ public class PushClient {
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NettyHttpClient(authCode, proxy, conf);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
 
     public PushClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
@@ -100,7 +100,7 @@ public class PushClient {
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
-        this._httpClient = new NettyHttpClient(authCode, proxy, conf);
+        this._httpClient = new NativeHttpClient(authCode, proxy, conf);
 
     }
 
@@ -210,6 +210,12 @@ public class PushClient {
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
+    // 如果使用 NettyHttpClient，在发送请求后需要手动调用 close 方法
+//    public void close() {
+//        if (_httpClient instanceof NettyHttpClient) {
+//            _httpClient.close();
+//        }
+//    }
 }
 
 

@@ -33,9 +33,10 @@ public class PushClientTest extends BaseTest {
     public void testSendPush() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        PushPayload payload = buildPushObject_all_alias_alert();
+        PushPayload payload = PushPayload.alertAll(ALERT);
         try {
             PushResult result = jpushClient.sendPush(payload);
+            int status = result.getResponseCode();
             LOG.info("Got result - " + result);
 
         } catch (APIConnectionException e) {
@@ -56,7 +57,7 @@ public class PushClientTest extends BaseTest {
     public void testSendPushWithCallback() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         String host = (String) clientConfig.get(ClientConfig.PUSH_HOST_NAME);
-        NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
+        final NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
                 null, clientConfig);
         try {
             URI uri = new URI(host + clientConfig.get(ClientConfig.PUSH_PATH));
@@ -76,7 +77,7 @@ public class PushClientTest extends BaseTest {
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setAudience(Audience.registrationId("18071adc030dcba91c0"))
+                .setAudience(Audience.alias("alias"))
                 .setNotification(Notification.alert(ALERT))
                 .build();
     }

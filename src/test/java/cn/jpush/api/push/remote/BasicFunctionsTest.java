@@ -2,6 +2,8 @@ package cn.jpush.api.push.remote;
 
 import static org.junit.Assert.assertTrue;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -62,7 +64,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .addPlatformNotification(IosNotification.alert("Pios Nios alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     @Test
@@ -74,7 +80,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .addPlatformNotification(IosNotification.alert("Pall Nios alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     @Test
@@ -86,7 +96,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .addPlatformNotification(WinphoneNotification.alert("Pwp Nwp alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     @Test
@@ -98,7 +112,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                         .addPlatformNotification(WinphoneNotification.alert("Pall Nwp alert"))
                         .build())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     
@@ -145,7 +163,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
                 .setAudience(Audience.all())
                 .setMessage(Message.content("Pios msg"))
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
     
     //@Test

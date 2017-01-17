@@ -1,5 +1,6 @@
 package cn.jpush.api.push.remote;
 
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.SlowTests;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
@@ -96,7 +97,11 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setPlatform(Platform.ios())
                 .setNotification(Notification.ios_auto_badge())
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -110,7 +115,11 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setPlatform(Platform.ios())
                 .setNotification(Notification.alert(alert.toString()))
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -124,7 +133,11 @@ public class NotificationTest extends BaseRemotePushTest {
                 .setPlatform(Platform.ios())
                 .setNotification(Notification.alert(alert))
                 .build();
-        PushResult result = _client.sendPush(payload);
+        try {
+            PushResult result = _client.sendPush(payload);
+        } catch (APIRequestException e) {
+            e.printStackTrace();
+        }
     }
 
 }
