@@ -103,7 +103,10 @@ public class HttpResponseHandler extends SimpleChannelInboundHandler<HttpObject>
         LOG.error("error:", cause);
         try {
             ctx.close();
-        }catch (Exception ex) {
+            if (null != _latch) {
+                _latch.countDown();
+            }
+        } catch (Exception ex) {
             LOG.error("close error:", ex);
         }
     }
