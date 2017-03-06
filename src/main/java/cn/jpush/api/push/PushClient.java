@@ -1,5 +1,7 @@
 package cn.jpush.api.push;
 
+import cn.jiguang.common.connection.IHttpClient;
+import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -9,7 +11,6 @@ import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
-import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
@@ -28,7 +29,7 @@ import cn.jpush.api.push.model.PushPayload;
  */
 public class PushClient {
 
-    private final NativeHttpClient _httpClient;
+    private IHttpClient _httpClient;
     private String _baseUrl;
     private String _pushPath;
     private String _pushValidatePath;
@@ -210,12 +211,16 @@ public class PushClient {
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
+    public void setHttpClient(IHttpClient client) {
+        this._httpClient = client;
+    }
+
     // 如果使用 NettyHttpClient，在发送请求后需要手动调用 close 方法
-//    public void close() {
-//        if (_httpClient instanceof NettyHttpClient) {
-//            _httpClient.close();
-//        }
-//    }
+    public void close() {
+        if (_httpClient != null && _httpClient instanceof NettyHttpClient) {
+            ((NettyHttpClient) _httpClient).close();
+        }
+    }
 }
 
 

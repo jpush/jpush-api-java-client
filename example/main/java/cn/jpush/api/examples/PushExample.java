@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.push.model.notification.*;
@@ -46,7 +47,8 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
+        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
 //        testSendPushesWithMultiCallback();
@@ -134,15 +136,22 @@ public class PushExample {
 	    // Can use this https proxy: https://github.com/Exa-Networks/exaproxy
 		ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        
+        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
+        // Here you can use NativeHttpClient or NettyHttpClient.
+        NativeHttpClient httpClient = new NativeHttpClient(authCode, null, clientConfig);
+        // Call setHttpClient to set httpClient,
+        // If you don't invoke this method, default httpClient will use NativeHttpClient.
+        jpushClient.getPushClient().setHttpClient(httpClient);
+
+
         // For push, all you need do is to build PushPayload object.
         PushPayload payload = buildPushObject_all_alias_alert();
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
-            Thread.sleep(5000);
-            //如果使用 NettyHttpClient，需要手动调用 close 方法退出进程
-//            jpushClient.close();
+            // 如果使用 NettyHttpClient，需要手动调用 close 方法退出进程
+            // If uses NettyHttpClient, call close when finished sending request, otherwise process will not exit.
+            // jpushClient.close();
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             LOG.error("Sendno: " + payload.getSendno());
@@ -154,8 +163,6 @@ public class PushExample {
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
             LOG.error("Sendno: " + payload.getSendno());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -185,6 +192,10 @@ public class PushExample {
             LOG.info("Msg ID: " + e.getMsgId());
             LOG.error("Sendno: " + payload.getSendno());
         }
+    }
+
+    public static void testSendPushes() {
+
     }
 	
 	public static PushPayload buildPushObject_all_all_alert() {
