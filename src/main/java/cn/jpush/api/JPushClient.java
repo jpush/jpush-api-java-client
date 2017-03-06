@@ -175,6 +175,11 @@ public class JPushClient {
         _deviceClient = new DeviceClient(masterSecret, appKey);
         _scheduleClient = new ScheduleClient(masterSecret, appKey);
     }
+
+    public PushClient getPushClient() {
+        return _pushClient;
+    }
+
     // ----------------------------- Push API
 
     /**
@@ -1179,8 +1184,8 @@ public class JPushClient {
         return _scheduleClient.createSchedule(payload);
     }
 
-//    public void close() {
-//        _pushClient.close();
-//    }
+    public void close() {
+        _pushClient.close();
+    }
 }
 
