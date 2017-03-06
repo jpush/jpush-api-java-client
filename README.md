@@ -26,7 +26,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.2.16</version>
+    <version>3.2.17</version>
 </dependency>
 ```
 ### jar 包方式
@@ -46,7 +46,7 @@
     <dependency>
         <groupId>cn.jpush.api</groupId>
         <artifactId>jiguang-common</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
     <dependency>
         <groupId>io.netty</groupId>
@@ -115,12 +115,14 @@ try {
     PushResult result = jpushClient.sendPush(payload);
     LOG.info("Got result - " + result);
     Thread.sleep(5000);
-    // 定义一个 close 方法，最终调用 NettyHttpClient 中的 close 方法即可。
+    // 请求结束后，调用 NettyHttpClient 中的 close 方法，否则进程不会退出。
     jpushClient.close();
 } catch(InterruptedException e) {
     e.printStackTrace();
 }
 ```
+
+3.2.17 版本后，在 PushClient 中添加了 setHttpClient(IHttpClient client) 方法，用户可以自由切换 NettyHttpClient 或是 NativeHttpClient。
 
 ### 推送样例
 
