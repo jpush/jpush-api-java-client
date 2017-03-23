@@ -58,4 +58,12 @@ public class HttpProxy {
     public String getPassword() {
         return this.password;
     }
+
+    public String getHost() {
+        return this.host;
+    }
+
+    public int getPort() {
+        return this.port;
+    }
 }

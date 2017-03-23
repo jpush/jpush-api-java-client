@@ -55,9 +55,17 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final Object READ_TIMEOUT_SCHEMA = Integer.class;
     public static final int DEFAULT_READ_TIMEOUT = 30 * 1000;
 
+    public static final String CONNECTION_REQUEST_TIMEOUT = "connection.request.timeout";
+    public static final Object CONNECTION_REQUEST_TIMEOUT_SCHEMA = Integer.class;
+    public static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 10 * 1000;
+
     public static final String CONNECTION_TIMEOUT = "connection.timeout";
     public static final Object CONNECTION_TIMEOUT_SCHEMA = Integer.class;
     public static final int DEFAULT_CONNECTION_TIMEOUT = 5 * 1000;
+
+    public static final String SOCKET_TIMEOUT = "socket.timeout";
+    public static final Object SOCKET_TIMEOUT_SCHEMA = Integer.class;
+    public static final int DEFAULT_SOCKET_TIMEOUT = 10 * 1000;
 
     /**
      * Global APNs environment setting.
@@ -105,7 +113,9 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(SSL_VERSION, DEFAULT_SSL_VERSION);
         this.put(MAX_RETRY_TIMES, DEFULT_MAX_RETRY_TIMES);
         this.put(READ_TIMEOUT, DEFAULT_READ_TIMEOUT);
+        this.put(CONNECTION_REQUEST_TIMEOUT, DEFAULT_CONNECTION_REQUEST_TIMEOUT);
         this.put(CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+        this.put(SOCKET_TIMEOUT, DEFAULT_SOCKET_TIMEOUT);
 
         this.put(APNS_PRODUCTION, DEFAULT_APNS_PRODUCTION);
         this.put(TIME_TO_LIVE, DEFAULT_TIME_TO_LIVE);
@@ -156,8 +166,16 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(READ_TIMEOUT, readTimeout);
     }
 
+    public void setConnectionRequestTimeout(int timeout) {
+        this.put(CONNECTION_REQUEST_TIMEOUT, timeout);
+    }
+
     public void setConnectionTimeout(int connectionTimeout) {
         this.put(CONNECTION_TIMEOUT, connectionTimeout);
+    }
+
+    public void setSocketTimeout(int socketTimeout) {
+        this.put(SOCKET_TIMEOUT, socketTimeout);
     }
 
     public String getSSLVersion() {
@@ -172,8 +190,16 @@ public class ClientConfig extends HashMap<String, Object> {
         return (Integer) this.get(READ_TIMEOUT);
     }
 
+    public Integer getConnectionRequestTimeout() {
+        return (Integer) this.get(CONNECTION_REQUEST_TIMEOUT);
+    }
+
     public Integer getConnectionTimeout() {
         return (Integer) this.get(CONNECTION_TIMEOUT);
+    }
+
+    public Integer getSocketTimeout() {
+        return (Integer) this.get(SOCKET_TIMEOUT);
     }
 
     public void setApnsProduction(boolean production) {
