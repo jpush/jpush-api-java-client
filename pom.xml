@@ -34,10 +34,15 @@
 		<url>https://github.com/jpush/jiguang-java-client-common</url>
 		<connection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</developerConnection>
-		<tag>v1.0.3</tag>
+		<tag>v1.0.4</tag>
 	</scm>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+		</dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
