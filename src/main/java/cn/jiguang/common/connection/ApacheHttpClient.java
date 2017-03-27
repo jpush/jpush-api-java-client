@@ -317,9 +317,57 @@ public class ApacheHttpClient implements IHttpClient {
             throws APIConnectionException, APIRequestException, IOException {
         HttpEntity entity = response.getEntity();
         LOG.debug("Response", response.toString());
-        wrapper.responseContent = EntityUtils.toString(entity, "utf-8");
-        wrapper.responseCode = response.getStatusLine().getStatusCode();
+        int status = response.getStatusLine().getStatusCode();
+        String responseContent = EntityUtils.toString(entity, "utf-8");
+        wrapper.responseCode = status;
+        wrapper.responseContent = responseContent;
         LOG.debug(wrapper.responseContent);
         EntityUtils.consume(entity);
+        if (status >= 200 && status < 300) {
+            LOG.debug("Succeed to get response OK - responseCode:" + status);
+            LOG.debug("Response Content - " + responseContent);
+
+        } else if (status >= 300 && status < 400) {
+            LOG.warn("Normal response but unexpected - responseCode:" + status + ", responseContent:" + responseContent);
+
+        } else {
+            LOG.warn("Got error response - responseCode:" + status + ", responseContent:" + responseContent);
+
+            switch (status) {
+                case 400:
+                    LOG.error("Your request params is invalid. Please check them according to error message.");
+                    wrapper.setErrorObject();
+                    break;
+                case 401:
+                    LOG.error("Authentication failed! Please check authentication params according to docs.");
+                    wrapper.setErrorObject();
+                    break;
+                case 403:
+                    LOG.error("Request is forbidden! Maybe your appkey is listed in blacklist or your params is invalid.");
+                    wrapper.setErrorObject();
+                    break;
+                case 404:
+                    LOG.error("Request page is not found! Maybe your params is invalid.");
+                    wrapper.setErrorObject();
+                    break;
+                case 410:
+                    LOG.error("Request resource is no longer in service. Please according to notice on official website.");
+                    wrapper.setErrorObject();
+                case 429:
+                    LOG.error("Too many requests! Please review your appkey's request quota.");
+                    wrapper.setErrorObject();
+                    break;
+                case 500:
+                case 502:
+                case 503:
+                case 504:
+                    LOG.error("Seems encountered server error. Maybe JPush is in maintenance? Please retry later.");
+                    break;
+                default:
+                    LOG.error("Unexpected response.");
+            }
+
+            throw new APIRequestException(wrapper);
+        }
     }
 }
