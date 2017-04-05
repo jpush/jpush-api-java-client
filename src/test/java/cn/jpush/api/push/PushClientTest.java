@@ -33,7 +33,7 @@ public class PushClientTest extends BaseTest {
     public void testSendPush() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        PushPayload payload = PushPayload.alertAll(ALERT);
+        PushPayload payload = buildPushObject_all_alias_alert();
         try {
             PushResult result = jpushClient.sendPush(payload);
             int status = result.getResponseCode();

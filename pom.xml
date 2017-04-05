@@ -35,15 +35,21 @@
 		<url>https://github.com/jpush/jpush-api-java-client</url>
 		<connection>scm:git:git@github.com:jpush/jpush-api-java-client.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jpush-api-java-client.git</developerConnection>
-		<tag>v3.2.17</tag>
+		<tag>v3.2.18</tag>
 	</scm>
 
 	<dependencies>
         <dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.5</version>
         </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+            <scope>compile</scope>
+		</dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>

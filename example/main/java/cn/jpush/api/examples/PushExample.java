@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.ApacheHttpClient;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
@@ -43,15 +44,16 @@ public class PushExample {
     public static final String MSG_CONTENT = "Test from API Example - msgContent";
     public static final String REGISTRATION_ID = "0900e8d85ef";
     public static final String TAG = "tag_api";
+    public static long sendCount = 0;
+    private static long sendTotalTime = 0;
 
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-//		testSendPush();
-        testSendPushes();
+		testSendPush();
+//        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
-//        testSendPushesWithMultiCallback();
 	}
 
 	// 使用 NettyHttpClient 异步接口发送请求
@@ -74,96 +76,69 @@ public class PushExample {
         }
     }
 
-    public static void testSendPushesWithMultiCallback() {
-        NettyHttpClient client = new NettyHttpClient(ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET),
-                null, ClientConfig.getInstance());
-        String host = (String) ClientConfig.getInstance().get(ClientConfig.PUSH_HOST_NAME);
-        URI uri = null;
-        try {
-            uri = new URI(host + (String) ClientConfig.getInstance().get(ClientConfig.PUSH_PATH));
-            PushPayload payload = PushPayload.alertAll("test");
-            System.out.println(payload.toString());
-            NettyHttpClient.BaseCallback callback1 = new NettyHttpClient.BaseCallback() {
-                @Override
-                public void onSucceed(ResponseWrapper responseWrapper) {
-                    System.out.println("callback1 Got result: " + responseWrapper.responseContent);
-                }
-            };
-            NettyHttpClient.BaseCallback callback2 = new NettyHttpClient.BaseCallback() {
-                @Override
-                public void onSucceed(ResponseWrapper responseWrapper) {
-                    System.out.println("callback2 Got result: " + responseWrapper.responseContent);
-                }
-            };
-            MyThread thread1 = new MyThread(client, callback1);
-            MyThread thread2 = new MyThread(client, callback2);
-            thread1.start();
-            thread2.start();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static class MyThread extends Thread {
-
-        private NettyHttpClient client;
-        private NettyHttpClient.BaseCallback callback;
-
-        public MyThread(NettyHttpClient client, NettyHttpClient.BaseCallback callback) {
-            this.client = client;
-            this.callback = callback;
-        }
-
-        @Override
-        public void run() {
-            // super.run();
-            System.out.println("running send push");
-            try {
-                String host = (String) ClientConfig.getInstance().get(ClientConfig.PUSH_HOST_NAME);
-                URI uri = new URI(host + (String) ClientConfig.getInstance().get(ClientConfig.PUSH_PATH));
-                PushPayload payload = PushPayload.alertAll("test");
-                System.out.println(payload.toString());
-                client.sendRequest(HttpMethod.POST, payload.toString(), uri, callback);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-	
-	
 	public static void testSendPush() {
 	    // HttpProxy proxy = new HttpProxy("localhost", 3128);
 	    // Can use this https proxy: https://github.com/Exa-Networks/exaproxy
 		ClientConfig clientConfig = ClientConfig.getInstance();
-        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+        final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
         String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
         // Here you can use NativeHttpClient or NettyHttpClient.
         NativeHttpClient httpClient = new NativeHttpClient(authCode, null, clientConfig);
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
+//        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
         jpushClient.getPushClient().setHttpClient(httpClient);
+        final PushPayload payload = buildPushObject_android_newly_support();
+        for(int i=0;i<10;i++) {
+            Thread thread = new Thread() {
+                public void run() {
+                    for (int j = 0; j < 200; j++) {
+                        long start = System.currentTimeMillis();
+                        try {
+                            jpushClient.sendPush(payload);
+                            PushResult result = jpushClient.sendPush(payload);
+                            LOG.info("Got result - " + result);
 
+                        } catch (APIConnectionException e) {
+                            LOG.error("Connection error. Should retry later. ", e);
+                            LOG.error("Sendno: " + payload.getSendno());
 
-        // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_alias_alert();
-        try {
-            PushResult result = jpushClient.sendPush(payload);
-            LOG.info("Got result - " + result);
-            // 如果使用 NettyHttpClient，需要手动调用 close 方法退出进程
-            // If uses NettyHttpClient, call close when finished sending request, otherwise process will not exit.
-            // jpushClient.close();
-        } catch (APIConnectionException e) {
-            LOG.error("Connection error. Should retry later. ", e);
-            LOG.error("Sendno: " + payload.getSendno());
+                        } catch (APIRequestException e) {
+                            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+                            LOG.info("HTTP Status: " + e.getStatus());
+                            LOG.info("Error Code: " + e.getErrorCode());
+                            LOG.info("Error Message: " + e.getErrorMessage());
+                            LOG.info("Msg ID: " + e.getMsgId());
+                            LOG.error("Sendno: " + payload.getSendno());
+                        }
 
-        } catch (APIRequestException e) {
-            LOG.error("Error response from JPush server. Should review and fix it. ", e);
-            LOG.info("HTTP Status: " + e.getStatus());
-            LOG.info("Error Code: " + e.getErrorCode());
-            LOG.info("Error Message: " + e.getErrorMessage());
-            LOG.info("Msg ID: " + e.getMsgId());
-            LOG.error("Sendno: " + payload.getSendno());
+                        System.out.println("耗时" + (System.currentTimeMillis() - start) + "毫秒 sendCount:" + (++sendCount));
+                    }
+                }
+            };
+            thread.start();
         }
+
+//        // For push, all you need do is to build PushPayload object.
+//        PushPayload payload = buildPushObject_all_alias_alert();
+//        try {
+//            PushResult result = jpushClient.sendPush(payload);
+//            LOG.info("Got result - " + result);
+//            // 如果使用 NettyHttpClient，需要手动调用 close 方法退出进程
+//            // If uses NettyHttpClient, call close when finished sending request, otherwise process will not exit.
+//            // jpushClient.close();
+//        } catch (APIConnectionException e) {
+//            LOG.error("Connection error. Should retry later. ", e);
+//            LOG.error("Sendno: " + payload.getSendno());
+//
+//        } catch (APIRequestException e) {
+//            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+//            LOG.info("HTTP Status: " + e.getStatus());
+//            LOG.info("Error Code: " + e.getErrorCode());
+//            LOG.info("Error Message: " + e.getErrorMessage());
+//            LOG.info("Msg ID: " + e.getMsgId());
+//            LOG.error("Sendno: " + payload.getSendno());
+//        }
     }
 
 	//use String to build PushPayload instance
