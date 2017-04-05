@@ -24,7 +24,7 @@ public class AndroidNotification extends PlatformNotification {
     // 0 ~ 4
     private int style = 0;
     // -1 ~ 7
-    private int alert_type = -1;
+    private int alert_type;
     private String big_text;
     private Object inbox;
     private String big_pic_path;
@@ -123,7 +123,7 @@ public class AndroidNotification extends PlatformNotification {
         private String title;
         private int builderId;
         private int style = 0;
-        private int alert_type;
+        private int alert_type = -1;
         private String big_text;
         private Object inbox;
         private String big_pic_path;
