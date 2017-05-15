@@ -124,6 +124,8 @@ public class NativeHttpClient implements IHttpClient {
         }
 		HttpURLConnection conn = null;
 		OutputStream out = null;
+        InputStream in = null;
+        InputStreamReader reader = null;
 		StringBuffer sb = new StringBuffer();
 		ResponseWrapper wrapper = new ResponseWrapper();
 		
@@ -162,7 +164,6 @@ public class NativeHttpClient implements IHttpClient {
 			}
             
             int status = conn.getResponseCode();
-            InputStream in = null;
             if (status / 100 == 2) {
                 in = conn.getInputStream();
             } else {
@@ -170,7 +171,7 @@ public class NativeHttpClient implements IHttpClient {
             }
             
             if (null != in) {
-	            InputStreamReader reader = new InputStreamReader(in, CHARSET);
+                reader = new InputStreamReader(in, CHARSET);
 	            char[] buff = new char[1024];
 	            int len;
 	            while ((len = reader.read(buff)) > 0) {
@@ -257,6 +258,20 @@ public class NativeHttpClient implements IHttpClient {
 			}
 			if (null != conn) {
 				conn.disconnect();
+			}
+			if (null != in) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (null != reader) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

@@ -34,7 +34,7 @@
 		<url>https://github.com/jpush/jiguang-java-client-common</url>
 		<connection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</developerConnection>
-		<tag>v1.0.5</tag>
+		<tag>v1.0.6</tag>
 	</scm>
 
 	<dependencies>
