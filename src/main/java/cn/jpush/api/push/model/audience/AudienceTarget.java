@@ -40,6 +40,14 @@ public class AudienceTarget implements PushModel {
         return newBuilder().setAudienceType(AudienceType.TAG_AND).addAudienceTargetValues(tags).build();
     }
 
+    public static AudienceTarget tag_not(String...tag) {
+        return newBuilder().setAudienceType(AudienceType.TAG_NOT).addAudienceTargetValues(tag).build();
+    }
+
+    public static AudienceTarget tag_not(Collection<String> tags) {
+        return newBuilder().setAudienceType(AudienceType.TAG_NOT).addAudienceTargetValues(tags).build();
+    }
+
     public static AudienceTarget alias(String... alias) {
         return newBuilder().setAudienceType(AudienceType.ALIAS).addAudienceTargetValues(alias).build();
     }

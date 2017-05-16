@@ -82,7 +82,7 @@ public class PushExample {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
         String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
-        // Here you can use NativeHttpClient or NettyHttpClient.
+        // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
         NativeHttpClient httpClient = new NativeHttpClient(authCode, null, clientConfig);
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
@@ -95,7 +95,6 @@ public class PushExample {
                     for (int j = 0; j < 200; j++) {
                         long start = System.currentTimeMillis();
                         try {
-                            jpushClient.sendPush(payload);
                             PushResult result = jpushClient.sendPush(payload);
                             LOG.info("Got result - " + result);
 
@@ -296,6 +295,14 @@ public class PushExample {
                         .setMsgContent(MSG_CONTENT)
                         .addExtra("from", "JPush")
                         .build())
+                .build();
+    }
+
+    public static PushPayload buildPushObject_all_tag_not() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.tag_not("abc", "123"))
+                .setNotification(Notification.alert(ALERT))
                 .build();
     }
 

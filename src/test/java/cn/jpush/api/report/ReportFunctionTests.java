@@ -11,7 +11,7 @@ import cn.jpush.api.SlowTests;
 
 @Category(SlowTests.class)
 public class ReportFunctionTests extends BaseTest {
-    
+
 	@Test
 	public void getReceivedsFixed() throws Exception {
 	    ReceivedsResult result = jpushClient.getReportReceiveds("1613113584,1229760629,1174658841,1174658641");
