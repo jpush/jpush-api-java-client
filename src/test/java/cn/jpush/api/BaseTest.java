@@ -5,7 +5,7 @@ import org.junit.Before;
 public abstract class BaseTest {
 
 	protected static final String APP_KEY = "d4ee2375846bc30fa51334f5";
-    protected static final String MASTER_SECRET = "2bf52ee46fdeaadb8718fc15";
+    protected static final String MASTER_SECRET = "29e01630956b6c42cdf44562";
 
     public static final String ALERT = "JPush Test - alert";
     public static final String MSG_CONTENT = "JPush Test - msgContent";
