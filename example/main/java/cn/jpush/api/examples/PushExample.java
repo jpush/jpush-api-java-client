@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.ApacheHttpClient;
+import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
@@ -77,8 +78,6 @@ public class PushExample {
     }
 
 	public static void testSendPush() {
-	    // HttpProxy proxy = new HttpProxy("localhost", 3128);
-	    // Can use this https proxy: https://github.com/Exa-Networks/exaproxy
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
         String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);

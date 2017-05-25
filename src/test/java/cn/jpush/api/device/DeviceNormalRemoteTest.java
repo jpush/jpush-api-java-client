@@ -21,7 +21,7 @@ import cn.jpush.api.TestOrder;
 
 @RunWith(JUnitOrderedRunner.class)
 public class DeviceNormalRemoteTest extends BaseTest {
-	
+
 	// ------------------ device
 	
 	@Test
@@ -36,7 +36,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "alias1", tagsToAdd, tagsToRemove);
 		assertTrue(result.isResultOK());
 	}
-	
+
 	@Test
 	@TestOrder(order = 110)
 	public void testGetDeviceTagAlias_1() throws Exception {

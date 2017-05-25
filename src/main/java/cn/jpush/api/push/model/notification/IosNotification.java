@@ -102,13 +102,13 @@ public class IosNotification extends PlatformNotification {
             }
         }
         if (contentAvailable) {
-            json.add(CONTENT_AVAILABLE, new JsonPrimitive(1));
+            json.add(CONTENT_AVAILABLE, new JsonPrimitive(true));
         }
         if (null != category) {
         	json.add(CATEGORY, new JsonPrimitive(category));
         }
         if (mutableContent) {
-            json.add(MUTABLE_CONTENT, new JsonPrimitive(1));
+            json.add(MUTABLE_CONTENT, new JsonPrimitive(true));
         }
 
         return json;
