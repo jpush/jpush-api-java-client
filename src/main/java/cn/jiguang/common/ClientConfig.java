@@ -1,6 +1,7 @@
 package cn.jiguang.common;
 
 import java.util.HashMap;
+import java.util.Observable;
 
 public class ClientConfig extends HashMap<String, Object> {
 
@@ -42,6 +43,9 @@ public class ClientConfig extends HashMap<String, Object> {
 
     public static final String SCHEDULE_PATH = "schedule.path";
     public static final Object SCHEDULE_PATH_SCHEMA = String.class;
+
+    public static final String GROUP_PUSH_PATH = "group.push.path";
+    public static final Object GROUP_PUSH_PATH_SCHEMA = String.class;
 
     public static final String SSL_VERSION = "ssl.version";
     public static final Object SSL_VERSION_SCHEMA = String.class;
@@ -101,6 +105,7 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(PUSH_HOST_NAME, "https://api.jpush.cn");
         this.put(PUSH_PATH, "/v3/push");
         this.put(PUSH_VALIDATE_PATH, "/v3/push/validate");
+        this.put(GROUP_PUSH_PATH, "/v3/grouppush");
 
         this.put(REPORT_HOST_NAME, "https://report.jpush.cn");
         this.put(REPORT_RECEIVE_PATH, "/v3/received");
