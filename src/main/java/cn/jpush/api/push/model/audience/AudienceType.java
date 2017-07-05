@@ -6,6 +6,7 @@ public enum AudienceType {
 	TAG_NOT("tag_not"),
 	ALIAS("alias"),
 	SEGMENT("segment"),
+	ABTEST("abtest"),
 	REGISTRATION_ID("registration_id");
 	
 	private final String value;

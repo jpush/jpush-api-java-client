@@ -64,6 +64,22 @@ public class AudienceTarget implements PushModel {
         return newBuilder().setAudienceType(AudienceType.REGISTRATION_ID).addAudienceTargetValues(registrationIds).build();
     }
 
+    public static AudienceTarget segment(String... segment) {
+        return newBuilder().setAudienceType(AudienceType.SEGMENT).addAudienceTargetValues(segment).build();
+    }
+
+    public static AudienceTarget segment(Collection<String> segments) {
+        return newBuilder().setAudienceType(AudienceType.SEGMENT).addAudienceTargetValues(segments).build();
+    }
+
+    public static AudienceTarget abTest(String... abTestId) {
+        return newBuilder().setAudienceType(AudienceType.ABTEST).addAudienceTargetValues(abTestId).build();
+    }
+
+    public static AudienceTarget abTest(Collection<String> abTestIds) {
+        return newBuilder().setAudienceType(AudienceType.ABTEST).addAudienceTargetValues(abTestIds).build();
+    }
+
 
     public AudienceType getAudienceType() {
         return this.audienceType;

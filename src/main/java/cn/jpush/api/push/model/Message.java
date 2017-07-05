@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -62,7 +63,11 @@ public class Message implements PushModel {
         
         if (null != extras) {
             for (String key : extras.keySet()) {
-                extrasObject.add(key, new JsonPrimitive(extras.get(key)));
+                if (extras.get(key) != null) {
+                    extrasObject.add(key, new JsonPrimitive(extras.get(key)));
+                } else {
+                    extrasObject.add(key, JsonNull.INSTANCE);
+                }
             }
         }
         if (null != numberExtras) {

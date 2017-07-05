@@ -3,6 +3,7 @@ package cn.jpush.api;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jpush.api.push.CIDResult;
 import com.google.gson.JsonObject;
 
 import cn.jiguang.common.ClientConfig;
@@ -224,6 +225,18 @@ public class JPushClient {
 
     public PushResult sendPushValidate(String payloadString) throws APIConnectionException, APIRequestException {
     	return _pushClient.sendPushValidate(payloadString);
+    }
+
+    /**
+     * Get cid list, the data form of cid is appKey-uuid.
+     * @param count the count of cid list, from 1 to 1000. default is 1.
+     * @param type default is push, option: schedule
+     * @return CIDResult, an array of cid
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException request exception
+     */
+    public CIDResult getCidList(int count, String type) throws APIConnectionException, APIRequestException {
+        return _pushClient.getCidList(count, type);
     }
 
     

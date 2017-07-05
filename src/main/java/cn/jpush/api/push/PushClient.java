@@ -211,6 +211,26 @@ public class PushClient {
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
+    /**
+     * Get cid list, the data form of cid is appKey-uuid.
+     * @param count the count of cid list, from 1 to 1000. default is 1.
+     * @param type default is "push", option: "schedule"
+     * @return CIDResult, an array of cid
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException request exception
+     */
+    public CIDResult getCidList(int count, String type) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(count >= 1 && count <= 1000, "count should not less than 1 or larger than 1000");
+        Preconditions.checkArgument(type == null || type.equals("push") || type.equals("schedule"), "type should be \"push\" or \"schedule\"");
+        ResponseWrapper responseWrapper;
+        if (type != null) {
+            responseWrapper = _httpClient.sendGet(_baseUrl + _pushPath + "/cid?count=" + count + "&type=" + type);
+        } else {
+            responseWrapper = _httpClient.sendGet(_baseUrl + _pushPath + "/cid?count=" + count);
+        }
+        return  BaseResult.fromResponse(responseWrapper, CIDResult.class);
+    }
+
     public void setHttpClient(IHttpClient client) {
         this._httpClient = client;
     }

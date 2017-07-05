@@ -32,86 +32,72 @@ public class Audience implements PushModel {
     }
     
     public static Audience tag(String... tagValue) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG)
-                .addAudienceTargetValues(tagValue).build();
+        AudienceTarget target = AudienceTarget.tag(tagValue);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience tag(Collection<String> tagValues) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG)
-                .addAudienceTargetValues(tagValues).build();
+        AudienceTarget target = AudienceTarget.tag(tagValues);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience tag_and(String... tagValue) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG_AND)
-                .addAudienceTargetValues(tagValue).build();
+        AudienceTarget target = AudienceTarget.tag_and(tagValue);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience tag_and(Collection<String> tagValues) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG_AND)
-                .addAudienceTargetValues(tagValues).build();
+        AudienceTarget target = AudienceTarget.tag_and(tagValues);
         return newBuilder().addAudienceTarget(target).build();
     }
 
     public static Audience tag_not(String...tagValue) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG_NOT)
-                .addAudienceTargetValues(tagValue).build();
+        AudienceTarget target = AudienceTarget.tag_not(tagValue);
         return newBuilder().addAudienceTarget(target).build();
     }
 
     public static Audience tag_not(Collection<String> tagValues) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.TAG_NOT)
-                .addAudienceTargetValues(tagValues).build();
+        AudienceTarget target = AudienceTarget.tag_not(tagValues);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience alias(String... alias) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
-                .addAudienceTargetValues(alias).build();
+        AudienceTarget target = AudienceTarget.alias(alias);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience alias(Collection<String> aliases) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.ALIAS)
-                .addAudienceTargetValues(aliases).build();
+        AudienceTarget target = AudienceTarget.alias(aliases);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience segment(String... segment) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.SEGMENT)
-                .addAudienceTargetValues(segment).build();
+        AudienceTarget target = AudienceTarget.segment(segment);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience segment(Collection<String> segments) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.SEGMENT)
-                .addAudienceTargetValues(segments).build();
+        AudienceTarget target = AudienceTarget.segment(segments);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience registrationId(String... registrationId) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.REGISTRATION_ID)
-                .addAudienceTargetValues(registrationId).build();
+        AudienceTarget target = AudienceTarget.registrationId(registrationId);
         return newBuilder().addAudienceTarget(target).build();
     }
     
     public static Audience registrationId(Collection<String> registrationIds) {
-        AudienceTarget target = AudienceTarget.newBuilder()
-                .setAudienceType(AudienceType.REGISTRATION_ID)
-                .addAudienceTargetValues(registrationIds).build();
+        AudienceTarget target = AudienceTarget.registrationId(registrationIds);
+        return newBuilder().addAudienceTarget(target).build();
+    }
+
+    public static Audience abTest(String... abTestId) {
+        AudienceTarget target = AudienceTarget.abTest(abTestId);
+        return newBuilder().addAudienceTarget(target).build();
+    }
+
+    public static Audience abTest(Collection<String> abTestIds) {
+        AudienceTarget target = AudienceTarget.abTest(abTestIds);
         return newBuilder().addAudienceTarget(target).build();
     }
     
