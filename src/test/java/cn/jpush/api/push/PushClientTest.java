@@ -127,5 +127,46 @@ public class PushClientTest extends BaseTest {
         }
     }
 
+    @Test
+    public void testGetCidList() {
+        JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        try {
+            CIDResult result = jPushClient.getCidList(3, null);
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    @Test
+    public void testSendPushWithCid() {
+        JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        PushPayload pushPayload = buildPushObject_android_cid();
+        try {
+            PushResult result = jPushClient.sendPush(pushPayload);
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    public static PushPayload buildPushObject_android_cid() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.android())
+                .setAudience(Audience.registrationId("18071adc030dcba91c0"))
+                .setNotification(Notification.alert(ALERT))
+                .setCid("d4ee2375846bc30fa51334f5-21f305e0-4a52-42f3-a3dd-d2e49bdf0499")
+                .build();
+    }
 
 }

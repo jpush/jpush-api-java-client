@@ -28,6 +28,7 @@ public class PushPayload implements PushModel {
     private static final String MESSAGE = "message";
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
+    private static final String CID = "cid";
     
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
     private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
@@ -40,16 +41,18 @@ public class PushPayload implements PushModel {
     private final Message message;
     private Options options;
     private SMS sms;
+    private String cid;
     
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options, SMS sms) {
+            Notification notification, Message message, Options options, SMS sms, String cid) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
         this.message = message;
         this.options = options;
         this.sms = sms;
+        this.cid = cid;
     }
 
     /**
@@ -150,6 +153,9 @@ public class PushPayload implements PushModel {
         if (null != sms) {
             json.add(SMS, sms.toJSON());
         }
+        if (null != cid) {
+            json.addProperty(CID, cid);
+        }
                 
         return json;
     }
@@ -208,6 +214,7 @@ public class PushPayload implements PushModel {
         private Message message = null;
         private Options options = null;
         private SMS sms = null;
+        private String cid;
         
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
@@ -239,6 +246,11 @@ public class PushPayload implements PushModel {
             return this;
         }
 
+        public Builder setCid(String cid) {
+            this.cid = cid;
+            return this;
+        }
+
         public PushPayload build() {
             Preconditions.checkArgument(! (null == audience || null == platform), "audience and platform both should be set.");
             Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
@@ -248,7 +260,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options, sms);
+            return new PushPayload(platform, audience, notification, message, options, sms, cid);
         }
     }
 }
