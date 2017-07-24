@@ -268,7 +268,7 @@ public class ApacheHttpClient implements IHttpClient {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             configHttpRequest(httpPost);
-            StringEntity params = new StringEntity(content);
+            StringEntity params = new StringEntity(content, CHARSET);
             httpPost.setEntity(params);
             response = getHttpClient(url).execute(httpPost, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -295,7 +295,7 @@ public class ApacheHttpClient implements IHttpClient {
             HttpPut httpPut = new HttpPut(url);
             httpPut.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             configHttpRequest(httpPut);
-            StringEntity params = new StringEntity(content);
+            StringEntity params = new StringEntity(content, CHARSET);
             httpPut.setEntity(params);
             response = getHttpClient(url).execute(httpPut, HttpClientContext.create());
             processResponse(response, wrapper);
