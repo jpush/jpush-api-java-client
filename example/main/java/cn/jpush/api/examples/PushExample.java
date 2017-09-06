@@ -37,7 +37,7 @@ public class PushExample {
 
     // demo App defined in resources/jpush-api.conf 
     protected static final String APP_KEY ="d4ee2375846bc30fa51334f5";
-    protected static final String MASTER_SECRET = "61807e56ddaebf2e47172159";
+    protected static final String MASTER_SECRET = "f3b222f7e0dde430b6d8fa5a";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 	
@@ -52,7 +52,8 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
+        testGetCidList();
 //        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
@@ -81,14 +82,12 @@ public class PushExample {
 	public static void testSendPush() {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
         // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
-        NativeHttpClient httpClient = new NativeHttpClient(authCode, null, clientConfig);
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
 //        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
 //        jpushClient.getPushClient().setHttpClient(httpClient);
-        final PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
+        final PushPayload payload = buildPushObject_android_and_ios();
 //        // For push, all you need do is to build PushPayload object.
 //        PushPayload payload = buildPushObject_all_alias_alert();
         try {
@@ -226,13 +225,16 @@ public class PushExample {
     }
     
     public static PushPayload buildPushObject_android_and_ios() {
+        Map<String, String> extras = new HashMap<String, String>();
+        extras.put("test", "https://community.jiguang.cn/push");
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
-                .setAudience(Audience.tag("tag1"))
+                .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                 		.setAlert("alert content")
                 		.addPlatformNotification(AndroidNotification.newBuilder()
-                				.setTitle("Android Title").build())
+                				.setTitle("Android Title")
+                                .addExtras(extras).build())
                 		.addPlatformNotification(IosNotification.newBuilder()
                 				.incrBadge(1)
                 				.addExtra("extra_key", "extra_value").build())
@@ -416,7 +418,7 @@ public class PushExample {
     public static void testGetCidList() {
         JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
-            CIDResult result = jPushClient.getCidList(3, null);
+            CIDResult result = jPushClient.getCidList(3, "push");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);

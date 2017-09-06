@@ -131,7 +131,7 @@ public class PushClientTest extends BaseTest {
     public void testGetCidList() {
         JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
-            CIDResult result = jPushClient.getCidList(3, null);
+            CIDResult result = jPushClient.getCidList(3, "push");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);

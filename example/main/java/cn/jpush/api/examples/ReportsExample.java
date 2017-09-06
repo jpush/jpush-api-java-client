@@ -1,5 +1,7 @@
 package cn.jpush.api.examples;
 
+import cn.jpush.api.report.MessageStatus;
+import cn.jpush.api.report.model.CheckMessagePayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +13,17 @@ import cn.jpush.api.report.MessagesResult;
 import cn.jpush.api.report.ReceivedsResult;
 import cn.jpush.api.report.UsersResult;
 
+import java.util.Map;
+
 public class ReportsExample {
     protected static final Logger LOG = LoggerFactory.getLogger(ReportsExample.class);
 
     // demo App defined in resources/jpush-api.conf 
 	private static final String appKey = "dd1066407b044738b6479275";
 	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
+    public static final String REGISTRATION_ID1 = "0900e8d85ef";
+    public static final String REGISTRATION_ID2 = "0a04ad7d8b4";
+    public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
 
 	public static void main(String[] args) {
 		testGetReport();
@@ -68,6 +75,28 @@ public class ReportsExample {
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    public static void testGetMessageStatus() {
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        CheckMessagePayload payload = CheckMessagePayload.newBuilder()
+                .setMsgId(3993287034L)
+                .addRegistrationIds(REGISTRATION_ID1, REGISTRATION_ID2, REGISTRATION_ID3)
+                .setDate("2017-08-08")
+                .build();
+        try {
+            Map<String, MessageStatus> map = jPushClient.getMessageStatus(payload);
+            for (Map.Entry<String, MessageStatus> entry : map.entrySet()) {
+                LOG.info("registrationId: " + entry.getKey() + " status: " + entry.getValue().getStatus());
+            }
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());

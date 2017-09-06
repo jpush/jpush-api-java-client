@@ -1,7 +1,9 @@
 package cn.jpush.api.report;
 
 
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import cn.jiguang.common.ClientConfig;
@@ -14,6 +16,9 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jpush.api.report.model.CheckMessagePayload;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ReportClient {    
 
@@ -99,6 +104,14 @@ public class ReportClient {
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return MessagesResult.fromResponse(response);
+    }
+
+    public Map<String, MessageStatus> getMessagesStatus(CheckMessagePayload payload)
+            throws APIConnectionException, APIRequestException {
+        String url = _hostName + "/v3/status/message";
+        ResponseWrapper result = _httpClient.sendPost(url, payload.toString());
+        Type type = new TypeToken<Map<String, MessageStatus>>(){}.getType();
+        return new Gson().fromJson(result.responseContent, type);
     }
     
     public UsersResult getUsers(TimeUnit timeUnit, String start, int duration) 
