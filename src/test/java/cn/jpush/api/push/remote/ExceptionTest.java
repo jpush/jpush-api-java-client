@@ -30,7 +30,7 @@ public class ExceptionTest extends BaseRemotePushTest {
         } catch (APIConnectionException e) {
             e.printStackTrace();
         } catch (APIRequestException e) {
-            assertEquals(APPKEY_NOT_EXIST, e.getErrorCode());
+            assertEquals(AUTHENTICATION_FAIL, e.getErrorCode());
         }
     }
 
