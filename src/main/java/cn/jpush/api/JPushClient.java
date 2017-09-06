@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.api.push.CIDResult;
+import cn.jpush.api.report.*;
+import cn.jpush.api.report.model.CheckMessagePayload;
 import com.google.gson.JsonObject;
 
 import cn.jiguang.common.ClientConfig;
@@ -29,10 +31,6 @@ import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.Notification;
-import cn.jpush.api.report.MessagesResult;
-import cn.jpush.api.report.ReceivedsResult;
-import cn.jpush.api.report.ReportClient;
-import cn.jpush.api.report.UsersResult;
 import cn.jpush.api.schedule.ScheduleClient;
 import cn.jpush.api.schedule.ScheduleListResult;
 import cn.jpush.api.schedule.ScheduleResult;
@@ -260,6 +258,11 @@ public class JPushClient {
     
     public MessagesResult getReportMessages(String msgIds) throws APIConnectionException, APIRequestException {
         return _reportClient.getMessages(msgIds);
+    }
+
+    public Map<String, MessageStatus> getMessageStatus(CheckMessagePayload payload)
+            throws APIConnectionException, APIRequestException {
+        return _reportClient.getMessagesStatus(payload);
     }
     
     
