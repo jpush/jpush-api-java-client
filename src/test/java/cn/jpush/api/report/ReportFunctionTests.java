@@ -31,7 +31,7 @@ public class ReportFunctionTests extends BaseTest {
 	
     @Test
     public void getReceivedsFixed2() throws Exception {
-        ReceivedsResult result = jpushClient.getReportReceiveds("1613113584, 1229760629,  ");
+        ReceivedsResult result = jpushClient.getReportReceiveds("1613113584, 1229760629");
         assertTrue(result.isResultOK());
         assertTrue(result.received_list.size() > 0);
     }
