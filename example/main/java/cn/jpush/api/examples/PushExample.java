@@ -389,6 +389,31 @@ public class PushExample {
                 .build();
     }
 
+    public static PushPayload buildPushObject_huawei() {
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert(ALERT)
+                        .setBigPicPath("path to big picture")
+                        .setBigText("long text")
+                        .setBuilderId(1)
+                        .setCategory("CATEGORY_SOCIAL")
+                        .setStyle(1)
+                        .setTitle("Alert test")
+                        .setPriority(1)
+                        .setAlert(ALERT)
+                        .setUriAction("android.intent.action.VIEW")
+                        .setUriActivity("com.demo.MainActivity")
+                        .setUriFlag("0x140000fA")
+                        .build())
+                .build();
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.android())
+                .setAudience(Audience.all())
+                .setNotification(notification)
+                .setMessage(Message.content(MSG_CONTENT))
+                .build();
+    }
+
     public static void testSendPushWithCustomConfig() {
         ClientConfig config = ClientConfig.getInstance();
         // Setup the custom hostname
