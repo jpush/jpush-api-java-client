@@ -214,28 +214,19 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
-        public String getUriActivity() {
-            return uri_activity;
-        }
-
-        public void setUriActivity(String uriActivity) {
+        public Builder setUriActivity(String uriActivity) {
             this.uri_activity = uriActivity;
+            return this;
         }
 
-        public String getUriFlag() {
-            return uri_flag;
-        }
-
-        public void setUriFlag(String uriFlag) {
+        public Builder setUriFlag(String uriFlag) {
             this.uri_flag = uriFlag;
+            return this;
         }
 
-        public String getUriAction() {
-            return uri_action;
-        }
-
-        public void setUriAction(String uriAction) {
+        public Builder setUriAction(String uriAction) {
             this.uri_action = uriAction;
+            return this;
         }
 
         public AndroidNotification build() {
