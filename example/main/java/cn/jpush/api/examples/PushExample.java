@@ -367,7 +367,7 @@ public class PushExample {
                         .setAlert(ALERT)
                         .setUriAction("android.intent.action.VIEW")
                         .setUriActivity("com.demo.MainActivity")
-                        .setUriFlag("demo")
+                        .setUriFlag("0x140000fA")
                         .build())
                 .build();
         return PushPayload.newBuilder()
