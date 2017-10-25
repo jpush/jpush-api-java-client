@@ -13,6 +13,7 @@ import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.push.CIDResult;
 import cn.jpush.api.push.GroupPushClient;
+import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.notification.*;
 import com.google.gson.*;
 import io.netty.handler.codec.http.HttpMethod;
@@ -24,11 +25,6 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.Message;
-import cn.jpush.api.push.model.Options;
-import cn.jpush.api.push.model.Platform;
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 
@@ -350,6 +346,21 @@ public class PushExample {
                 .setAudience(Audience.registrationId("18071adc030dcba91c0"))
                 .setNotification(Notification.alert(ALERT))
                 .setCid("cid")
+                .build();
+    }
+
+    // 根据地理围栏进行推送。表示对所有经纬度位于 [(20N, 120E), (10N, 150E)] 区间的用户进行推送。
+    public static PushPayload buildPushObject_geo_location() {
+        GeoLocation geo = GeoLocation.newBuilder()
+                .setType("rectangle")
+                .setLeftTopCoordinate("20", "120")
+                .setRightBottomCoordinate("10", "150")
+                .build();
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(Notification.alert(ALERT))
+                .setOptions(Options.newBuilder().setGeo(geo).build())
                 .build();
     }
 
