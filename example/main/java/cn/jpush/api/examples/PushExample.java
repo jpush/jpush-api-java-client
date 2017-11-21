@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.connection.ApacheHttpClient;
-import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
@@ -183,13 +181,21 @@ public class PushExample {
         }
     }
 
-    public static void testSendGroupPush() {
+    public void testSendGroupPush() {
         GroupPushClient groupPushClient = new GroupPushClient(GROUP_MASTER_SECRET, GROUP_PUSH_KEY);
         final PushPayload payload = buildPushObject_android_and_ios();
         try {
-            PushResult result = groupPushClient.sendGroupPush(payload);
-            LOG.info("Got result - " + result);
+            Map<String, PushResult> result = groupPushClient.sendGroupPush(payload);
+            for (Map.Entry<String, PushResult> entry : result.entrySet()) {
+                PushResult pushResult = entry.getValue();
+                PushResult.Error error = pushResult.error;
+                if (error != null) {
+                    LOG.info("AppKey: " + entry.getKey() + " error code : " + error.getCode() + " error message: " + error.getMessage());
+                } else {
+                    LOG.info("AppKey: " + entry.getKey() + " sendno: " + pushResult.sendno + " msg_id:" + pushResult.msg_id);
+                }
 
+            }
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             LOG.error("Sendno: " + payload.getSendno());
