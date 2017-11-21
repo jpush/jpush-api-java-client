@@ -26,7 +26,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.3.2</version>
+    <version>3.3.3</version>
 </dependency>
 ```
 ### jar 包方式
