@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 public class GroupPushClientTest extends BaseTest {
 
     protected static final Logger LOG = LoggerFactory.getLogger(GroupPushClientTest.class);
@@ -22,9 +24,17 @@ public class GroupPushClientTest extends BaseTest {
         GroupPushClient groupPushClient = new GroupPushClient(GROUP_MASTER_SECRET, GROUP_PUSH_KEY);
         final PushPayload payload = buildPushObject_android();
         try {
-            PushResult result = groupPushClient.sendGroupPush(payload);
-            LOG.info("Got result - " + result);
+            Map<String, PushResult> result = groupPushClient.sendGroupPush(payload);
+            for (Map.Entry<String, PushResult> entry : result.entrySet()) {
+                PushResult pushResult = entry.getValue();
+                PushResult.Error error = pushResult.error;
+                if (error != null) {
+                    LOG.info("AppKey: " + entry.getKey() + " error code : " + error.getCode() + " error message: " + error.getMessage());
+                } else {
+                    LOG.info("AppKey: " + entry.getKey() + " sendno: " + pushResult.sendno + " msg_id:" + pushResult.msg_id);
+                }
 
+            }
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             LOG.error("Sendno: " + payload.getSendno());

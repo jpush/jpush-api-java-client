@@ -11,6 +11,19 @@ public class PushResult extends BaseResult {
     @Expose public long msg_id;
     @Expose public int sendno;
     @Expose public int statusCode;
+    @Expose public Error error;
+    public class Error {
+        @Expose String message;
+        @Expose int code;
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public int getCode() {
+            return this.code;
+        }
+    }
     
 }
 
