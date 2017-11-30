@@ -177,6 +177,30 @@ public class Http2Client implements IHttpClient {
     }
 
     @Override
+    public ResponseWrapper sendDelete(String url, String content) throws APIConnectionException, APIRequestException {
+        ResponseWrapper wrapper = new ResponseWrapper();
+        LOG.debug("Send request - Delete url:" + " " + url + " content: " + content);
+        Request request;
+        try {
+            RequestBody body = RequestBody.create(JSON, content);
+            request = new Request.Builder().url(url)
+                    .header("User-Agent", JPUSH_USER_AGENT)
+                    .addHeader("Accept-Charset", CHARSET)
+                    .addHeader("Charset", CHARSET)
+                    .addHeader("Connection", "Keep-Alive")
+                    .addHeader("Authorization", _authCode)
+                    .addHeader("Content-Type", CONTENT_TYPE_JSON)
+                    .delete(body).build();
+            handleResponse(wrapper, request);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return wrapper;
+    }
+
+    @Override
     public ResponseWrapper sendPost(String url, String content) throws APIConnectionException, APIRequestException {
         LOG.debug("Send request - Post url:" + " " + url + " content: " + content);
         ResponseWrapper wrapper = new ResponseWrapper();
