@@ -38,6 +38,9 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final String REPORT_MESSAGE_PATH = "report.message.path";
     public static final Object REPORT_MESSAGE_PATH_SCHEMA = String.class;
 
+    public static final String REPORT_STATUS_PATH = "report.status.path";
+    public static final Object REPORT_STATUS_PATH_SCHEMA = String.class;
+
     public static final String SCHEDULE_HOST_NAME = "schedule.host.name";
     public static final Object SCHEDULE_HOST_NAME_SCHEMA = String.class;
 
@@ -111,6 +114,7 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(REPORT_RECEIVE_PATH, "/v3/received");
         this.put(REPORT_USER_PATH, "/v3/users");
         this.put(REPORT_MESSAGE_PATH, "/v3/messages");
+        this.put(REPORT_STATUS_PATH, "/v3/status");
 
         this.put(SCHEDULE_HOST_NAME, "https://api.jpush.cn");
         this.put(SCHEDULE_PATH, "/v3/schedules");
