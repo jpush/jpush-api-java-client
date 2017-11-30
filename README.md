@@ -10,6 +10,8 @@ Common lib for JiGuang Java clients.
 
 **新增 http2 分支，使用 Netty 第三方工具支持使用 Http/2 发送请求，详情参考 http2 分支下的 ReadMe**
 
+**新增 ApacheHttpClient，效率更高**
+
 **新增 NettyHttpClient，解决在多线程中使用 java sdk 请求超时问题。用法如下：**
 
 - 同步方式（以 PushClient 为例），发送完请求后，请务必调用 close 方法，否则不会自动结束进程。
