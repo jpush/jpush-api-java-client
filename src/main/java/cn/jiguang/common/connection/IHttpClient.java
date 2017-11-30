@@ -57,8 +57,14 @@ public interface IHttpClient {
 
     public ResponseWrapper sendGet(String url) 
             throws APIConnectionException, APIRequestException;
+
+    public ResponseWrapper sendGet(String url, String content)
+            throws APIConnectionException, APIRequestException;
     
     public ResponseWrapper sendDelete(String url) 
+            throws APIConnectionException, APIRequestException;
+
+    public ResponseWrapper sendDelete(String url, String content)
             throws APIConnectionException, APIRequestException;
     
     public ResponseWrapper sendPost(String url, String content) 
