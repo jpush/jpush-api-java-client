@@ -46,7 +46,7 @@ public class NettyHttpClient implements IHttpClient {
         String message = MessageFormat.format("Created instance with "
                         + "connectionTimeout {0}, readTimeout {1}, maxRetryTimes {2}, SSL Version {3}",
                 config.getConnectionTimeout(), _readTimeout, _maxRetryTimes, config.getSSLVersion());
-        LOG.info(message);
+        LOG.debug(message);
         _authCode = authCode;
 
         try {
