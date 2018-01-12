@@ -52,7 +52,7 @@ public class NativeHttpClient implements IHttpClient {
 		String message = MessageFormat.format("Created instance with "
 						+ "connectionTimeout {0}, readTimeout {1}, maxRetryTimes {2}, SSL Version {3}",
 				_connectionTimeout, _readTimeout, _maxRetryTimes, _sslVer);
-        LOG.info(message);
+        LOG.debug(message);
 
         if ( null != _proxy && _proxy.isAuthenticationNeeded()) {
         	Authenticator.setDefault(new SimpleProxyAuthenticator(

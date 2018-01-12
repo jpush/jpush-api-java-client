@@ -195,6 +195,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            httpGet.setHeader("Content-Type", "application/json");
             configHttpRequest(httpGet);
             response = getHttpClient(url).execute(httpGet, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -243,6 +244,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             HttpDelete httpDelete = new HttpDelete(url);
             httpDelete.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            httpDelete.setHeader("Content-Type", "application/json");
             configHttpRequest(httpDelete);
             response = getHttpClient(url).execute(httpDelete, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -267,6 +269,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            httpPost.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPost);
             StringEntity params = new StringEntity(content, CHARSET);
             httpPost.setEntity(params);
@@ -294,6 +297,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             HttpPut httpPut = new HttpPut(url);
             httpPut.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            httpPut.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPut);
             StringEntity params = new StringEntity(content, CHARSET);
             httpPut.setEntity(params);
