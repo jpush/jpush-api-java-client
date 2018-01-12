@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jiguang-common</artifactId>
-	<version>1.0.9-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jiguang-java-client-common</url>
 	<name>Jiguang Client Common Dependencies</name>
@@ -34,7 +34,7 @@
 		<url>https://github.com/jpush/jiguang-java-client-common</url>
 		<connection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</connection>
 		<developerConnection>scm:git:git@github.com:jpush/jiguang-java-client-common.git</developerConnection>
-		<tag>v1.0.9</tag>
+		<tag>v1.1.0</tag>
 	</scm>
 
 	<dependencies>
