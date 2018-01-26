@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/jpush/jpush-api-java-client.svg?branch=master)](https://travis-ci.org/jpush/jpush-api-java-client)
-[![Dependency Status](https://www.versioneye.com/user/projects/53eff13a13bb06f0bb000518/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53eff13a13bb06f0bb000518)
 [![GitHub version](https://badge.fury.io/gh/jpush%2Fjpush-api-java-client.svg)](http://badge.fury.io/gh/jpush%2Fjpush-api-java-client)
 
 # JPush API Java Library
@@ -122,7 +120,7 @@ try {
 }
 ```
 
-3.2.17 版本后，在 PushClient 中添加了 setHttpClient(IHttpClient client) 方法，用户可以自由切换 NettyHttpClient 或是 NativeHttpClient。
+3.2.17 版本后，在 PushClient 中添加了 setHttpClient(IHttpClient client) 方法，用户可以自由切换 ApacheHttpClient，NettyHttpClient 或是 NativeHttpClient。
 
 ### 推送样例
 
