@@ -31,16 +31,16 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		tagsToAdd.add("tag1");
 		tagsToAdd.add("tag2");
 		Set<String> tagsToRemove = new HashSet<String>();
-		tagsToRemove.add("tag3");
-		tagsToRemove.add("tag4");
-		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID1, "alias1", tagsToAdd, tagsToRemove);
+		tagsToRemove.add("tag1");
+		tagsToRemove.add("tag2");
+		DefaultResult result = jpushClient.updateDeviceTagAlias(REGISTRATION_ID3, "alias1", tagsToAdd, tagsToRemove);
 		assertTrue(result.isResultOK());
 	}
 
 	@Test
 	@TestOrder(order = 110)
 	public void testGetDeviceTagAlias_1() throws Exception {
-		TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID1);
+		TagAliasResult result = jpushClient.getDeviceTagAlias(REGISTRATION_ID3);
 		
 		assertTrue(result.isResultOK());
 		assertEquals("alias not equals", "alias1", result.alias);
@@ -92,10 +92,8 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@Test
 	@TestOrder(order = 210)
 	public void testIsDeviceInTag() throws APIConnectionException, APIRequestException {
-		BooleanResult result = jpushClient.isDeviceInTag("tag3", REGISTRATION_ID1);
+		BooleanResult result = jpushClient.isDeviceInTag("tag2", REGISTRATION_ID3);
 		assertTrue("", result.result);
-		result = jpushClient.isDeviceInTag("tag3", REGISTRATION_ID2);
-		assertFalse("", result.result);
 	}
 
 	@Test
