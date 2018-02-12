@@ -61,7 +61,7 @@ public void testSendPushWithCallback() {
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jiguang-common</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 <dependency>
 	<groupId>com.google.code.gson</groupId>
