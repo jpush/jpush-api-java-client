@@ -1,8 +1,6 @@
 package cn.jpush.api.push;
 
-import cn.jiguang.common.connection.IHttpClient;
-import cn.jiguang.common.connection.NativeHttpClient;
-import cn.jiguang.common.connection.NettyHttpClient;
+import cn.jiguang.common.connection.*;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
@@ -10,7 +8,6 @@ import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
-import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
@@ -239,6 +236,8 @@ public class PushClient {
     public void close() {
         if (_httpClient != null && _httpClient instanceof NettyHttpClient) {
             ((NettyHttpClient) _httpClient).close();
+        } else if (_httpClient != null && _httpClient instanceof ApacheHttpClient) {
+            ((ApacheHttpClient) _httpClient).close();
         }
     }
 }
