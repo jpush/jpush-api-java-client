@@ -8,6 +8,7 @@ import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.*;
@@ -38,7 +39,6 @@ public class PushClientTest extends BaseTest {
             PushResult result = jpushClient.sendPush(payload);
             int status = result.getResponseCode();
             LOG.info("Got result - " + result);
-
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             LOG.error("Sendno: " + payload.getSendno());
@@ -77,8 +77,9 @@ public class PushClientTest extends BaseTest {
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setAudience(Audience.alias("alias"))
+                .setAudience(Audience.registrationId(REGISTRATION_ID3))
                 .setNotification(Notification.alert(ALERT))
+                .setOptions(Options.newBuilder().setApnsProduction(false).setTimeToLive(86000).build())
                 .build();
     }
 
