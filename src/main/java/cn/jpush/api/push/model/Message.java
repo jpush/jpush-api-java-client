@@ -22,17 +22,20 @@ public class Message implements PushModel {
     private final Map<String, String> extras;
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
+    private final Map<String, JsonObject> jsonExtras;
     
     private Message(String title, String msgContent, String contentType, 
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras,
-    		Map<String, Boolean> booleanExtras) {
+    		Map<String, Boolean> booleanExtras,
+    		Map<String, JsonObject> jsonExtras) {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
+        this.jsonExtras = jsonExtras;
     }
     
     public static Builder newBuilder() {
@@ -57,7 +60,7 @@ public class Message implements PushModel {
         }
         
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
         }
         
@@ -80,8 +83,15 @@ public class Message implements PushModel {
                 extrasObject.add(key, new JsonPrimitive(booleanExtras.get(key)));
             }
         }
+        
+        if (null != jsonExtras) {
+            for (String key : jsonExtras.keySet()) {
+            	extrasObject.add(key,jsonExtras.get(key));
+            }
+        }
+        
 
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add(EXTRAS, extrasObject);
         }
         
@@ -95,6 +105,7 @@ public class Message implements PushModel {
         private Map<String, String> extrasBuilder;
         private Map<String, Number> numberExtrasBuilder;
         private Map<String, Boolean> booleanExtrasBuilder;
+        private Map<String, JsonObject> jsonExtrasBuilder;
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -149,11 +160,20 @@ public class Message implements PushModel {
             return this;
         }
         
+        public Builder addExtra(String key, JsonObject value) {
+            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            if (null == jsonExtrasBuilder) {
+            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
+            }
+            jsonExtrasBuilder.put(key, value);
+            return this;
+        }
+        
         public Message build() {
             Preconditions.checkArgument(! (null == msgContent), 
                     "msgContent should be set");
             return new Message(title, msgContent, contentType, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder);
         }
     }
 }
