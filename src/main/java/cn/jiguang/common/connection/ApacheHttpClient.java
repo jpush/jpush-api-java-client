@@ -51,6 +51,12 @@ public class ApacheHttpClient implements IHttpClient {
     private final int _maxRetryTimes;
     private String _authCode;
     private HttpHost _proxy;
+    // 最大连接数
+    private int _maxConnectionCount = 200;
+    // 每个路由的最大连接数
+    private int _maxConnectionPerRoute = 40;
+    // 目标主机的最大连接数
+    private int _maxRoute = 100;
 
     public ApacheHttpClient(String authCode, HttpProxy proxy, ClientConfig config) {
         _maxRetryTimes = config.getMaxRetryTimes();
@@ -94,12 +100,36 @@ public class ApacheHttpClient implements IHttpClient {
         if (_httpClient == null) {
             synchronized (syncLock) {
                 if (_httpClient == null) {
-                    _httpClient = createHttpClient(200, 40, 100, hostname, port);
+                    _httpClient = createHttpClient(_maxConnectionCount, _maxConnectionPerRoute, _maxRoute, hostname, port);
                 }
             }
         }
         return _httpClient;
 
+    }
+
+    /**
+     * 设置最大连接数
+     * @param count 连接数
+     */
+    public void setMaxConnectionCount(int count) {
+        this._maxConnectionCount = count;
+    }
+
+    /**
+     * 设置每个路由最大连接数
+     * @param count 连接数
+     */
+    public void setMaxConnectionPerRoute(int count) {
+        this._maxConnectionPerRoute = count;
+    }
+
+    /**
+     * 设置目标主机最大连接数
+     * @param count 连接数
+     */
+    public void setMaxHostConnection(int count) {
+        this._maxRoute = count;
     }
 
     public CloseableHttpClient createHttpClient(int maxTotal, int maxPerRoute, int maxRoute,
