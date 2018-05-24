@@ -19,8 +19,8 @@ public class ReportsExample {
     protected static final Logger LOG = LoggerFactory.getLogger(ReportsExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-	private static final String appKey = "dd1066407b044738b6479275";
-	private static final String masterSecret = "e8cc9a76d5b7a580859bcfa7";
+	private static final String appKey = "7b4b94cca0d185d611e53cca";
+	private static final String masterSecret = "860803cf613ed54aa3b941a8";
     public static final String REGISTRATION_ID1 = "0900e8d85ef";
     public static final String REGISTRATION_ID2 = "0a04ad7d8b4";
     public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
@@ -29,6 +29,7 @@ public class ReportsExample {
 		testGetReport();
 		testGetMessages();
 		testGetUsers();
+		testGetMessageStatus();
 	}
 	
     
