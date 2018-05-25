@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.3.7-SNAPSHOT</version>
+	<version>3.3.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -233,6 +233,7 @@
 				<version>2.10.3</version>
 				<configuration>
 					<overview>resources/javadoc-overview.html</overview>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
 		</plugins>
