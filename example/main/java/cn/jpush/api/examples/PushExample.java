@@ -34,8 +34,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY ="d4ee2375846bc30fa51334f5";
-    protected static final String MASTER_SECRET = "f3b222f7e0dde430b6d8fa5a";
+    protected static final String APP_KEY ="7b4b94cca0d185d611e53cca";
+    protected static final String MASTER_SECRET = "860803cf613ed54aa3b941a8";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 	
@@ -50,8 +50,8 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-//		testSendPush();
-        testGetCidList();
+		testSendPush();
+//        testGetCidList();
 //        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
@@ -408,7 +408,7 @@ public class PushExample {
     public static void testSendWithSMS() {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
-            SMS sms = SMS.content("Test SMS", 10);
+            SMS sms = SMS.content(1, 10);
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
