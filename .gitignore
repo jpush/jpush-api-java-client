@@ -4,6 +4,7 @@ bin/
 target/
 test-output/
 .idea/
+.classpath
 
 *.class
 *.project
