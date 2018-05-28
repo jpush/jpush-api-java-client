@@ -1,6 +1,7 @@
 package cn.jpush.api.push.model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -33,7 +34,7 @@ public class PushPayload implements PushModel {
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
     private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
     
-    private static Gson _gson = new Gson();
+    private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create(); 
     
     private final Platform platform;
     private final Audience audience;
