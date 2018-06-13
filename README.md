@@ -24,7 +24,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.3.6</version>
+    <version>3.3.7</version>
 </dependency>
 ```
 ### jar 包方式
@@ -652,3 +652,5 @@ Caused by: javax.net.ssl.SSLKeyException: Hostname verification failed: Hostname
  at cn.jpush.api.common.connection.NativeHttpClient._doRequest(NativeHttpClient.java:153)
  ... 21 more
 ```
+
+
