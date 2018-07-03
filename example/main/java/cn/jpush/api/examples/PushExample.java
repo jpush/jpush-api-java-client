@@ -50,11 +50,12 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
 //        testGetCidList();
 //        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
+		testSendPushWithCid();
 	}
 
 	// 使用 NettyHttpClient 异步接口发送请求
@@ -353,7 +354,7 @@ public class PushExample {
     public static PushPayload buildPushObject_android_cid() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.registrationId("18071adc030dcba91c0"))
+                .setAudience(Audience.registrationId("1507bfd3f79558957de"))
                 .setNotification(Notification.alert(ALERT))
                 .setCid("cid")
                 .build();
