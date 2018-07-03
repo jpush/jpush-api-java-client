@@ -19,7 +19,7 @@ public class MessagesResult extends BaseResult {
 
     public static class Message {
         @Expose
-        public long msg_id;
+        public String msg_id;
         @Expose
         public Android android;
         @Expose
@@ -47,13 +47,13 @@ public class MessagesResult extends BaseResult {
         @Expose
         public int apns_target;
         @Expose
+        public int apns_received;
+        @Expose
         public int click;
         @Expose
         public int target;
         @Expose
         public int received;
-        @Expose
-        public int msg_click;
     }
 
     public static class Winphone {

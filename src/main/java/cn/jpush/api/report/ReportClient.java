@@ -27,6 +27,7 @@ public class ReportClient {
     private String _receivePath;
     private String _userPath;
     private String _messagePath;
+    private String _statusPath;
 
     public ReportClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
@@ -63,7 +64,8 @@ public class ReportClient {
         _receivePath = (String) conf.get(ClientConfig.REPORT_RECEIVE_PATH);
         _userPath = (String) conf.get(ClientConfig.REPORT_USER_PATH);
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
-
+        _statusPath = (String) conf.get(ClientConfig.REPORT_STATUS_PATH);
+        
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
@@ -75,6 +77,7 @@ public class ReportClient {
         _receivePath = (String) conf.get(ClientConfig.REPORT_RECEIVE_PATH);
         _userPath = (String) conf.get(ClientConfig.REPORT_USER_PATH);
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
+        _statusPath = (String) conf.get(ClientConfig.REPORT_STATUS_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -108,7 +111,7 @@ public class ReportClient {
 
     public Map<String, MessageStatus> getMessagesStatus(CheckMessagePayload payload)
             throws APIConnectionException, APIRequestException {
-        String url = _hostName + "/v3/status/message";
+        String url = _hostName + (_statusPath.endsWith("/message")?_statusPath:(_statusPath+"/message"));
         ResponseWrapper result = _httpClient.sendPost(url, payload.toString());
         Type type = new TypeToken<Map<String, MessageStatus>>(){}.getType();
         return new Gson().fromJson(result.responseContent, type);

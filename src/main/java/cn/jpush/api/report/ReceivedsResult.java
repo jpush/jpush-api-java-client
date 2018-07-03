@@ -26,6 +26,8 @@ public class ReceivedsResult extends BaseResult {
         @Expose
         public int ios_apns_sent;
         @Expose
+        public int ios_apns_received;
+        @Expose
         public int ios_msg_received;
         @Expose
         public int wp_mpns_sent;
