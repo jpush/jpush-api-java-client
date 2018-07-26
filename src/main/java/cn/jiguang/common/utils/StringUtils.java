@@ -98,5 +98,13 @@ public class StringUtils {
 		}
 		return false;
 	}
+	
+	public static String notNull(String s){
+		if(s == null){
+			return "";
+		}else {
+			return s;
+		}
+	}
 
 }
