@@ -4,6 +4,8 @@ import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.StringUtils;
+
 import org.apache.http.*;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
@@ -309,7 +311,7 @@ public class ApacheHttpClient implements IHttpClient {
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             httpPost.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPost);
-            StringEntity params = new StringEntity(content, CHARSET);
+            StringEntity params = new StringEntity(StringUtils.notNull(content), CHARSET);
             httpPost.setEntity(params);
             response = getHttpClient(url).execute(httpPost, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -338,7 +340,7 @@ public class ApacheHttpClient implements IHttpClient {
             httpPut.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             httpPut.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPut);
-            StringEntity params = new StringEntity(content, CHARSET);
+            StringEntity params = new StringEntity(StringUtils.notNull(content), CHARSET);
             httpPut.setEntity(params);
             response = getHttpClient(url).execute(httpPut, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -407,7 +409,10 @@ public class ApacheHttpClient implements IHttpClient {
         HttpEntity entity = response.getEntity();
         LOG.debug("Response", response.toString());
         int status = response.getStatusLine().getStatusCode();
-        String responseContent = EntityUtils.toString(entity, "utf-8");
+        String responseContent = "";
+        if(entity != null){
+        	responseContent = EntityUtils.toString(entity, "utf-8");
+        }
         wrapper.responseCode = status;
         wrapper.responseContent = responseContent;
         String quota = getFirstHeader(response, RATE_LIMIT_QUOTA);
