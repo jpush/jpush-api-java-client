@@ -100,14 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <dependencies>
-					<dependency>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.2</version>
-					</dependency>
-				</dependencies>
+                <version>2.5.1</version>
             </plugin>
 
 			<plugin>
