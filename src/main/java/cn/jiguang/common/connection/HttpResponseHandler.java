@@ -38,19 +38,20 @@ public class HttpResponseHandler extends SimpleChannelInboundHandler<HttpObject>
         if (msg instanceof HttpContent) {
             HttpContent content = (HttpContent) msg;
             LOG.info(content.content().toString());
+            
+            String responseContent = content.content().toString(CharsetUtil.UTF_8);
+            _wrapper.responseCode = status;
+            _wrapper.responseContent = responseContent;
+            if (null != _latch) {
+                _latch.countDown();
+            }
+            if (null != _callback) {
+                _callback.onSucceed(_wrapper);
+            }
+            
             if (content instanceof LastHttpContent) {
                 LOG.info("closing connection");
                 ctx.close();
-            } else {
-                String responseContent = content.content().toString(CharsetUtil.UTF_8);
-                _wrapper.responseCode = status;
-                _wrapper.responseContent = responseContent;
-                if (null != _latch) {
-                    _latch.countDown();
-                }
-                if (null != _callback) {
-                    _callback.onSucceed(_wrapper);
-                }
             }
         }
     }
