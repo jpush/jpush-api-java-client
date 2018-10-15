@@ -2,7 +2,9 @@ package cn.jpush.api.examples;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
@@ -50,12 +52,12 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-//		testSendPush();
+		testSendPush();
 //        testGetCidList();
 //        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
-		testSendPushWithCid();
+//		testSendPushWithCid();
 	}
 
 	// 使用 NettyHttpClient 异步接口发送请求
@@ -81,10 +83,13 @@ public class PushExample {
 	public static void testSendPush() {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+//        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
         // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
+        
 //        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
+//        NettyHttpClient httpClient =new NettyHttpClient(authCode, null, clientConfig);
 //        jpushClient.getPushClient().setHttpClient(httpClient);
         final PushPayload payload = buildPushObject_android_and_ios();
 //        // For push, all you need do is to build PushPayload object.
@@ -288,6 +293,7 @@ public class PushExample {
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
                                 .setBadge(5)
+                                .setMutableContent(false)
                                 .setSound("happy")
                                 .addExtra("from", "JPush")
                                 .build())
@@ -352,9 +358,20 @@ public class PushExample {
     }
 
     public static PushPayload buildPushObject_android_cid() {
+    	Collection<String> list =new LinkedList<String>();
+    	list.add("1507bfd3f79558957de");
+    	list.add("1507bfd3f79554957de");
+    	list.add("1507bfd3f79555957de");
+    	list.add("1507bfd3f79556957de");
+    	list.add("1507ffd3f79545957de");
+    	list.add("1507ffd3f79457957de");
+    	list.add("1507ffd3f79456757de");
+    	
+    	
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.registrationId("1507bfd3f79558957de"))
+//                .setAudience(Audience.registrationId("1507bfd3f79558957de"))
+                .setAudience(Audience.registrationId(list))
                 .setNotification(Notification.alert(ALERT))
                 .setCid("cid")
                 .build();
@@ -409,7 +426,12 @@ public class PushExample {
     public static void testSendWithSMS() {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
-            SMS sms = SMS.content(1, 10);
+//            SMS sms = SMS.content(1, 10);
+            SMS sms = SMS.newBuilder()
+            		.setDelayTime(1000)
+            		.setTempID(2000)
+            		.addPara("Test", 1)
+            		.build();
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
