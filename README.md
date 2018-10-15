@@ -24,7 +24,7 @@
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.3.7</version>
+    <version>3.3.8</version>
 </dependency>
 ```
 ### jar 包方式
@@ -44,7 +44,7 @@
     <dependency>
         <groupId>cn.jpush.api</groupId>
         <artifactId>jiguang-common</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.3</version>
     </dependency>
     <dependency>
         <groupId>io.netty</groupId>
@@ -230,7 +230,11 @@ try {
     public static void testSendWithSMS() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
         try {
-            SMS sms = SMS.content("Test SMS", 10);
+            SMS sms = SMS.newBuilder()
+            		.setDelayTime(1000)
+            		.setTempID(2000)
+            		.addPara("Test", 1)
+            		.build();
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {

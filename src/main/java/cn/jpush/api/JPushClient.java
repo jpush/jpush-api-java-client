@@ -33,6 +33,7 @@ import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleClient;
 import cn.jpush.api.schedule.ScheduleListResult;
+import cn.jpush.api.schedule.ScheduleMsgIdsResult;
 import cn.jpush.api.schedule.ScheduleResult;
 import cn.jpush.api.schedule.model.SchedulePayload;
 import cn.jpush.api.schedule.model.TriggerPayload;
@@ -1052,6 +1053,18 @@ public class JPushClient {
     public ScheduleResult getSchedule(String scheduleId)
             throws APIConnectionException, APIRequestException {
         return  _scheduleClient.getSchedule(scheduleId);
+    }
+    
+    /**
+     * Get the message id by the schedule id.
+     * @param scheduleId The schedule id.
+     * @return The message id list.
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
+     */
+    public ScheduleMsgIdsResult getScheduleMsgIds(String scheduleId)
+            throws APIConnectionException, APIRequestException {
+        return  _scheduleClient.getScheduleMsgIds(scheduleId);
     }
 
     /**
