@@ -118,6 +118,14 @@ public class ScheduleClient {
         ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "/" + scheduleId);
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
+    
+    public ScheduleMsgIdsResult getScheduleMsgIds(String scheduleId) throws APIConnectionException, APIRequestException{
+
+        Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
+
+        ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "/" + scheduleId + "/msg_ids");
+        return ScheduleResult.fromResponse(response, ScheduleMsgIdsResult.class);
+    }
 
     public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload) throws APIConnectionException, APIRequestException{
 
