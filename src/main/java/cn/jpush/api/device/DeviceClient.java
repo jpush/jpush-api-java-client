@@ -154,7 +154,7 @@ public class DeviceClient {
             // delete bind while mobile is empty.
             mobile = "";
         } else {
-            Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
+//            Preconditions.checkArgument(StringUtils.isMobileNumber(mobile), "The mobile format is incorrect. " + mobile);
         }
 
         String url = hostName + devicesPath + "/" + registrationId;
