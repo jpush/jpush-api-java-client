@@ -15,7 +15,7 @@ import cn.jiguang.common.ServiceHelper;
  * <ul>
  * <li>alert: 继承自父类 PlatformNotification 的 alert 属性；本类设置则覆盖。</li>
  * <li>badge: 支持 setBadge(int) 方法来设置；支持 incrBadge(int) 方法来增加。</li>
- * <li>sound: 支持 setSound(string) 方法来设置声音文件。</li>
+ * <li>sound: 支持 setSound(string) 方法来设置声音文件。或者 setSound(JSON object) 对应官方payload结构 </li>
  * <li>content-available: 用来支持后台推送。如果该值赋值为 1，表示开启后台推送。</li>
  * <li>extras: JSON object. 支持更多的自定义字段信息。</li>
  * </ul>
@@ -44,14 +44,14 @@ public class IosNotification extends PlatformNotification {
     
     private final boolean soundDisabled;
     private final boolean badgeDisabled;
-    private final String sound;
+    private final Object sound;
     private final String badge;
     private final boolean contentAvailable;
     private final String category;
     private final boolean mutableContent;
 
     
-    private IosNotification(Object alert, String sound, String badge,
+    private IosNotification(Object alert, Object sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             String category, boolean mutableContent,
             Map<String, String> extras, 
@@ -96,7 +96,12 @@ public class IosNotification extends PlatformNotification {
         }
         if (!soundDisabled) {
             if (null != sound) {
-                json.add(SOUND, new JsonPrimitive(sound));
+            	if(sound instanceof String){
+            		json.add(SOUND, new JsonPrimitive((String)sound));
+            	}else if (sound instanceof JsonObject) {
+					json.add(SOUND,  (JsonObject) sound);
+				}
+                
             } else {
                 json.add(SOUND, new JsonPrimitive(DEFAULT_SOUND));
             }
@@ -116,7 +121,7 @@ public class IosNotification extends PlatformNotification {
     
     
     public static class Builder extends PlatformNotification.Builder<IosNotification, Builder> {
-        private String sound;
+        private Object sound;
         private String badge;
         private boolean contentAvailable = false;
         private boolean soundDisabled = false;
@@ -128,7 +133,11 @@ public class IosNotification extends PlatformNotification {
         	return this;
         }
         
-        public Builder setSound(String sound) {
+        public Builder setSound(Object sound) {
+        	if (null == sound) {
+                LOG.warn("Null sound. Throw away it.");
+                return this;
+            }
             this.sound = sound;
             return this;
         }
