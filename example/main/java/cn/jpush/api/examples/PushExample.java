@@ -286,6 +286,10 @@ public class PushExample {
     }
     
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
+    	JsonObject sound = new JsonObject();
+    	sound.add("critical", new JsonPrimitive(1));
+    	sound.add("name", new JsonPrimitive("default"));
+    	sound.add("volume", new JsonPrimitive(0.2));
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.tag_and("tag1", "tag_all"))
@@ -294,7 +298,8 @@ public class PushExample {
                                 .setAlert(ALERT)
                                 .setBadge(5)
                                 .setMutableContent(false)
-                                .setSound("happy")
+//                                .setSound("happy")
+                                .setSound(sound)
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())
@@ -306,11 +311,16 @@ public class PushExample {
     }
 
     public static PushPayload buildPushObject_android_newly_support() {
+    
         JsonObject inbox = new JsonObject();
         inbox.add("line1", new JsonPrimitive("line1 string"));
         inbox.add("line2", new JsonPrimitive("line2 string"));
         inbox.add("contentTitle", new JsonPrimitive("title string"));
         inbox.add("summaryText", new JsonPrimitive("+3 more"));
+        
+        JsonObject intent = new JsonObject();
+        intent.add("url", new JsonPrimitive("intent:#Intent;component=com.jiguang.push/com.example.jpushdemo.SettingActivity;end"));
+        
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(AndroidNotification.newBuilder()
                         .setAlert(ALERT)
@@ -322,6 +332,8 @@ public class PushExample {
                         .setStyle(1)
                         .setTitle("Alert test")
                         .setPriority(1)
+                        .setLargeIcon("http://www.jiguang.cn/largeIcon.jpg")
+                        .setIntent(intent)
                         .build())
                 .build();
         return PushPayload.newBuilder()
