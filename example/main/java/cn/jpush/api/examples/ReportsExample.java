@@ -26,9 +26,9 @@ public class ReportsExample {
     public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
 
 	public static void main(String[] args) {
-		testGetReport();
-		testGetMessages();
-		testGetUsers();
+//		testGetReport();
+//		testGetMessages();
+//		testGetUsers();
 		testGetMessageStatus();
 	}
 	

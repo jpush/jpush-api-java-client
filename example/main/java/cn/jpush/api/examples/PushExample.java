@@ -2,7 +2,9 @@ package cn.jpush.api.examples;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import cn.jiguang.common.ServiceHelper;
@@ -55,6 +57,7 @@ public class PushExample {
 //        testSendPushes();
 //        testSendPush_fromJSON();
 //        testSendPushWithCallback();
+//		testSendPushWithCid();
 	}
 
 	// 使用 NettyHttpClient 异步接口发送请求
@@ -80,10 +83,13 @@ public class PushExample {
 	public static void testSendPush() {
 		ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+//        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
         // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
+        
 //        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
+//        NettyHttpClient httpClient =new NettyHttpClient(authCode, null, clientConfig);
 //        jpushClient.getPushClient().setHttpClient(httpClient);
         final PushPayload payload = buildPushObject_android_and_ios();
 //        // For push, all you need do is to build PushPayload object.
@@ -280,6 +286,10 @@ public class PushExample {
     }
     
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
+    	JsonObject sound = new JsonObject();
+    	sound.add("critical", new JsonPrimitive(1));
+    	sound.add("name", new JsonPrimitive("default"));
+    	sound.add("volume", new JsonPrimitive(0.2));
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.tag_and("tag1", "tag_all"))
@@ -287,7 +297,9 @@ public class PushExample {
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .setAlert(ALERT)
                                 .setBadge(5)
-                                .setSound("happy")
+                                .setMutableContent(false)
+//                                .setSound("happy")
+                                .setSound(sound)
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())
@@ -299,11 +311,16 @@ public class PushExample {
     }
 
     public static PushPayload buildPushObject_android_newly_support() {
+    
         JsonObject inbox = new JsonObject();
         inbox.add("line1", new JsonPrimitive("line1 string"));
         inbox.add("line2", new JsonPrimitive("line2 string"));
         inbox.add("contentTitle", new JsonPrimitive("title string"));
         inbox.add("summaryText", new JsonPrimitive("+3 more"));
+        
+        JsonObject intent = new JsonObject();
+        intent.add("url", new JsonPrimitive("intent:#Intent;component=com.jiguang.push/com.example.jpushdemo.SettingActivity;end"));
+        
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(AndroidNotification.newBuilder()
                         .setAlert(ALERT)
@@ -315,6 +332,8 @@ public class PushExample {
                         .setStyle(1)
                         .setTitle("Alert test")
                         .setPriority(1)
+                        .setLargeIcon("http://www.jiguang.cn/largeIcon.jpg")
+                        .setIntent(intent)
                         .build())
                 .build();
         return PushPayload.newBuilder()
@@ -351,9 +370,20 @@ public class PushExample {
     }
 
     public static PushPayload buildPushObject_android_cid() {
+    	Collection<String> list =new LinkedList<String>();
+    	list.add("1507bfd3f79558957de");
+    	list.add("1507bfd3f79554957de");
+    	list.add("1507bfd3f79555957de");
+    	list.add("1507bfd3f79556957de");
+    	list.add("1507ffd3f79545957de");
+    	list.add("1507ffd3f79457957de");
+    	list.add("1507ffd3f79456757de");
+    	
+    	
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
-                .setAudience(Audience.registrationId("18071adc030dcba91c0"))
+//                .setAudience(Audience.registrationId("1507bfd3f79558957de"))
+                .setAudience(Audience.registrationId(list))
                 .setNotification(Notification.alert(ALERT))
                 .setCid("cid")
                 .build();
@@ -433,7 +463,12 @@ public class PushExample {
     public static void testSendWithSMS() {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
-            SMS sms = SMS.content(1, 10);
+//            SMS sms = SMS.content(1, 10);
+            SMS sms = SMS.newBuilder()
+            		.setDelayTime(1000)
+            		.setTempID(2000)
+            		.addPara("Test", 1)
+            		.build();
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {

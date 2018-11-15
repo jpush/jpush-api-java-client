@@ -21,7 +21,9 @@ public class AndroidNotification extends PlatformNotification {
     private static final String URI_ACTIVITY = "uri_activity";
     private static final String URI_ACTION = "uri_action";
     private static final String URI_FLAG = "uri_flag";
-
+    private static final String LARGE_ICON = "large_icon";
+    private static final String INTENT = "intent";
+    
     private final String title;
     private final int builderId;
     // 0 ~ 4
@@ -33,14 +35,15 @@ public class AndroidNotification extends PlatformNotification {
     private String big_pic_path;
     private int priority;
     private String category;
-
     private String uri_activity;
     private String uri_flag;
     private String uri_action;
+    private String large_icon;
+    private JsonObject intent;
     
     private AndroidNotification(Object alert, String title, int builderId, int style, int alertType, String bigText,
                                 Object inbox, String bigPicPath, int priority, String category, String uriActivity,
-                                String uriAction, String uriFlag,
+                                String uriAction, String uriFlag,String large_icon,JsonObject intent, 
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -59,6 +62,9 @@ public class AndroidNotification extends PlatformNotification {
         this.uri_activity = uriActivity;
         this.uri_action = uriAction;
         this.uri_flag = uriFlag;
+        this.large_icon = large_icon;
+        this.intent = intent;
+
     }
     
     public static Builder newBuilder() {
@@ -138,6 +144,14 @@ public class AndroidNotification extends PlatformNotification {
             json.add(URI_FLAG, new JsonPrimitive(uri_flag));
         }
         
+        if (null != large_icon) {
+            json.add(LARGE_ICON, new JsonPrimitive(large_icon));
+        }
+
+        if (null != intent) {
+            json.add(INTENT, intent);
+        }
+        
         return json;
     }
     
@@ -155,7 +169,9 @@ public class AndroidNotification extends PlatformNotification {
         private String uri_activity;
         private String uri_flag;
         private String uri_action;
-
+        private String large_icon;
+        private JsonObject intent;
+        
         protected Builder getThis() {
         	return this;
         }
@@ -228,10 +244,25 @@ public class AndroidNotification extends PlatformNotification {
             this.uri_action = uriAction;
             return this;
         }
-
+        
+        public Builder setLargeIcon(String largeIcon) {
+            this.large_icon = largeIcon;
+            return this;
+        }
+        
+        public Builder setIntent(JsonObject intent) {
+        	if (null == inbox) {
+                LOG.warn("Null intent. Throw away it.");
+                return this;
+            }
+            this.intent = intent;
+            return this;
+        }
+        
+        
         public AndroidNotification build() {
             return new AndroidNotification(alert, title, builderId, style, alert_type, big_text, inbox, big_pic_path, priority,
-                    category, uri_activity, uri_action, uri_flag, extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+                    category, uri_activity, uri_action, uri_flag, large_icon, intent,extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
 }
