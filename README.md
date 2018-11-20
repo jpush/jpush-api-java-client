@@ -332,7 +332,7 @@ try {
 
 ### Custom Client 样例
 
-> 一下片断来自项目代码里面的文件：example / cn.jpush.api.examples.ClientExample
+> 以下片断来自项目代码里面的文件：example / cn.jpush.api.examples.ClientExample
 
 * 配置的SSLVersion表示指定至少支持的协议版本，也可能支持其他多个协议版本，最终支持的协议版本列表取决于JRE和运行环境
 ```Java
