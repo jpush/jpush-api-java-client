@@ -1,7 +1,6 @@
 package cn.jiguang.common;
 
 import java.util.HashMap;
-import java.util.Observable;
 
 public class ClientConfig extends HashMap<String, Object> {
 
