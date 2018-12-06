@@ -211,14 +211,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpGet.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -238,14 +239,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpGet.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -263,14 +265,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpDelete.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -289,14 +292,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpDelete.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -317,14 +321,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpPost.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -346,14 +351,15 @@ public class ApacheHttpClient implements IHttpClient {
             processResponse(response, wrapper);
         } catch (IOException e) {
             httpPut.abort();
-            e.printStackTrace();
+            LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;
@@ -391,14 +397,15 @@ public class ApacheHttpClient implements IHttpClient {
             response = getHttpClient(url).execute(httpPost);
             processResponse(response, wrapper);
         } catch (IOException e) {
-            e.printStackTrace();
+        	LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         } finally {
             try {
                 if (response != null) {
                     response.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	 e.printStackTrace();
             }
         }
         return wrapper;

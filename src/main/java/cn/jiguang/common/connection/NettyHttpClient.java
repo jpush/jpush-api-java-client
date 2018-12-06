@@ -109,35 +109,17 @@ public class NettyHttpClient implements IHttpClient {
     }
 
     public ResponseWrapper sendGet(String url, String content) throws APIConnectionException, APIRequestException {
-        ResponseWrapper wrapper = new ResponseWrapper();
-        try {
-            return sendHttpRequest(HttpMethod.GET, url, content);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return wrapper;
+        return sendHttpRequest(HttpMethod.GET, url, content);
     }
 
     @Override
     public ResponseWrapper sendPut(String url, String content) throws APIConnectionException, APIRequestException {
-        ResponseWrapper wrapper = new ResponseWrapper();
-        try {
-            return sendHttpRequest(HttpMethod.PUT, url, content);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return wrapper;
+        return sendHttpRequest(HttpMethod.PUT, url, content);
     }
 
     @Override
     public ResponseWrapper sendPost(String url, String content) throws APIConnectionException, APIRequestException {
-        ResponseWrapper wrapper = new ResponseWrapper();
-        try {
-            return sendHttpRequest(HttpMethod.POST, url, content);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return wrapper;
+        return sendHttpRequest(HttpMethod.POST, url, content);
     }
 
     @Override
@@ -146,24 +128,25 @@ public class NettyHttpClient implements IHttpClient {
     }
 
     public ResponseWrapper sendDelete(String url, String content) throws APIConnectionException, APIRequestException {
-        ResponseWrapper wrapper = new ResponseWrapper();
-        try {
-            return sendHttpRequest(HttpMethod.DELETE, url, content);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return wrapper;
+        return sendHttpRequest(HttpMethod.DELETE, url, content);
     }
 
 
 
     private ResponseWrapper sendHttpRequest(HttpMethod method, String url, String body) throws APIConnectionException,
-            APIRequestException, URISyntaxException {
+            APIRequestException{
         CountDownLatch latch = new CountDownLatch(1);
         NettyClientInitializer initializer = new NettyClientInitializer(_sslCtx, null, latch);
         b.handler(initializer);
         ResponseWrapper wrapper = new ResponseWrapper();
-        URI uri = new URI(url);
+        URI uri = null;
+		try {
+			uri = new URI(url);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			LOG.debug(IO_ERROR_MESSAGE, e1);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e1, true);
+		}
         String scheme = uri.getScheme() == null ? "http" : uri.getScheme();
         String host = uri.getHost() == null ? "127.0.0.1" : uri.getHost();
         int port = uri.getPort();
@@ -243,7 +226,8 @@ public class NettyHttpClient implements IHttpClient {
                 throw new APIRequestException(wrapper);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+        	LOG.debug(IO_ERROR_MESSAGE, e);
+            throw new APIConnectionException(READ_TIMED_OUT_MESSAGE, e, true);
         }
         return wrapper;
     }
