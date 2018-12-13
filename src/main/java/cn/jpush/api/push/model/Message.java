@@ -60,7 +60,7 @@ public class Message implements PushModel {
         }
         
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras){
             extrasObject = new JsonObject();
         }
         
