@@ -17,6 +17,9 @@ import cn.jiguang.common.ServiceHelper;
  * <li>badge: 支持 setBadge(int) 方法来设置；支持 incrBadge(int) 方法来增加。</li>
  * <li>sound: 支持 setSound(string) 方法来设置声音文件。或者 setSound(JSON object) 对应官方payload结构 </li>
  * <li>content-available: 用来支持后台推送。如果该值赋值为 1，表示开启后台推送。</li>
+ * <li>mutable-content: 通知扩展</li>
+ * <li>category: IOS 8 才支持。设置 APNs payload 中的 "category" 字段值</li>
+ * <li>mutable-content: 通知扩展</li>
  * <li>extras: JSON object. 支持更多的自定义字段信息。</li>
  * </ul>
  * <br>
@@ -37,6 +40,7 @@ public class IosNotification extends PlatformNotification {
     private static final String CONTENT_AVAILABLE = "content-available";
     private static final String MUTABLE_CONTENT = "mutable-content";
     private static final String CATEGORY = "category";
+    private static final String THREAD_ID = "thread-id";
     
     private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
             + "and can be prefixed with + to add, - to minus";
@@ -49,11 +53,12 @@ public class IosNotification extends PlatformNotification {
     private final boolean contentAvailable;
     private final String category;
     private final boolean mutableContent;
+    private final String threadId;
 
     
     private IosNotification(Object alert, Object sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
-            String category, boolean mutableContent,
+            String category, boolean mutableContent,String threadId,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -67,6 +72,7 @@ public class IosNotification extends PlatformNotification {
         this.badgeDisabled = badgeDisabled;
         this.category = category;
         this.mutableContent = mutableContent;
+        this.threadId = threadId;
     }
     
     public static Builder newBuilder() {
@@ -115,6 +121,9 @@ public class IosNotification extends PlatformNotification {
         if (mutableContent) {
             json.add(MUTABLE_CONTENT, new JsonPrimitive(true));
         }
+        if (null != threadId) {
+        	json.add(THREAD_ID, new JsonPrimitive(threadId));
+        }
 
         return json;
     }
@@ -128,6 +137,7 @@ public class IosNotification extends PlatformNotification {
         private boolean badgeDisabled = false;
         private String category;
         private boolean mutableContent;
+        private String threadId;
 
         protected Builder getThis() {
         	return this;
@@ -202,11 +212,16 @@ public class IosNotification extends PlatformNotification {
             this.mutableContent = mutableContent;
             return this;
         }
+        
+        public Builder setThreadId(String threadId) {
+        	this.threadId = threadId;
+        	return this;
+        }
 
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
-                    soundDisabled, badgeDisabled, category, mutableContent,
+                    soundDisabled, badgeDisabled, category, mutableContent, threadId,
             		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
