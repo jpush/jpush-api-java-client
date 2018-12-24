@@ -18,7 +18,7 @@
 ## 安装
 
 ### maven 方式
-将下边的依赖条件放到你项目的 maven pom.xml 文件里。以 v3.3.10 为例，最新版本请看[Release页面](https://github.com/jpush/jpush-api-java-client/releases)
+将下边的依赖条件放到你项目的 maven pom.xml 文件里。v3.3.10 为例，最新版本请看[Release页面](https://github.com/jpush/jpush-api-java-client/releases)
 
 ```Java
 <dependency>
@@ -33,7 +33,7 @@
 
 
 ### 依赖包
-* [jiguang-java-client-common](https://github.com/jpush/jiguang-java-client-common) / 极光 Java client 的公共封装开发包，必须依赖，查看[最新版本](https://github.com/jpush/jiguang-java-client-common/releases)
+* [jiguang-java-client-common](https://github.com/jpush/jiguang-java-client-common) / 极光 Java client 的公共封装开发包，必须依赖，v1.1.4 为例，查看[最新版本](https://github.com/jpush/jiguang-java-client-common/releases)
 * [slf4j](http://www.slf4j.org/) / log4j (Logger)
 * [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
 
