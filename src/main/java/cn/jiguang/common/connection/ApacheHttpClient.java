@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 import java.io.*;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -283,11 +284,13 @@ public class ApacheHttpClient implements IHttpClient {
             throws APIConnectionException, APIRequestException {
         ResponseWrapper wrapper = new ResponseWrapper();
         CloseableHttpResponse response = null;
-        HttpDelete httpDelete = new HttpDelete(url);
+        HttpDeleteWithBody httpDelete = new HttpDeleteWithBody(url);
         try {
             httpDelete.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             httpDelete.setHeader("Content-Type", "application/json");
             configHttpRequest(httpDelete);
+            StringEntity params = new StringEntity(StringUtils.notNull(content), CHARSET);
+            httpDelete.setEntity(params);
             response = getHttpClient(url).execute(httpDelete, HttpClientContext.create());
             processResponse(response, wrapper);
         } catch (IOException e) {
@@ -493,5 +496,19 @@ public class ApacheHttpClient implements IHttpClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+}
+
+
+class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {
+    public static final String METHOD_NAME = "DELETE";
+
+    public String getMethod() {
+        return METHOD_NAME;
+    }
+
+    public HttpDeleteWithBody(final String uri) {
+        super();
+        setURI(URI.create(uri));
     }
 }
