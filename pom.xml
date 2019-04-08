@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jiguang-common</artifactId>
-	<version>1.1.6-SNAPSHOT</version>
+	<version>1.1.4</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jiguang-java-client-common</url>
 	<name>Jiguang Client Common Dependencies</name>
@@ -70,6 +70,17 @@
 			<version>1.7.7</version>
             <scope>provided</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.60</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.60</version>
+        </dependency>
 
 		<!-- Test Dependencies -->
 

@@ -4,10 +4,14 @@ import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.StringUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
@@ -39,6 +43,8 @@ public class NettyHttpClient implements IHttpClient {
     private EventLoopGroup _workerGroup;
     private SslContext _sslCtx;
 
+    private final String _encryptType;
+
 
     public NettyHttpClient(String authCode, HttpProxy proxy, ClientConfig config) {
         _maxRetryTimes = config.getMaxRetryTimes();
@@ -48,7 +54,7 @@ public class NettyHttpClient implements IHttpClient {
                 config.getConnectionTimeout(), _readTimeout, _maxRetryTimes, config.getSSLVersion());
         LOG.debug(message);
         _authCode = authCode;
-
+        _encryptType = config.getEncryptType();
         try {
             _sslCtx = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
             _workerGroup = new NioEventLoopGroup();
@@ -86,6 +92,9 @@ public class NettyHttpClient implements IHttpClient {
             request.headers().set(HttpHeaderNames.CONTENT_LENGTH, (long) byteBuf.readableBytes());
         } else {
             request = new DefaultFullHttpRequest(HTTP_1_1, method, uri.getRawPath());
+        }
+        if (!StringUtils.isEmpty(_encryptType)) {
+            request.headers().set("Encrypt-Type", _encryptType);
         }
         request.headers().set(HttpHeaderNames.HOST, uri.getHost());
         request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
@@ -168,6 +177,9 @@ public class NettyHttpClient implements IHttpClient {
                 request.headers().set(HttpHeaderNames.CONTENT_LENGTH, (long) byteBuf.readableBytes());
             } else {
                 request = new DefaultFullHttpRequest(HTTP_1_1, method, uri.getRawPath());
+            }
+            if (!StringUtils.isEmpty(_encryptType)) {
+                request.headers().set("Encrypt-Type", _encryptType);
             }
             request.headers().set(HttpHeaderNames.HOST, uri.getHost());
             request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
