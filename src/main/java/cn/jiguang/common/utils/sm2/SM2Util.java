@@ -12,9 +12,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.gm.SM2P256V1Curve;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.ECFieldFp;
@@ -171,27 +169,4 @@ public class SM2Util extends GMBaseUtil {
         return result;
     }
 
-    public static void main(String[] args) throws InvalidCipherTextException, IOException {
-//        AsymmetricCipherKeyPair keyPair = SM2Util.generateKeyPairParameter();
-//        ECPrivateKeyParameters priKey1 = (ECPrivateKeyParameters) keyPair.getPrivate();
-//        ECPublicKeyParameters pubKey1 = (ECPublicKeyParameters) keyPair.getPublic();
-//
-//        byte[] src65 = pubKey1.getQ().getEncoded(false);
-//        byte[] rawXY = new byte[CURVE_LEN * 2];//SM2的话这里应该是64字节
-//        System.arraycopy(src65, 1, rawXY, 0, rawXY.length);
-//        System.out.println("反转: " + String.valueOf(Base64.encode(rawXY)));
-//
-//        System.out.println("私钥: " + String.valueOf(Base64.encode(priKey1.getD().toByteArray())));
-//        System.out.println("公钥: " + String.valueOf(Base64.encode(pubKey1.getQ().getEncoded(false))));
-
-        ECPoint ecPoint = CURVE.decodePoint(Base64.decode("BPj6Mj/T444gxPaHc6CDCizMRp4pEl14WI2lvIbdEK2c+5XiSqmQt2TQc8hMMZqfxcDqUNQW95puAfQx1asv3rU=".toCharArray()));
-        ECPublicKeyParameters pubKey = new ECPublicKeyParameters(ecPoint, DOMAIN_PARAMS);
-        byte[] encryptedData = SM2Util.encrypt(pubKey, "{\"platffffddfaafffffffffffffffffffffffffffffffffffff".getBytes());
-        System.out.println("SM2 encrypt result:\n" + String.valueOf(Base64.encode(encryptedData)));
-
-//        BigInteger bigInteger = new BigInteger(Base64.decode("OUgn4s25RWq/XFl4MNiZjCGzPTvsthvJYZc1ApbUTjg==".toCharArray()));
-//        ECPrivateKeyParameters priKey = new ECPrivateKeyParameters(bigInteger, DOMAIN_PARAMS);
-//        byte[] decryptedData = SM2Util.decrypt(priKey, Base64.decode("BODUJdQBoNMvzm+GSrQTxx4cVhj969xS5TitrPbSd81iB/OPShD2Da4KlCaYAlU8v0J7KiwwZ1iOoQw8VeM5YmtSmHk0Hvx8Pfm+e1+NGI721caEXmlihG+CaM0VGZFsM6W7Zwg9eIHPgbQWvgIDU8NaRNeeU6w2aDRlrzlTKUewQxcbvkx6Veu4Cbc+5LlIyCfFYTeHStrbeFct08YwhlfAJ6wuEyY5IIhZjx2SEvGY3b9EK/qndofFkXeTamrm5K0ZMXGFSALtWybc2/Wrt0Zlsz6FwNSkXXI6o4brCMMPLGne3Y901F4RyciH5ePYHOHr61yv1t8peIIf5Cl5kedSwhWNxQZcvy+QvN77Rs6KxZ+B3Zq0WggVSjzjmbaVK5moG3Be3/tXOA7ld4ceZ8aj4MJFJwWjPcMeVJtMEKgjN7n9c8JNLpIrSSISkxz3W6gxtL1Wr7QhVGfFnHSn02rA7DD2kCxxgCP0FvR/uap4J6aF279Cn6jEek7Ze4sZOuhKNY3l/YBTzfHj".toCharArray()));
-//        System.out.println("SM2 decrypt result:\n" + ByteUtils.toHexString(decryptedData));
-    }
 }
