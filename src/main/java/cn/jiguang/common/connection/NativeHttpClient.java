@@ -147,7 +147,7 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setUseCaches(false);
 			conn.setRequestMethod(method.name());
 			if (!StringUtils.isEmpty(_encryptType)) {
-                conn.setRequestProperty("Encrypt-Type", _encryptType);
+                conn.setRequestProperty("X-Encrypt-Type", _encryptType);
             }
 			conn.setRequestProperty("User-Agent", JPUSH_USER_AGENT);
 			conn.setRequestProperty("Connection", "Keep-Alive");

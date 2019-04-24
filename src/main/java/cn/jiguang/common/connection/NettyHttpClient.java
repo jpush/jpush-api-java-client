@@ -94,7 +94,7 @@ public class NettyHttpClient implements IHttpClient {
             request = new DefaultFullHttpRequest(HTTP_1_1, method, uri.getRawPath());
         }
         if (!StringUtils.isEmpty(_encryptType)) {
-            request.headers().set("Encrypt-Type", _encryptType);
+            request.headers().set("X-Encrypt-Type", _encryptType);
         }
         request.headers().set(HttpHeaderNames.HOST, uri.getHost());
         request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);
@@ -179,7 +179,7 @@ public class NettyHttpClient implements IHttpClient {
                 request = new DefaultFullHttpRequest(HTTP_1_1, method, uri.getRawPath());
             }
             if (!StringUtils.isEmpty(_encryptType)) {
-                request.headers().set("Encrypt-Type", _encryptType);
+                request.headers().set("X-Encrypt-Type", _encryptType);
             }
             request.headers().set(HttpHeaderNames.HOST, uri.getHost());
             request.headers().set(HttpHeaderNames.AUTHORIZATION, _authCode);

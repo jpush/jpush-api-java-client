@@ -211,7 +211,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             httpGet.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             if (!StringUtils.isEmpty(_encryptType)) {
-                httpGet.setHeader("Encrypt-Type", _encryptType);
+                httpGet.setHeader("X-Encrypt-Type", _encryptType);
             }
             configHttpRequest(httpGet);
             response = getHttpClient(url).execute(httpGet, HttpClientContext.create());
@@ -241,7 +241,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             httpGet.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             if (!StringUtils.isEmpty(_encryptType)) {
-                httpGet.setHeader("Encrypt-Type", _encryptType);
+                httpGet.setHeader("X-Encrypt-Type", _encryptType);
             }
             httpGet.setHeader("Content-Type", NativeHttpClient.CONTENT_TYPE_JSON);
             configHttpRequest(httpGet);
@@ -326,7 +326,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             if (!StringUtils.isEmpty(_encryptType)) {
-                httpPost.setHeader("Encrypt-Type", _encryptType);
+                httpPost.setHeader("X-Encrypt-Type", _encryptType);
             }
             httpPost.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPost);
@@ -359,7 +359,7 @@ public class ApacheHttpClient implements IHttpClient {
         try {
             httpPut.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
             if (!StringUtils.isEmpty(_encryptType)) {
-                httpPut.setHeader("Encrypt-Type", _encryptType);
+                httpPut.setHeader("X-Encrypt-Type", _encryptType);
             }
             httpPut.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPut);

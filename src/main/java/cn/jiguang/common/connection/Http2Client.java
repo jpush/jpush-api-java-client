@@ -77,7 +77,7 @@ public class Http2Client implements IHttpClient {
                     .addHeader("Authorization", _authCode)
                     .addHeader("Content-Type", CONTENT_TYPE_JSON);
             if (!StringUtils.isEmpty(_encryptType)) {
-                requestBuilder.addHeader("Encrypt-Type", _encryptType);
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
             }
             Request request = requestBuilder.build();
             if (null != content) {
@@ -177,7 +177,7 @@ public class Http2Client implements IHttpClient {
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
                     .delete();
             if (!StringUtils.isEmpty(_encryptType)) {
-                requestBuilder.addHeader("Encrypt-Type", _encryptType);
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
             }
             request = requestBuilder.build();
             handleResponse(wrapper, request);
@@ -205,7 +205,7 @@ public class Http2Client implements IHttpClient {
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
                     .delete(body);
             if (!StringUtils.isEmpty(_encryptType)) {
-                requestBuilder.addHeader("Encrypt-Type", _encryptType);
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
             }
             request = requestBuilder.build();
             handleResponse(wrapper, request);
@@ -232,7 +232,7 @@ public class Http2Client implements IHttpClient {
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
                     .post(body);
             if (!StringUtils.isEmpty(_encryptType)) {
-                requestBuilder.addHeader("Encrypt-Type", _encryptType);
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
             }
             Request request = requestBuilder.build();
             handleResponse(wrapper, request);
@@ -259,7 +259,7 @@ public class Http2Client implements IHttpClient {
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
                     .put(body);
             if (!StringUtils.isEmpty(_encryptType)) {
-                requestBuilder.addHeader("Encrypt-Type", _encryptType);
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
             }
             Request request = requestBuilder.build();
             handleResponse(wrapper, request);
