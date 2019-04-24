@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AndroidNotification extends PlatformNotification {
     public static final String NOTIFICATION_ANDROID = "android";
-    
+
     private static final String TITLE = "title";
     private static final String BUILDER_ID = "builder_id";
     private static final String INBOX = "inbox";
@@ -20,7 +20,7 @@ public class AndroidNotification extends PlatformNotification {
     private static final String CATEGORY = "category";
     private static final String LARGE_ICON = "large_icon";
     private static final String INTENT = "intent";
-    
+
     private final String title;
     private final int builderId;
     // 0 ~ 4
@@ -34,15 +34,15 @@ public class AndroidNotification extends PlatformNotification {
     private String category;
     private String large_icon;
     private JsonObject intent;
-    
+
     private AndroidNotification(Object alert, String title, int builderId, int style, int alertType, String bigText,
-                                Object inbox, String bigPicPath, int priority, String category,String large_icon,JsonObject intent, 
-            Map<String, String> extras, 
-            Map<String, Number> numberExtras, 
-            Map<String, Boolean> booleanExtras, 
+                                Object inbox, String bigPicPath, int priority, String category,String large_icon,JsonObject intent,
+            Map<String, String> extras,
+            Map<String, Number> numberExtras,
+            Map<String, Boolean> booleanExtras,
             Map<String, JsonObject> jsonExtras) {
         super(alert, extras, numberExtras, booleanExtras, jsonExtras);
-        
+
         this.title = title;
         this.builderId = builderId;
         this.style = style;
@@ -55,16 +55,16 @@ public class AndroidNotification extends PlatformNotification {
         this.large_icon = large_icon;
         this.intent = intent;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     public static AndroidNotification alert(String alert) {
         return newBuilder().setAlert(alert).build();
     }
-    
-    
+
+
     @Override
     public String getPlatform() {
         return NOTIFICATION_ANDROID;
@@ -77,11 +77,11 @@ public class AndroidNotification extends PlatformNotification {
     protected void setInbox(Object inbox) {
         this.inbox = inbox;
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = super.toJSON().getAsJsonObject();
-        
+
         if (builderId > 0) {
             json.add(BUILDER_ID, new JsonPrimitive(this.builderId));
         }
@@ -120,7 +120,7 @@ public class AndroidNotification extends PlatformNotification {
         if (null != category) {
             json.add(CATEGORY, new JsonPrimitive(category));
         }
-        
+
         if (null != large_icon) {
             json.add(LARGE_ICON, new JsonPrimitive(large_icon));
         }
@@ -128,11 +128,11 @@ public class AndroidNotification extends PlatformNotification {
         if (null != intent) {
             json.add(INTENT, intent);
         }
-        
+
         return json;
     }
-    
-    
+
+
     public static class Builder extends PlatformNotification.Builder<AndroidNotification, Builder> {
         private String title;
         private int builderId;
@@ -145,21 +145,21 @@ public class AndroidNotification extends PlatformNotification {
         private String category;
         private String large_icon;
         private JsonObject intent;
-        
+
         protected Builder getThis() {
         	return this;
         }
-        
+
         public Builder setTitle(String title) {
             this.title = title;
             return this;
         }
-        
+
         public Builder setBuilderId(int builderId) {
             this.builderId = builderId;
             return this;
         }
-        
+
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -203,22 +203,22 @@ public class AndroidNotification extends PlatformNotification {
             this.inbox = inbox;
             return this;
         }
-        
+
         public Builder setLargeIcon(String largeIcon) {
             this.large_icon = largeIcon;
             return this;
         }
-        
+
         public Builder setIntent(JsonObject intent) {
-        	if (null == inbox) {
+        	if (null == intent) {
                 LOG.warn("Null intent. Throw away it.");
                 return this;
             }
             this.intent = intent;
             return this;
         }
-        
-        
+
+
         public AndroidNotification build() {
             return new AndroidNotification(alert, title, builderId, style, alert_type, big_text, inbox, big_pic_path, priority,
                     category, large_icon, intent,extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
