@@ -1,12 +1,12 @@
 package cn.jiguang.common.connection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -36,6 +36,7 @@ public class NativeHttpClient implements IHttpClient {
 	private final int _readTimeout;
     private final int _maxRetryTimes;
 	private final String _sslVer;
+	private final String _encryptType;
 
     private String _authCode;
     private HttpProxy _proxy;
@@ -45,7 +46,7 @@ public class NativeHttpClient implements IHttpClient {
 		_connectionTimeout = config.getConnectionTimeout();
 		_readTimeout = config.getReadTimeout();
 		_sslVer = config.getSSLVersion();
-
+        _encryptType = config.getEncryptType();
 		_authCode = authCode;
 		_proxy = proxy;
 
@@ -145,6 +146,9 @@ public class NativeHttpClient implements IHttpClient {
 			conn.setReadTimeout(_readTimeout);
 			conn.setUseCaches(false);
 			conn.setRequestMethod(method.name());
+			if (!StringUtils.isEmpty(_encryptType)) {
+                conn.setRequestProperty("X-Encrypt-Type", _encryptType);
+            }
 			conn.setRequestProperty("User-Agent", JPUSH_USER_AGENT);
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			conn.setRequestProperty("Accept-Charset", CHARSET);

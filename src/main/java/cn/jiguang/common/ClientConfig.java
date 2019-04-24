@@ -95,6 +95,15 @@ public class ClientConfig extends HashMap<String, Object> {
     public static final Object TIME_TO_LIVE_SCHEMA = Long.class;
     public static final long DEFAULT_TIME_TO_LIVE = -1;
 
+    /**
+     * The way to encrypt
+     * Default value is empty
+     * It won't encrypt any data
+     */
+    public static final String ENCRYPT_TYPE = "encrypt.type";
+    public static final Object ENCRYPT_TYPE_SCHEMA = String.class;
+    public static final String DEFAULT_ENCRYPT_TYPE = "";
+
     private static ClientConfig instance = new ClientConfig();
 
     private ClientConfig() {
@@ -128,6 +137,7 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(APNS_PRODUCTION, DEFAULT_APNS_PRODUCTION);
         this.put(TIME_TO_LIVE, DEFAULT_TIME_TO_LIVE);
 
+        this.put(ENCRYPT_TYPE, DEFAULT_ENCRYPT_TYPE);
     }
 
     public static ClientConfig getInstance() {
@@ -178,6 +188,10 @@ public class ClientConfig extends HashMap<String, Object> {
         this.put(CONNECTION_REQUEST_TIMEOUT, timeout);
     }
 
+    public void setEncryptType(String encryptType) {
+        this.put(ENCRYPT_TYPE, encryptType);
+    }
+
     public void setConnectionTimeout(int connectionTimeout) {
         this.put(CONNECTION_TIMEOUT, connectionTimeout);
     }
@@ -208,6 +222,10 @@ public class ClientConfig extends HashMap<String, Object> {
 
     public Integer getSocketTimeout() {
         return (Integer) this.get(SOCKET_TIMEOUT);
+    }
+
+    public String getEncryptType() {
+        return (String) this.get(ENCRYPT_TYPE);
     }
 
     public void setApnsProduction(boolean production) {

@@ -4,7 +4,11 @@ import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
-import okhttp3.*;
+import cn.jiguang.common.utils.StringUtils;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,8 @@ public class Http2Client implements IHttpClient {
     private String _authCode;
     private HttpProxy _proxy;
 
+    private final String _encryptType;
+
     public Http2Client(String authCode, HttpProxy proxy, ClientConfig config) {
         _maxRetryTimes = config.getMaxRetryTimes();
         _connectionTimeout = config.getConnectionTimeout();
@@ -38,7 +44,7 @@ public class Http2Client implements IHttpClient {
 
         _authCode = authCode;
         _proxy = proxy;
-
+        _encryptType = config.getEncryptType();
         String message = MessageFormat.format("Created instance with "
                         + "connectionTimeout {0}, readTimeout {1}, maxRetryTimes {2}, SSL Version {3}",
                 _connectionTimeout, _readTimeout, _maxRetryTimes, _sslVer);
@@ -63,14 +69,17 @@ public class Http2Client implements IHttpClient {
         }
 
         try {
-            Request request = new Request.Builder().url(url)
+            Request.Builder requestBuilder = new Request.Builder().url(url)
                     .header("User-Agent", JPUSH_USER_AGENT)
                     .addHeader("Accept-Charset", CHARSET)
                     .addHeader("Charset", CHARSET)
                     .addHeader("Connection", "Keep-Alive")
                     .addHeader("Authorization", _authCode)
-                    .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                    .build();
+                    .addHeader("Content-Type", CONTENT_TYPE_JSON);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
+            }
+            Request request = requestBuilder.build();
             if (null != content) {
                 byte[] data = content.getBytes(CHARSET);
                 request.newBuilder().header("Content-Length", String.valueOf(data.length));
@@ -159,14 +168,18 @@ public class Http2Client implements IHttpClient {
         LOG.debug("Send request - Delete url:" + " " + url);
         Request request;
         try {
-            request = new Request.Builder().url(url)
+            Request.Builder requestBuilder = new Request.Builder().url(url)
                     .header("User-Agent", JPUSH_USER_AGENT)
                     .addHeader("Accept-Charset", CHARSET)
                     .addHeader("Charset", CHARSET)
                     .addHeader("Connection", "Keep-Alive")
                     .addHeader("Authorization", _authCode)
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                    .delete().build();
+                    .delete();
+            if (!StringUtils.isEmpty(_encryptType)) {
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
+            }
+            request = requestBuilder.build();
             handleResponse(wrapper, request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -183,14 +196,18 @@ public class Http2Client implements IHttpClient {
         Request request;
         try {
             RequestBody body = RequestBody.create(JSON, content);
-            request = new Request.Builder().url(url)
+            Request.Builder requestBuilder = new Request.Builder().url(url)
                     .header("User-Agent", JPUSH_USER_AGENT)
                     .addHeader("Accept-Charset", CHARSET)
                     .addHeader("Charset", CHARSET)
                     .addHeader("Connection", "Keep-Alive")
                     .addHeader("Authorization", _authCode)
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                    .delete(body).build();
+                    .delete(body);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
+            }
+            request = requestBuilder.build();
             handleResponse(wrapper, request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -206,14 +223,18 @@ public class Http2Client implements IHttpClient {
         ResponseWrapper wrapper = new ResponseWrapper();
         try {
             RequestBody body = RequestBody.create(JSON, content);
-            Request request = new Request.Builder().url(url)
+            Request.Builder requestBuilder = new Request.Builder().url(url)
                     .header("User-Agent", JPUSH_USER_AGENT)
                     .addHeader("Accept-Charset", CHARSET)
                     .addHeader("Charset", CHARSET)
                     .addHeader("Connection", "Keep-Alive")
                     .addHeader("Authorization", _authCode)
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                    .post(body).build();
+                    .post(body);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
+            }
+            Request request = requestBuilder.build();
             handleResponse(wrapper, request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -229,14 +250,18 @@ public class Http2Client implements IHttpClient {
         ResponseWrapper wrapper = new ResponseWrapper();
         try {
             RequestBody body = RequestBody.create(JSON, content);
-            Request request = new Request.Builder().url(url)
+            Request.Builder requestBuilder = new Request.Builder().url(url)
                     .header("User-Agent", JPUSH_USER_AGENT)
                     .addHeader("Accept-Charset", CHARSET)
                     .addHeader("Charset", CHARSET)
                     .addHeader("Connection", "Keep-Alive")
                     .addHeader("Authorization", _authCode)
                     .addHeader("Content-Type", CONTENT_TYPE_JSON)
-                    .put(body).build();
+                    .put(body);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                requestBuilder.addHeader("X-Encrypt-Type", _encryptType);
+            }
+            Request request = requestBuilder.build();
             handleResponse(wrapper, request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

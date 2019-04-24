@@ -61,12 +61,15 @@ public class ApacheHttpClient implements IHttpClient {
     // 目标主机的最大连接数
     private int _maxRoute = 100;
 
+    private final String _encryptType;
+
     public ApacheHttpClient(String authCode, HttpProxy proxy, ClientConfig config) {
         _maxRetryTimes = config.getMaxRetryTimes();
         _connectionTimeout = config.getConnectionTimeout();
         _connectionRequestTimeout = config.getConnectionRequestTimeout();
         _socketTimeout = config.getSocketTimeout();
         _authCode = authCode;
+        _encryptType = config.getEncryptType();
         if (proxy != null) {
             _proxy = new HttpHost(proxy.getHost(), proxy.getPort());
         }
@@ -207,6 +210,9 @@ public class ApacheHttpClient implements IHttpClient {
         HttpGet httpGet = new HttpGet(url);
         try {
             httpGet.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                httpGet.setHeader("X-Encrypt-Type", _encryptType);
+            }
             configHttpRequest(httpGet);
             response = getHttpClient(url).execute(httpGet, HttpClientContext.create());
             processResponse(response, wrapper);
@@ -234,6 +240,9 @@ public class ApacheHttpClient implements IHttpClient {
         HttpGet httpGet = new HttpGet(url);
         try {
             httpGet.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                httpGet.setHeader("X-Encrypt-Type", _encryptType);
+            }
             httpGet.setHeader("Content-Type", NativeHttpClient.CONTENT_TYPE_JSON);
             configHttpRequest(httpGet);
             response = getHttpClient(url).execute(httpGet, HttpClientContext.create());
@@ -316,6 +325,9 @@ public class ApacheHttpClient implements IHttpClient {
         HttpPost httpPost = new HttpPost(url);
         try {
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                httpPost.setHeader("X-Encrypt-Type", _encryptType);
+            }
             httpPost.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPost);
             StringEntity params = new StringEntity(StringUtils.notNull(content), CHARSET);
@@ -346,6 +358,9 @@ public class ApacheHttpClient implements IHttpClient {
         HttpPut httpPut = new HttpPut(url);
         try {
             httpPut.setHeader(HttpHeaders.AUTHORIZATION, _authCode);
+            if (!StringUtils.isEmpty(_encryptType)) {
+                httpPut.setHeader("X-Encrypt-Type", _encryptType);
+            }
             httpPut.setHeader("Content-Type", "application/json");
             configHttpRequest(httpPut);
             StringEntity params = new StringEntity(StringUtils.notNull(content), CHARSET);
