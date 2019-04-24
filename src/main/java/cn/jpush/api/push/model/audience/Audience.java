@@ -1,16 +1,15 @@
 package cn.jpush.api.push.model.audience;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import cn.jiguang.common.utils.Preconditions;
+import cn.jpush.api.push.model.PushModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.common.utils.Preconditions;
-import cn.jpush.api.push.model.PushModel;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Audience implements PushModel {
     private static final String ALL = "all";
@@ -119,6 +118,26 @@ public class Audience implements PushModel {
 	        }
         }
         return json;
+    }
+
+    public static Audience fromJsonElement(JsonElement jsonElement) {
+        if (jsonElement == null) {
+            return null;
+        }
+        boolean all = !jsonElement.isJsonObject();
+        if (all) {
+            return new Audience(all, null);
+        }
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        Set<AudienceTarget> audienceTargetSet = new HashSet<>();
+        for (AudienceType type : AudienceType.values()) {
+            JsonArray jsonArray = jsonObject.getAsJsonArray(type.value());
+            if (jsonArray == null) {
+                continue;
+            }
+            audienceTargetSet.add(AudienceTarget.fromJsonElement(jsonArray, type));
+        }
+        return new Audience(all, audienceTargetSet);
     }
 
     public static class Builder {

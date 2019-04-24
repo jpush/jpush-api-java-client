@@ -1,15 +1,14 @@
 package cn.jpush.api.push.model.audience;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import cn.jiguang.common.utils.Preconditions;
+import cn.jpush.api.push.model.PushModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import cn.jiguang.common.utils.Preconditions;
-import cn.jpush.api.push.model.PushModel;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AudienceTarget implements PushModel {
     private final AudienceType audienceType;
@@ -97,6 +96,16 @@ public class AudienceTarget implements PushModel {
             }
         }
         return array;
+    }
+
+    public static AudienceTarget fromJsonElement(JsonArray jsonArray, AudienceType type) {
+        Set<String> stringSet = new HashSet<>();
+        if (jsonArray != null) {
+            for (int i=0; i<jsonArray.size(); i++) {
+                stringSet.add(jsonArray.get(i).getAsString());
+            }
+        }
+        return new AudienceTarget(type, stringSet);
     }
 
 

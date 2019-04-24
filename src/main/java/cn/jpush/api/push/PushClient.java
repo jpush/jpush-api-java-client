@@ -1,18 +1,24 @@
 package cn.jpush.api.push;
 
-import cn.jiguang.common.connection.*;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.utils.Preconditions;
-import cn.jiguang.common.utils.StringUtils;
+import cn.jiguang.common.connection.*;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.Base64;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
+import cn.jiguang.common.utils.sm2.SM2Util;
+import cn.jpush.api.push.model.EncryptKeys;
+import cn.jpush.api.push.model.EncryptPushPayload;
 import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.audience.Audience;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 /**
  * Entrance for sending Push.
@@ -38,6 +44,9 @@ public class PushClient {
     
     // If not present, the default value is 86400(s) (one day)
     private long _timeToLive;
+
+    // encrypt type, the default value is empty
+    private String _encryptType;
 
     /**
      * Create a Push Client.
@@ -96,6 +105,7 @@ public class PushClient {
 
         this._apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
+        this._encryptType = (String) conf.get(ClientConfig.ENCRYPT_TYPE);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -157,7 +167,7 @@ public class PushClient {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
         }
 
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, pushPayload.toString());
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(pushPayload));
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -175,7 +185,7 @@ public class PushClient {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, pushPayload.toString());
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, getEncryptData(pushPayload));
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -189,7 +199,7 @@ public class PushClient {
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, payloadString);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(payloadString));
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -203,7 +213,7 @@ public class PushClient {
             Preconditions.checkArgument(false, "payloadString should be a valid JSON string.");
         }
         
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, payloadString);
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, getEncryptData(payloadString));
         
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -240,6 +250,65 @@ public class PushClient {
             ((ApacheHttpClient) _httpClient).close();
         }
     }
+
+    /**
+     * 获取加密的payload数据
+     * @param payloadData
+     * @return
+     */
+    private String getEncryptData(String payloadData) {
+        JsonElement payloadElement = _jsonParser.parse(payloadData);
+        JsonObject jsonObject = payloadElement.getAsJsonObject();
+        Audience audience = Audience.fromJsonElement(jsonObject.get("audience"));
+        return getEncryptData(payloadData, audience);
+    }
+
+    /**
+     * 获取加密的payload数据
+     * @param pushPayload
+     * @return
+     */
+    private String getEncryptData(PushPayload pushPayload) {
+        if (_encryptType.isEmpty()) {
+            return pushPayload.toString();
+        }
+        if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
+            EncryptPushPayload encryptPushPayload = new EncryptPushPayload();
+            try {
+                encryptPushPayload.setPayload(String.valueOf(Base64.encode(SM2Util.encrypt(pushPayload.toString(), EncryptKeys.DEFAULT_SM2_ENCRYPT_KEY))));
+            } catch (Exception e) {
+                throw new RuntimeException("encrypt word exception", e);
+            }
+            encryptPushPayload.setAudience(pushPayload.getAudience());
+            return encryptPushPayload.toString();
+        }
+        // 不支持的加密默认不加密
+        return pushPayload.toString();
+    }
+
+    /**
+     * 获取加密的payload数据
+     * @param pushPayload
+     * @return
+     */
+    private String getEncryptData(String pushPayload, Audience audience) {
+        if (_encryptType.isEmpty()) {
+            return pushPayload;
+        }
+        if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
+            EncryptPushPayload encryptPushPayload = new EncryptPushPayload();
+            try {
+                encryptPushPayload.setPayload(String.valueOf(Base64.encode(SM2Util.encrypt(pushPayload, EncryptKeys.DEFAULT_SM2_ENCRYPT_KEY))));
+            } catch (Exception e) {
+                throw new RuntimeException("encrypt word exception", e);
+            }
+            encryptPushPayload.setAudience(audience);
+            return encryptPushPayload.toString();
+        }
+        // 不支持的加密默认不加密
+        return pushPayload;
+    }
+
 }
 
 

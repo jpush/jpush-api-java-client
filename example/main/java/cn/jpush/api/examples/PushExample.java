@@ -1,4 +1,27 @@
-package cn.jpush.api.examples;
+package main.java.cn.jpush.api.examples;
+
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.connection.NettyHttpClient;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.CIDResult;
+import cn.jpush.api.push.GroupPushClient;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.*;
+import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.audience.AudienceTarget;
+import cn.jpush.api.push.model.notification.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import io.netty.handler.codec.http.HttpMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,31 +29,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
-import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.connection.NativeHttpClient;
-import cn.jiguang.common.connection.NettyHttpClient;
-import cn.jiguang.common.resp.ResponseWrapper;
-import cn.jpush.api.push.CIDResult;
-import cn.jpush.api.push.GroupPushClient;
-import cn.jpush.api.push.model.notification.*;
-import com.google.gson.*;
-import io.netty.handler.codec.http.HttpMethod;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import cn.jiguang.common.ClientConfig;
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
-import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.Message;
-import cn.jpush.api.push.model.Options;
-import cn.jpush.api.push.model.Platform;
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.push.model.SMS;
-import cn.jpush.api.push.model.audience.Audience;
-import cn.jpush.api.push.model.audience.AudienceTarget;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
@@ -52,10 +50,10 @@ public class PushExample {
 	public static void main(String[] args) {
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-		testSendPush();
+//		testSendPush();
 //        testGetCidList();
 //        testSendPushes();
-//        testSendPush_fromJSON();
+        testSendPush_fromJSON();
 //        testSendPushWithCallback();
 //		testSendPushWithCid();
 	}
@@ -115,20 +113,28 @@ public class PushExample {
         }
     }
 
-	//use String to build PushPayload instance
-    public static void testSendPush_fromJSON() {
+    public static void testSendPushWithEncrypt() {
         ClientConfig clientConfig = ClientConfig.getInstance();
-        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
-                .create();
-        // Since the type of DeviceType is enum, thus the value should be uppercase, same with the AudienceType.
-        String payloadString = "{\"platform\":{\"all\":false,\"deviceTypes\":[\"IOS\"]},\"audience\":{\"all\":false,\"targets\":[{\"audienceType\":\"TAG_AND\",\"values\":[\"tag1\",\"tag_all\"]}]},\"notification\":{\"notifications\":[{\"soundDisabled\":false,\"badgeDisabled\":false,\"sound\":\"happy\",\"badge\":\"5\",\"contentAvailable\":false,\"alert\":\"Test from API Example - alert\",\"extras\":{\"from\":\"JPush\"},\"type\":\"cn.jpush.api.push.model.notification.IosNotification\"}]},\"message\":{\"msgContent\":\"Test from API Example - msgContent\"},\"options\":{\"sendno\":1429488213,\"overrideMsgId\":0,\"timeToLive\":-1,\"apnsProduction\":true,\"bigPushDuration\":0}}";
-        PushPayload payload = gson.fromJson(payloadString, PushPayload.class);
+        clientConfig.setEncryptType(EncryptKeys.ENCRYPT_SMS2_TYPE);
+        final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+//        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
+        // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
+        // Call setHttpClient to set httpClient,
+        // If you don't invoke this method, default httpClient will use NativeHttpClient.
+
+//        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
+//        NettyHttpClient httpClient =new NettyHttpClient(authCode, null, clientConfig);
+//        jpushClient.getPushClient().setHttpClient(httpClient);
+        final PushPayload payload = buildPushObject_android_and_ios();
+//        // For push, all you need do is to build PushPayload object.
+//        PushPayload payload = buildPushObject_all_alias_alert();
         try {
             PushResult result = jpushClient.sendPush(payload);
             LOG.info("Got result - " + result);
-
+            System.out.println(result);
+            // 如果使用 NettyHttpClient，需要手动调用 close 方法退出进程
+            // If uses NettyHttpClient, call close when finished sending request, otherwise process will not exit.
+            // jpushClient.close();
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
             LOG.error("Sendno: " + payload.getSendno());
@@ -140,6 +146,34 @@ public class PushExample {
             LOG.info("Error Message: " + e.getErrorMessage());
             LOG.info("Msg ID: " + e.getMsgId());
             LOG.error("Sendno: " + payload.getSendno());
+        }
+    }
+
+	//use String to build PushPayload instance
+    public static void testSendPush_fromJSON() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(PlatformNotification.class, new InterfaceAdapter<PlatformNotification>())
+                .create();
+        // Since the type of DeviceType is enum, thus the value should be uppercase, same with the AudienceType.
+        String payloadString = "{\"platform\":{\"all\":false,\"deviceTypes\":[\"IOS\"]},\"audience\":{\"all\":true,\"targets\":[{\"audienceType\":\"TAG_AND\",\"values\":[\"tag1\",\"tag_all\"]}]},\"notification\":{\"notifications\":[{\"soundDisabled\":false,\"badgeDisabled\":false,\"sound\":\"happy\",\"badge\":\"5\",\"contentAvailable\":false,\"alert\":\"Test from API Example - alert\",\"extras\":{\"from\":\"JPush\"},\"type\":\"cn.jpush.api.push.model.notification.IosNotification\"}]},\"message\":{\"msgContent\":\"Test from API Example - msgContent\"},\"options\":{\"sendno\":1429488213,\"overrideMsgId\":0,\"timeToLive\":-1,\"apnsProduction\":true,\"bigPushDuration\":0}}";
+        PushPayload payload = gson.fromJson(payloadString, PushPayload.class);
+        try {
+            PushResult result = jpushClient.sendPush(payloadString);
+            LOG.info("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+           // LOG.error("Sendno: " + payload.getSendno());
+
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+            //LOG.error("Sendno: " + payload.getSendno());
         }
     }
 
