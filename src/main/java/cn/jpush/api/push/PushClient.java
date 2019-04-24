@@ -272,7 +272,7 @@ public class PushClient {
         if (_encryptType.isEmpty()) {
             return pushPayload.toString();
         }
-        if (EncryptKeys.ENCRYPT_SMS_TYPE.equals(_encryptType)) {
+        if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
             EncryptPushPayload encryptPushPayload = new EncryptPushPayload();
             try {
                 encryptPushPayload.setPayload(String.valueOf(Base64.encode(SM2Util.encrypt(pushPayload.toString(), EncryptKeys.DEFAULT_SM2_ENCRYPT_KEY))));
@@ -295,7 +295,7 @@ public class PushClient {
         if (_encryptType.isEmpty()) {
             return pushPayload;
         }
-        if (EncryptKeys.ENCRYPT_SMS_TYPE.equals(_encryptType)) {
+        if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
             EncryptPushPayload encryptPushPayload = new EncryptPushPayload();
             try {
                 encryptPushPayload.setPayload(String.valueOf(Base64.encode(SM2Util.encrypt(pushPayload, EncryptKeys.DEFAULT_SM2_ENCRYPT_KEY))));

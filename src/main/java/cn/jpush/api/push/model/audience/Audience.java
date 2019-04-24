@@ -124,14 +124,18 @@ public class Audience implements PushModel {
         if (jsonElement == null) {
             return null;
         }
+        boolean all = !jsonElement.isJsonObject();
+        if (all) {
+            return new Audience(all, null);
+        }
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        boolean all = jsonObject.get(ALL).getAsBoolean();
-        JsonArray jsonArray = jsonObject.getAsJsonArray("targets");
         Set<AudienceTarget> audienceTargetSet = new HashSet<>();
-        if (jsonArray != null) {
-            for (int i=0; i<jsonArray.size(); i++) {
-                audienceTargetSet.add(AudienceTarget.fromJsonElement(jsonArray.get(i).getAsJsonObject()));
+        for (AudienceType type : AudienceType.values()) {
+            JsonArray jsonArray = jsonObject.getAsJsonArray(type.value());
+            if (jsonArray == null) {
+                continue;
             }
+            audienceTargetSet.add(AudienceTarget.fromJsonElement(jsonArray, type));
         }
         return new Audience(all, audienceTargetSet);
     }
