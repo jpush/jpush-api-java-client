@@ -3,7 +3,7 @@ package cn.jpush.api.push.model;
 import java.util.Map;
 
 /**
- * @author xudanxia
+ * @author xdx
  * @Desc
  * @date 2019-07-29.
  */
