@@ -1,5 +1,6 @@
 package cn.jpush.api.schedule;
 
+import com.google.gson.annotations.Expose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,8 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.schedule.model.SchedulePayload;
+
+import java.util.List;
 
 public class ScheduleClient {
 

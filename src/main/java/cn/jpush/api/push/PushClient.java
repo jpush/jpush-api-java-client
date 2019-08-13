@@ -304,7 +304,7 @@ public class PushClient {
      * @return
      */
     private String getEncryptData(PushPayload pushPayload) {
-        if (_encryptType.isEmpty()) {
+        if (StringUtils.isEmpty(_encryptType)) {
             return pushPayload.toString();
         }
         if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
@@ -327,7 +327,7 @@ public class PushClient {
      * @return
      */
     private String getEncryptData(String pushPayload, Audience audience) {
-        if (_encryptType.isEmpty()) {
+        if (StringUtils.isEmpty(_encryptType)) {
             return pushPayload;
         }
         if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {

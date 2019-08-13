@@ -15,7 +15,7 @@ public class ScheduleMsgIdsResult extends BaseResult{
     
     @Expose int count;
     
-    @Expose List<JsonObject> msgids;
+    @Expose List<String> msgids;
 
 	public int getCount() {
 		return count;
@@ -25,11 +25,11 @@ public class ScheduleMsgIdsResult extends BaseResult{
 		this.count = count;
 	}
 
-	public List<JsonObject> getMsgids() {
+	public List<String> getMsgids() {
 		return msgids;
 	}
 
-	public void setMsgids(List<JsonObject> msgids) {
+	public void setMsgids(List<String> msgids) {
 		this.msgids = msgids;
 	}
 
