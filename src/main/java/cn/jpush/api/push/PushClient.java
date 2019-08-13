@@ -11,14 +11,14 @@ import cn.jiguang.common.utils.Base64;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.utils.sm2.SM2Util;
+import cn.jpush.api.push.model.BatchPushPayload;
 import cn.jpush.api.push.model.EncryptKeys;
 import cn.jpush.api.push.model.EncryptPushPayload;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+
+import java.util.Map;
 
 /**
  * Entrance for sending Push.
@@ -36,6 +36,8 @@ public class PushClient {
     private String _baseUrl;
     private String _pushPath;
     private String _pushValidatePath;
+    private String batchRegidPushPath;
+    private String batchAliasPushPath;
 
     private JsonParser _jsonParser = new JsonParser();
 
@@ -102,6 +104,9 @@ public class PushClient {
         this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
         this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
         this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+
+        this.batchAliasPushPath = (String) conf.get(ClientConfig.BATCH_ALIAS_PUSH_PATH);
+        this.batchRegidPushPath = (String) conf.get(ClientConfig.BATCH_REGID_PUSH_PATH);
 
         this._apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
@@ -218,6 +223,36 @@ public class PushClient {
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
+    public PushResult batchSendPushByRegId(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+        return batchSendPush(_baseUrl + batchRegidPushPath, pushList);
+    }
+
+    public PushResult batchSendPushByAlias(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+        return batchSendPush(_baseUrl + batchAliasPushPath, pushList);
+    }
+
+    public PushResult batchSendPush(String url, BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+
+        Preconditions.checkArgument((null != pushList), "param should not be null");
+        Preconditions.checkArgument((null != pushList.getPushlist()), "pushList should not be null");
+
+        for (PushPayload payload : pushList.getPushlist().values()) {
+            if (_timeToLive >= 0) {
+                payload.resetOptionsTimeToLive(_timeToLive);
+            }
+            if (_apnsProduction > 0) {
+                payload.resetOptionsApnsProduction(true);
+            } else if(_apnsProduction == 0) {
+                payload.resetOptionsApnsProduction(false);
+            }
+        }
+
+        Gson gson = new Gson();
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(gson.toJson(pushList)));
+
+        return BaseResult.fromResponse(response, PushResult.class);
+    }
+
     /**
      * Get cid list, the data form of cid is appKey-uuid.
      * @param count the count of cid list, from 1 to 1000. default is 1.
@@ -269,7 +304,7 @@ public class PushClient {
      * @return
      */
     private String getEncryptData(PushPayload pushPayload) {
-        if (_encryptType.isEmpty()) {
+        if (StringUtils.isEmpty(_encryptType)) {
             return pushPayload.toString();
         }
         if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {
@@ -292,7 +327,7 @@ public class PushClient {
      * @return
      */
     private String getEncryptData(String pushPayload, Audience audience) {
-        if (_encryptType.isEmpty()) {
+        if (StringUtils.isEmpty(_encryptType)) {
             return pushPayload;
         }
         if (EncryptKeys.ENCRYPT_SMS2_TYPE.equals(_encryptType)) {

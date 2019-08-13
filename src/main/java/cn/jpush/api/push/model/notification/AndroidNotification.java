@@ -11,6 +11,7 @@ public class AndroidNotification extends PlatformNotification {
 
     private static final String TITLE = "title";
     private static final String BUILDER_ID = "builder_id";
+    private static final String CHANNEL_ID = "channel_id";
     private static final String INBOX = "inbox";
     private static final String STYLE = "style";
     private static final String ALERT_TYPE = "alert_type";
@@ -23,6 +24,7 @@ public class AndroidNotification extends PlatformNotification {
 
     private final String title;
     private final int builderId;
+    private String channelId;
     // 0 ~ 4
     private int style = 0;
     // -1 ~ 7
@@ -35,12 +37,23 @@ public class AndroidNotification extends PlatformNotification {
     private String large_icon;
     private JsonObject intent;
 
-    private AndroidNotification(Object alert, String title, int builderId, int style, int alertType, String bigText,
-                                Object inbox, String bigPicPath, int priority, String category,String large_icon,JsonObject intent,
-            Map<String, String> extras,
-            Map<String, Number> numberExtras,
-            Map<String, Boolean> booleanExtras,
-            Map<String, JsonObject> jsonExtras) {
+    private AndroidNotification(Object alert,
+                                String title,
+                                int builderId,
+                                int style,
+                                int alertType,
+                                String bigText,
+                                Object inbox,
+                                String bigPicPath,
+                                int priority,
+                                String category,
+                                String large_icon,
+                                JsonObject intent,
+                                String channelId,
+                                Map<String, String> extras,
+                                Map<String, Number> numberExtras,
+                                Map<String, Boolean> booleanExtras,
+                                Map<String, JsonObject> jsonExtras) {
         super(alert, extras, numberExtras, booleanExtras, jsonExtras);
 
         this.title = title;
@@ -54,6 +67,7 @@ public class AndroidNotification extends PlatformNotification {
         this.category = category;
         this.large_icon = large_icon;
         this.intent = intent;
+        this.channelId = channelId;
     }
 
     public static Builder newBuilder() {
@@ -129,6 +143,10 @@ public class AndroidNotification extends PlatformNotification {
             json.add(INTENT, intent);
         }
 
+        if (null != channelId) {
+            json.add(CHANNEL_ID, new JsonPrimitive(channelId));
+        }
+
         return json;
     }
 
@@ -145,9 +163,10 @@ public class AndroidNotification extends PlatformNotification {
         private String category;
         private String large_icon;
         private JsonObject intent;
+        private String channelId;
 
         protected Builder getThis() {
-        	return this;
+            return this;
         }
 
         public Builder setTitle(String title) {
@@ -210,7 +229,7 @@ public class AndroidNotification extends PlatformNotification {
         }
 
         public Builder setIntent(JsonObject intent) {
-        	if (null == intent) {
+            if (null == intent) {
                 LOG.warn("Null intent. Throw away it.");
                 return this;
             }
@@ -218,10 +237,35 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
+        public String getChannelId() {
+            return channelId;
+        }
+
+        public Builder setChannelId(String channelId) {
+            this.channelId = channelId;
+            return this;
+        }
 
         public AndroidNotification build() {
-            return new AndroidNotification(alert, title, builderId, style, alert_type, big_text, inbox, big_pic_path, priority,
-                    category, large_icon, intent,extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+            return new AndroidNotification(
+                    alert,
+                    title,
+                    builderId,
+                    style,
+                    alert_type,
+                    big_text,
+                    inbox,
+                    big_pic_path,
+                    priority,
+                    category,
+                    large_icon,
+                    intent,
+                    channelId,
+                    extrasBuilder,
+                    numberExtrasBuilder,
+                    booleanExtrasBuilder,
+                    jsonExtrasBuilder
+            );
         }
     }
 }

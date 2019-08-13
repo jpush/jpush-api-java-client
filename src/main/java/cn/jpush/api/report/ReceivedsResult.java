@@ -31,6 +31,8 @@ public class ReceivedsResult extends BaseResult {
         public int ios_msg_received;
         @Expose
         public int wp_mpns_sent;
+        @Expose
+        public int jpush_received;
     }
 
     static ReceivedsResult fromResponse(ResponseWrapper responseWrapper) {

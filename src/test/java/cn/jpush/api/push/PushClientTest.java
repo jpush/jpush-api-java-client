@@ -8,6 +8,7 @@ import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.NettyHttpClient;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.BatchPushPayload;
 import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.audience.Audience;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PushClientTest extends BaseTest {
 

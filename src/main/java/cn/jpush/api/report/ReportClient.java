@@ -29,6 +29,9 @@ public class ReportClient {
     private String _messagePath;
     private String _statusPath;
 
+    private String messageDetailPath;
+    private String receiveDetailPath;
+
     public ReportClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
@@ -65,7 +68,10 @@ public class ReportClient {
         _userPath = (String) conf.get(ClientConfig.REPORT_USER_PATH);
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
         _statusPath = (String) conf.get(ClientConfig.REPORT_STATUS_PATH);
-        
+
+        messageDetailPath = (String) conf.get(ClientConfig.REPORT_MESSAGE_DETAIL_PATH);
+        receiveDetailPath = (String) conf.get(ClientConfig.REPORT_RECEIVE_DETAIL_PATH);
+
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
 	}
@@ -98,6 +104,16 @@ public class ReportClient {
         
         return ReceivedsResult.fromResponse(response);
 	}
+
+    public ReceivedsResult getReceivedsDetail(String msgIds)
+            throws APIConnectionException, APIRequestException {
+        checkMsgids(msgIds);
+
+        String url = _hostName + receiveDetailPath + "?msg_ids=" + msgIds;
+        ResponseWrapper response = _httpClient.sendGet(url);
+
+        return ReceivedsResult.fromResponse(response);
+    }
 	
     public MessagesResult getMessages(String msgIds) 
             throws APIConnectionException, APIRequestException {
@@ -107,6 +123,16 @@ public class ReportClient {
         ResponseWrapper response = _httpClient.sendGet(url);
         
         return MessagesResult.fromResponse(response);
+    }
+
+    public MessageDetailResult getMessagesDetail(String msgIds)
+            throws APIConnectionException, APIRequestException {
+        checkMsgids(msgIds);
+
+        String url = _hostName + messageDetailPath + "?msg_ids=" + msgIds;
+        ResponseWrapper response = _httpClient.sendGet(url);
+
+        return MessageDetailResult.fromResponse(response);
     }
 
     public Map<String, MessageStatus> getMessagesStatus(CheckMessagePayload payload)
