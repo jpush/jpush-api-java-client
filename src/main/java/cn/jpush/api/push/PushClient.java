@@ -11,10 +11,7 @@ import cn.jiguang.common.utils.Base64;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.utils.sm2.SM2Util;
-import cn.jpush.api.push.model.BatchPushPayload;
-import cn.jpush.api.push.model.EncryptKeys;
-import cn.jpush.api.push.model.EncryptPushPayload;
-import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
 import com.google.gson.*;
 
@@ -234,9 +231,9 @@ public class PushClient {
     public PushResult batchSendPush(String url, BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument((null != pushList), "param should not be null");
-        Preconditions.checkArgument((null != pushList.getPushlist()), "pushList should not be null");
+        Preconditions.checkArgument((null != pushList.getPushList()), "pushList should not be null");
 
-        for (PushPayload payload : pushList.getPushlist().values()) {
+        for (SinglePayload payload : pushList.getPushList().values()) {
             if (_timeToLive >= 0) {
                 payload.resetOptionsTimeToLive(_timeToLive);
             }
@@ -248,7 +245,7 @@ public class PushClient {
         }
 
         Gson gson = new Gson();
-        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(gson.toJson(pushList)));
+        ResponseWrapper response = _httpClient.sendPost(url, getEncryptData(gson.toJson(pushList)));
 
         return BaseResult.fromResponse(response, PushResult.class);
     }

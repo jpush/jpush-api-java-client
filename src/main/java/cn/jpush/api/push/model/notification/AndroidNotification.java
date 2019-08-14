@@ -3,6 +3,8 @@ package cn.jpush.api.push.model.notification;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.Map;
 
@@ -150,7 +152,6 @@ public class AndroidNotification extends PlatformNotification {
         return json;
     }
 
-
     public static class Builder extends PlatformNotification.Builder<AndroidNotification, Builder> {
         private String title;
         private int builderId;
@@ -165,6 +166,7 @@ public class AndroidNotification extends PlatformNotification {
         private JsonObject intent;
         private String channelId;
 
+        @Override
         protected Builder getThis() {
             return this;
         }
@@ -179,6 +181,7 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
+        @Override
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -246,6 +249,7 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
+        @Override
         public AndroidNotification build() {
             return new AndroidNotification(
                     alert,

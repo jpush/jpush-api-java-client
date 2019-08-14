@@ -30,7 +30,7 @@ public class PushPayload implements PushModel {
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
     private static final String CID = "cid";
-    
+
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
     private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
     
@@ -43,7 +43,6 @@ public class PushPayload implements PushModel {
     private Options options;
     private SMS sms;
     private String cid;
-    
     
     private PushPayload(Platform platform, Audience audience, 
             Notification notification, Message message, Options options, SMS sms, String cid) {
@@ -220,7 +219,7 @@ public class PushPayload implements PushModel {
         private Options options = null;
         private SMS sms = null;
         private String cid;
-        
+
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
             return this;

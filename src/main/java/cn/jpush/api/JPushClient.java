@@ -3,7 +3,9 @@ package cn.jpush.api;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jiguang.common.resp.*;
 import cn.jpush.api.push.CIDResult;
+import cn.jpush.api.push.model.*;
 import cn.jpush.api.report.*;
 import cn.jpush.api.report.model.CheckMessagePayload;
 import com.google.gson.JsonObject;
@@ -13,10 +15,6 @@ import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.Week;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.connection.HttpProxy;
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
-import cn.jiguang.common.resp.BooleanResult;
-import cn.jiguang.common.resp.DefaultResult;
 import cn.jpush.api.device.AliasDeviceListResult;
 import cn.jpush.api.device.DeviceClient;
 import cn.jpush.api.device.OnlineStatus;
@@ -24,10 +22,6 @@ import cn.jpush.api.device.TagAliasResult;
 import cn.jpush.api.device.TagListResult;
 import cn.jpush.api.push.PushClient;
 import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.Message;
-import cn.jpush.api.push.model.Platform;
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.push.model.SMS;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosAlert;
 import cn.jpush.api.push.model.notification.Notification;
@@ -226,6 +220,14 @@ public class JPushClient {
     	return _pushClient.sendPushValidate(payloadString);
     }
 
+    public PushResult batchSendPushByRegId(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+        return _pushClient.batchSendPushByRegId(pushList);
+    }
+
+    public PushResult batchSendPushByAlias(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+        return _pushClient.batchSendPushByAlias(pushList);
+    }
+
     /**
      * Get cid list, the data form of cid is appKey-uuid.
      * @param count the count of cid list, from 1 to 1000. default is 1.
@@ -265,7 +267,16 @@ public class JPushClient {
             throws APIConnectionException, APIRequestException {
         return _reportClient.getMessagesStatus(payload);
     }
-    
+
+    public ReceivedsResult getReceivedsDetail(String msgIds)
+            throws APIConnectionException, APIRequestException {
+        return _reportClient.getReceivedsDetail(msgIds);
+    }
+
+    public MessageDetailResult getMessagesDetail(String msgIds)
+            throws APIConnectionException, APIRequestException {
+        return _reportClient.getMessagesDetail(msgIds);
+    }
     
     // ------------------------------ Shortcuts - notification
 
