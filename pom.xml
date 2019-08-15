@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jiguang-common</artifactId>
-	<version>1.1.7-SNAPSHOT</version>
+	<version>1.1.7</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jiguang-java-client-common</url>
 	<name>Jiguang Client Common Dependencies</name>
