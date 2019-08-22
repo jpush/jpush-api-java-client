@@ -240,7 +240,7 @@ public class PushClient {
 
         Gson gson = new Gson();
 
-        JsonObject json = new JsonObject();
+        JsonObject contentJson = new JsonObject();
 
         CIDResult cidResult = getCidList(pushPayloadList.size(), "push");
         int i = 0;
@@ -253,9 +253,9 @@ public class PushClient {
             }
             pushPayLoadList.add(cidResult.cidlist.get(i++), payload.toJSON());
         }
-        json.add("pushlist", pushPayLoadList);
+        contentJson.add("pushlist", pushPayLoadList);
 
-        ResponseWrapper response = _httpClient.sendPost(url, getEncryptData(gson.toJson(json)));
+        ResponseWrapper response = _httpClient.sendPost(url, getEncryptData(gson.toJson(contentJson)));
 
         return BatchPushResult.fromResponse(response);
 

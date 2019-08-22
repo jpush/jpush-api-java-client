@@ -23,8 +23,6 @@ public class BatchPushResult extends BaseResult {
 
     private Map<String, PushResult> batchPushResult;
 
-    private Error error;
-
     public class PushResult {
         @Expose public long msg_id;
         @Expose public Error error;
@@ -56,19 +54,6 @@ public class BatchPushResult extends BaseResult {
 
     public Map<String, PushResult> getBatchPushResult() {
         return batchPushResult;
-    }
-
-    public BatchPushResult setBatchPushResult(Map<String, PushResult> batchPushResult) {
-        this.batchPushResult = batchPushResult;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "BatchPushResult{" +
-                "batchPushResult=" + batchPushResult +
-                ", error=" + error +
-                "} " + super.toString();
     }
 
 }
