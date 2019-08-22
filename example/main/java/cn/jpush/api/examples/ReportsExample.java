@@ -1,14 +1,13 @@
 package cn.jpush.api.examples;
 
-import cn.jpush.api.report.*;
-import cn.jpush.api.report.model.CheckMessagePayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.report.*;
+import cn.jpush.api.report.model.CheckMessagePayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -23,7 +22,8 @@ public class ReportsExample {
     public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
 
 	public static void main(String[] args) {
-        testGetReceivedsDetail();
+
+//        testGetReceivedsDetail();
         testGetMessagesDetail();
 //		testGetReport();
 //		testGetMessages();
@@ -115,7 +115,7 @@ public class ReportsExample {
         String msgIds = "3993287034,3993287035,3993287036";
         try {
             MessageDetailResult result = jPushClient.getMessagesDetail(msgIds);
-            LOG.info("msgIds: {}, MessageDetail: {}", msgIds, result);
+            LOG.info("msgIds: {}, MessageDetail: {}", msgIds, result.received_list);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

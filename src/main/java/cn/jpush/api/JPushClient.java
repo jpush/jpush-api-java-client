@@ -221,11 +221,11 @@ public class JPushClient {
     	return _pushClient.sendPushValidate(payloadString);
     }
 
-    public PushResult batchSendPushByRegId(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+    public BatchPushResult batchSendPushByRegId(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
         return _pushClient.batchSendPushByRegId(pushPayloadList);
     }
 
-    public PushResult batchSendPushByAlias(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+    public BatchPushResult batchSendPushByAlias(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
         return _pushClient.batchSendPushByAlias(pushPayloadList);
     }
 

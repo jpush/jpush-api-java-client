@@ -64,6 +64,7 @@ public class PushPayload implements PushModel {
         this.options = options;
         this.sms = sms;
         this.cid = cid;
+        this.target = target;
     }
 
     public Platform getPlatform() {
