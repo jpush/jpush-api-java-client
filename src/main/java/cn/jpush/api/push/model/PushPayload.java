@@ -67,6 +67,11 @@ public class PushPayload implements PushModel {
         this.target = target;
     }
 
+    public PushPayload setCid(String cid) {
+        this.cid = cid;
+        return this;
+    }
+
     public Platform getPlatform() {
         return platform;
     }

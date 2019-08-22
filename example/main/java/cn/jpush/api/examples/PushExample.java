@@ -549,7 +549,7 @@ public class PushExample {
                 pushPayloadList.add(builder2.build());
 
                 BatchPushResult result = jPushClient.batchSendPushByAlias(pushPayloadList);
-                LOG.info("batchSendPushByAlias param: {}, result: {}", pushPayloadList, result.getBatchPushResult());
+                LOG.info("batchSendPushByAlias param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
             }
 
             {
@@ -573,7 +573,7 @@ public class PushExample {
                 pushPayloadList.add(builder2.build());
 
                 BatchPushResult result = jPushClient.batchSendPushByRegId(pushPayloadList);
-                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, result.getBatchPushResult());
+                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
             }
 
         } catch (APIConnectionException e) {

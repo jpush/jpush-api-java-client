@@ -247,11 +247,13 @@ public class PushClient {
         JsonObject pushPayLoadList = new JsonObject();
         // setting cid
         for (PushPayload payload : pushPayloadList) {
-            if (payload.getCid() != null && !payload.getCid().trim().isEmpty()) {
-                pushPayLoadList.add(payload.getCid(), payload.toJSON());
-                continue;
+            String cid = payload.getCid();
+            if (cid != null && !cid.trim().isEmpty()) {
+                payload.setCid(null);
+            } else {
+                cid = cidResult.cidlist.get(i++);
             }
-            pushPayLoadList.add(cidResult.cidlist.get(i++), payload.toJSON());
+            pushPayLoadList.add(cid, payload.toJSON());
         }
         contentJson.add("pushlist", pushPayLoadList);
 
