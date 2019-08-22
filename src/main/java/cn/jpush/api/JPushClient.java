@@ -1,5 +1,6 @@
 package cn.jpush.api;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -220,12 +221,12 @@ public class JPushClient {
     	return _pushClient.sendPushValidate(payloadString);
     }
 
-    public PushResult batchSendPushByRegId(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
-        return _pushClient.batchSendPushByRegId(pushList);
+    public PushResult batchSendPushByRegId(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+        return _pushClient.batchSendPushByRegId(pushPayloadList);
     }
 
-    public PushResult batchSendPushByAlias(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
-        return _pushClient.batchSendPushByAlias(pushList);
+    public PushResult batchSendPushByAlias(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+        return _pushClient.batchSendPushByAlias(pushPayloadList);
     }
 
     /**

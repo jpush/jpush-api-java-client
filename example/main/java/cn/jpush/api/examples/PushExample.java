@@ -1,7 +1,6 @@
-package main.java.cn.jpush.api.examples;
+package cn.jpush.api.examples;
 
 import cn.jiguang.common.ClientConfig;
-import cn.jiguang.common.DeviceType;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.connection.NettyHttpClient;
@@ -26,10 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
@@ -49,6 +45,7 @@ public class PushExample {
     private static long sendTotalTime = 0;
 
     public static void main(String[] args) {
+
         testBatchSend();
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
@@ -532,47 +529,51 @@ public class PushExample {
         JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
         try {
             {
-                BatchPushPayload batchPayload = new BatchPushPayload();
-                SinglePayload payload1 = new SinglePayload();
-                payload1.setMessage(Message.content("content1 by alias"))
+                List<PushPayload> pushPayloadList = new ArrayList<>();
+                PushPayload.Builder builder1 = PushPayload.newBuilder();
+                builder1.setMessage(Message.content("content1 by alias"))
                         .setNotification(Notification.alert(ALERT))
-                        .setPlatform(DeviceType.Android.toString())
+                        .setPlatform(Platform.all())
+                        .setAudience(Audience.all())
                         .setOptions(Options.sendno())
                         .setTarget("1507ffd3f79456757de");
-                batchPayload.setPushList("1507ffd3f79456757de", payload1);
+                pushPayloadList.add(builder1.build());
 
-                SinglePayload payload2 = new SinglePayload();
-                payload2.setMessage(Message.content("content2 by alias"))
+                PushPayload.Builder builder2 = PushPayload.newBuilder();
+                builder2.setMessage(Message.content("content2 by alias"))
                         .setNotification(Notification.alert(ALERT))
-                        .setPlatform("all")
+                        .setPlatform(Platform.android())
+                        .setAudience(Audience.all())
                         .setOptions(Options.sendno())
                         .setTarget("1507ffd3f79456757de");
-                batchPayload.setPushList("1507efd3f49623582c", payload2);
+                pushPayloadList.add(builder2.build());
 
-                PushResult result = jPushClient.batchSendPushByAlias(batchPayload);
-                LOG.info("batchSendPushByAlias param: {}, result: {}", batchPayload, result);
+                PushResult result = jPushClient.batchSendPushByAlias(pushPayloadList);
+                LOG.info("batchSendPushByAlias param: {}, result: {}", pushPayloadList, result);
             }
 
             {
-                BatchPushPayload batchPayload = new BatchPushPayload();
-                SinglePayload payload1 = new SinglePayload();
-                payload1.setMessage(Message.content("content1 by regId"))
+                List<PushPayload> pushPayloadList = new ArrayList<>();
+                PushPayload.Builder builder1 = PushPayload.newBuilder();
+                builder1.setMessage(Message.content("content1 by regId"))
                         .setNotification(Notification.alert(ALERT))
-                        .setPlatform(DeviceType.IOS.toString())
+                        .setPlatform(Platform.android())
+                        .setAudience(Audience.all())
                         .setOptions(Options.sendno())
                         .setTarget("1507ffd3f79456757de");
-                batchPayload.setPushList("1507ffd3f79456757de", payload1);
+                pushPayloadList.add(builder1.build());
 
-                SinglePayload payload2 = new SinglePayload();
-                payload2.setMessage(Message.content("content2 by regId"))
+                PushPayload.Builder builder2 = PushPayload.newBuilder();
+                builder2.setMessage(Message.content("content2 by regId"))
                         .setNotification(Notification.alert(ALERT))
-                        .setPlatform("all")
+                        .setAudience(Audience.all())
+                        .setPlatform(Platform.ios())
                         .setOptions(Options.sendno())
                         .setTarget("1507ffd3f79456757de");
-                batchPayload.setPushList("1507efd3f49623582c", payload2);
+                pushPayloadList.add(builder2.build());
 
-                PushResult result = jPushClient.batchSendPushByRegId(batchPayload);
-                LOG.info("batchSendPushByRegId param: {}, result: {}", batchPayload, result);
+                PushResult result = jPushClient.batchSendPushByRegId(pushPayloadList);
+                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, result);
             }
 
         } catch (APIConnectionException e) {

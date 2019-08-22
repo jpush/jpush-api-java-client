@@ -15,6 +15,7 @@ import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
 import com.google.gson.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -220,32 +221,37 @@ public class PushClient {
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
-    public PushResult batchSendPushByRegId(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
-        return batchSendPush(_baseUrl + batchRegidPushPath, pushList);
+    public PushResult batchSendPushByRegId(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+        return batchSendPush(_baseUrl + batchRegidPushPath, pushPayloadList);
     }
 
-    public PushResult batchSendPushByAlias(BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
-        return batchSendPush(_baseUrl + batchAliasPushPath, pushList);
+    public PushResult batchSendPushByAlias(List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
+        return batchSendPush(_baseUrl + batchAliasPushPath, pushPayloadList);
     }
 
-    public PushResult batchSendPush(String url, BatchPushPayload pushList) throws APIConnectionException, APIRequestException {
+    public PushResult batchSendPush(String url, List<PushPayload> pushPayloadList) throws APIConnectionException, APIRequestException {
 
-        Preconditions.checkArgument((null != pushList), "param should not be null");
-        Preconditions.checkArgument((null != pushList.getPushList()), "pushList should not be null");
-
-        for (SinglePayload payload : pushList.getPushList().values()) {
-            if (_timeToLive >= 0) {
-                payload.resetOptionsTimeToLive(_timeToLive);
-            }
-            if (_apnsProduction > 0) {
-                payload.resetOptionsApnsProduction(true);
-            } else if(_apnsProduction == 0) {
-                payload.resetOptionsApnsProduction(false);
-            }
-        }
+        Preconditions.checkArgument((null != pushPayloadList), "param should not be null");
+        Preconditions.checkArgument((!pushPayloadList.isEmpty()), "pushPayloadList should not be empty");
 
         Gson gson = new Gson();
-        ResponseWrapper response = _httpClient.sendPost(url, getEncryptData(gson.toJson(pushList)));
+
+        JsonObject json = new JsonObject();
+
+        CIDResult cidResult = getCidList(pushPayloadList.size(), "push");
+        int i = 0;
+        JsonObject pushPayLoadList = new JsonObject();
+        // setting cid
+        for (PushPayload payload : pushPayloadList) {
+            if (payload.getCid() != null && !payload.getCid().trim().isEmpty()) {
+                pushPayLoadList.add(payload.getCid(), payload.toJSON());
+                continue;
+            }
+            pushPayLoadList.add(cidResult.cidlist.get(i++), payload.toJSON());
+        }
+        json.add("pushlist", pushPayLoadList);
+
+        ResponseWrapper response = _httpClient.sendPost(url, getEncryptData(gson.toJson(pushPayLoadList)));
 
         return BaseResult.fromResponse(response, PushResult.class);
     }
