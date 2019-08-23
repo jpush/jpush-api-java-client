@@ -1,17 +1,13 @@
 package cn.jpush.api.examples;
 
-import cn.jpush.api.report.MessageStatus;
-import cn.jpush.api.report.model.CheckMessagePayload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jiguang.common.TimeUnit;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.report.MessagesResult;
-import cn.jpush.api.report.ReceivedsResult;
-import cn.jpush.api.report.UsersResult;
+import cn.jpush.api.report.*;
+import cn.jpush.api.report.model.CheckMessagePayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -26,6 +22,9 @@ public class ReportsExample {
     public static final String REGISTRATION_ID3 = "18071adc030dcba91c0";
 
 	public static void main(String[] args) {
+
+//        testGetReceivedsDetail();
+        testGetMessagesDetail();
 //		testGetReport();
 //		testGetMessages();
 //		testGetUsers();
@@ -96,6 +95,49 @@ public class ReportsExample {
             for (Map.Entry<String, MessageStatus> entry : map.entrySet()) {
                 LOG.info("registrationId: " + entry.getKey() + " status: " + entry.getValue().getStatus());
             }
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    /**
+     * 消息统计
+     * https://docs.jiguang.cn/jpush/server/push/rest_api_v3_report/#vip
+     */
+    public static void testGetMessagesDetail() {
+
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        String msgIds = "3993287034,3993287035,3993287036";
+        try {
+            MessageDetailResult result = jPushClient.getMessagesDetail(msgIds);
+            LOG.info("msgIds: {}, MessageDetail: {}", msgIds, result.received_list);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+
+    }
+
+    /**
+     * 送达详情
+     * https://docs.jiguang.cn/jpush/server/push/rest_api_v3_report/#_7
+     */
+    public static void testGetReceivedsDetail() {
+
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey);
+        String msgIds = "3993287034,3993287035,3993287036";
+        try {
+            ReceivedsResult result = jPushClient.getReceivedsDetail(msgIds);
+            LOG.info("msgIds: {}, ReceivedsDetail: {}", msgIds, result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

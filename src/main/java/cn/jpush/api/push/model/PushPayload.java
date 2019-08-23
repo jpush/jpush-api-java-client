@@ -1,5 +1,6 @@
 package cn.jpush.api.push.model;
 
+import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -23,6 +24,7 @@ import cn.jpush.api.push.model.notification.PlatformNotification;
  * 
  */
 public class PushPayload implements PushModel {
+
     private static final String PLATFORM = "platform";
     private static final String AUDIENCE = "audience";
     private static final String NOTIFICATION = "notification";
@@ -30,9 +32,17 @@ public class PushPayload implements PushModel {
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
     private static final String CID = "cid";
-    
-    private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
-    private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
+    private static final String TARGET = "target";
+
+    /**
+     * Definition acording to JPush Docs
+     */
+    private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;
+
+    /**
+     * Definition acording to JPush Docs
+     */
+    private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;
     
     private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create(); 
     
@@ -43,10 +53,10 @@ public class PushPayload implements PushModel {
     private Options options;
     private SMS sms;
     private String cid;
-    
+    private String target;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options, SMS sms, String cid) {
+            Notification notification, Message message, Options options, SMS sms, String cid, String target) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
@@ -54,6 +64,24 @@ public class PushPayload implements PushModel {
         this.options = options;
         this.sms = sms;
         this.cid = cid;
+        this.target = target;
+    }
+
+    public PushPayload setCid(String cid) {
+        this.cid = cid;
+        return this;
+    }
+
+    public Platform getPlatform() {
+        return platform;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public String getCid() {
+        return cid;
     }
 
     /**
@@ -161,6 +189,9 @@ public class PushPayload implements PushModel {
         if (null != cid) {
             json.addProperty(CID, cid);
         }
+        if (null != target) {
+            json.addProperty(TARGET, target);
+        }
                 
         return json;
     }
@@ -220,7 +251,13 @@ public class PushPayload implements PushModel {
         private Options options = null;
         private SMS sms = null;
         private String cid;
-        
+        private String target;
+
+        public Builder setTarget(String target) {
+            this.target = target;
+            return this;
+        }
+
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
             return this;
@@ -257,15 +294,25 @@ public class PushPayload implements PushModel {
         }
 
         public PushPayload build() {
-            Preconditions.checkArgument(! (null == audience || null == platform), "audience and platform both should be set.");
-            Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
+
+            if (StringUtils.isTrimedEmpty(target)) {
+                Preconditions.checkArgument(!(null == audience || null == platform),
+                        "audience and platform both should be set.");
+            }
+            if (!StringUtils.isTrimedEmpty(target)) {
+                Preconditions.checkArgument(!StringUtils.isTrimedEmpty(target) && null != platform,
+                        "target and platform should be set.");
+            }
+
+            Preconditions.checkArgument(! (null == notification && null == message),
+                    "notification or message should be set at least one.");
             
             // if options is not set, a sendno will be generated for tracing easily
             if (null == options) {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options, sms, cid);
+            return new PushPayload(platform, audience, notification, message, options, sms, cid, target);
         }
     }
 }

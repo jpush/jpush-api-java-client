@@ -85,6 +85,9 @@ public class ReportClient {
         _messagePath = (String) conf.get(ClientConfig.REPORT_MESSAGE_PATH);
         _statusPath = (String) conf.get(ClientConfig.REPORT_STATUS_PATH);
 
+        messageDetailPath = (String) conf.get(ClientConfig.REPORT_MESSAGE_DETAIL_PATH);
+        receiveDetailPath = (String) conf.get(ClientConfig.REPORT_RECEIVE_DETAIL_PATH);
+
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
     }

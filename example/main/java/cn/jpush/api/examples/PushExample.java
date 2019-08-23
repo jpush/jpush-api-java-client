@@ -1,4 +1,4 @@
-package main.java.cn.jpush.api.examples;
+package cn.jpush.api.examples;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
@@ -25,21 +25,18 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY ="7b4b94cca0d185d611e53cca";
+    protected static final String APP_KEY = "7b4b94cca0d185d611e53cca";
     protected static final String MASTER_SECRET = "860803cf613ed54aa3b941a8";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
-	
-	public static final String TITLE = "Test from API example";
+
+    public static final String TITLE = "Test from API example";
     public static final String ALERT = "Test from API Example - alert";
     public static final String MSG_CONTENT = "Test from API Example - msgContent";
     public static final String REGISTRATION_ID = "0900e8d85ef";
@@ -47,7 +44,9 @@ public class PushExample {
     public static long sendCount = 0;
     private static long sendTotalTime = 0;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+
+        testBatchSend();
 //        testSendPushWithCustomConfig();
 //        testSendIosAlert();
 //		testSendPush();
@@ -56,9 +55,9 @@ public class PushExample {
         testSendPush_fromJSON();
 //        testSendPushWithCallback();
 //		testSendPushWithCid();
-	}
+    }
 
-	// 使用 NettyHttpClient 异步接口发送请求
+    // 使用 NettyHttpClient 异步接口发送请求
     public static void testSendPushWithCallback() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         String host = (String) clientConfig.get(ClientConfig.PUSH_HOST_NAME);
@@ -78,14 +77,14 @@ public class PushExample {
         }
     }
 
-	public static void testSendPush() {
-		ClientConfig clientConfig = ClientConfig.getInstance();
+    public static void testSendPush() {
+        ClientConfig clientConfig = ClientConfig.getInstance();
         final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
 //        String authCode = ServiceHelper.getBasicAuthorization(APP_KEY, MASTER_SECRET);
         // Here you can use NativeHttpClient or NettyHttpClient or ApacheHttpClient.
         // Call setHttpClient to set httpClient,
         // If you don't invoke this method, default httpClient will use NativeHttpClient.
-        
+
 //        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
 //        NettyHttpClient httpClient =new NettyHttpClient(authCode, null, clientConfig);
 //        jpushClient.getPushClient().setHttpClient(httpClient);
@@ -149,7 +148,7 @@ public class PushExample {
         }
     }
 
-	//use String to build PushPayload instance
+    //use String to build PushPayload instance
     public static void testSendPush_fromJSON() {
         ClientConfig clientConfig = ClientConfig.getInstance();
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, clientConfig);
@@ -165,7 +164,7 @@ public class PushExample {
 
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
-           // LOG.error("Sendno: " + payload.getSendno());
+            // LOG.error("Sendno: " + payload.getSendno());
 
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
@@ -191,7 +190,7 @@ public class PushExample {
 //        ApacheHttpClient httpClient = new ApacheHttpClient(authCode, null, clientConfig);
         jpushClient.getPushClient().setHttpClient(httpClient);
         final PushPayload payload = buildPushObject_ios_tagAnd_alertWithExtrasAndMessage();
-        for(int i=0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             Thread thread = new Thread() {
                 public void run() {
                     for (int j = 0; j < 200; j++) {
@@ -249,11 +248,11 @@ public class PushExample {
             LOG.error("Sendno: " + payload.getSendno());
         }
     }
-	
-	public static PushPayload buildPushObject_all_all_alert() {
-	    return PushPayload.alertAll(ALERT);
-	}
-	
+
+    public static PushPayload buildPushObject_all_all_alert() {
+        return PushPayload.alertAll(ALERT);
+    }
+
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
@@ -261,7 +260,7 @@ public class PushExample {
                 .setNotification(Notification.alert(ALERT))
                 .build();
     }
-    
+
     public static PushPayload buildPushObject_android_tag_alertWithTitle() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
@@ -269,7 +268,7 @@ public class PushExample {
                 .setNotification(Notification.android(ALERT, TITLE, null))
                 .build();
     }
-    
+
     public static PushPayload buildPushObject_android_and_ios() {
         Map<String, String> extras = new HashMap<String, String>();
         extras.put("test", "https://community.jiguang.cn/push");
@@ -277,14 +276,14 @@ public class PushExample {
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                		.setAlert("alert content")
-                		.addPlatformNotification(AndroidNotification.newBuilder()
-                				.setTitle("Android Title")
+                        .setAlert("alert content")
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setTitle("Android Title")
                                 .addExtras(extras).build())
-                		.addPlatformNotification(IosNotification.newBuilder()
-                				.incrBadge(1)
-                				.addExtra("extra_key", "extra_value").build())
-                		.build())
+                        .addPlatformNotification(IosNotification.newBuilder()
+                                .incrBadge(1)
+                                .addExtra("extra_key", "extra_value").build())
+                        .build())
                 .build();
     }
 
@@ -318,12 +317,12 @@ public class PushExample {
 
         System.out.println(payload.toJSON());
     }
-    
+
     public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
-    	JsonObject sound = new JsonObject();
-    	sound.add("critical", new JsonPrimitive(1));
-    	sound.add("name", new JsonPrimitive("default"));
-    	sound.add("volume", new JsonPrimitive(0.2));
+        JsonObject sound = new JsonObject();
+        sound.add("critical", new JsonPrimitive(1));
+        sound.add("name", new JsonPrimitive("default"));
+        sound.add("volume", new JsonPrimitive(0.2));
         return PushPayload.newBuilder()
                 .setPlatform(Platform.ios())
                 .setAudience(Audience.tag_and("tag1", "tag_all"))
@@ -337,24 +336,24 @@ public class PushExample {
                                 .addExtra("from", "JPush")
                                 .build())
                         .build())
-                 .setMessage(Message.content(MSG_CONTENT))
-                 .setOptions(Options.newBuilder()
-                         .setApnsProduction(true)
-                         .build())
-                 .build();
+                .setMessage(Message.content(MSG_CONTENT))
+                .setOptions(Options.newBuilder()
+                        .setApnsProduction(true)
+                        .build())
+                .build();
     }
 
     public static PushPayload buildPushObject_android_newly_support() {
-    
+
         JsonObject inbox = new JsonObject();
         inbox.add("line1", new JsonPrimitive("line1 string"));
         inbox.add("line2", new JsonPrimitive("line2 string"));
         inbox.add("contentTitle", new JsonPrimitive("title string"));
         inbox.add("summaryText", new JsonPrimitive("+3 more"));
-        
+
         JsonObject intent = new JsonObject();
         intent.add("url", new JsonPrimitive("intent:#Intent;component=com.jiguang.push/com.example.jpushdemo.SettingActivity;end"));
-        
+
         Notification notification = Notification.newBuilder()
                 .addPlatformNotification(AndroidNotification.newBuilder()
                         .setAlert(ALERT)
@@ -380,7 +379,7 @@ public class PushExample {
                         .build())
                 .build();
     }
-    
+
     public static PushPayload buildPushObject_ios_audienceMore_messageWithExtras() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
@@ -404,16 +403,16 @@ public class PushExample {
     }
 
     public static PushPayload buildPushObject_android_cid() {
-    	Collection<String> list =new LinkedList<String>();
-    	list.add("1507bfd3f79558957de");
-    	list.add("1507bfd3f79554957de");
-    	list.add("1507bfd3f79555957de");
-    	list.add("1507bfd3f79556957de");
-    	list.add("1507ffd3f79545957de");
-    	list.add("1507ffd3f79457957de");
-    	list.add("1507ffd3f79456757de");
-    	
-    	
+        Collection<String> list = new LinkedList<String>();
+        list.add("1507bfd3f79558957de");
+        list.add("1507bfd3f79554957de");
+        list.add("1507bfd3f79555957de");
+        list.add("1507bfd3f79556957de");
+        list.add("1507ffd3f79545957de");
+        list.add("1507ffd3f79457957de");
+        list.add("1507ffd3f79456757de");
+
+
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
 //                .setAudience(Audience.registrationId("1507bfd3f79558957de"))
@@ -474,10 +473,10 @@ public class PushExample {
         try {
 //            SMS sms = SMS.content(1, 10);
             SMS sms = SMS.newBuilder()
-            		.setDelayTime(1000)
-            		.setTempID(2000)
-            		.addPara("Test", 1)
-            		.build();
+                    .setDelayTime(1000)
+                    .setTempID(2000)
+                    .addPara("Test", 1)
+                    .build();
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
@@ -511,6 +510,72 @@ public class PushExample {
         try {
             PushResult result = jPushClient.sendPush(pushPayload);
             LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    /**
+     * 批量单推接口
+     * https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#vip
+     */
+    public static void testBatchSend() {
+
+        JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        try {
+            {
+                List<PushPayload> pushPayloadList = new ArrayList<>();
+                PushPayload.Builder builder1 = PushPayload.newBuilder();
+                builder1.setMessage(Message.content("content1 by alias"))
+                        .setNotification(Notification.alert(ALERT))
+                        .setPlatform(Platform.all())
+                        .setAudience(Audience.all())
+                        .setOptions(Options.sendno())
+                        .setTarget("1507ffd3f79456757de");
+                pushPayloadList.add(builder1.build());
+
+                PushPayload.Builder builder2 = PushPayload.newBuilder();
+                builder2.setMessage(Message.content("content2 by alias"))
+                        .setNotification(Notification.alert(ALERT))
+                        .setPlatform(Platform.android())
+                        .setAudience(Audience.all())
+                        .setOptions(Options.sendno())
+                        .setTarget("1507ffd3f79456757de");
+                pushPayloadList.add(builder2.build());
+
+                BatchPushResult result = jPushClient.batchSendPushByAlias(pushPayloadList);
+                LOG.info("batchSendPushByAlias param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
+            }
+
+            {
+                List<PushPayload> pushPayloadList = new ArrayList<>();
+                PushPayload.Builder builder1 = PushPayload.newBuilder();
+                builder1.setMessage(Message.content("content1 by regId"))
+                        .setNotification(Notification.alert(ALERT))
+                        .setPlatform(Platform.android())
+                        .setAudience(Audience.all())
+                        .setOptions(Options.sendno())
+                        .setTarget("1507ffd3f79456757de");
+                pushPayloadList.add(builder1.build());
+
+                PushPayload.Builder builder2 = PushPayload.newBuilder();
+                builder2.setMessage(Message.content("content2 by regId"))
+                        .setNotification(Notification.alert(ALERT))
+                        .setAudience(Audience.all())
+                        .setPlatform(Platform.ios())
+                        .setOptions(Options.sendno())
+                        .setTarget("1507ffd3f79456757de");
+                pushPayloadList.add(builder2.build());
+
+                BatchPushResult result = jPushClient.batchSendPushByRegId(pushPayloadList);
+                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
+            }
+
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
