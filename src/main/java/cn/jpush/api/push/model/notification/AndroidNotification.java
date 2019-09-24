@@ -6,6 +6,7 @@ import com.google.gson.JsonPrimitive;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AndroidNotification extends PlatformNotification {
@@ -55,8 +56,9 @@ public class AndroidNotification extends PlatformNotification {
                                 Map<String, String> extras,
                                 Map<String, Number> numberExtras,
                                 Map<String, Boolean> booleanExtras,
-                                Map<String, JsonObject> jsonExtras) {
-        super(alert, extras, numberExtras, booleanExtras, jsonExtras);
+                                Map<String, JsonObject> jsonExtras,
+                                Map<String, JsonPrimitive> customData) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
 
         this.title = title;
         this.builderId = builderId;
@@ -79,7 +81,6 @@ public class AndroidNotification extends PlatformNotification {
     public static AndroidNotification alert(String alert) {
         return newBuilder().setAlert(alert).build();
     }
-
 
     @Override
     public String getPlatform() {
@@ -268,7 +269,8 @@ public class AndroidNotification extends PlatformNotification {
                     extrasBuilder,
                     numberExtrasBuilder,
                     booleanExtrasBuilder,
-                    jsonExtrasBuilder
+                    jsonExtrasBuilder,
+                    super.customData
             );
         }
     }

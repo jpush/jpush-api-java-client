@@ -6,6 +6,7 @@ import com.google.gson.*;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.utils.Preconditions;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Options implements PushModel {
@@ -27,6 +28,8 @@ public class Options implements PushModel {
     // minutes
     private int bigPushDuration;
     private String apnsCollapseId;
+    private final Map<String, JsonPrimitive> customData;
+
 
     /**
      * example
@@ -59,7 +62,8 @@ public class Options implements PushModel {
                     boolean apnsProduction,
                     int bigPushDuration,
                     String apnsCollapseId,
-                    Map<String, Map<String, String>> thirdPartyChannel) {
+                    Map<String, Map<String, String>> thirdPartyChannel,
+                    Map<String, JsonPrimitive> customData) {
         this.sendno = sendno;
         this.overrideMsgId = overrideMsgId;
         this.timeToLive = timeToLive;
@@ -67,6 +71,7 @@ public class Options implements PushModel {
         this.bigPushDuration = bigPushDuration;
         this.apnsCollapseId = apnsCollapseId;
         this.thirdPartyChannel = thirdPartyChannel;
+        this.customData = customData;
     }
 
     public static Builder newBuilder() {
@@ -132,6 +137,12 @@ public class Options implements PushModel {
             json.add(THIRD_PARTH_CHANNEl, partyChannel);
         }
 
+        if (null != customData) {
+            for (Map.Entry<String, JsonPrimitive> entry : customData.entrySet()) {
+                json.add(entry.getKey(), entry.getValue());
+            }
+        }
+
         return json;
     }
 
@@ -144,6 +155,7 @@ public class Options implements PushModel {
         private int bigPushDuration = 0;
         private String apnsCollapseId;
         private Map<String, Map<String, String>> thirdPartyChannel;
+        private Map<String, JsonPrimitive> customData;
 
         public Builder setSendno(int sendno) {
             this.sendno = sendno;
@@ -184,6 +196,43 @@ public class Options implements PushModel {
             return this;
         }
 
+        public Builder addCustom(Map<String, String> extras) {
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            for (Map.Entry<String, String> entry : extras.entrySet()) {
+                customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));
+            }
+            return this;
+        }
+
+        public Builder addCustom(String key, Number value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
+
+        public Builder addCustom(String key, String value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
+
+        public Builder addCustom(String key, Boolean value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
+
         public Options build() {
             Preconditions.checkArgument(sendno >= 0, "sendno should be greater than 0.");
             Preconditions.checkArgument(overrideMsgId >= 0, "override_msg_id should be greater than 0.");
@@ -194,7 +243,7 @@ public class Options implements PushModel {
                 sendno = ServiceHelper.generateSendno();
             }
 
-            return new Options(sendno, overrideMsgId, timeToLive, apnsProduction, bigPushDuration, apnsCollapseId, thirdPartyChannel);
+            return new Options(sendno, overrideMsgId, timeToLive, apnsProduction, bigPushDuration, apnsCollapseId, thirdPartyChannel, customData);
         }
     }
 
