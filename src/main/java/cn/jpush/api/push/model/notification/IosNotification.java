@@ -55,15 +55,15 @@ public class IosNotification extends PlatformNotification {
     private final boolean mutableContent;
     private final String threadId;
 
-    
     private IosNotification(Object alert, Object sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
             String category, boolean mutableContent,String threadId,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
-            Map<String, JsonObject> jsonExtras) {
-        super(alert, extras, numberExtras, booleanExtras, jsonExtras);
+            Map<String, JsonObject> jsonExtras,
+            Map<String, JsonPrimitive> customData) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
         
         this.sound = sound;
         this.badge = badge;
@@ -139,6 +139,7 @@ public class IosNotification extends PlatformNotification {
         private boolean mutableContent;
         private String threadId;
 
+        @Override
         protected Builder getThis() {
         	return this;
         }
@@ -203,6 +204,7 @@ public class IosNotification extends PlatformNotification {
         	return this;
         }
         
+        @Override
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -222,7 +224,7 @@ public class IosNotification extends PlatformNotification {
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
                     soundDisabled, badgeDisabled, category, mutableContent, threadId,
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData);
         }
     }
 }

@@ -14,13 +14,14 @@ public class WinphoneNotification extends PlatformNotification {
     
     private final String title;
     private final String openPage;
-    
+
     private WinphoneNotification(Object alert, String title, String openPage,
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras,
-    		Map<String, JsonObject> jsonExtras) {
-    	super(alert, extras, numberExtras, booleanExtras, jsonExtras);
+    		Map<String, JsonObject> jsonExtras,
+            Map<String, JsonPrimitive> customData) {
+    	super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
         
         this.title = title;
         this.openPage = openPage;
@@ -59,6 +60,7 @@ public class WinphoneNotification extends PlatformNotification {
         private String title;
         private String openPage;
         
+        @Override
         protected Builder getThis() {
         	return this;
         }
@@ -73,6 +75,7 @@ public class WinphoneNotification extends PlatformNotification {
             return this;
         }
         
+        @Override
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -81,7 +84,7 @@ public class WinphoneNotification extends PlatformNotification {
         
         public WinphoneNotification build() {
             return new WinphoneNotification(alert, title, openPage, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData);
         }
     }
 }

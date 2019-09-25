@@ -31,8 +31,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY = "7b4b94cca0d185d611e53cca";
-    protected static final String MASTER_SECRET = "860803cf613ed54aa3b941a8";
+    protected static final String APP_KEY = "e4ceeaf7a53ad745dd4728f2";
+    protected static final String MASTER_SECRET = "1582b986adeaf48ceec1e354";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 
@@ -46,8 +46,9 @@ public class PushExample {
 
     public static void main(String[] args) {
 
-        testBatchSend();
-//        testSendPushWithCustomConfig();
+        testSendPushWithCustomField();
+//        testBatchSend();
+        testSendPushWithCustomConfig();
 //        testSendIosAlert();
 //		testSendPush();
 //        testGetCidList();
@@ -583,6 +584,49 @@ public class PushExample {
             LOG.info("HTTP Status: " + e.getStatus());
             LOG.info("Error Code: " + e.getErrorCode());
             LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    /**
+     * 自定义发送参数名称, 华为客户可参考该方法
+     */
+    public static void testSendPushWithCustomField() {
+
+        ClientConfig config = ClientConfig.getInstance();
+        // Setup the custom hostname
+        config.setPushHostName("https://api.jpush.cn");
+
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, config);
+
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert(ALERT)
+                        .setTitle("Alert test")
+                        .setLargeIcon("http://www.jiguang.cn/largeIcon.jpg")
+                        .addCustom("uri_activity", "uri_activity")
+                        .addCustom("uri_flag", "uri_flag")
+                        .addCustom("uri_action", "uri_action")
+                        .build())
+                .build();
+
+        PushPayload.Builder payloadBuilder = new PushPayload.Builder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(notification);
+
+        try {
+            PushResult result = jpushClient.sendPush(payloadBuilder.build());
+            LOG.info("Got result - " + result);
+
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
         }
     }
 

@@ -1,6 +1,7 @@
 package cn.jpush.api.push.model.notification;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,7 +25,8 @@ public abstract class PlatformNotification implements PushModel {
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
-    
+    private final Map<String, JsonPrimitive> customData;
+
     public PlatformNotification(Object alert, Map<String, String> extras,
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras, 
@@ -34,8 +36,22 @@ public abstract class PlatformNotification implements PushModel {
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
+        customData = new LinkedHashMap<>();
     }
-    
+
+    public PlatformNotification(Object alert, Map<String, String> extras,
+                                Map<String, Number> numberExtras,
+                                Map<String, Boolean> booleanExtras,
+                                Map<String, JsonObject> jsonExtras,
+                                Map<String, JsonPrimitive> customData) {
+        this.alert = alert;
+        this.extras = extras;
+        this.numberExtras = numberExtras;
+        this.booleanExtras = booleanExtras;
+        this.jsonExtras = jsonExtras;
+        this.customData = customData;
+    }
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
@@ -95,6 +111,12 @@ public abstract class PlatformNotification implements PushModel {
         if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add(EXTRAS, extrasObject);
         }
+
+        if (null != customData) {
+            for (Map.Entry<String, JsonPrimitive> entry : customData.entrySet()) {
+                json.add(entry.getKey(), entry.getValue());
+            }
+        }
         
         return json;
     }
@@ -117,11 +139,13 @@ public abstract class PlatformNotification implements PushModel {
         protected Map<String, Number> numberExtrasBuilder;
         protected Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
-        
+        protected Map<String, JsonPrimitive> customData;
+
         public Builder () {
+            customData = new LinkedHashMap<>();
         	theBuilder = getThis();
         }
-        
+
         protected abstract B getThis();
         
         public abstract B setAlert(Object alert);
@@ -192,7 +216,32 @@ public abstract class PlatformNotification implements PushModel {
             jsonExtrasBuilder.put(key, value);
             return theBuilder;
         }
-                
+
+        public B addCustom(Map<String, String> extras) {
+            for (Map.Entry<String, String> entry : extras.entrySet()) {
+                customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));
+            }
+            return theBuilder;
+        }
+
+        public B addCustom(String key, Number value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            customData.put(key, new JsonPrimitive(value));
+            return theBuilder;
+        }
+
+        public B addCustom(String key, String value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            customData.put(key, new JsonPrimitive(value));
+            return theBuilder;
+        }
+
+        public B addCustom(String key, Boolean value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            customData.put(key, new JsonPrimitive(value));
+            return theBuilder;
+        }
+
         public abstract T build();
     }
 

@@ -1,6 +1,7 @@
 package cn.jpush.api.push.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.gson.JsonElement;
@@ -23,12 +24,14 @@ public class Message implements PushModel {
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
-    
+    private final Map<String, JsonPrimitive> customData;
+
     private Message(String title, String msgContent, String contentType, 
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras,
     		Map<String, Boolean> booleanExtras,
-    		Map<String, JsonObject> jsonExtras) {
+    		Map<String, JsonObject> jsonExtras,
+            Map<String, JsonPrimitive> customData) {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
@@ -36,6 +39,7 @@ public class Message implements PushModel {
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
+        this.customData = customData;
     }
     
     public static Builder newBuilder() {
@@ -92,6 +96,12 @@ public class Message implements PushModel {
         if (null != extras || null != numberExtras || null != booleanExtras) {
             json.add(EXTRAS, extrasObject);
         }
+
+        if (null != customData) {
+            for (Map.Entry<String, JsonPrimitive> entry : customData.entrySet()) {
+                json.add(entry.getKey(), entry.getValue());
+            }
+        }
         
         return json;
     }
@@ -104,6 +114,7 @@ public class Message implements PushModel {
         private Map<String, Number> numberExtrasBuilder;
         private Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
+        private Map<String, JsonPrimitive> customData;
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -166,12 +177,49 @@ public class Message implements PushModel {
             jsonExtrasBuilder.put(key, value);
             return this;
         }
+
+        public Builder addCustom(Map<String, String> extras) {
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            for (Map.Entry<String, String> entry : extras.entrySet()) {
+                customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));
+            }
+            return this;
+        }
+
+        public Builder addCustom(String key, Number value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
+
+        public Builder addCustom(String key, String value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
+
+        public Builder addCustom(String key, Boolean value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (customData == null) {
+                customData = new LinkedHashMap<>();
+            }
+            customData.put(key, new JsonPrimitive(value));
+            return this;
+        }
         
         public Message build() {
             Preconditions.checkArgument(! (null == msgContent), 
                     "msgContent should be set");
             return new Message(title, msgContent, contentType, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder, customData);
         }
     }
 }
