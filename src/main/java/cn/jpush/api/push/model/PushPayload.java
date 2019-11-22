@@ -33,6 +33,7 @@ public class PushPayload implements PushModel {
     private static final String SMS = "sms_message";
     private static final String CID = "cid";
     private static final String TARGET = "target";
+    private static final String CALLBACK = "callback";
 
     /**
      * Definition acording to JPush Docs
@@ -54,9 +55,10 @@ public class PushPayload implements PushModel {
     private SMS sms;
     private String cid;
     private String target;
+    private Callback callback;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options, SMS sms, String cid, String target) {
+            Notification notification, Message message, Options options, SMS sms, String cid, String target, Callback callback) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
@@ -65,6 +67,7 @@ public class PushPayload implements PushModel {
         this.sms = sms;
         this.cid = cid;
         this.target = target;
+        this.callback = callback;
     }
 
     public PushPayload setCid(String cid) {
@@ -192,6 +195,9 @@ public class PushPayload implements PushModel {
         if (null != target) {
             json.addProperty(TARGET, target);
         }
+        if (null != callback) {
+            json.add(CALLBACK, callback.toJSON());
+        }
                 
         return json;
     }
@@ -252,6 +258,7 @@ public class PushPayload implements PushModel {
         private SMS sms = null;
         private String cid;
         private String target;
+        private Callback callback;
 
         public Builder setTarget(String target) {
             this.target = target;
@@ -293,6 +300,11 @@ public class PushPayload implements PushModel {
             return this;
         }
 
+        public Builder setCallback(Callback callback) {
+            this.callback = callback;
+            return this;
+        }
+
         public PushPayload build() {
 
             if (StringUtils.isTrimedEmpty(target)) {
@@ -312,7 +324,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options, sms, cid, target);
+            return new PushPayload(platform, audience, notification, message, options, sms, cid, target, callback);
         }
     }
 }
