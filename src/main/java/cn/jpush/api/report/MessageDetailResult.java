@@ -11,11 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author xdx
- * @Desc
- * @date 2019-07-29.
- */
 public class MessageDetailResult extends BaseResult {
 
     private static final Type RECEIVED_TYPE = new TypeToken<List<MessageDetailResult.Received>>() {}.getType();
