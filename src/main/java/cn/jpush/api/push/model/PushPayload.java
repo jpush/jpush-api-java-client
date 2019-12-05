@@ -14,6 +14,9 @@ import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.push.model.notification.PlatformNotification;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * The object you should build for sending a push.
  * 
@@ -54,9 +57,10 @@ public class PushPayload implements PushModel {
     private SMS sms;
     private String cid;
     private String target;
+    protected Map<String, JsonObject> custom;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options, SMS sms, String cid, String target) {
+            Notification notification, Message message, Options options, SMS sms, String cid, String target, Map<String, JsonObject> custom) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
@@ -65,6 +69,7 @@ public class PushPayload implements PushModel {
         this.sms = sms;
         this.cid = cid;
         this.target = target;
+        this.custom = custom;
     }
 
     public PushPayload setCid(String cid) {
@@ -192,6 +197,11 @@ public class PushPayload implements PushModel {
         if (null != target) {
             json.addProperty(TARGET, target);
         }
+        if (null != custom) {
+            for (Map.Entry<String, JsonObject> entry : custom.entrySet()) {
+                json.add(entry.getKey(), entry.getValue());
+            }
+        }
                 
         return json;
     }
@@ -252,6 +262,11 @@ public class PushPayload implements PushModel {
         private SMS sms = null;
         private String cid;
         private String target;
+        private Map<String, JsonObject> custom;
+
+        public Builder() {
+            this.custom = new LinkedHashMap<>();
+        }
 
         public Builder setTarget(String target) {
             this.target = target;
@@ -293,6 +308,11 @@ public class PushPayload implements PushModel {
             return this;
         }
 
+        public Builder addCustom(String field, JsonObject jsonObject) {
+            this.custom.put(field, jsonObject);
+            return this;
+        }
+
         public PushPayload build() {
 
             if (StringUtils.isTrimedEmpty(target)) {
@@ -312,7 +332,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options, sms, cid, target);
+            return new PushPayload(platform, audience, notification, message, options, sms, cid, target, custom);
         }
     }
 }
