@@ -46,6 +46,8 @@ public class PushExample {
 
     public static void main(String[] args) {
 
+        // 回调参数可参考下面方法
+        testSendPushWithCustom();
         testSendPushWithCustomField();
 //        testBatchSend();
         testSendPushWithCustomConfig();
@@ -621,6 +623,52 @@ public class PushExample {
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
 
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+            LOG.info("Msg ID: " + e.getMsgId());
+        }
+    }
+
+    /**
+     * 回调参数示例
+     */
+    public static void testSendPushWithCustom() {
+
+        ClientConfig config = ClientConfig.getInstance();
+        // Setup the custom hostname
+        config.setPushHostName("https://api.jpush.cn");
+
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, config);
+
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert(ALERT)
+                        .setTitle("Alert test")
+                        .build())
+                .build();
+
+        JsonObject callback = new JsonObject();
+        callback.addProperty("url", "https://www.jiguagn.cn/callback");
+        JsonObject params = new JsonObject();
+        params.addProperty("name", "joe");
+        params.addProperty("age", 26);
+        callback.add("params", params);
+        callback.addProperty("type", 3);
+
+        PushPayload.Builder payloadBuilder = new PushPayload.Builder()
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(notification)
+                .addCustom("callback", callback);
+
+        try {
+            PushResult result = jpushClient.sendPush(payloadBuilder.build());
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {
             LOG.error("Error response from JPush server. Should review and fix it. ", e);
             LOG.info("HTTP Status: " + e.getStatus());
