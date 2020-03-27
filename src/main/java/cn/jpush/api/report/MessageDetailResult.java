@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MessageDetailResult extends BaseResult {
 
-    private static final Type RECEIVED_TYPE = new TypeToken<List<MessageDetailResult.Received>>() {}.getType();
+    private static final Type RECEIVED_TYPE = new TypeToken<List<Received>>() {}.getType();
     private static final long serialVersionUID = 156439166846147394L;
 
     @Expose
