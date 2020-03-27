@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.4.3</version>
+	<version>3.4.4</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -51,7 +51,7 @@
 		<dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
         </dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
