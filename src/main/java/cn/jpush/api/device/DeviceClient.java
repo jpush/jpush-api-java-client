@@ -1,27 +1,22 @@
 package cn.jpush.api.device;
 
-import java.lang.reflect.Type;
-import java.util.Map;
-import java.util.Set;
-
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.ServiceHelper;
+import cn.jiguang.common.connection.HttpProxy;
+import cn.jiguang.common.connection.NativeHttpClient;
+import cn.jiguang.common.resp.*;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
-import cn.jiguang.common.ClientConfig;
-import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.utils.Preconditions;
-import cn.jiguang.common.utils.StringUtils;
-import cn.jiguang.common.connection.HttpProxy;
-import cn.jiguang.common.connection.NativeHttpClient;
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
-import cn.jiguang.common.resp.BaseResult;
-import cn.jiguang.common.resp.BooleanResult;
-import cn.jiguang.common.resp.DefaultResult;
-import cn.jiguang.common.resp.ResponseWrapper;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class DeviceClient {
 
@@ -242,6 +237,20 @@ public class DeviceClient {
         
         ResponseWrapper response = _httpClient.sendDelete(url);
         
+        return DefaultResult.fromResponse(response);
+    }
+
+    public DefaultResult removeDeviceList(String alias, List<String> registrationIds) throws APIConnectionException, APIRequestException {
+        String url = hostName + aliasesPath + "/" + alias;
+        JsonObject json = new JsonObject();
+        JsonObject removeJson = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+        for(int i = 0; i < registrationIds.size(); i++) {
+            jsonArray.add(new JsonPrimitive(registrationIds.get(i)));
+        }
+        removeJson.add("remove", jsonArray);
+        json.add("registration_ids", removeJson);
+        ResponseWrapper response = _httpClient.sendPost(url,json.toString());
         return DefaultResult.fromResponse(response);
     }
 
