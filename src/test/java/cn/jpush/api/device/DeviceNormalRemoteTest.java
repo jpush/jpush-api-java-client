@@ -74,8 +74,8 @@ public class DeviceNormalRemoteTest extends BaseTest {
 		assertEquals("tags cleared", 0, result.tags.size());
 	}
 
-	
-	
+
+
 	// ------------------ tags
 
 	@Test
@@ -194,6 +194,15 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@TestOrder(order = 362)
 	public void testBindMobile_empty() throws APIConnectionException, APIRequestException {
 		DefaultResult result = jpushClient.bindMobile(REGISTRATION_ID1, "");
+		assertTrue(result.isResultOK());
+	}
+
+	@Test
+	@TestOrder(order = 330)
+	public void testRemoveDevicesFromAlias() throws APIConnectionException, APIRequestException {
+		Set<String> toRemoveDevice = new HashSet<>();
+		toRemoveDevice.add(REGISTRATION_ID1);
+		DefaultResult result = jpushClient.removeDevicesFromAlias("alias1", toRemoveDevice);
 		assertTrue(result.isResultOK());
 	}
 

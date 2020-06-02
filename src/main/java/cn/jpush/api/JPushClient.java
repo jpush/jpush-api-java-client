@@ -900,6 +900,11 @@ public class JPushClient {
 		return _deviceClient.deleteAlias(alias, platform);
 	}
 
+	public DefaultResult removeDevicesFromAlias(String alias, Set<String> toRemoveDevice)
+			throws APIConnectionException, APIRequestException {
+		return _deviceClient.removeDevicesFromAlias(alias, toRemoveDevice);
+	}
+
     public Map<String, OnlineStatus> getUserOnlineStatus(String... registrationIds)
             throws APIConnectionException, APIRequestException
     {
