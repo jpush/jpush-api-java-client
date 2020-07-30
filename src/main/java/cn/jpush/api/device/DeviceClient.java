@@ -245,6 +245,27 @@ public class DeviceClient {
         return DefaultResult.fromResponse(response);
     }
 
+    public DefaultResult removeDevicesFromAlias(String alias, Set<String> toRemoveDevice) throws APIConnectionException, APIRequestException {
+        String url = hostName + aliasesPath + "/" + alias;
+
+        JsonObject top = new JsonObject();
+        JsonObject registrationIds = new JsonObject();
+
+        if (null != toRemoveDevice && toRemoveDevice.size() > 0) {
+            JsonArray array = new JsonArray();
+            for (String device : toRemoveDevice) {
+                array.add(new JsonPrimitive(device));
+            }
+            registrationIds.add("remove", array);
+        }
+
+        top.add("registration_ids", registrationIds);
+
+        ResponseWrapper response = _httpClient.sendPost(url, top.toString());
+
+        return DefaultResult.fromResponse(response);
+    }
+
     // -------------- devices status
 
     public Map<String, OnlineStatus> getUserOnlineStatus(String... registrationIds)
