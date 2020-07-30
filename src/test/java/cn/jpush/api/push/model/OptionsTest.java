@@ -13,6 +13,9 @@ import com.google.gson.JsonPrimitive;
 import cn.jiguang.common.ServiceHelper;
 import cn.jpush.api.FastTests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Category(FastTests.class)
 public class OptionsTest {
 
@@ -126,6 +129,62 @@ public class OptionsTest {
         json.add("big_push_duration", new JsonPrimitive(10));
         json.add("apns_production", new JsonPrimitive(false));
         
+        assertThat(options.toJSON(), is((JsonElement) json));
+    }
+
+    @Test
+    public void testThirdPartyChannel() {
+        int sendno = ServiceHelper.generateSendno();
+
+        Map<String, Map<String, String>> thirdMap = new HashMap<>();
+        Map<String, String> huaweiMap = new HashMap<>();
+        huaweiMap.put("distribution", "jpush");
+        thirdMap.put("huawei", huaweiMap);
+
+        Options options = Options.newBuilder()
+                .setSendno(sendno)
+                .setThirdPartyChannel(thirdMap)
+                .build();
+        System.out.println("json string: " + options.toJSON());
+
+        JsonObject json = new JsonObject();
+        JsonObject thirdPartyChannel = new JsonObject();
+        JsonObject huawei = new JsonObject();
+        huawei.addProperty("distribution", "jpush");
+        thirdPartyChannel.add("huawei", huawei);
+        json.add("sendno", new JsonPrimitive(sendno));
+        json.add("apns_production", new JsonPrimitive(false));
+        json.add("third_party_channel", thirdPartyChannel);
+
+        assertThat(options.toJSON(), is((JsonElement) json));
+    }
+
+    @Test
+    public void testThirdPartyChannelV2() {
+        int sendno = ServiceHelper.generateSendno();
+
+        Map<String, JsonObject> thirdMap = new HashMap<>();
+        JsonObject vivoJsonObj = new JsonObject();
+        vivoJsonObj.addProperty("distribution", "ospush");
+        vivoJsonObj.addProperty("classification", 1);
+        thirdMap.put("vivo", vivoJsonObj);
+
+        Options options = Options.newBuilder()
+                .setSendno(sendno)
+                .setThirdPartyChannelV2(thirdMap)
+                .build();
+        System.out.println("json string: " + options.toJSON());
+
+        JsonObject json = new JsonObject();
+        JsonObject thirdPartyChannel = new JsonObject();
+        JsonObject vivo = new JsonObject();
+        vivo.addProperty("distribution", "ospush");
+        vivo.addProperty("classification", 1);
+        thirdPartyChannel.add("vivo", vivo);
+        json.add("sendno", new JsonPrimitive(sendno));
+        json.add("apns_production", new JsonPrimitive(false));
+        json.add("third_party_channel", thirdPartyChannel);
+
         assertThat(options.toJSON(), is((JsonElement) json));
     }
 }
