@@ -10,6 +10,7 @@ import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.CIDResult;
 import cn.jpush.api.push.GroupPushClient;
+import cn.jpush.api.push.GroupPushResult;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
@@ -227,7 +228,8 @@ public class PushExample {
         GroupPushClient groupPushClient = new GroupPushClient(GROUP_MASTER_SECRET, GROUP_PUSH_KEY);
         final PushPayload payload = buildPushObject_android_and_ios();
         try {
-            Map<String, PushResult> result = groupPushClient.sendGroupPush(payload);
+            GroupPushResult groupPushResult = groupPushClient.sendGroupPush(payload);
+            Map<String, PushResult> result = groupPushResult.getAppResultMap();
             for (Map.Entry<String, PushResult> entry : result.entrySet()) {
                 PushResult pushResult = entry.getValue();
                 PushResult.Error error = pushResult.error;
