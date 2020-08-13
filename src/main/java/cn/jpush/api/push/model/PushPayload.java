@@ -169,6 +169,10 @@ public class PushPayload implements PushModel {
     public Audience getAudience() {
         return audience;
     }
+
+    public Options getOptions() {
+        return options;
+    }
     
     @Override
     public JsonElement toJSON() {

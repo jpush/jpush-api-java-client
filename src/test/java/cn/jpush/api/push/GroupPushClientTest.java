@@ -24,7 +24,8 @@ public class GroupPushClientTest extends BaseTest {
         GroupPushClient groupPushClient = new GroupPushClient(GROUP_MASTER_SECRET, GROUP_PUSH_KEY);
         final PushPayload payload = buildPushObject_android();
         try {
-            Map<String, PushResult> result = groupPushClient.sendGroupPush(payload);
+            GroupPushResult groupPushresult = groupPushClient.sendGroupPush(payload);
+            Map<String, PushResult> result = groupPushresult.getAppResultMap();
             for (Map.Entry<String, PushResult> entry : result.entrySet()) {
                 PushResult pushResult = entry.getValue();
                 PushResult.Error error = pushResult.error;

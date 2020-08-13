@@ -6,8 +6,10 @@ import com.google.gson.*;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.utils.Preconditions;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Options implements PushModel {
 
@@ -32,29 +34,34 @@ public class Options implements PushModel {
 
 
     /**
-     * example
-     * "third_party_channel": {
-     *    "xiaomi": {
-     *        "distribution": "ospush"
-     *     },
-     *    "huawei": {
-     *        "distribution": "jpush"
-     *     },
-     *    "meizu": {
-     *     "distribution": "jpush"
-     *     },
-     *    "fcm": {
-     *     "distribution": "ospush"
-     *     },
-     *    "oppo": {
-     *     "distribution": "ospush"
-     *     },
-     *    "vivo": {
-     *     "distribution": "ospush"
+     * {
+     *     "third_party_channel":{
+     *         "xiaomi":{
+     *             "distribution":"ospush",
+     *             "channel_id":"*******"
+     *         },
+     *         "huawei":{
+     *             "distribution":"jpush"
+     *         },
+     *         "meizu":{
+     *             "distribution":"jpush"
+     *         },
+     *         "fcm":{
+     *             "distribution":"ospush"
+     *         },
+     *         "oppo":{
+     *             "distribution":"ospush",
+     *             "channel_id":"*******"
+     *         },
+     *         "vivo":{
+     *             "distribution":"ospush",
+     *             "classification":0 // 2020/06 新增，和vivo官方字段含义一致 0 代表运营消息，1 代表系统消息，不填vivo官方默认为0
+     *                                // 使用此字段时，需使用setThirdPartyChannelV2方法，因为此值只能为整数形式
+     *         }
      *     }
      * }
      */
-    private Map<String, Map<String, String>> thirdPartyChannel;
+    private Map<String, JsonObject> thirdPartyChannel;
 
     private Options(int sendno,
                     long overrideMsgId,
@@ -62,7 +69,7 @@ public class Options implements PushModel {
                     boolean apnsProduction,
                     int bigPushDuration,
                     String apnsCollapseId,
-                    Map<String, Map<String, String>> thirdPartyChannel,
+                    Map<String, JsonObject> thirdPartyChannel,
                     Map<String, JsonPrimitive> customData) {
         this.sendno = sendno;
         this.overrideMsgId = overrideMsgId;
@@ -127,11 +134,8 @@ public class Options implements PushModel {
 
         if (null != thirdPartyChannel && thirdPartyChannel.size() > 0) {
             JsonObject partyChannel = new JsonObject();
-            for (Map.Entry<String, Map<String, String>> entry : thirdPartyChannel.entrySet()) {
-                JsonObject channel = new JsonObject();
-                for (Map.Entry<String, String> stringEntry : entry.getValue().entrySet()) {
-                    channel.addProperty(stringEntry.getKey(), stringEntry.getValue());
-                }
+            for (Map.Entry<String, JsonObject> entry : thirdPartyChannel.entrySet()) {
+                JsonObject channel = entry.getValue();
                 partyChannel.add(entry.getKey(), channel);
             }
             json.add(THIRD_PARTH_CHANNEl, partyChannel);
@@ -154,7 +158,7 @@ public class Options implements PushModel {
         private boolean apnsProduction = false;
         private int bigPushDuration = 0;
         private String apnsCollapseId;
-        private Map<String, Map<String, String>> thirdPartyChannel;
+        private Map<String, JsonObject> thirdPartyChannel;
         private Map<String, JsonPrimitive> customData;
 
         public Builder setSendno(int sendno) {
@@ -187,11 +191,48 @@ public class Options implements PushModel {
             return this;
         }
 
+        @Deprecated
         public Map<String, Map<String, String>> getThirdPartyChannel() {
-            return thirdPartyChannel;
+            if (null != thirdPartyChannel) {
+                Map<String, Map<String, String>> thirdPartyChannelRsp = new HashMap<>();
+                Set<Map.Entry<String, JsonObject>> entrySet = thirdPartyChannel.entrySet();
+                for (Map.Entry<String, JsonObject> entry : entrySet) {
+                    JsonObject entryValue = entry.getValue();
+                    Set<Map.Entry<String, JsonElement>> valueEntrySet = entryValue.entrySet();
+                    Map<String, String> valueMap = new HashMap<>();
+                    for (Map.Entry<String, JsonElement> valueEntry : valueEntrySet) {
+                        valueMap.put(valueEntry.getKey(), null == valueEntry.getValue() ? null : valueEntry.getValue().getAsString());
+                    }
+                    thirdPartyChannelRsp.put(entry.getKey(), valueMap);
+                }
+                return thirdPartyChannelRsp;
+            }
+            return null;
         }
 
+        @Deprecated
         public Builder setThirdPartyChannel(Map<String, Map<String, String>> thirdPartyChannel) {
+            this.thirdPartyChannel = new HashMap<>();
+            if (null != thirdPartyChannel) {
+                Set<Map.Entry<String, Map<String, String>>> entrySet = thirdPartyChannel.entrySet();
+                for (Map.Entry<String, Map<String, String>> entry : entrySet) {
+                    String key = entry.getKey();
+                    Map<String, String> valueMap = entry.getValue();
+                    JsonObject valueObj = new JsonObject();
+                    if (null != valueMap) {
+                        Set<Map.Entry<String, String>> valueEntrySet = valueMap.entrySet();
+                        for (Map.Entry<String, String> valueEntry : valueEntrySet) {
+                            valueObj.addProperty(valueEntry.getKey(), valueEntry.getValue());
+                        }
+                        this.thirdPartyChannel.put(key, valueObj);
+                    }
+                }
+
+            }
+            return this;
+        }
+
+        public Builder setThirdPartyChannelV2(Map<String, JsonObject> thirdPartyChannel) {
             this.thirdPartyChannel = thirdPartyChannel;
             return this;
         }

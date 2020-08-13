@@ -15,6 +15,9 @@ import cn.jpush.api.push.model.EncryptKeys;
 import cn.jpush.api.push.model.EncryptPushPayload;
 import cn.jpush.api.push.model.PushPayload;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.Map;
@@ -29,6 +32,8 @@ public class GroupPushClient {
     private String _groupPushPath;
     private String _encryptType;
     private Gson _gson = new Gson();
+    private JsonParser _jsonParser = new JsonParser();
+
 
     public GroupPushClient(String groupMasterSecret, String groupKey) {
         this(groupMasterSecret, groupKey, null, ClientConfig.getInstance());
@@ -43,11 +48,17 @@ public class GroupPushClient {
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
-    public Map<String, PushResult> sendGroupPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
+    public GroupPushResult sendGroupPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _groupPushPath, getEncryptData(pushPayload));
-        return  _gson.fromJson(response.responseContent,
-                new TypeToken<Map<String, PushResult>>(){}.getType());
+        // 2020-8-6 兼容分组推送新返回的group_msgid结构
+        JsonObject responseJson = _jsonParser.parse(response.responseContent).getAsJsonObject();
+        String groupMsgIdKey = "group_msgid";
+        JsonElement _groupMsgId = responseJson.get(groupMsgIdKey);
+        String groupMsgId = null != _groupMsgId ? _groupMsgId.getAsString() : "";
+        responseJson.remove(groupMsgIdKey);
+        Map<String, PushResult> result = _gson.fromJson(responseJson, new TypeToken<Map<String, PushResult>>(){}.getType());
+        return new GroupPushResult(groupMsgId, result);
     }
 
     /**

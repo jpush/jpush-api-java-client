@@ -18,13 +18,13 @@
 ## 安装
 
 ### maven 方式
-将下边的依赖条件放到你项目的 maven pom.xml 文件里。v3.3.10 为例，最新版本请看[Release页面](https://github.com/jpush/jpush-api-java-client/releases)
+将下边的依赖条件放到你项目的 maven pom.xml 文件里。v3.4.6 为例，最新版本请看[Release页面](https://github.com/jpush/jpush-api-java-client/releases)
 
 ```Java
 <dependency>
     <groupId>cn.jpush.api</groupId>
     <artifactId>jpush-client</artifactId>
-    <version>3.3.10</version>
+    <version>3.4.6</version>
 </dependency>
 ```
 ### jar 包方式
@@ -45,7 +45,7 @@
     <dependency>
         <groupId>cn.jpush.api</groupId>
         <artifactId>jiguang-common</artifactId>
-        <version>1.1.4</version>
+        <version>1.1.8</version>
     </dependency>
     <dependency>
         <groupId>io.netty</groupId>
