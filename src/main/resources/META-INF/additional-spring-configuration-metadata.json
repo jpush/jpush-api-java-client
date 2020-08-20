@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "app.app-key",
+      "type": "java.lang.String",
+      "description": "应用的appKey."
+    },
+    {
+      "name": "app.master-secret",
+      "type": "java.lang.String",
+      "description": "应用的masterSecret."
+    }
+  ]
+}

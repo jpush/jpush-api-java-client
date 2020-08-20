@@ -1,5 +1,6 @@
 package cn.jpush.api.push.model.notification;
 
+import cn.jpush.api.config.PushConfig;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AndroidNotification extends PlatformNotification {
     public static final String NOTIFICATION_ANDROID = "android";
@@ -247,6 +249,53 @@ public class AndroidNotification extends PlatformNotification {
 
         public Builder setChannelId(String channelId) {
             this.channelId = channelId;
+            return this;
+        }
+        /**
+         * 解析配置类，加入配置
+         * @param config config
+         * @return builder
+         */
+        public Builder parseConfig(PushConfig config) {
+            if(Objects.isNull(config)){
+                return this;
+            }
+            PushConfig.AndroidConfig androidConfig = config.getAndroidConfig();
+            if(Objects.isNull(androidConfig)){
+                return this;
+            }
+            if (Objects.nonNull(androidConfig.getAlertType())) {
+                setAlertType(androidConfig.getAlertType());
+            }
+
+            if (Objects.nonNull(androidConfig.getBuilderId())) {
+                setBuilderId(androidConfig.getBuilderId());
+            }
+
+            if (Objects.nonNull(androidConfig.getCategory())) {
+                setCategory(androidConfig.getCategory());
+            }
+
+            if (Objects.nonNull(androidConfig.getChannelId())) {
+                setChannelId(androidConfig.getChannelId());
+            }
+
+            if (Objects.nonNull(androidConfig.getDisplayForeground())) {
+                addCustom("display_foreground", androidConfig.getDisplayForeground());
+            }
+
+            if (Objects.nonNull(androidConfig.getPriority())) {
+                setPriority(androidConfig.getPriority());
+            }
+
+            if (Objects.nonNull(androidConfig.getSound())) {
+                addCustom("sound", androidConfig.getSound());
+            }
+
+            if (Objects.nonNull(androidConfig.getStyle())) {
+                setStyle(androidConfig.getStyle());
+            }
+
             return this;
         }
 

@@ -1,0 +1,7 @@
+app:
+  app-key: 'e56934de11804322ff312aa5'
+  master-secret: '81fade5c0ac242e01ca13d16'
+jpush:
+  android-config:
+    badge-class: cn.jk
+    badge-add-num: 1

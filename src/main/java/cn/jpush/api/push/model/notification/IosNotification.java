@@ -1,7 +1,9 @@
 package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
+import java.util.Objects;
 
+import cn.jpush.api.config.PushConfig;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -220,6 +222,39 @@ public class IosNotification extends PlatformNotification {
         	return this;
         }
 
+        public Builder parseConfig(PushConfig config) {
+            if(Objects.isNull(config)){
+                return this;
+            }
+            PushConfig.IosConfig iosConfig = config.getIosConfig();
+            if(Objects.isNull(iosConfig)){
+                return this;
+            }
+            if (Objects.nonNull(iosConfig.getSound())) {
+                setSound(iosConfig.getSound());
+            }
+
+            if (Objects.nonNull(iosConfig.getBadge())) {
+                setBadge(iosConfig.getBadge());
+            }
+
+            if (Objects.nonNull(iosConfig.getCategory())) {
+                setCategory(iosConfig.getCategory());
+            }
+
+            if (Objects.nonNull(iosConfig.getContentAvailable())) {
+                setContentAvailable(iosConfig.getContentAvailable());
+            }
+
+            if (Objects.nonNull(iosConfig.getMutableContent())) {
+                setMutableContent(iosConfig.getMutableContent());
+            }
+
+            if (Objects.nonNull(iosConfig.getThreadId())) {
+                setThreadId(iosConfig.getThreadId());
+            }
+            return this;
+        }
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
