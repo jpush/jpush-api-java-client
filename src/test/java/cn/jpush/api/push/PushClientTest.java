@@ -163,7 +163,33 @@ public class PushClientTest extends BaseTest {
         }
     }
 
-    public static PushPayload buildPushObject_android_cid() {
+    @Test
+    public void testSendFilePush() {
+        JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        PushPayload filePushPayload = buildFilePushPayload();
+        try {
+
+            PushResult result = jPushClient.sendFilePush(filePushPayload);
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    private static PushPayload buildFilePushPayload() {
+        return PushPayload.newBuilder()
+                .setPlatform(Platform.android())
+                .setAudience(Audience.file("file-id-test"))
+                .setNotification(Notification.alert(ALERT))
+                .build();
+    }
+
+    private static PushPayload buildPushObject_android_cid() {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android())
                 .setAudience(Audience.registrationId("18071adc030dcba91c0"))

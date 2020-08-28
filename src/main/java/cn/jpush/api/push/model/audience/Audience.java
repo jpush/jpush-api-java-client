@@ -15,13 +15,15 @@ public class Audience implements PushModel {
     private static final String ALL = "all";
     
     private final boolean all;
+    private final boolean file;
     private final Set<AudienceTarget> targets;
     
-    private Audience(boolean all, Set<AudienceTarget> targets) {
+    private Audience(boolean all, boolean file, Set<AudienceTarget> targets) {
         this.all = all;
+        this.file = file;
         this.targets = targets;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -99,7 +101,12 @@ public class Audience implements PushModel {
         AudienceTarget target = AudienceTarget.abTest(abTestIds);
         return newBuilder().addAudienceTarget(target).build();
     }
-    
+
+    public static Audience file(String fileId) {
+        AudienceTarget target = AudienceTarget.file(fileId);
+        return newBuilder().setFile(Boolean.TRUE).addAudienceTarget(target).build();
+    }
+
     
     public boolean isAll() {
         return this.all;
@@ -109,9 +116,17 @@ public class Audience implements PushModel {
         if (all) {
             return new JsonPrimitive(ALL);
         }
-        
+
         // if not all, there will be target be set.
         JsonObject json = new JsonObject();
+        if (file) {
+            for (AudienceTarget target : targets) {
+                if (AudienceType.FILE == target.getAudienceType()) {
+                    json.add(target.getAudienceTypeValue(), target.toFileJSON());
+                }
+            }
+            return json;
+        }
         if (null != targets) {
 	        for (AudienceTarget target : targets) {
 	            json.add(target.getAudienceTypeValue(), target.toJSON());
@@ -126,8 +141,9 @@ public class Audience implements PushModel {
         }
         boolean all = !jsonElement.isJsonObject();
         if (all) {
-            return new Audience(all, null);
+            return new Audience(true, false,null);
         }
+        boolean file = false;
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         Set<AudienceTarget> audienceTargetSet = new HashSet<>();
         for (AudienceType type : AudienceType.values()) {
@@ -135,20 +151,29 @@ public class Audience implements PushModel {
             if (jsonArray == null) {
                 continue;
             }
+            if (AudienceType.FILE == type) {
+                file = true;
+            }
             audienceTargetSet.add(AudienceTarget.fromJsonElement(jsonArray, type));
         }
-        return new Audience(all, audienceTargetSet);
+        return new Audience(false, file, audienceTargetSet);
     }
 
     public static class Builder {
         private boolean all = false;
+        private boolean file = false;
         private Set<AudienceTarget> audienceBuilder = null;
-        
+
         public Builder setAll(boolean all) {
             this.all = all;
             return this;
         }
-        
+
+        public Builder setFile(boolean file) {
+            this.file = file;
+            return this;
+        }
+
         public Builder addAudienceTarget(AudienceTarget target) {
             if (null == audienceBuilder) {
                 audienceBuilder = new HashSet<AudienceTarget>();
@@ -156,14 +181,14 @@ public class Audience implements PushModel {
             audienceBuilder.add(target);
             return this;
         }
-        
+
         public Audience build() {
             Preconditions.checkArgument(! (all && null != audienceBuilder), "If audience is all, no any other audience may be set.");
             Preconditions.checkArgument(! (all == false && null == audienceBuilder), "No any audience target is set.");
-            return new Audience(all, audienceBuilder);
+            return new Audience(all, file, audienceBuilder);
         }
     }
-    
+
 }
 
 
