@@ -3,10 +3,7 @@ package cn.jpush.api.push;
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.*;
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
-import cn.jiguang.common.resp.BaseResult;
-import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.resp.*;
 import cn.jiguang.common.utils.Base64;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
@@ -270,6 +267,21 @@ public class PushClient {
             responseWrapper = _httpClient.sendGet(_baseUrl + _pushPath + "/cid?count=" + count);
         }
         return BaseResult.fromResponse(responseWrapper, CIDResult.class);
+    }
+
+    /**
+     * Delete a push by msgId.
+     * @param msgId  The message id
+     * @return delete result
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException    request exception
+     */
+    public DefaultResult deletePush(String msgId) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(msgId), "msgId should not be empty");
+
+        ResponseWrapper responseWrapper = _httpClient.sendDelete(_baseUrl + _pushPath + "/" + msgId);
+
+        return DefaultResult.fromResponse(responseWrapper);
     }
 
     public void setHttpClient(IHttpClient client) {

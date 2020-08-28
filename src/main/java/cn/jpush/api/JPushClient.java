@@ -860,6 +860,16 @@ public class JPushClient {
         return _pushClient.sendPush(payload);
     }
 
+    /**
+     * Delete a push by msgId.
+     * @param msgId  The message id
+     * @return delete result
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException    if a request exception occurs
+     */
+    public DefaultResult deletePush(String msgId) throws APIConnectionException, APIRequestException {
+        return _pushClient.deletePush(msgId);
+    }
 
     
     // ----------------------- Device

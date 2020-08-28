@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.NettyHttpClient;
+import cn.jiguang.common.resp.DefaultResult;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.Options;
@@ -170,6 +171,23 @@ public class PushClientTest extends BaseTest {
         try {
 
             PushResult result = jPushClient.sendFilePush(filePushPayload);
+            LOG.info("Got result - " + result);
+        } catch (APIConnectionException e) {
+            LOG.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            LOG.error("Error response from JPush server. Should review and fix it. ", e);
+            LOG.info("HTTP Status: " + e.getStatus());
+            LOG.info("Error Code: " + e.getErrorCode());
+            LOG.info("Error Message: " + e.getErrorMessage());
+        }
+    }
+
+    @Test
+    public void testDeletePush() {
+        JPushClient jPushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        try {
+            String msgId = "58546877793854733";
+            DefaultResult result = jPushClient.deletePush(msgId);
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
