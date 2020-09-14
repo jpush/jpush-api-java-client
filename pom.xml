@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.4.7-SNAPSHOT</version>
+	<version>3.4.7</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -229,8 +229,82 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
+			<!-- 参考 https://docs.github.com/cn/actions/language-and-framework-guides/publishing-java-packages-with-maven#about-package-configuration -->
+			<!-- 参考 https://github.com/actions/setup-java -->
+			<!-- 参考 https://central.sonatype.org/pages/apache-maven.html -->
+
+			<!-- Javadoc和源代码附件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- GPG签名组件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Nexus Staging Maven插件，用于部署和发布 -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<!-- 手动release -->
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<reporting>
 		<plugins>
