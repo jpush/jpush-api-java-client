@@ -3,10 +3,7 @@ package cn.jpush.api.push;
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.connection.*;
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
-import cn.jiguang.common.resp.BaseResult;
-import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.resp.*;
 import cn.jiguang.common.utils.Base64;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jiguang.common.utils.StringUtils;
@@ -14,12 +11,8 @@ import cn.jiguang.common.utils.sm2.SM2Util;
 import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Entrance for sending Push.
@@ -39,6 +32,7 @@ public class PushClient {
     private String _pushValidatePath;
     private String batchRegidPushPath;
     private String batchAliasPushPath;
+    private String _filePushPath;
 
     private JsonParser _jsonParser = new JsonParser();
 
@@ -92,6 +86,7 @@ public class PushClient {
         this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
         this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
         this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+        this._filePushPath = (String) conf.get(ClientConfig.FILE_PUSH_PATH);
 
         this._apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
         this._timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
@@ -106,6 +101,7 @@ public class PushClient {
         this._baseUrl = (String) conf.get(ClientConfig.PUSH_HOST_NAME);
         this._pushPath = (String) conf.get(ClientConfig.PUSH_PATH);
         this._pushValidatePath = (String) conf.get(ClientConfig.PUSH_VALIDATE_PATH);
+        this._filePushPath = (String) conf.get(ClientConfig.FILE_PUSH_PATH);
 
         this.batchAliasPushPath = (String) conf.get(ClientConfig.BATCH_ALIAS_PUSH_PATH);
         this.batchRegidPushPath = (String) conf.get(ClientConfig.BATCH_REGID_PUSH_PATH);
@@ -162,35 +158,16 @@ public class PushClient {
     }
 
     public PushResult sendPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
-        Preconditions.checkArgument(!(null == pushPayload), "pushPayload should not be null");
-
-        if (_apnsProduction > 0) {
-            pushPayload.resetOptionsApnsProduction(true);
-        } else if (_apnsProduction == 0) {
-            pushPayload.resetOptionsApnsProduction(false);
-        }
-
-        if (_timeToLive >= 0) {
-            pushPayload.resetOptionsTimeToLive(_timeToLive);
-        }
+        checkPushPayload(pushPayload);
 
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(pushPayload));
 
         return BaseResult.fromResponse(response, PushResult.class);
     }
 
+
     public PushResult sendPushValidate(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
-        Preconditions.checkArgument(!(null == pushPayload), "pushPayload should not be null");
-
-        if (_apnsProduction > 0) {
-            pushPayload.resetOptionsApnsProduction(true);
-        } else if (_apnsProduction == 0) {
-            pushPayload.resetOptionsApnsProduction(false);
-        }
-
-        if (_timeToLive >= 0) {
-            pushPayload.resetOptionsTimeToLive(_timeToLive);
-        }
+        checkPushPayload(pushPayload);
 
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushValidatePath, getEncryptData(pushPayload));
 
@@ -207,6 +184,14 @@ public class PushClient {
         }
 
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, getEncryptData(payloadString));
+
+        return BaseResult.fromResponse(response, PushResult.class);
+    }
+
+    public PushResult sendFilePush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
+        checkPushPayload(pushPayload);
+
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _filePushPath, getEncryptData(pushPayload));
 
         return BaseResult.fromResponse(response, PushResult.class);
     }
@@ -284,6 +269,21 @@ public class PushClient {
         return BaseResult.fromResponse(responseWrapper, CIDResult.class);
     }
 
+    /**
+     * Delete a push by msgId.
+     * @param msgId  The message id
+     * @return delete result
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException    request exception
+     */
+    public DefaultResult deletePush(String msgId) throws APIConnectionException, APIRequestException {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(msgId), "msgId should not be empty");
+
+        ResponseWrapper responseWrapper = _httpClient.sendDelete(_baseUrl + _pushPath + "/" + msgId);
+
+        return DefaultResult.fromResponse(responseWrapper);
+    }
+
     public void setHttpClient(IHttpClient client) {
         this._httpClient = client;
     }
@@ -356,6 +356,20 @@ public class PushClient {
         }
         // 不支持的加密默认不加密
         return pushPayload;
+    }
+
+    private void checkPushPayload(PushPayload pushPayload) {
+        Preconditions.checkArgument(!(null == pushPayload), "pushPayload should not be null");
+
+        if (_apnsProduction > 0) {
+            pushPayload.resetOptionsApnsProduction(true);
+        } else if (_apnsProduction == 0) {
+            pushPayload.resetOptionsApnsProduction(false);
+        }
+
+        if (_timeToLive >= 0) {
+            pushPayload.resetOptionsTimeToLive(_timeToLive);
+        }
     }
 
 }

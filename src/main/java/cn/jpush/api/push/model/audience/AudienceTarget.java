@@ -4,6 +4,7 @@ import cn.jiguang.common.utils.Preconditions;
 import cn.jpush.api.push.model.PushModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.Collection;
@@ -79,6 +80,10 @@ public class AudienceTarget implements PushModel {
         return newBuilder().setAudienceType(AudienceType.ABTEST).addAudienceTargetValues(abTestIds).build();
     }
 
+    public static AudienceTarget file(String fileId) {
+        return newBuilder().setAudienceType(AudienceType.FILE).addFileId(fileId).build();
+    }
+
 
     public AudienceType getAudienceType() {
         return this.audienceType;
@@ -96,6 +101,16 @@ public class AudienceTarget implements PushModel {
             }
         }
         return array;
+    }
+
+    public JsonElement toFileJSON() {
+        JsonObject jsonObject = new JsonObject();
+        if (null != values) {
+            for (String value : values) {
+                jsonObject.add("file_id", new JsonPrimitive(value));
+            }
+        }
+        return jsonObject;
     }
 
     public static AudienceTarget fromJsonElement(JsonArray jsonArray, AudienceType type) {
@@ -146,10 +161,20 @@ public class AudienceTarget implements PushModel {
             return this;
         }
 
+        public Builder addFileId(String fileId) {
+            if (null == valueBuilder) {
+                valueBuilder = new HashSet<String>();
+            }
+            valueBuilder.add(fileId);
+            return this;
+        }
+
         public AudienceTarget build() {
             Preconditions.checkArgument(null != audienceType, "AudienceType should be set.");
             Preconditions.checkArgument(null != valueBuilder, "Target values should be set one at least.");
             return new AudienceTarget(audienceType, valueBuilder);
         }
+
+
     }
 }

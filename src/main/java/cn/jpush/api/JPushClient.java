@@ -204,6 +204,18 @@ public class JPushClient {
     public PushResult sendPush(String payloadString) throws APIConnectionException, APIRequestException {
         return _pushClient.sendPush(payloadString);
     }
+
+    /**
+     * Send a file push with PushPayload object.
+     *
+     * @param pushPayload payload object of a push.
+     * @return PushResult The result object of a Push. Can be printed to a JSON.
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException if a request exception occurs.
+     */
+    public PushResult sendFilePush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
+        return _pushClient.sendFilePush(pushPayload);
+    }
     
     /**
      * Validate a push action, but do NOT send it actually.
@@ -848,6 +860,16 @@ public class JPushClient {
         return _pushClient.sendPush(payload);
     }
 
+    /**
+     * Delete a push by msgId.
+     * @param msgId  The message id
+     * @return delete result
+     * @throws APIConnectionException if a remote or network exception occurs.
+     * @throws APIRequestException    if a request exception occurs
+     */
+    public DefaultResult deletePush(String msgId) throws APIConnectionException, APIRequestException {
+        return _pushClient.deletePush(msgId);
+    }
 
     
     // ----------------------- Device
@@ -1233,5 +1255,7 @@ public class JPushClient {
     public void close() {
         _pushClient.close();
     }
+
+
 }
 

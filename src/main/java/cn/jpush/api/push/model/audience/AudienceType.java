@@ -7,8 +7,11 @@ public enum AudienceType {
 	ALIAS("alias"),
 	SEGMENT("segment"),
 	ABTEST("abtest"),
-	REGISTRATION_ID("registration_id");
-	
+	REGISTRATION_ID("registration_id"),
+	FILE("file"),
+
+    ;
+
 	private final String value;
 
 	private AudienceType(final String value) {
