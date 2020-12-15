@@ -56,7 +56,7 @@ public class FileClient {
         String url = _baseUrl + _filesPath + "/" + typeStr;
         Map<String, String> fileMap = new HashMap<>();
         fileMap.put("filename", filename);
-        String response = client.formUpload(url, null, fileMap, null);
+        String response = client.formUploadByPost(url, null, fileMap, null);
         LOG.info("uploadFile:{}", response);
         return _gson.fromJson(response,
                 new TypeToken<FileUploadResult>() {

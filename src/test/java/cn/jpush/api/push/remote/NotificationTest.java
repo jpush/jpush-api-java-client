@@ -2,6 +2,10 @@ package cn.jpush.api.push.remote;
 
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.SlowTests;
+import cn.jpush.api.image.ImageClient;
+import cn.jpush.api.image.model.ImageType;
+import cn.jpush.api.image.model.ImageUploadResult;
+import cn.jpush.api.image.model.ImageUrlPayload;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
@@ -18,16 +22,16 @@ import static org.junit.Assert.assertTrue;
 
 @Category(SlowTests.class)
 public class NotificationTest extends BaseRemotePushTest {
-    
+
     @Test
     public void sendNotification_alert_json() throws Exception {
         JsonObject json = new JsonObject();
         json.addProperty("key1", "value1");
         json.addProperty("key2", true);
-        
+
         String alert = json.toString();
         System.out.println(alert);
-        
+
         PushPayload payload = PushPayload.newBuilder()
                 .setAudience(Audience.all())
                 .setPlatform(Platform.all())
@@ -39,9 +43,9 @@ public class NotificationTest extends BaseRemotePushTest {
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());
     }
-	
+
     // --------------- Android
-	
+
     @Test
     public void sendNotification_android_title() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
@@ -55,7 +59,7 @@ public class NotificationTest extends BaseRemotePushTest {
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());
     }
-    
+
     @Test
     public void sendNotification_android_buildId() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
@@ -70,7 +74,7 @@ public class NotificationTest extends BaseRemotePushTest {
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());
     }
-    
+
     @Test
     public void sendNotification_android_extras() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
@@ -86,10 +90,43 @@ public class NotificationTest extends BaseRemotePushTest {
         PushResult result = _client.sendPush(payload);
         assertTrue(result.isResultOK());
     }
-    
-    
+
+    @Test
+    public void sendNotification_android_media_id() throws Exception {
+        ImageClient imageClient = new ImageClient(MASTER_SECRET, APP_KEY);
+        ImageUploadResult imageUploadResult = imageClient.uploadImage(ImageUrlPayload.newBuilder()
+                .setImageType(ImageType.SMALL_ICON)
+                .setImageUrl("http://img.aiimg.com/uploads/allimg/151009/280082-151009225435.jpg")
+                .setXiaomiImageUrl("http://img.aiimg.com/uploads/allimg/151009/280082-151009225435.jpg")
+                .build());
+        String mediaId = imageUploadResult.getMediaId();
+        JsonObject json = new JsonObject();
+        json.addProperty("key1", "value1");
+        json.addProperty("key2", true);
+
+        String alert = json.toString();
+        System.out.println(alert);
+
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.all())
+                .setNotification(Notification.newBuilder()
+                        .addPlatformNotification(AndroidNotification.newBuilder()
+                                .setAlert(alert)
+                                .setSmallIconUri(mediaId)
+                                .setLargeIcon(mediaId)
+                                .setBigPicPath(mediaId)
+                                .setInbox(mediaId)
+                                .setBigText(mediaId)
+                                .setTitle("title")
+                                .build()).build())
+                .build();
+        PushResult result = _client.sendPush(payload);
+        assertTrue(result.isResultOK());
+    }
+
     // ------------------ ios
-    
+
     @Test
     public void sendNotification_ios_badge() throws Exception {
         PushPayload payload = PushPayload.newBuilder()

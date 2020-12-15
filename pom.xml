@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.4.7</version>
+	<version>3.4.8</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -51,7 +51,7 @@
 		<dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.1.9</version>
+            <version>1.1.10</version>
         </dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -115,6 +115,18 @@
 			<groupId>com.squareup.okhttp</groupId>
 			<artifactId>mockwebserver</artifactId>
 			<version>2.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>2.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -294,7 +306,6 @@
 
 		</plugins>
 	</build>
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>

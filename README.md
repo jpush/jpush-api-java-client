@@ -358,6 +358,34 @@ try {
     }
 ```
 
+### Image Client 样例
+
+> 以下片断来自项目代码里面的文件：example / cn.jpush.api.examples.ImageExample
+* 支持通过URL或者文件来上传图片
+```Java
+    public static void testUploadImageByUrl() throws APIConnectionException, APIRequestException {
+        ImageClient client = new ImageClient(MASTER_SECRET, APP_KEY);
+        ImageUrlPayload payload = ImageUrlPayload.newBuilder()
+        .setImageType(ImageType.LARGE_ICON)
+        .setImageUrl("http://xxx.com/image/a.jpg")
+        .build();
+        ImageUploadResult imageUploadResult = client.uploadImage(payload);
+        String mediaId = imageUploadResult.getMediaId();
+    }
+
+    public static void testUploadImageByFile() {
+        ImageClient client = new ImageClient(MASTER_SECRET, APP_KEY);
+        ImageFilePayload payload = ImageFilePayload.newBuilder()
+        .setImageType(ImageType.BIG_PICTURE)
+        // 本地文件路径
+        .setOppoFileName("/MyDir/a.jpg")
+        .setXiaomiFileName("/MyDir/a.jpg")
+        .build();
+        ImageUploadResult imageUploadResult = client.uploadImage(payload);
+        String mediaId = imageUploadResult.getMediaId();
+    }
+```
+
 ### Weblogic 使用Java SDK
 
 Weblogic在使用jpush-api-java-client时需要注意的一些事项。
