@@ -3,10 +3,7 @@ package cn.jpush.api.push.model.notification;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import lombok.*;
-import lombok.experimental.Accessors;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AndroidNotification extends PlatformNotification {
@@ -23,6 +20,7 @@ public class AndroidNotification extends PlatformNotification {
     private static final String PRIORITY = "priority";
     private static final String CATEGORY = "category";
     private static final String LARGE_ICON = "large_icon";
+    private static final String SMALL_ICON_URI = "small_icon_uri";
     private static final String INTENT = "intent";
 
     private final String title;
@@ -38,6 +36,7 @@ public class AndroidNotification extends PlatformNotification {
     private int priority;
     private String category;
     private String large_icon;
+    private String small_icon_uri;
     private JsonObject intent;
 
     private AndroidNotification(Object alert,
@@ -51,6 +50,7 @@ public class AndroidNotification extends PlatformNotification {
                                 int priority,
                                 String category,
                                 String large_icon,
+                                String small_icon_uri,
                                 JsonObject intent,
                                 String channelId,
                                 Map<String, String> extras,
@@ -70,6 +70,7 @@ public class AndroidNotification extends PlatformNotification {
         this.priority = priority;
         this.category = category;
         this.large_icon = large_icon;
+        this.small_icon_uri = small_icon_uri;
         this.intent = intent;
         this.channelId = channelId;
     }
@@ -142,6 +143,10 @@ public class AndroidNotification extends PlatformNotification {
             json.add(LARGE_ICON, new JsonPrimitive(large_icon));
         }
 
+        if (null != small_icon_uri) {
+            json.add(SMALL_ICON_URI, new JsonPrimitive(small_icon_uri));
+        }
+
         if (null != intent) {
             json.add(INTENT, intent);
         }
@@ -164,6 +169,7 @@ public class AndroidNotification extends PlatformNotification {
         private int priority;
         private String category;
         private String large_icon;
+        private String small_icon_uri;
         private JsonObject intent;
         private String channelId;
 
@@ -232,6 +238,11 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
+        public Builder setSmallIconUri(String smallIconUri) {
+            this.small_icon_uri = smallIconUri;
+            return this;
+        }
+
         public Builder setIntent(JsonObject intent) {
             if (null == intent) {
                 LOG.warn("Null intent. Throw away it.");
@@ -264,6 +275,7 @@ public class AndroidNotification extends PlatformNotification {
                     priority,
                     category,
                     large_icon,
+                    small_icon_uri,
                     intent,
                     channelId,
                     extrasBuilder,
