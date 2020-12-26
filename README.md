@@ -423,4 +423,4 @@ Weblogic在使用jpush-api-java-client时需要注意的一些事项。
 + 执行 keytool -list -keystore mykey.jks  命令列出信任库里的所有公钥，观察对应证书的指纹
 + 检查官网证书，观察对应证书的指纹
 + 比较两个指纹是否一致，如下图所示
-![jpush_weblogic](https://raw.githubusercontent.com/jpush/jpush-docs/master/zh/jpush/server/3rd/image/weblogic.png)
+![jpush_weblogic](https://docs.jiguang.cn/jpush/server/3rd/image/weblogic.png)
