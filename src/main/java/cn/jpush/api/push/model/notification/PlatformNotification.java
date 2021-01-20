@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -26,16 +27,19 @@ public abstract class PlatformNotification implements PushModel {
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
     private final Map<String, JsonPrimitive> customData;
-
+    private final Map<String, JsonArray> jsonArrayExtras;
+    
     public PlatformNotification(Object alert, Map<String, String> extras,
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras, 
-    		Map<String, JsonObject> jsonExtras) {
+    		Map<String, JsonObject> jsonExtras,
+    		Map<String, JsonArray> jsonArrayExtras) {
         this.alert = alert;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
+        this.jsonArrayExtras = jsonArrayExtras;
         customData = new LinkedHashMap<>();
     }
 
@@ -43,12 +47,14 @@ public abstract class PlatformNotification implements PushModel {
                                 Map<String, Number> numberExtras,
                                 Map<String, Boolean> booleanExtras,
                                 Map<String, JsonObject> jsonExtras,
-                                Map<String, JsonPrimitive> customData) {
+                                Map<String, JsonPrimitive> customData,
+                                Map<String, JsonArray> jsonArrayExtras) {
         this.alert = alert;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
+        this.jsonArrayExtras = jsonArrayExtras;
         this.customData = customData;
     }
 
@@ -67,7 +73,7 @@ public abstract class PlatformNotification implements PushModel {
         }
 
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras || null != jsonArrayExtras) {
             extrasObject = new JsonObject();
         }
         
@@ -107,8 +113,17 @@ public abstract class PlatformNotification implements PushModel {
                 }
             }
         }
+        if (null != jsonArrayExtras) {
+        	JsonArray value = null;
+            for (String key : jsonArrayExtras.keySet()) {
+                value = jsonArrayExtras.get(key);
+                if (null != value) {
+                    extrasObject.add(key, value);
+                }
+            }
+        }
         
-        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras || null != jsonArrayExtras) {
             json.add(EXTRAS, extrasObject);
         }
 
@@ -140,7 +155,8 @@ public abstract class PlatformNotification implements PushModel {
         protected Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
         protected Map<String, JsonPrimitive> customData;
-
+        protected Map<String, JsonArray> jsonArrayExtrasBuilder;
+        
         public Builder () {
             customData = new LinkedHashMap<>();
         	theBuilder = getThis();
@@ -217,6 +233,19 @@ public abstract class PlatformNotification implements PushModel {
             return theBuilder;
         }
 
+        public B addExtra(String key, JsonArray value) {
+            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            if (null == value) {
+                LOG.debug("Extra value is null, throw away it.");
+                return theBuilder;
+            }
+            if (null == jsonArrayExtrasBuilder) {
+            	jsonArrayExtrasBuilder = new HashMap<String, JsonArray>();
+            }
+            jsonArrayExtrasBuilder.put(key, value);
+            return theBuilder;
+        }
+        
         public B addCustom(Map<String, String> extras) {
             for (Map.Entry<String, String> entry : extras.entrySet()) {
                 customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));

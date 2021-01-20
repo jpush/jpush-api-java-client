@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -25,13 +26,15 @@ public class Message implements PushModel {
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
     private final Map<String, JsonPrimitive> customData;
+    private final Map<String, JsonArray> jsonArrayExtras;
 
     private Message(String title, String msgContent, String contentType, 
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras,
     		Map<String, Boolean> booleanExtras,
     		Map<String, JsonObject> jsonExtras,
-            Map<String, JsonPrimitive> customData) {
+            Map<String, JsonPrimitive> customData,
+            Map<String, JsonArray> jsonArrayExtras) {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
@@ -40,6 +43,7 @@ public class Message implements PushModel {
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
         this.customData = customData;
+        this.jsonArrayExtras = jsonArrayExtras;
     }
     
     public static Builder newBuilder() {
@@ -64,7 +68,7 @@ public class Message implements PushModel {
         }
         
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras){
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras || null != jsonArrayExtras){
             extrasObject = new JsonObject();
         }
         
@@ -93,6 +97,12 @@ public class Message implements PushModel {
             }
         }
 
+        if (null != jsonArrayExtras) {
+            for (String key : jsonArrayExtras.keySet()) {
+                extrasObject.add(key, jsonArrayExtras.get(key));
+            }
+        }
+        
         if (null != extras || null != numberExtras || null != booleanExtras) {
             json.add(EXTRAS, extrasObject);
         }
@@ -115,6 +125,7 @@ public class Message implements PushModel {
         private Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
         private Map<String, JsonPrimitive> customData;
+        protected Map<String, JsonArray> jsonArrayExtrasBuilder;
         
         public Builder setTitle(String title) {
             this.title = title;
@@ -178,6 +189,15 @@ public class Message implements PushModel {
             return this;
         }
 
+        public Builder addExtra(String key, JsonArray value) {
+        	Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            if (null == jsonArrayExtrasBuilder) {
+            	jsonArrayExtrasBuilder = new HashMap<String, JsonArray>();
+            }
+            jsonArrayExtrasBuilder.put(key, value);
+            return this;
+        }
+        
         public Builder addCustom(Map<String, String> extras) {
             if (customData == null) {
                 customData = new LinkedHashMap<>();
@@ -219,7 +239,7 @@ public class Message implements PushModel {
             Preconditions.checkArgument(! (null == msgContent), 
                     "msgContent should be set");
             return new Message(title, msgContent, contentType, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder, customData);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder, customData, jsonArrayExtrasBuilder);
         }
     }
 }

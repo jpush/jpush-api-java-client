@@ -1,5 +1,6 @@
 package cn.jpush.api.push.model.notification;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -57,8 +58,9 @@ public class AndroidNotification extends PlatformNotification {
                                 Map<String, Number> numberExtras,
                                 Map<String, Boolean> booleanExtras,
                                 Map<String, JsonObject> jsonExtras,
-                                Map<String, JsonPrimitive> customData) {
-        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
+                                Map<String, JsonPrimitive> customData,
+                                Map<String, JsonArray> jsonArrayExtras) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData, jsonArrayExtras);
 
         this.title = title;
         this.builderId = builderId;
@@ -282,7 +284,8 @@ public class AndroidNotification extends PlatformNotification {
                     numberExtrasBuilder,
                     booleanExtrasBuilder,
                     jsonExtrasBuilder,
-                    super.customData
+                    super.customData,
+                    jsonArrayExtrasBuilder
             );
         }
     }
