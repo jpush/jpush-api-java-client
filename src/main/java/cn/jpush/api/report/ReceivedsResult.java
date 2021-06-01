@@ -22,6 +22,14 @@ public class ReceivedsResult extends BaseResult {
         @Expose
         public long msg_id;
         @Expose
+        public int android_pns_sent;
+        @Expose
+        public int android_pns_received;
+        @Expose
+        public int quickapp_jpush_received;
+        @Expose
+        public int quickapp_pns_sent;
+        @Expose
         public int android_received;
         @Expose
         public int ios_apns_sent;
