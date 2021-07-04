@@ -2,6 +2,7 @@ package cn.jpush.api.push.model.notification;
 
 import java.util.Map;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -62,8 +63,9 @@ public class IosNotification extends PlatformNotification {
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
             Map<String, JsonObject> jsonExtras,
-            Map<String, JsonPrimitive> customData) {
-        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
+            Map<String, JsonPrimitive> customData,
+            Map<String, JsonArray> jsonArrayExtras) {
+        super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData, jsonArrayExtras);
         
         this.sound = sound;
         this.badge = badge;
@@ -224,7 +226,7 @@ public class IosNotification extends PlatformNotification {
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
                     soundDisabled, badgeDisabled, category, mutableContent, threadId,
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData, jsonArrayExtrasBuilder);
         }
     }
 }

@@ -1,5 +1,6 @@
 package cn.jpush.api.push.model.notification;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -20,8 +21,9 @@ public class WinphoneNotification extends PlatformNotification {
     		Map<String, Number> numberExtras, 
     		Map<String, Boolean> booleanExtras,
     		Map<String, JsonObject> jsonExtras,
-            Map<String, JsonPrimitive> customData) {
-    	super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData);
+            Map<String, JsonPrimitive> customData,
+            Map<String, JsonArray> jsonArrayExtras) {
+    	super(alert, extras, numberExtras, booleanExtras, jsonExtras, customData, jsonArrayExtras);
         
         this.title = title;
         this.openPage = openPage;
@@ -84,7 +86,7 @@ public class WinphoneNotification extends PlatformNotification {
         
         public WinphoneNotification build() {
             return new WinphoneNotification(alert, title, openPage, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData);
+            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData, jsonArrayExtrasBuilder);
         }
     }
 }
