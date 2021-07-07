@@ -11,12 +11,12 @@ import com.google.gson.JsonPrimitive;
 
 import cn.jiguang.common.utils.Preconditions;
 
-public class Message implements PushModel {    
+public class Message implements PushModel {
     private static final String TITLE = "title";
     private static final String MSG_CONTENT = "msg_content";
     private static final String CONTENT_TYPE = "content_type";
     private static final String EXTRAS = "extras";
-    
+
     private final String title;
     private final String msgContent;
     private final String contentType;
@@ -26,12 +26,12 @@ public class Message implements PushModel {
     private final Map<String, JsonObject> jsonExtras;
     private final Map<String, JsonPrimitive> customData;
 
-    private Message(String title, String msgContent, String contentType, 
-    		Map<String, String> extras, 
-    		Map<String, Number> numberExtras,
-    		Map<String, Boolean> booleanExtras,
-    		Map<String, JsonObject> jsonExtras,
-            Map<String, JsonPrimitive> customData) {
+    private Message(String title, String msgContent, String contentType,
+                    Map<String, String> extras,
+                    Map<String, Number> numberExtras,
+                    Map<String, Boolean> booleanExtras,
+                    Map<String, JsonObject> jsonExtras,
+                    Map<String, JsonPrimitive> customData) {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
@@ -41,15 +41,15 @@ public class Message implements PushModel {
         this.jsonExtras = jsonExtras;
         this.customData = customData;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     public static Message content(String msgContent) {
         return new Builder().setMsgContent(msgContent).build();
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
@@ -62,12 +62,12 @@ public class Message implements PushModel {
         if (null != contentType) {
             json.add(CONTENT_TYPE, new JsonPrimitive(contentType));
         }
-        
+
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras){
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
         }
-        
+
         if (null != extras) {
             for (String key : extras.keySet()) {
                 if (extras.get(key) != null) {
@@ -93,7 +93,7 @@ public class Message implements PushModel {
             }
         }
 
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add(EXTRAS, extrasObject);
         }
 
@@ -102,7 +102,7 @@ public class Message implements PushModel {
                 json.add(entry.getKey(), entry.getValue());
             }
         }
-        
+
         return json;
     }
 
@@ -115,33 +115,33 @@ public class Message implements PushModel {
         private Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
         private Map<String, JsonPrimitive> customData;
-        
+
         public Builder setTitle(String title) {
             this.title = title;
             return this;
         }
-        
+
         public Builder setMsgContent(String msgContent) {
             this.msgContent = msgContent;
             return this;
         }
-        
+
         public Builder setContentType(String contentType) {
             this.contentType = contentType;
             return this;
         }
-        
+
         public Builder addExtra(String key, String value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
             extrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addExtras(Map<String, String> extras) {
-            Preconditions.checkArgument(! (null == extras), "extras should not be null.");
+            Preconditions.checkArgument(!(null == extras), "extras should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
@@ -150,29 +150,29 @@ public class Message implements PushModel {
             }
             return this;
         }
-        
+
         public Builder addExtra(String key, Number value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == numberExtrasBuilder) {
                 numberExtrasBuilder = new HashMap<String, Number>();
             }
             numberExtrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addExtra(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == booleanExtrasBuilder) {
                 booleanExtrasBuilder = new HashMap<String, Boolean>();
             }
             booleanExtrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addExtra(String key, JsonObject value) {
-        	Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == jsonExtrasBuilder) {
-            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
+                jsonExtrasBuilder = new HashMap<String, JsonObject>();
             }
             jsonExtrasBuilder.put(key, value);
             return this;
@@ -189,7 +189,7 @@ public class Message implements PushModel {
         }
 
         public Builder addCustom(String key, Number value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<>();
             }
@@ -198,7 +198,7 @@ public class Message implements PushModel {
         }
 
         public Builder addCustom(String key, String value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<>();
             }
@@ -207,19 +207,19 @@ public class Message implements PushModel {
         }
 
         public Builder addCustom(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;
         }
-        
+
         public Message build() {
-            Preconditions.checkArgument(! (null == msgContent), 
+            Preconditions.checkArgument(!(null == msgContent),
                     "msgContent should be set");
-            return new Message(title, msgContent, contentType, 
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder, customData);
+            return new Message(title, msgContent, contentType,
+                    extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, customData);
         }
     }
 }
