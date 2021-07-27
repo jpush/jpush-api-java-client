@@ -11,17 +11,23 @@ import com.google.gson.JsonPrimitive;
 import cn.jiguang.common.utils.Preconditions;
 import cn.jpush.api.push.model.PushModel;
 
-public class Notification implements PushModel {    
+public class Notification implements PushModel {
+    private boolean aiOpportunity = false;
     private final Object alert;
     private final Set<PlatformNotification> notifications;
     
-    private Notification(Object alert, Set<PlatformNotification> notifications) {
+    private Notification(boolean aiOpportunity, Object alert, Set<PlatformNotification> notifications) {
+        this.aiOpportunity = aiOpportunity;
         this.alert = alert;
         this.notifications = notifications;
     }
     
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public static Notification aiOpportunity(boolean ai_opportunity) {
+        return newBuilder().setAiOpportunity(ai_opportunity).build();
     }
     
     /**
@@ -92,6 +98,8 @@ public class Notification implements PushModel {
     
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
+        json.addProperty("ai_opportunity", aiOpportunity);
+
         if (null != alert) {
             if(alert instanceof JsonObject) {
                 json.add(PlatformNotification.ALERT, (JsonObject) alert);
@@ -117,9 +125,15 @@ public class Notification implements PushModel {
     }
 
     public static class Builder {
+        private boolean aiOpportunity;
         private Object alert;
         private Set<PlatformNotification> builder;
-        
+
+        public Builder setAiOpportunity(boolean aiOpportunity) {
+            this.aiOpportunity = aiOpportunity;
+            return this;
+        }
+
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -134,9 +148,9 @@ public class Notification implements PushModel {
         }
         
         public Notification build() {
-            Preconditions.checkArgument(! (null == builder && null == alert), 
+            Preconditions.checkArgument(! (null == builder && null == alert),
                     "No notification payload is set.");
-            return new Notification(alert, builder);
+            return new Notification(aiOpportunity, alert, builder);
         }
     }
 }

@@ -32,8 +32,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY = "e4ceeaf7a53ad745dd4728f2";
-    protected static final String MASTER_SECRET = "1582b986adeaf48ceec1e354";
+    protected static final String APP_KEY = "32f266ea08c3b3d7a059b378";
+    protected static final String MASTER_SECRET = "03b3ab9ae0a099ef26dd2168";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 
@@ -48,15 +48,15 @@ public class PushExample {
     public static void main(String[] args) {
 
         // 回调参数可参考下面方法
-        testSendPushWithCustom();
-        testSendPushWithCustomField();
+//        testSendPushWithCustom();
+//        testSendPushWithCustomField();
 //        testBatchSend();
-        testSendPushWithCustomConfig();
+//        testSendPushWithCustomConfig();
 //        testSendIosAlert();
-//		testSendPush();
+        testSendPush();
 //        testGetCidList();
 //        testSendPushes();
-        testSendPush_fromJSON();
+//        testSendPush_fromJSON();
 //        testSendPushWithCallback();
 //		testSendPushWithCid();
     }
@@ -281,13 +281,18 @@ public class PushExample {
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .setAlert("alert content")
+                        .setAiOpportunity(true)
+                        .setAlert("testing alert content")
                         .addPlatformNotification(AndroidNotification.newBuilder()
                                 .setTitle("Android Title")
                                 .addExtras(extras).build())
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .incrBadge(1)
                                 .addExtra("extra_key", "extra_value").build())
+                        .build())
+                .setOptions(Options.newBuilder()
+                        .setApnsProduction(false)
+                        .setTimeToLive(43200)
                         .build())
                 .build();
     }
