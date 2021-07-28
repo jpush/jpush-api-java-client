@@ -31,6 +31,7 @@ public class PushPayload implements PushModel {
     private static final String PLATFORM = "platform";
     private static final String AUDIENCE = "audience";
     private static final String NOTIFICATION = "notification";
+    private static final String INAPPMESSAGE = "inapp_message";
     private static final String MESSAGE = "message";
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
@@ -52,6 +53,7 @@ public class PushPayload implements PushModel {
     private final Platform platform;
     private final Audience audience;
     private final Notification notification;
+    private final InappMessage inappMessage;
     private final Message message;
     private Options options;
     private SMS sms;
@@ -60,10 +62,11 @@ public class PushPayload implements PushModel {
     protected Map<String, JsonObject> custom;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, Message message, Options options, SMS sms, String cid, String target, Map<String, JsonObject> custom) {
+            Notification notification, InappMessage inappMessage, Message message, Options options, SMS sms, String cid, String target, Map<String, JsonObject> custom) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
+        this.inappMessage = inappMessage;
         this.message = message;
         this.options = options;
         this.sms = sms;
@@ -186,6 +189,9 @@ public class PushPayload implements PushModel {
         if (null != notification) {
             json.add(NOTIFICATION, notification.toJSON());
         }
+        if (null != inappMessage) {
+            json.add(INAPPMESSAGE, inappMessage.toJSON());
+        }
         if (null != message) {
             json.add(MESSAGE, message.toJSON());
         }
@@ -261,6 +267,7 @@ public class PushPayload implements PushModel {
         private Platform platform = null;
         private Audience audience = null;
         private Notification notification = null;
+        private InappMessage inappMessage = null;
         private Message message = null;
         private Options options = null;
         private SMS sms = null;
@@ -289,6 +296,11 @@ public class PushPayload implements PushModel {
         
         public Builder setNotification(Notification notification) {
             this.notification = notification;
+            return this;
+        }
+
+        public Builder setInappMessage(InappMessage inappMessage) {
+            this.inappMessage = inappMessage;
             return this;
         }
         
@@ -336,7 +348,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, message, options, sms, cid, target, custom);
+            return new PushPayload(platform, audience, notification, inappMessage, message, options, sms, cid, target, custom);
         }
     }
 }

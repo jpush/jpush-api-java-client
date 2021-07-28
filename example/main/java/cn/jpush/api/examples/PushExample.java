@@ -32,8 +32,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY = "32f266ea08c3b3d7a059b378";
-    protected static final String MASTER_SECRET = "03b3ab9ae0a099ef26dd2168";
+    protected static final String APP_KEY = "8f02a4fa717a6235734d92de";
+    protected static final String MASTER_SECRET = "cf6de29f9e66432ba4ac1c32";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 
@@ -281,7 +281,7 @@ public class PushExample {
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .setAiOpportunity(true)
+                        .setAiOpportunity(false)
                         .setAlert("testing alert content")
                         .addPlatformNotification(AndroidNotification.newBuilder()
                                 .setTitle("Android Title")
