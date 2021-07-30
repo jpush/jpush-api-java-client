@@ -35,6 +35,7 @@ public class PushPayload implements PushModel {
     private static final String MESSAGE = "message";
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
+    private static final String NOTIFICATION3RD = "notification_3rd";
     private static final String CID = "cid";
     private static final String TARGET = "target";
 
@@ -48,7 +49,7 @@ public class PushPayload implements PushModel {
      */
     private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;
     
-    private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create(); 
+    private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create();
     
     private final Platform platform;
     private final Audience audience;
@@ -57,12 +58,14 @@ public class PushPayload implements PushModel {
     private final Message message;
     private Options options;
     private SMS sms;
+    private final Notification3rd notification3rd;
     private String cid;
     private String target;
     protected Map<String, JsonObject> custom;
     
     private PushPayload(Platform platform, Audience audience, 
-            Notification notification, InappMessage inappMessage, Message message, Options options, SMS sms, String cid, String target, Map<String, JsonObject> custom) {
+            Notification notification, InappMessage inappMessage, Message message, Options options,
+                        SMS sms, Notification3rd notification3rd, String cid, String target, Map<String, JsonObject> custom) {
         this.platform = platform;
         this.audience = audience;
         this.notification = notification;
@@ -70,6 +73,7 @@ public class PushPayload implements PushModel {
         this.message = message;
         this.options = options;
         this.sms = sms;
+        this.notification3rd = notification3rd;
         this.cid = cid;
         this.target = target;
         this.custom = custom;
@@ -201,6 +205,9 @@ public class PushPayload implements PushModel {
         if (null != sms) {
             json.add(SMS, sms.toJSON());
         }
+        if (null != notification3rd) {
+            json.add(NOTIFICATION3RD, notification3rd.toJSON());
+        }
         if (null != cid) {
             json.addProperty(CID, cid);
         }
@@ -271,6 +278,7 @@ public class PushPayload implements PushModel {
         private Message message = null;
         private Options options = null;
         private SMS sms = null;
+        private Notification3rd notification3rd = null;
         private String cid;
         private String target;
         private Map<String, JsonObject> custom;
@@ -319,6 +327,11 @@ public class PushPayload implements PushModel {
             return this;
         }
 
+        public Builder setNotification3rd(Notification3rd notification3rd) {
+            this.notification3rd = notification3rd;
+            return this;
+        }
+
         public Builder setCid(String cid) {
             this.cid = cid;
             return this;
@@ -348,7 +361,7 @@ public class PushPayload implements PushModel {
                 options = Options.sendno();
             }
             
-            return new PushPayload(platform, audience, notification, inappMessage, message, options, sms, cid, target, custom);
+            return new PushPayload(platform, audience, notification, inappMessage, message, options, sms, notification3rd, cid, target, custom);
         }
     }
 }

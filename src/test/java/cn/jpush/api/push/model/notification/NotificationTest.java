@@ -43,6 +43,7 @@ public class NotificationTest {
         JsonObject json = new JsonObject();
         JsonObject android = new JsonObject();
         android.add("alert", new JsonPrimitive("alert"));
+        json.addProperty("ai_opportunity", false);
         json.add("android", android);
         Assert.assertEquals("", json, notification.toJSON());
     }
@@ -57,6 +58,7 @@ public class NotificationTest {
         ios.add("alert", new JsonPrimitive("alert"));
         ios.add("sound", new JsonPrimitive(""));
         ios.add("badge", new JsonPrimitive("+1"));
+        json.addProperty("ai_opportunity", false);
         json.add("ios", ios);
         Assert.assertEquals("", json, notification.toJSON());
     }
@@ -69,6 +71,7 @@ public class NotificationTest {
         JsonObject json = new JsonObject();
         JsonObject winphone = new JsonObject();
         winphone.add("alert", new JsonPrimitive("alert"));
+        json.addProperty("ai_opportunity", false);
         json.add("winphone", winphone);
         Assert.assertEquals("", json, notification.toJSON());
     }
@@ -77,6 +80,7 @@ public class NotificationTest {
     public void testAlert_all() {
         Notification notification = Notification.alert("alert");
         JsonObject json = new JsonObject();
+        json.addProperty("ai_opportunity", false);
         json.add("alert", new JsonPrimitive("alert"));
         
         Assert.assertEquals("", json, notification.toJSON());
@@ -104,7 +108,7 @@ public class NotificationTest {
         JsonObject extra = new JsonObject();
         extra.add("key", extraValue);
         android.add("extras", extra);
-        
+        json.addProperty("ai_opportunity", false);
         json.add("android", android);
         
         Assert.assertEquals("", json, notification.toJSON());
@@ -120,6 +124,7 @@ public class NotificationTest {
         JsonObject android = new JsonObject();
         android.add("alert", new JsonPrimitive("alert"));
         android.add("title", new JsonPrimitive("title"));
+        json.addProperty("ai_opportunity", false);
         json.add("android", android);
                 
         Assert.assertEquals("", json, notification.toJSON());

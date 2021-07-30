@@ -66,6 +66,7 @@ public class PushPayloadTest {
         json.add("platform", new JsonPrimitive("all"));
         
         JsonObject noti = new JsonObject();
+        noti.addProperty("ai_opportunity", false);
         noti.add("alert", new JsonPrimitive("alert"));
         json.add("notification", noti);
         

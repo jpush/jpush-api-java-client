@@ -32,8 +32,8 @@ public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
     // demo App defined in resources/jpush-api.conf 
-    protected static final String APP_KEY = "8f02a4fa717a6235734d92de";
-    protected static final String MASTER_SECRET = "cf6de29f9e66432ba4ac1c32";
+    protected static final String APP_KEY = "7d431e42dfa6a6d693ac2d04";
+    protected static final String MASTER_SECRET = "5e987ac6d2e04d95a9d8f0d1";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
 
@@ -56,7 +56,7 @@ public class PushExample {
         testSendPush();
 //        testGetCidList();
 //        testSendPushes();
-//        testSendPush_fromJSON();
+        testSendPush_fromJSON();
 //        testSendPushWithCallback();
 //		testSendPushWithCid();
     }
@@ -280,15 +280,30 @@ public class PushExample {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
-                .setNotification(Notification.newBuilder()
-                        .setAiOpportunity(false)
-                        .setAlert("testing alert content")
-                        .addPlatformNotification(AndroidNotification.newBuilder()
-                                .setTitle("Android Title")
-                                .addExtras(extras).build())
-                        .addPlatformNotification(IosNotification.newBuilder()
-                                .incrBadge(1)
-                                .addExtra("extra_key", "extra_value").build())
+                .setMessage(Message.newBuilder()
+                        .setMsgContent("Hi, JPush")
+                        .build())
+//                .setNotification(Notification.newBuilder()
+//                      .setAiOpportunity(false)
+//                        .setAlert("testing alert content")
+//                        .addPlatformNotification(AndroidNotification.newBuilder()
+//                                .setTitle("Android Title")
+//                                .addExtras(extras).build())
+//                        .addPlatformNotification(IosNotification.newBuilder()
+//                                .incrBadge(1)
+//                                .addExtra("extra_key", "extra_value").build())
+//                        .build())
+                .setNotification3rd(Notification3rd.newBuilder()
+                        .setContent("Hi, JPush")
+                        .setTitle("msg testing")
+                        .setChannelId("channel1001")
+                        .setUriActivity("cn.jpush.android.ui.OpenClickActivity")
+                        .setUriAction("cn.jpush.android.intent.CONNECTION")
+                        .setBadgeAddNum(1)
+                        .setBadgeClass("com.test.badge.MainActivity")
+                        .setSound("sound")
+                        .addExtra("news_id", 124)
+                        .addExtra("my_key", "a value")
                         .build())
                 .setOptions(Options.newBuilder()
                         .setApnsProduction(false)

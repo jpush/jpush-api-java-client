@@ -12,20 +12,31 @@ public class AndroidNotification extends PlatformNotification {
     private static final String TITLE = "title";
     private static final String BUILDER_ID = "builder_id";
     private static final String CHANNEL_ID = "channel_id";
-    private static final String INBOX = "inbox";
+    private static final String PRIORITY = "priority";
+    private static final String CATEGORY = "category";
     private static final String STYLE = "style";
     private static final String ALERT_TYPE = "alert_type";
     private static final String BIG_TEXT = "big_text";
+    private static final String INBOX = "inbox";
     private static final String BIG_PIC_PATH = "big_pic_path";
-    private static final String PRIORITY = "priority";
-    private static final String CATEGORY = "category";
     private static final String LARGE_ICON = "large_icon";
     private static final String SMALL_ICON_URI = "small_icon_uri";
     private static final String INTENT = "intent";
+    private static final String URI_ACTIVITY = "uri_activity";
+    private static final String URI_ACTION = "uri_action";
+    private static final String BADGE_ADD_NUM = "badge_add_num";
+    private static final String BADGE_CLASS = "badge_class";
+    private static final String SOUND = "sound";
+    private static final String SHOW_BEGIN_TIME = "show_begin_time";
+    private static final String SHOW_END_TIME = "show_end_time";
+    private static final String DISPLAY_FOREGROUND = "display_foreground";
 
     private final String title;
     private final int builderId;
     private String channelId;
+    // -2 ~ 2
+    private int priority;
+    private String category;
     // 0 ~ 4
     private int style = 0;
     // -1 ~ 7
@@ -33,26 +44,41 @@ public class AndroidNotification extends PlatformNotification {
     private String big_text;
     private Object inbox;
     private String big_pic_path;
-    private int priority;
-    private String category;
     private String large_icon;
     private String small_icon_uri;
     private JsonObject intent;
+    private String uri_activity;
+    private String uri_action;
+    // 1 ~ 99
+    private int badge_add_num;
+    private String badge_class;
+    private String sound;
+    private String show_begin_time;
+    private String show_end_time;
+    private String display_foreground;
 
     private AndroidNotification(Object alert,
                                 String title,
                                 int builderId,
+                                String channelId,
+                                int priority,
+                                String category,
                                 int style,
                                 int alertType,
                                 String bigText,
                                 Object inbox,
                                 String bigPicPath,
-                                int priority,
-                                String category,
                                 String large_icon,
                                 String small_icon_uri,
                                 JsonObject intent,
-                                String channelId,
+                                String uri_activity,
+                                String uri_action,
+                                int badge_add_num,
+                                String badge_class,
+                                String sound,
+                                String show_begin_time,
+                                String show_end_time,
+                                String display_foreground,
                                 Map<String, String> extras,
                                 Map<String, Number> numberExtras,
                                 Map<String, Boolean> booleanExtras,
@@ -62,17 +88,26 @@ public class AndroidNotification extends PlatformNotification {
 
         this.title = title;
         this.builderId = builderId;
+        this.channelId = channelId;
+        this.priority = priority;
+        this.category = category;
         this.style = style;
         this.alert_type = alertType;
         this.big_text = bigText;
         this.inbox = inbox;
         this.big_pic_path = bigPicPath;
-        this.priority = priority;
-        this.category = category;
         this.large_icon = large_icon;
         this.small_icon_uri = small_icon_uri;
         this.intent = intent;
-        this.channelId = channelId;
+        this.uri_activity = uri_activity;
+        this.uri_action = uri_action;
+        this.badge_add_num = badge_add_num;
+        this.badge_class = badge_class;
+        this.sound = sound;
+        this.show_begin_time = show_begin_time;
+        this.show_end_time = show_end_time;
+        this.display_foreground = display_foreground;
+
     }
 
     public static Builder newBuilder() {
@@ -100,11 +135,25 @@ public class AndroidNotification extends PlatformNotification {
     public JsonElement toJSON() {
         JsonObject json = super.toJSON().getAsJsonObject();
 
+        if (null != title) {
+            json.add(TITLE, new JsonPrimitive(title));
+        }
+
         if (builderId > 0) {
             json.add(BUILDER_ID, new JsonPrimitive(this.builderId));
         }
-        if (null != title) {
-            json.add(TITLE, new JsonPrimitive(title));
+
+        if (null != channelId) {
+            json.add(CHANNEL_ID, new JsonPrimitive(channelId));
+        }
+
+        // 默认为 0
+        if (0 != priority) {
+            json.add(PRIORITY, new JsonPrimitive(priority));
+        }
+
+        if (null != category) {
+            json.add(CATEGORY, new JsonPrimitive(category));
         }
 
         // 默认是 0
@@ -127,33 +176,54 @@ public class AndroidNotification extends PlatformNotification {
         }
 
         if (null != big_pic_path) {
-            json.add(BIG_PIC_PATH, new JsonPrimitive(big_pic_path));
-        }
-
-        // 默认为 0
-        if (0 != priority) {
-            json.add(PRIORITY, new JsonPrimitive(priority));
-        }
-
-        if (null != category) {
-            json.add(CATEGORY, new JsonPrimitive(category));
+            json.add(BIG_PIC_PATH, new JsonPrimitive(this.big_pic_path));
         }
 
         if (null != large_icon) {
-            json.add(LARGE_ICON, new JsonPrimitive(large_icon));
+            json.add(LARGE_ICON, new JsonPrimitive(this.large_icon));
         }
 
         if (null != small_icon_uri) {
-            json.add(SMALL_ICON_URI, new JsonPrimitive(small_icon_uri));
+            json.add(SMALL_ICON_URI, new JsonPrimitive(this.small_icon_uri));
         }
 
         if (null != intent) {
             json.add(INTENT, intent);
         }
 
-        if (null != channelId) {
-            json.add(CHANNEL_ID, new JsonPrimitive(channelId));
+        if (null != uri_activity) {
+            json.add(URI_ACTIVITY, new JsonPrimitive(this.uri_activity));
         }
+
+        if (null != uri_action) {
+            json.add(URI_ACTION, new JsonPrimitive(this.uri_action));
+        }
+
+        // 默认是 0
+        if (0 != badge_add_num) {
+            json.add(BADGE_ADD_NUM, new JsonPrimitive(this.badge_add_num));
+        }
+
+        if (null != badge_class) {
+            json.add(BADGE_CLASS, new JsonPrimitive(this.badge_class));
+        }
+
+        if (null != sound) {
+            json.add(SOUND, new JsonPrimitive(this.sound));
+        }
+
+        if (null != show_begin_time) {
+            json.add(SHOW_BEGIN_TIME, new JsonPrimitive(this.show_begin_time));
+        }
+
+        if (null != show_end_time) {
+            json.add(SHOW_END_TIME, new JsonPrimitive(this.show_end_time));
+        }
+
+        if (null != display_foreground) {
+            json.add(DISPLAY_FOREGROUND, new JsonPrimitive(this.display_foreground));
+        }
+
 
         return json;
     }
@@ -161,20 +231,34 @@ public class AndroidNotification extends PlatformNotification {
     public static class Builder extends PlatformNotification.Builder<AndroidNotification, Builder> {
         private String title;
         private int builderId;
+        private String channelId;
+        private int priority;
+        private String category;
         private int style = 0;
         private int alert_type = -1;
         private String big_text;
         private Object inbox;
         private String big_pic_path;
-        private int priority;
-        private String category;
         private String large_icon;
         private String small_icon_uri;
         private JsonObject intent;
-        private String channelId;
+        private String uri_activity;
+        private String uri_action;
+        private int badge_add_num;
+        private String badge_class;
+        private String sound;
+        private String show_begin_time;
+        private String show_end_time;
+        private String display_foreground;
 
         @Override
         protected Builder getThis() {
+            return this;
+        }
+
+        @Override
+        public Builder setAlert(Object alert) {
+            this.alert = alert;
             return this;
         }
 
@@ -188,9 +272,22 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
-        @Override
-        public Builder setAlert(Object alert) {
-            this.alert = alert;
+        public String getChannelId() {
+            return channelId;
+        }
+
+        public Builder setChannelId(String channelId) {
+            this.channelId = channelId;
+            return this;
+        }
+
+        public Builder setPriority(int priority) {
+            this.priority = priority;
+            return this;
+        }
+
+        public Builder setCategory(String category) {
+            this.category = category;
             return this;
         }
 
@@ -209,27 +306,17 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
-        public Builder setBigPicPath(String bigPicPath) {
-            this.big_pic_path = bigPicPath;
-            return this;
-        }
-
-        public Builder setPriority(int priority) {
-            this.priority = priority;
-            return this;
-        }
-
-        public Builder setCategory(String category) {
-            this.category = category;
-            return this;
-        }
-
         public Builder setInbox(Object inbox) {
             if (null == inbox) {
                 LOG.warn("Null inbox. Throw away it.");
                 return this;
             }
             this.inbox = inbox;
+            return this;
+        }
+
+        public Builder setBigPicPath(String bigPicPath) {
+            this.big_pic_path = bigPicPath;
             return this;
         }
 
@@ -252,14 +339,46 @@ public class AndroidNotification extends PlatformNotification {
             return this;
         }
 
-        public String getChannelId() {
-            return channelId;
-        }
-
-        public Builder setChannelId(String channelId) {
-            this.channelId = channelId;
+        public Builder setUriActivity(String uriActivity) {
+            this.uri_activity = uriActivity;
             return this;
         }
+
+        public Builder setUriAction(String uriAction) {
+            this.uri_action = uriAction;
+            return this;
+        }
+
+        public Builder setBadgeAddNum(int badgeAddNum) {
+            this.badge_add_num = badgeAddNum;
+            return this;
+        }
+
+        public Builder setBadgeClass(String badgeClass) {
+            this.badge_class = badgeClass;
+            return this;
+        }
+
+        public Builder setSound(String sound) {
+            this.sound = sound;
+            return this;
+        }
+
+        public Builder setShowBeginTime(String showBeginTime) {
+            this.show_begin_time = showBeginTime;
+            return this;
+        }
+
+        public Builder setShowEndTime(String showEndTime) {
+            this.show_end_time = showEndTime;
+            return this;
+        }
+
+        public Builder setDisplayForeground(String displayForeground) {
+            this.display_foreground = displayForeground;
+            return this;
+        }
+
 
         @Override
         public AndroidNotification build() {
@@ -267,17 +386,25 @@ public class AndroidNotification extends PlatformNotification {
                     alert,
                     title,
                     builderId,
+                    channelId,
+                    priority,
+                    category,
                     style,
                     alert_type,
                     big_text,
                     inbox,
                     big_pic_path,
-                    priority,
-                    category,
                     large_icon,
                     small_icon_uri,
                     intent,
-                    channelId,
+                    uri_activity,
+                    uri_action,
+                    badge_add_num,
+                    badge_class,
+                    sound,
+                    show_begin_time,
+                    show_end_time,
+                    display_foreground,
                     extrasBuilder,
                     numberExtrasBuilder,
                     booleanExtrasBuilder,
