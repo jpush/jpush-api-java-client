@@ -10,17 +10,24 @@ import com.google.gson.JsonPrimitive;
 
 import cn.jiguang.common.utils.Preconditions;
 
+/**
+ * sms_message 用于设置短信推送内容以及短信发送的延迟时间。
+ */
 public class SMS implements PushModel {
 
     private final String content;
     private final int delay_time;
     private final long temp_id;
+    // default is true
+    private boolean active_filter;
+    // this flag is used to indicate if the active_filter being set
+    private boolean is_set_active_filter = false;
     private final Map<String, String> extras;
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
 
-    private SMS(String content, int delay_time, long temp_id, 
+    private SMS(String content, int delay_time, long temp_id, boolean active_filter,
     		Map<String, String> extras, 
     		Map<String, Number> numberExtras,
     		Map<String, Boolean> booleanExtras,
@@ -28,6 +35,7 @@ public class SMS implements PushModel {
         this.content = content;
         this.delay_time = delay_time;
         this.temp_id = temp_id;
+        this.active_filter = active_filter;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
@@ -80,9 +88,11 @@ public class SMS implements PushModel {
         	json.addProperty("content", content);
         }
 
+        json.addProperty("active_filter", active_filter);
+
         
         JsonObject extrasObject = null;
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
         }
         
@@ -111,7 +121,7 @@ public class SMS implements PushModel {
             }
         }
 
-        if (null != extras || null != numberExtras || null != booleanExtras) {
+        if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add("temp_para", extrasObject);
         }
         return json;
@@ -121,6 +131,8 @@ public class SMS implements PushModel {
         private String content;
         private int delay_time;
         private long temp_id;
+        private boolean active_filter;
+        private boolean is_set_active_filter;
         private Map<String, String> extrasBuilder;
         private Map<String, Number> numberExtrasBuilder;
         private Map<String, Boolean> booleanExtrasBuilder;
@@ -138,6 +150,12 @@ public class SMS implements PushModel {
         
         public Builder setTempID(long tempID) {
             this.temp_id = tempID;
+            return this;
+        }
+
+        public Builder setActiveFilter(boolean activeFilter) {
+            this.active_filter = activeFilter;
+            this.is_set_active_filter = true;
             return this;
         }
         
@@ -191,7 +209,10 @@ public class SMS implements PushModel {
         public SMS build() {
             Preconditions.checkArgument(delay_time >= 0, "The delay time must be greater than or equal to 0");
 
-            return new SMS(content, delay_time, temp_id,
+            // if active filter not being set, will default set it to true.
+            if (is_set_active_filter == false) { active_filter = true; }
+
+            return new SMS(content, delay_time, temp_id, active_filter,
             		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder);
         }
 

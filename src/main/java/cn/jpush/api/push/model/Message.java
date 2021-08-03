@@ -11,14 +11,21 @@ import com.google.gson.JsonPrimitive;
 
 import cn.jiguang.common.utils.Preconditions;
 
+/**
+ * Android 1.6.2 及以下版本 接收 notification 与 message 并存（即本次 api 调用同时推送通知和消息）的离线推送， 只能收到通知部分，message 部分没有透传给 App。
+ *
+ * Android 1.6.3 及以上 SDK 版本已做相应调整，能正常接收同时推送通知和消息的离线记录。
+ *
+ * iOS 1.7.3 及以上的版本才能正确解析 v3 的 message，但是无法解析 v2 推送通知同时下发的应用内消息。
+ */
 public class Message implements PushModel {
-    private static final String TITLE = "title";
     private static final String MSG_CONTENT = "msg_content";
+    private static final String TITLE = "title";
     private static final String CONTENT_TYPE = "content_type";
     private static final String EXTRAS = "extras";
 
-    private final String title;
     private final String msgContent;
+    private final String title;
     private final String contentType;
     private final Map<String, String> extras;
     private final Map<String, Number> numberExtras;
@@ -105,6 +112,7 @@ public class Message implements PushModel {
 
         return json;
     }
+
 
     public static class Builder {
         private String title;

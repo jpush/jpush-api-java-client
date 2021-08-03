@@ -2,11 +2,14 @@ package cn.jpush.api.push.model;
 
 import cn.jiguang.common.utils.Preconditions;
 
-import cn.jpush.api.push.model.notification.Notification;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
+/**
+ * inapp_message 此功能生效需Android push SDK≥V3.9.0、iOS push SDK≥V3.4.0，若低于此版本按照原流程执行。
+ *
+ * 默认值为false
+ */
 public class InappMessage implements PushModel{
 
     private boolean inappMessage;
@@ -15,11 +18,13 @@ public class InappMessage implements PushModel{
         this.inappMessage = inappMessage;
     }
 
+    /**
+     * the entrance for building a inappMessage object
+     * @return inappMessage builder
+     */
     public static Builder newBuilder() { return new Builder(); }
 
-    public static InappMessage inappMessage(boolean inappMessage) {
-        return newBuilder().setInappMessage(inappMessage).build();
-    }
+    public boolean getInappMessage() { return inappMessage; }
 
 
     @Override
@@ -34,6 +39,7 @@ public class InappMessage implements PushModel{
 
     public static class Builder {
         private boolean inappMessage;
+
 
         public Builder setInappMessage(boolean inappMessage) {
             this.inappMessage = inappMessage;

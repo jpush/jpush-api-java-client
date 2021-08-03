@@ -10,7 +10,13 @@ import com.google.gson.JsonPrimitive;
 
 import cn.jiguang.common.utils.Preconditions;
 
-
+/**
+ * 使用说明
+ * notification_3rd 只针对开通了厂商通道的用户生效；
+ * notification 和 notification_3rd 不能同时有内容，如果这两块同时有内容，则会返回错误提示；
+ * notification_3rd 的内容对 iOS 和 WinPhone 平台无效，只针对 Android 平台生效；
+ * notification_3rd 是用作补发厂商通知的内容，只有当 message 部分有内容，才允许传递此字段，且要两者都不为空时，才会对离线的厂商设备转发厂商通道的通知。
+ */
 public class Notification3rd implements PushModel{
     private static final String TITLE = "title";
     private static final String CONTENT = "content";
@@ -58,6 +64,10 @@ public class Notification3rd implements PushModel{
     }
 
 
+    /**
+     * The entrance for building a Notification3rd object.
+     * @return Notification3rd builder
+     */
     public static Builder newBuilder() { return new Builder(); }
 
     @Override
@@ -65,36 +75,39 @@ public class Notification3rd implements PushModel{
         JsonObject json = new JsonObject();
 
         if (null != title) {
-            json.addProperty("title", title);
+            json.addProperty(TITLE, title);
         }
 
-        //如果必填，该怎么判定
-        json.addProperty("content", content);
+        // 必填
+        json.addProperty(CONTENT, content);
 
         if (null != channel_id) {
-            json.addProperty("channel_id", channel_id);
+            json.addProperty(CHANNEL_ID, channel_id);
         }
 
         if (null != uri_activity) {
-            json.addProperty("uri_activity", uri_activity);
+            json.addProperty(URI_ACTIVITY, uri_activity);
         }
 
         if (null != uri_action) {
-            json.addProperty("uri_action", uri_action);
+            json.addProperty(URI_ACTION, uri_action);
         }
 
         if (0 != badge_add_num) {
-            json.addProperty("badge_add_num", badge_add_num);
+            json.addProperty(BADGE_ADD_NUM, badge_add_num);
         }
 
         if (null != badge_class) {
-            json.addProperty("badge_class", badge_class);
+            json.addProperty(BADGE_CLASS, badge_class);
         }
 
         if (null != sound) {
-            json.addProperty("sound", sound);
+            json.addProperty(SOUND, sound);
         }
 
+        /**
+         * for adding extras into json
+         */
         JsonObject extrasObject = null;
         if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
@@ -138,7 +151,7 @@ public class Notification3rd implements PushModel{
         }
 
         if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
-            json.add("extras", extrasObject);
+            json.add(EXTRAS, extrasObject);
         }
 
         return json;
@@ -198,6 +211,7 @@ public class Notification3rd implements PushModel{
             return this;
         }
 
+        // addExtra 一次加入一对
         public Builder addExtra(String key, String value) {
             Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
             if (null == extrasBuilder) {
@@ -207,7 +221,8 @@ public class Notification3rd implements PushModel{
             return this;
         }
 
-        public Builder addExtra(Map<String, String> extras) {
+        // addExtras 可以一次加入多对
+        public Builder addExtras(Map<String, String> extras) {
             Preconditions.checkArgument(! (null == extras), "extras should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();

@@ -6,6 +6,38 @@ import com.google.gson.JsonPrimitive;
 
 import java.util.Map;
 
+/**
+ * <p><b>Android 通知类</b></p>
+ * <br>
+ * 具体使用方法请参考官方文档
+ * 支持 Android Notification 的参数：
+ * <ul>
+ * <li>alert: 继承自父类 PlatformNotification 的 alert 属性；本类设置则覆盖。</li>
+ * <li>title: 支持 setTitle(string) 方法来设置；可替换展示App名称的地方。 </li>
+ * <li>builder_id: 支持 setBuilderId(int) 方法来设置。android 8.0 开始建议采用NotificationChannel配置。 </li>
+ * <li>channel_id: 支持 setChannelId(string) 方法来设置；不超过1000字节。</li>
+ * <li>priority: 支持 setPriority(int) 方法来设置。可改变通知栏展示优先级</li>
+ * <li>category: 支持 setCategory(string) 方法来设置。</li>
+ * <li>style: 支持 setStyle(int) 方法来设置；可改变通知栏样式类型。</li>
+ * <li>alert_type: 支持 setAlertType(int) 方法来设置；可改变通知方式。</li>
+ * <li>big_text: 支持 setBigText(string) 方法来设置；可改变大文本通知栏样式。 </li>
+ * <li>inbox: 支持 setInbox(JSONObject) 方法来设置；可改变文本条目通知栏样式。</li>
+ * <li>big_pic_path: 支持 setBigPicPath(string) 方法来设置；可改变大图片通知栏样式。 </li>
+ * <li>extras: 继承自父类 PlatformNotification 的 extras 属性；支持通过 addExtra(key, value) 来添加自定义字段，具体看代码。 </li>
+ * <li>large_icon: 支持 setLargeIcon(string) 方法来设置；可设置通知栏大图标。</li>
+ * <li>small_icon_uri: 支持 setSmallIconUri(string) 方法来设置；可设置通知栏小图标。</li>
+ * <li>intent: 支持 setIntent(JSONObject) 方法来设置； 可指定跳转页面。</li>
+ * <li>uri_activity: 支持 setUriActivity(string) 方法来设置; 可指定跳转页面。</li>
+ * <li>uri_action: 支持 setUriAction(string) 方法来设置；可指定跳转页面。</li>
+ * <li>badge_add_num: 支持 setBadgeAddNum(int) 方法来设置；可指定角标数字增加</li>
+ * <li>badge_class: 支持 setBadgeClass(string) 方法来设置；配合badge_add_num使用，二者需要共存，缺一不可。</li>
+ * <li>sound: 支持 setSound(string) 方法来设置声音文件；填写文件名称即可，无需文件名后缀。</li>
+ * <li>show_begin_time: 支持 setShowBeginTime(string) 方法来设置；可定时展示开始时间。</li>
+ * <li>show_end_time: 支持 setShowEndTime(string) 方法来设置；可定时展示结束时间。</li>
+ * <li>display_foreground: 支持 setDisplayForeground(string) 方法来设置； 可设置app在前台，通知是否展示。</li>
+ ** </ul>
+ * <br>
+ */
 public class AndroidNotification extends PlatformNotification {
     public static final String NOTIFICATION_ANDROID = "android";
 
@@ -34,12 +66,12 @@ public class AndroidNotification extends PlatformNotification {
     private final String title;
     private final int builderId;
     private String channelId;
-    // -2 ~ 2
+    // range from [-2 ~ 2], default is 0
     private int priority;
     private String category;
-    // 0 ~ 4
+    // range from [0 ~ 3], default is 0. bigText=1, Inbox=2, bigPicture=3.
     private int style = 0;
-    // -1 ~ 7
+    // range from [-1 ~ 7], default is -1
     private int alert_type;
     private String big_text;
     private Object inbox;
@@ -49,7 +81,7 @@ public class AndroidNotification extends PlatformNotification {
     private JsonObject intent;
     private String uri_activity;
     private String uri_action;
-    // 1 ~ 99
+    // range from [1 ~ 99], suggest set to 1
     private int badge_add_num;
     private String badge_class;
     private String sound;
@@ -199,7 +231,7 @@ public class AndroidNotification extends PlatformNotification {
             json.add(URI_ACTION, new JsonPrimitive(this.uri_action));
         }
 
-        // 默认是 0
+        // 如果不填写，表示不改变角标数字
         if (0 != badge_add_num) {
             json.add(BADGE_ADD_NUM, new JsonPrimitive(this.badge_add_num));
         }
