@@ -97,14 +97,13 @@ public class AdminClient {
 
     /**
      * Upload certificate
-     * @param appKey
-     * @param devCertificatePassword
-     * @param proCertificatePassword
-     * @param devCertificateFile
-     * @param proCertificateFile
-     * @return
-     * @throws APIConnectionException
-     * @throws APIRequestException
+     * @param appKey app key
+     * @param devCertificatePassword dev certificate password
+     * @param proCertificatePassword pro certificate password
+     * @param devCertificateFile dev certificate file
+     * @param proCertificateFile pro certificate file
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException request exception
      */
     public void uploadCertificate(String appKey, String devCertificateFile, String devCertificatePassword,
                                   String proCertificateFile, String proCertificatePassword)

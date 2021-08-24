@@ -49,8 +49,13 @@ public class ImageClient {
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
+
     /**
      * Upload image by url. Require at least one non-null url.
+     * @param imageUrlPayload image url payload
+     * @return {@link ImageUploadResult}
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException request exception
      */
     public ImageUploadResult uploadImage(ImageUrlPayload imageUrlPayload)
             throws APIConnectionException, APIRequestException {
@@ -72,8 +77,13 @@ public class ImageClient {
 
     /**
      * Upload image by file. Require at least 1 non-null fileName. Currently only support Xiaomi and OPPO
+     * @param imageFilePayload image file payload
+     * @return {@link ImageUploadResult}
+     * @throws APIConnectionException connect exception
+     * @throws APIRequestException request exception
      */
-    public ImageUploadResult uploadImage(ImageFilePayload imageFilePayload) {
+    public ImageUploadResult uploadImage(ImageFilePayload imageFilePayload)
+            throws APIConnectionException, APIRequestException{
         Preconditions.checkArgument(imageFilePayload.getImageType() != null, "Image type should not be null");
         checkImageFilePayload(imageFilePayload);
         NativeHttpClient client = (NativeHttpClient) _httpClient;
@@ -99,6 +109,11 @@ public class ImageClient {
 
     /**
      * Modify image by url. Require at least one non-null url.
+     * @param mediaId media id
+     * @param imageUrlPayload image url payload
+     * @return {@link ImageUploadResult}
+     * @throws APIConnectionException connection exception
+     * @throws APIRequestException request exception
      */
     public ImageUploadResult modifyImage(String mediaId, ImageUrlPayload imageUrlPayload)
             throws APIConnectionException, APIRequestException {
@@ -118,8 +133,14 @@ public class ImageClient {
         return imageUploadResult;
     }
 
+
     /**
      * Modify image by file. Require at least 1 non-null fileName. Currently only support Xiaomi and OPPO
+     * @param mediaId media id
+     * @param imageFilePayload image file payload
+     * @return {@link ImageUploadResult}
+     * @throws APIConnectionException connection exception
+     * @throws APIRequestException request exception
      */
     public ImageUploadResult modifyImage(String mediaId, ImageFilePayload imageFilePayload) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(mediaId), "mediaId should not be empty");

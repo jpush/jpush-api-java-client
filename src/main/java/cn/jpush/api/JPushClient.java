@@ -950,12 +950,13 @@ public class JPushClient {
     }
 
     // ----------------------- Schedule
-
     /**
      * Create a single schedule.
      * @param name The schedule name.
      * @param time The push time, format is 'yyyy-MM-dd HH:mm:ss'
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -983,6 +984,8 @@ public class JPushClient {
      * @param end The schedule expiration date, format 'yyyy-MM-dd HH:mm:ss'.
      * @param time The push time, format 'HH:mm:ss'
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -1002,6 +1005,8 @@ public class JPushClient {
      * @param time The push time, format 'HH:mm:ss'
      * @param frequency The custom frequency.
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -1021,6 +1026,8 @@ public class JPushClient {
      * @param time The push time, format 'HH:mm:ss'
      * @param days The appointed days.
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -1047,6 +1054,8 @@ public class JPushClient {
      * @param frequency The custom frequency.
      * @param days The appointed days.
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -1071,6 +1080,8 @@ public class JPushClient {
      * @param time The push time, format 'HH:mm:ss'.
      * @param points The appointed days.
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
@@ -1091,6 +1102,8 @@ public class JPushClient {
      * @param frequency The custom frequency.
      * @param points The appointed days.
      * @param push The push payload.
+     * @param masterSecret master secret
+     * @param appKey app key
      * @return The created scheduleResult instance.
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
