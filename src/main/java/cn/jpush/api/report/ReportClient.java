@@ -1,26 +1,24 @@
 package cn.jpush.api.report;
 
 
-import java.lang.reflect.Type;
-import java.net.URLEncoder;
-import java.sql.Time;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
 import cn.jiguang.common.TimeUnit;
-import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jiguang.common.utils.StringUtils;
 import cn.jpush.api.report.model.CheckMessagePayload;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.sun.security.ntlm.Client;
+
+import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ReportClient {    
 

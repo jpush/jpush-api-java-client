@@ -2,7 +2,6 @@ package cn.jpush.api.file;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.connection.ApacheHttpClient;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.IHttpClient;
 import cn.jiguang.common.connection.NativeHttpClient;

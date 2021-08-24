@@ -1,24 +1,19 @@
 package cn.jpush.api.schedule;
 
-import cn.jpush.api.examples.PushExample;
-import cn.jpush.api.push.CIDResult;
-import com.google.gson.annotations.Expose;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.ServiceHelper;
-import cn.jiguang.common.utils.Preconditions;
-import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.connection.HttpProxy;
 import cn.jiguang.common.connection.NativeHttpClient;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
-import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
+import cn.jpush.api.push.CIDResult;
 import cn.jpush.api.push.PushClient;
-
-import java.util.List;
+import cn.jpush.api.schedule.model.SchedulePayload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScheduleClient {
 

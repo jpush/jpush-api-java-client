@@ -9,14 +9,10 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.DefaultResult;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jiguang.common.utils.Preconditions;
-import cn.jiguang.common.utils.StringUtils;
 import cn.jpush.api.JPushConfig;
 import cn.jpush.api.file.FileClient;
-import cn.jpush.api.file.model.FileUploadResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
