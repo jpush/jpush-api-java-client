@@ -142,7 +142,8 @@ public class ImageClient {
      * @throws APIConnectionException connection exception
      * @throws APIRequestException request exception
      */
-    public ImageUploadResult modifyImage(String mediaId, ImageFilePayload imageFilePayload) {
+    public ImageUploadResult modifyImage(String mediaId, ImageFilePayload imageFilePayload)
+            throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(StringUtils.isNotEmpty(mediaId), "mediaId should not be empty");
         checkImageFilePayload(imageFilePayload);
         NativeHttpClient client = (NativeHttpClient) _httpClient;
