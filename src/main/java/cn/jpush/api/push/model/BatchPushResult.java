@@ -2,14 +2,10 @@ package cn.jpush.api.push.model;
 
 import cn.jiguang.common.resp.BaseResult;
 import cn.jiguang.common.resp.ResponseWrapper;
-import cn.jpush.api.report.MessageDetailResult;
-import cn.jpush.api.report.ReceivedsResult;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
-import lombok.Data;
 
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
 
 public class BatchPushResult extends BaseResult {
@@ -50,5 +46,4 @@ public class BatchPushResult extends BaseResult {
     public Map<String, PushResult> getBatchPushResult() {
         return batchPushResult;
     }
-
 }

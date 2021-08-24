@@ -19,27 +19,31 @@ public class ScheduleExample {
 
     protected static final Logger LOG = LoggerFactory.getLogger(ScheduleExample.class);
 
+
+    /**
+     * Change it to your own appKey and masterSecret if you want to try the demo
+     */
     private static final String appKey ="7b4b94cca0d185d611e53cca";
     private static final String masterSecret = "860803cf613ed54aa3b941a8";
 
 
     public static void main(String[] args) {
-//    	testCreateSingleSchedule();
-//    	testCreateDailySchedule();
+    	testCreateSingleSchedule();
+//          	testCreateDailySchedule();
 //        testDeleteSchedule();
 //        testGetScheduleList();
 //        testUpdateSchedule();
 //        testGetSchedule();
-    	testGetScheduleMsgIds();
+//    	testGetScheduleMsgIds();
     }
 
     public static void testCreateSingleSchedule() {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
         String name = "test_schedule_example";
-        String time = "2018-10-14 10:48:25";
-        PushPayload push = PushPayload.alertAll("test schedule example.");
+        String time = "2021-08-11 15:36:10";
+        PushPayload push = PushPayload.alertAll("test schedule example");
         try {
-            ScheduleResult result = jpushClient.createSingleSchedule(name, time, push);
+            ScheduleResult result = jpushClient.createSingleSchedule(name, time, push, masterSecret, appKey);
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
@@ -59,7 +63,7 @@ public class ScheduleExample {
         String time = "14:00:00";
         PushPayload push = PushPayload.alertAll("test daily example.");
         try {
-            ScheduleResult result = jPushClient.createDailySchedule(name, start, end, time, push);
+            ScheduleResult result = jPushClient.createDailySchedule(name, start, end, time, push, masterSecret, appKey);
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
@@ -80,7 +84,7 @@ public class ScheduleExample {
         Week[] days = {Week.MON, Week.FRI};
         PushPayload push = PushPayload.alertAll("test weekly example.");
         try {
-            ScheduleResult result = jPushClient.createWeeklySchedule(name, start, end, time, days, push);
+            ScheduleResult result = jPushClient.createWeeklySchedule(name, start, end, time, days, push, masterSecret, appKey);
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);
@@ -101,7 +105,7 @@ public class ScheduleExample {
         String[] points = {"01", "02"};
         PushPayload push = PushPayload.alertAll("test monthly example.");
         try {
-            ScheduleResult result = jPushClient.createMonthlySchedule(name, start, end, time, points, push);
+            ScheduleResult result = jPushClient.createMonthlySchedule(name, start, end, time, points, push, masterSecret, appKey);
             LOG.info("schedule result is " + result);
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later.", e);

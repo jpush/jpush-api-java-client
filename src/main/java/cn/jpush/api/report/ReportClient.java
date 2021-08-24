@@ -3,6 +3,7 @@ package cn.jpush.api.report;
 
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.report.model.CheckMessagePayload;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.security.ntlm.Client;
 
 public class ReportClient {    
 
@@ -31,6 +33,8 @@ public class ReportClient {
 
     private String messageDetailPath;
     private String receiveDetailPath;
+    private String groupMessageDetailPath;
+    private String groupUserPath;
 
     public ReportClient(String masterSecret, String appKey) {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
@@ -71,6 +75,8 @@ public class ReportClient {
 
         messageDetailPath = (String) conf.get(ClientConfig.REPORT_MESSAGE_DETAIL_PATH);
         receiveDetailPath = (String) conf.get(ClientConfig.REPORT_RECEIVE_DETAIL_PATH);
+        groupMessageDetailPath = (String) conf.get(ClientConfig.REPORT_GROUP_MESSAGE_DETAIL_PATH);
+        groupUserPath = (String) conf.get(ClientConfig.REPORT_GROUP_USER_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -87,6 +93,8 @@ public class ReportClient {
 
         messageDetailPath = (String) conf.get(ClientConfig.REPORT_MESSAGE_DETAIL_PATH);
         receiveDetailPath = (String) conf.get(ClientConfig.REPORT_RECEIVE_DETAIL_PATH);
+        groupMessageDetailPath = (String) conf.get(ClientConfig.REPORT_GROUP_MESSAGE_DETAIL_PATH);
+        groupUserPath = (String) conf.get(ClientConfig.REPORT_GROUP_USER_PATH);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         _httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -138,6 +146,16 @@ public class ReportClient {
         return MessageDetailResult.fromResponse(response);
     }
 
+
+    public GroupMessageDetailResult getGroupMessagesDetail(String groupMsgIds)
+            throws APIConnectionException, APIRequestException {
+        String url = _hostName + groupMessageDetailPath + "?group_msgids=" + groupMsgIds;
+        ResponseWrapper response = _httpClient.sendGet(url);
+
+        return GroupMessageDetailResult.fromResponse(response);
+    }
+
+
     public Map<String, MessageStatus> getMessagesStatus(CheckMessagePayload payload)
             throws APIConnectionException, APIRequestException {
         String url = _hostName + (_statusPath.endsWith("/message")?_statusPath:(_statusPath+"/message"));
@@ -161,7 +179,23 @@ public class ReportClient {
         
         return BaseResult.fromResponse(response, UsersResult.class);
     }
-    
+
+    public GroupUsersResult getGroupUsers(TimeUnit timeUnit, String start, int duration)
+            throws APIConnectionException, APIRequestException {
+        String startEncoded = null;
+        try {
+            startEncoded = URLEncoder.encode(start, "utf-8");
+        } catch (Exception e) {
+        }
+
+        String url = _hostName + groupUserPath
+                + "?time_unit=" + timeUnit.toString()
+                + "&start=" + startEncoded + "&duration=" + duration;
+        ResponseWrapper response = _httpClient.sendGet(url);
+
+        return BaseResult.fromResponse(response, GroupUsersResult.class);
+    }
+
     
     private final static Pattern MSGID_PATTERNS = Pattern.compile("[^0-9, ]");
 

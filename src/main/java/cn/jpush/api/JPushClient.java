@@ -290,6 +290,16 @@ public class JPushClient {
             throws APIConnectionException, APIRequestException {
         return _reportClient.getMessagesDetail(msgIds);
     }
+
+    public GroupMessageDetailResult getGroupMessagesDetail(String groupMsgIds)
+            throws APIConnectionException, APIRequestException {
+        return _reportClient.getGroupMessagesDetail(groupMsgIds);
+    }
+
+    public GroupUsersResult getGroupReportUsers(TimeUnit timeUnit, String start, int duration) throws APIConnectionException,
+            APIRequestException {
+        return _reportClient.getGroupUsers(timeUnit, start, duration);
+    }
     
     // ------------------------------ Shortcuts - notification
 
@@ -950,7 +960,8 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createSingleSchedule(String name, String time, PushPayload push)
+    public ScheduleResult createSingleSchedule(String name, String time, PushPayload push, String masterSecret,
+                                               String appKey)
             throws APIConnectionException, APIRequestException {
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setSingleTime(time)
@@ -962,7 +973,7 @@ public class JPushClient {
                 .setPush(push)
                 .build();
 
-        return _scheduleClient.createSchedule(payload);
+        return _scheduleClient.createSchedule(payload, masterSecret, appKey);
     }
 
     /**
@@ -976,9 +987,11 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createDailySchedule(String name, String start, String end, String time, PushPayload push)
+    public ScheduleResult createDailySchedule(String name, String start, String end, String time, PushPayload push,
+                                              String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, 1, null, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, 1, null, push,
+                masterSecret, appKey);
     }
 
     /**
@@ -993,9 +1006,11 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createDailySchedule(String name, String start, String end, String time, int frequency, PushPayload push)
+    public ScheduleResult createDailySchedule(String name, String start, String end, String time, int frequency,
+                                              PushPayload push, String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, frequency, null, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.DAY, frequency, null, push,
+                masterSecret, appKey);
     }
 
     /**
@@ -1010,7 +1025,8 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, Week[] days, PushPayload push)
+    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, Week[] days,
+                                               PushPayload push, String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(null != days && days.length > 0, "The days must not be empty.");
 
@@ -1018,7 +1034,8 @@ public class JPushClient {
         for(int i = 0 ; i < days.length; i++) {
             points[i] = days[i].name();
         }
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, 1, points, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, 1, points, push,
+                masterSecret, appKey);
     }
 
     /**
@@ -1034,7 +1051,8 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, int frequency, Week[] days, PushPayload push)
+    public ScheduleResult createWeeklySchedule(String name, String start, String end, String time, int frequency,
+                                               Week[] days, PushPayload push, String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(null != days && days.length > 0, "The days must not be empty.");
 
@@ -1042,7 +1060,7 @@ public class JPushClient {
         for(int i = 0 ; i < days.length; i++) {
             points[i] = days[i].name();
         }
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, frequency, points, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.WEEK, frequency, points, push, masterSecret, appKey);
     }
 
     /**
@@ -1057,10 +1075,11 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, String[] points, PushPayload push)
+    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, String[] points,
+                                                PushPayload push, String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(null != points && points.length > 0, "The points must not be empty.");
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, 1, points, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, 1, points, push, masterSecret, appKey);
     }
 
     /**
@@ -1076,10 +1095,11 @@ public class JPushClient {
      * @throws APIConnectionException if a remote or network exception occurs.
      * @throws APIRequestException if a request exception occurs.
      */
-    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, int frequency, String[] points, PushPayload push)
+    public ScheduleResult createMonthlySchedule(String name, String start, String end, String time, int frequency, String[] points,
+                                                PushPayload push, String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(null != points && points.length > 0, "The points must not be empty.");
-        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, frequency, points, push);
+        return createPeriodicalSchedule(name, start, end, time, TimeUnit.MONTH, frequency, points, push, masterSecret, appKey);
     }
 
     /**
@@ -1236,7 +1256,8 @@ public class JPushClient {
     }
 
     private ScheduleResult createPeriodicalSchedule(String name, String start, String end, String time,
-                                                    TimeUnit timeUnit, int frequency, String[] point, PushPayload push)
+                                                    TimeUnit timeUnit, int frequency, String[] point, PushPayload push,
+                                                    String masterSecret, String appKey)
             throws APIConnectionException, APIRequestException {
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setPeriodTime(start, end, time)
@@ -1249,7 +1270,7 @@ public class JPushClient {
                 .setPush(push)
                 .build();
 
-        return _scheduleClient.createSchedule(payload);
+        return _scheduleClient.createSchedule(payload, masterSecret, appKey);
     }
 
     public void close() {

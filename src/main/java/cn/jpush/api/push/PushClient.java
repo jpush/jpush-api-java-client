@@ -45,6 +45,8 @@ public class PushClient {
     // encrypt type, the default value is empty
     private String _encryptType;
 
+    public PushClient() {}
+
     /**
      * Create a Push Client.
      *
@@ -271,7 +273,8 @@ public class PushClient {
 
     /**
      * Delete a push by msgId.
-     * @param msgId  The message id
+     *
+     * @param msgId The message id
      * @return delete result
      * @throws APIConnectionException connect exception
      * @throws APIRequestException    request exception

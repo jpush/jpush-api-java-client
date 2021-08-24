@@ -6,6 +6,19 @@ import com.google.gson.JsonPrimitive;
 
 import java.util.Map;
 
+/**
+ * <p><b>Windows Phone 通知类</b></p>
+ * <br>
+ * 具体使用方法请参考官方文档 https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#platform
+ * 支持 Winphone Notification 的参数：
+ * <ul>
+ * <li>alert: 继承自父类 PlatformNotification 的 alert 属性；本类设置则覆盖。</li>
+ * <li>title: 支持 setTitle(string) 方法来设置；可替换通知标题。 </li>
+ * <li>_open_page: 支持 setOpenPage(String) 方法来设置；可设置点击打开的页面名称</li>
+ * <li>extras: 继承自父类 PlatformNotification 的 extras 属性；支持通过 addExtra(key, value) 来添加自定义字段，具体看代码。 </li>
+ * </ul>
+ * <br>
+ */
 public class WinphoneNotification extends PlatformNotification {
     private static final String NOTIFICATION_WINPHONE = "winphone";
     

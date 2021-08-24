@@ -1,5 +1,7 @@
 package cn.jpush.api.schedule;
 
+import cn.jpush.api.examples.PushExample;
+import cn.jpush.api.push.CIDResult;
 import com.google.gson.annotations.Expose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jpush.api.schedule.model.SchedulePayload;
+import cn.jpush.api.push.PushClient;
 
 import java.util.List;
 
@@ -88,7 +91,8 @@ public class ScheduleClient {
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
-    public ScheduleResult createSchedule(SchedulePayload payload) throws APIConnectionException, APIRequestException {
+    public ScheduleResult createSchedule(SchedulePayload payload, String masterSecret,
+                                         String appKey) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(null != payload, "payload should not be null");
 
@@ -101,6 +105,15 @@ public class ScheduleClient {
         if (timeToLive >= 0) {
             payload.resetPushTimeToLive(timeToLive);
         }
+
+        // 调用getCidList方法来获取cid并赋值到payload中
+        String cid = payload.getCid();
+        if (cid == null) {
+            PushClient pushClient = new PushClient(masterSecret, appKey);
+            CIDResult cidResult = pushClient.getCidList(1 , "schedule");
+            payload.setCid(cidResult.cidlist.get(0));
+        }
+
 
         ResponseWrapper response = _httpClient.sendPost(hostName  + schedulePath, payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);

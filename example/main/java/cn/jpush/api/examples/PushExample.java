@@ -16,6 +16,7 @@ import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.audience.AudienceTarget;
 import cn.jpush.api.push.model.notification.*;
+import cn.jpush.api.report.GroupMessageDetailResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -31,7 +32,10 @@ import java.util.*;
 public class PushExample {
     protected static final Logger LOG = LoggerFactory.getLogger(PushExample.class);
 
-    // demo App defined in resources/jpush-api.conf 
+    /**
+     * Change the app key and master secret to your own account
+     * If you want to use push by group, please enter your own group push key and group master secret.
+     */
     protected static final String APP_KEY = "8f02a4fa717a6235734d92de";
     protected static final String MASTER_SECRET = "cf6de29f9e66432ba4ac1c32";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
@@ -56,6 +60,9 @@ public class PushExample {
 
         // 目前推荐这个方法进行测试
         testSendPush();
+//        testSendGroupPush();
+
+
 //        testGetCidList();
 //        testSendPushes();
 //        testSendPush_fromJSON();
@@ -229,7 +236,7 @@ public class PushExample {
         }
     }
 
-    public void testSendGroupPush() {
+    public static void testSendGroupPush() {
         GroupPushClient groupPushClient = new GroupPushClient(GROUP_MASTER_SECRET, GROUP_PUSH_KEY);
         final PushPayload payload = buildPushObject_android_and_ios();
         try {
@@ -239,9 +246,9 @@ public class PushExample {
                 PushResult pushResult = entry.getValue();
                 PushResult.Error error = pushResult.error;
                 if (error != null) {
-                    LOG.info("AppKey: " + entry.getKey() + " error code : " + error.getCode() + " error message: " + error.getMessage());
+                    LOG.info("Group_msgid: " + groupPushResult.getGroupMsgId() + " AppKey: " + entry.getKey() + " error code : " + error.getCode() + " error message: " + error.getMessage());
                 } else {
-                    LOG.info("AppKey: " + entry.getKey() + " sendno: " + pushResult.sendno + " msg_id:" + pushResult.msg_id);
+                    LOG.info("Group_msgid: " + groupPushResult.getGroupMsgId() + " AppKey: " + entry.getKey() + " sendno: " + pushResult.sendno + " msg_id:" + pushResult.msg_id);
                 }
 
             }
@@ -279,6 +286,11 @@ public class PushExample {
                 .build();
     }
 
+    /**
+     * Could modify the contents for pushing
+     * The comments are showing how to use it
+     * @return
+     */
     public static PushPayload buildPushObject_android_and_ios() {
         Map<String, String> extras = new HashMap<String, String>();
         extras.put("test", "https://community.jiguang.cn/push");
@@ -297,9 +309,6 @@ public class PushExample {
                         .addPlatformNotification(IosNotification.newBuilder()
                                 .incrBadge(1)
                                 .addExtra("extra_key", "extra_value").build())
-                        .addVoip("key", "value")
-                        .addVoip("key2", 2)
-                        .addVoip("key3", true)
                         .build())
 //                .setSMS(SMS.newBuilder()
 //                        .setDelayTime(1000)
@@ -450,6 +459,7 @@ public class PushExample {
         list.add("1507ffd3f79545957de");
         list.add("1507ffd3f79457957de");
         list.add("1507ffd3f79456757de");
+        list.add("zzzzzzzz");
 
 
         return PushPayload.newBuilder()
@@ -592,29 +602,29 @@ public class PushExample {
                 LOG.info("batchSendPushByAlias param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
             }
 
-            {
-                List<PushPayload> pushPayloadList = new ArrayList<>();
-                PushPayload.Builder builder1 = PushPayload.newBuilder();
-                builder1.setMessage(Message.content("content1 by regId"))
-                        .setNotification(Notification.alert(ALERT))
-                        .setPlatform(Platform.android())
-                        .setAudience(Audience.all())
-                        .setOptions(Options.sendno())
-                        .setTarget("1507ffd3f79456757de");
-                pushPayloadList.add(builder1.build());
-
-                PushPayload.Builder builder2 = PushPayload.newBuilder();
-                builder2.setMessage(Message.content("content2 by regId"))
-                        .setNotification(Notification.alert(ALERT))
-                        .setAudience(Audience.all())
-                        .setPlatform(Platform.ios())
-                        .setOptions(Options.sendno())
-                        .setTarget("1507ffd3f79456757de");
-                pushPayloadList.add(builder2.build());
-
-                BatchPushResult result = jPushClient.batchSendPushByRegId(pushPayloadList);
-                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
-            }
+//            {
+//                List<PushPayload> pushPayloadList = new ArrayList<>();
+//                PushPayload.Builder builder1 = PushPayload.newBuilder();
+//                builder1.setMessage(Message.content("content1 by regId"))
+//                        .setNotification(Notification.alert(ALERT))
+//                        .setPlatform(Platform.android())
+//                        .setAudience(Audience.all())
+//                        .setOptions(Options.sendno())
+//                        .setTarget("1507ffd3f79456757de");
+//                pushPayloadList.add(builder1.build());
+//
+//                PushPayload.Builder builder2 = PushPayload.newBuilder();
+//                builder2.setMessage(Message.content("content2 by regId"))
+//                        .setNotification(Notification.alert(ALERT))
+//                        .setAudience(Audience.all())
+//                        .setPlatform(Platform.ios())
+//                        .setOptions(Options.sendno())
+//                        .setTarget("1507ffd3f79456757de");
+//                pushPayloadList.add(builder2.build());
+//
+//                BatchPushResult result = jPushClient.batchSendPushByRegId(pushPayloadList);
+//                LOG.info("batchSendPushByRegId param: {}, result: {}", pushPayloadList, new Gson().toJson(result.getBatchPushResult()));
+//            }
 
         } catch (APIConnectionException e) {
             LOG.error("Connection error. Should retry later. ", e);

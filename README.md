@@ -15,23 +15,8 @@
 
 ## 安装
 
-### maven 方式
-将下边的依赖条件放到你项目的 maven pom.xml 文件里。v3.4.8 为例，最新版本请看[Release页面](https://github.com/jpush/jpush-api-java-client/releases)
-
-```Java
-<dependency>
-    <groupId>cn.jpush.api</groupId>
-    <artifactId>jpush-client</artifactId>
-    <version>3.4.8</version>
-</dependency>
-```
-### jar 包方式
-
-请到 [Release页面](https://github.com/jpush/jpush-api-java-client/releases)下载相应版本的发布包。
-
-
 ### 依赖包
-* [jiguang-java-client-common](https://github.com/jpush/jiguang-java-client-common) / 极光 Java client 的公共封装开发包，必须依赖，v1.1.10 为例，查看[最新版本](https://github.com/jpush/jiguang-java-client-common/releases)
+* [jiguang-java-client-common](https://github.com/jpush/jiguang-java-client-common) / 极光 Java client 的公共封装开发包，必须依赖，v1.1.11 为例，查看[最新版本](https://github.com/jpush/jiguang-java-client-common/releases)
 * [slf4j](http://www.slf4j.org/) / log4j (Logger)
 * [gson](https://code.google.com/p/google-gson/) (Google JSON Utils)
 
@@ -43,7 +28,7 @@
     <dependency>
         <groupId>cn.jpush.api</groupId>
         <artifactId>jiguang-common</artifactId>
-        <version>1.1.10</version>
+        <version>1.1.11</version>
     </dependency>
     <dependency>
         <groupId>io.netty</groupId>

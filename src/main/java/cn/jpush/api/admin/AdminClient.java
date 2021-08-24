@@ -9,15 +9,28 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.DefaultResult;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jiguang.common.utils.Preconditions;
+import cn.jiguang.common.utils.StringUtils;
 import cn.jpush.api.JPushConfig;
+import cn.jpush.api.file.FileClient;
+import cn.jpush.api.file.model.FileUploadResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Admin APIs
  * https://docs.jiguang.cn/jpush/server/push/rest_api_admin_api_v1/
  */
 public class AdminClient {
+
+    protected static final Logger LOG = LoggerFactory.getLogger(FileClient.class);
+
 
     private IHttpClient mHttpClient;
     private String mBasePath;
@@ -86,7 +99,41 @@ public class AdminClient {
         return DefaultResult.fromResponse(responseWrapper, AppResult.class);
     }
 
-//    public AppResult uploadCertificate(String appKey) throws APIConnectionException, APIRequestException {
-//
-//    }
+    /**
+     * Upload certificate
+     * @param appKey
+     * @param devCertificatePassword
+     * @param proCertificatePassword
+     * @param devCertificateFile
+     * @param proCertificateFile
+     * @return
+     * @throws APIConnectionException
+     * @throws APIRequestException
+     */
+    public void uploadCertificate(String appKey, String devCertificateFile, String devCertificatePassword,
+                                  String proCertificateFile, String proCertificatePassword)
+            throws APIConnectionException, APIRequestException {
+
+        Preconditions.checkArgument(devCertificateFile != null || proCertificateFile != null,
+                "dev certificate file or pro certificate file should not be null");
+
+        NativeHttpClient client = (NativeHttpClient) mHttpClient;
+        String url = mBasePath + mV1AppPath + "/" + appKey + "/certificate";
+
+        Map<String, String> fileMap = new HashMap<>();
+        Map<String, String> textMap = new HashMap<>();
+
+        if(devCertificateFile != null) {
+            textMap.put("devCertificatePassword", devCertificatePassword);
+            fileMap.put("devCertificateFile", devCertificateFile);
+        }
+
+        if(proCertificateFile != null) {
+            textMap.put("proCertificatePassword", proCertificatePassword);
+            fileMap.put("proCertificateFile", proCertificateFile);
+        }
+
+        String response = client.formUploadByPost(url, textMap, fileMap, null);
+        LOG.info("uploadFile:{}", response);
+    }
 }

@@ -60,7 +60,7 @@ public class ScheduleClientTest extends BaseTest {
      * Method: deleteSchedule(String scheduleId)
      */
     @Test
-    public void testScheduleMethods() {
+    public void testScheduleMethods(String masterSecret, String appKey) {
         String name = "test_schedule";
         TriggerPayload trigger = TriggerPayload.newBuilder()
                 .setSingleTime("2105-07-30 12:00:00")
@@ -81,7 +81,7 @@ public class ScheduleClientTest extends BaseTest {
         ScheduleResult result = null;
         boolean success = false;
         try {
-            result = client.createSchedule(payload);
+            result = client.createSchedule(payload, masterSecret, appKey);
             Assert.assertNotNull("test createSchedule failed.", result);
 
             ScheduleResult getResult = client.getSchedule(result.schedule_id);
