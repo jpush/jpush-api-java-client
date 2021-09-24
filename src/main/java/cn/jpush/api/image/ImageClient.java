@@ -138,8 +138,6 @@ public class ImageClient {
      * @param mediaId media id
      * @param imageFilePayload image file payload
      * @return {@link ImageUploadResult}
-     * @throws APIConnectionException connection exception
-     * @throws APIRequestException request exception
      */
     public ImageUploadResult modifyImage(String mediaId, ImageFilePayload imageFilePayload) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(mediaId), "mediaId should not be empty");
