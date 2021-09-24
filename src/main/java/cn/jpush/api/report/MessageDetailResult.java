@@ -28,6 +28,8 @@ public class MessageDetailResult extends BaseResult {
         @Expose
         public JsonObject android_pns;
         @Expose
+        public JsonObject details;
+        @Expose
         public IosDetail ios;
         @Expose
         public WinphoeDetail winphone;
