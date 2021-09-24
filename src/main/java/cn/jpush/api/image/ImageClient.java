@@ -79,8 +79,6 @@ public class ImageClient {
      * Upload image by file. Require at least 1 non-null fileName. Currently only support Xiaomi and OPPO
      * @param imageFilePayload image file payload
      * @return {@link ImageUploadResult}
-     * @throws APIConnectionException connect exception
-     * @throws APIRequestException request exception
      */
     public ImageUploadResult uploadImage(ImageFilePayload imageFilePayload) {
         Preconditions.checkArgument(imageFilePayload.getImageType() != null, "Image type should not be null");
