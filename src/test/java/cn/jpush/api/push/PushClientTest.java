@@ -216,4 +216,19 @@ public class PushClientTest extends BaseTest {
                 .build();
     }
 
+    @Test
+    public void testAlertType(){
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(AndroidNotification.newBuilder()
+                        .setAlert("android内容")
+                        .setTitle("android标题")
+                        .setAlertType(-1)
+                        .addCustom("uri_activity","uri_activity")
+                        .addCustom("uri_action","uri_action")
+                        .addExtra("a","a")
+                        .build()
+                ).build();
+        System.out.println(notification.toJSON());
+    }
+
 }

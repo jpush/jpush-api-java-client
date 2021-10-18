@@ -193,7 +193,7 @@ public class AndroidNotification extends PlatformNotification {
             json.add(STYLE, new JsonPrimitive(this.style));
         }
 
-        if (-1 != alert_type) {
+        if (-1 != alert_type && alert_type <= 7) {
             json.add(ALERT_TYPE, new JsonPrimitive(this.alert_type));
         }
 
