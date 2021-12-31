@@ -284,7 +284,7 @@ public class PushPayload implements PushModel {
         private Map<String, JsonObject> custom;
 
         public Builder() {
-            this.custom = new LinkedHashMap<>();
+            this.custom = new LinkedHashMap<String, JsonObject>();
         }
 
         public Builder setTarget(String target) {

@@ -4,8 +4,8 @@ import org.junit.Before;
 
 public abstract class BaseTest {
 
-	protected static final String APP_KEY = "d4ee2375846bc30fa51334f5";
-    protected static final String MASTER_SECRET = "3f045fd404d09a8a1f38d791";
+	protected static final String APP_KEY = "eb67142502ec9f5556875b9a";
+    protected static final String MASTER_SECRET = "186aa57bc697c94f8698bbbf";
     protected static final String GROUP_MASTER_SECRET = "b11314807507e2bcfdeebe2e";
     protected static final String GROUP_PUSH_KEY = "2c88a01e073a0fe4fc7b167c";
 

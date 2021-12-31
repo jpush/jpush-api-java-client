@@ -145,7 +145,7 @@ public class Audience implements PushModel {
         }
         boolean file = false;
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Set<AudienceTarget> audienceTargetSet = new HashSet<>();
+        Set<AudienceTarget> audienceTargetSet = new HashSet<AudienceTarget>();
         for (AudienceType type : AudienceType.values()) {
             JsonArray jsonArray = jsonObject.getAsJsonArray(type.value());
             if (jsonArray == null) {

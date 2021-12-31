@@ -86,7 +86,7 @@ public class ImageClient {
         NativeHttpClient client = (NativeHttpClient) _httpClient;
         String url = _baseUrl + _imagesPath + "/" + ImageSource.FILE.value();
 
-        Map<String, String> textMap = new HashMap<>();
+        Map<String, String> textMap = new HashMap<String, String>();
         textMap.put("image_type", String.valueOf(imageFilePayload.getImageType().value()));
 
         Map<String, String> fileMap = imageFilePayload.toFileMap();

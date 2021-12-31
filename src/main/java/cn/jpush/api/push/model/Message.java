@@ -188,7 +188,7 @@ public class Message implements PushModel {
 
         public Builder addCustom(Map<String, String> extras) {
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             for (Map.Entry<String, String> entry : extras.entrySet()) {
                 customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));
@@ -199,7 +199,7 @@ public class Message implements PushModel {
         public Builder addCustom(String key, Number value) {
             Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;
@@ -208,7 +208,7 @@ public class Message implements PushModel {
         public Builder addCustom(String key, String value) {
             Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;
@@ -217,7 +217,7 @@ public class Message implements PushModel {
         public Builder addCustom(String key, Boolean value) {
             Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;

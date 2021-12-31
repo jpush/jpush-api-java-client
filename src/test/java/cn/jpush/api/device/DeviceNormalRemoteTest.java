@@ -200,7 +200,7 @@ public class DeviceNormalRemoteTest extends BaseTest {
 	@Test
 	@TestOrder(order = 330)
 	public void testRemoveDevicesFromAlias() throws APIConnectionException, APIRequestException {
-		Set<String> toRemoveDevice = new HashSet<>();
+		Set<String> toRemoveDevice = new HashSet<String>();
 		toRemoveDevice.add(REGISTRATION_ID1);
 		DefaultResult result = jpushClient.removeDevicesFromAlias("alias1", toRemoveDevice);
 		assertTrue(result.isResultOK());

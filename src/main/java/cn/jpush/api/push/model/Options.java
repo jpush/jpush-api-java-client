@@ -194,12 +194,12 @@ public class Options implements PushModel {
         @Deprecated
         public Map<String, Map<String, String>> getThirdPartyChannel() {
             if (null != thirdPartyChannel) {
-                Map<String, Map<String, String>> thirdPartyChannelRsp = new HashMap<>();
+                Map<String, Map<String, String>> thirdPartyChannelRsp = new HashMap<String, Map<String, String>>();
                 Set<Map.Entry<String, JsonObject>> entrySet = thirdPartyChannel.entrySet();
                 for (Map.Entry<String, JsonObject> entry : entrySet) {
                     JsonObject entryValue = entry.getValue();
                     Set<Map.Entry<String, JsonElement>> valueEntrySet = entryValue.entrySet();
-                    Map<String, String> valueMap = new HashMap<>();
+                    Map<String, String> valueMap = new HashMap<String, String>();
                     for (Map.Entry<String, JsonElement> valueEntry : valueEntrySet) {
                         valueMap.put(valueEntry.getKey(), null == valueEntry.getValue() ? null : valueEntry.getValue().getAsString());
                     }
@@ -212,7 +212,7 @@ public class Options implements PushModel {
 
         @Deprecated
         public Builder setThirdPartyChannel(Map<String, Map<String, String>> thirdPartyChannel) {
-            this.thirdPartyChannel = new HashMap<>();
+            this.thirdPartyChannel = new HashMap<String, JsonObject>();
             if (null != thirdPartyChannel) {
                 Set<Map.Entry<String, Map<String, String>>> entrySet = thirdPartyChannel.entrySet();
                 for (Map.Entry<String, Map<String, String>> entry : entrySet) {
@@ -239,7 +239,7 @@ public class Options implements PushModel {
 
         public Builder addCustom(Map<String, String> extras) {
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             for (Map.Entry<String, String> entry : extras.entrySet()) {
                 customData.put(entry.getKey(), new JsonPrimitive(entry.getValue()));
@@ -250,7 +250,7 @@ public class Options implements PushModel {
         public Builder addCustom(String key, Number value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;
@@ -259,7 +259,7 @@ public class Options implements PushModel {
         public Builder addCustom(String key, String value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;
@@ -268,7 +268,7 @@ public class Options implements PushModel {
         public Builder addCustom(String key, Boolean value) {
             Preconditions.checkArgument(! (null == key), "Key should not be null.");
             if (customData == null) {
-                customData = new LinkedHashMap<>();
+                customData = new LinkedHashMap<String, JsonPrimitive>();
             }
             customData.put(key, new JsonPrimitive(value));
             return this;

@@ -3,7 +3,7 @@
 
 	<groupId>cn.jpush.api</groupId>
 	<artifactId>jpush-client</artifactId>
-	<version>3.5.5</version>
+	<version>3.6.0</version>
 	<packaging>jar</packaging>
 	<url>https://github.com/jpush/jpush-api-java-client</url>
 	<name>JPush API Java Client</name>
@@ -20,8 +20,8 @@
 	<properties>
 		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdkVersion>1.7</jdkVersion>
-		<jdkVersion.test>1.7</jdkVersion.test>
+		<jdkVersion>1.6</jdkVersion>
+		<jdkVersion.test>1.6</jdkVersion.test>
 		<!--<additionalparam>-Xdoclint:none</additionalparam>-->
 	</properties>
 
@@ -51,7 +51,7 @@
 		<dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.1.12</version>
+            <version>1.2.0</version>
         </dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
