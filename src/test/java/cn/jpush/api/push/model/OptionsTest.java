@@ -136,8 +136,8 @@ public class OptionsTest {
     public void testThirdPartyChannel() {
         int sendno = ServiceHelper.generateSendno();
 
-        Map<String, Map<String, String>> thirdMap = new HashMap<>();
-        Map<String, String> huaweiMap = new HashMap<>();
+        Map<String, Map<String, String>> thirdMap = new HashMap<String, Map<String, String>>();
+        Map<String, String> huaweiMap = new HashMap<String, String>();
         huaweiMap.put("distribution", "jpush");
         thirdMap.put("huawei", huaweiMap);
 
@@ -163,7 +163,7 @@ public class OptionsTest {
     public void testThirdPartyChannelV2() {
         int sendno = ServiceHelper.generateSendno();
 
-        Map<String, JsonObject> thirdMap = new HashMap<>();
+        Map<String, JsonObject> thirdMap = new HashMap<String, JsonObject>();
         JsonObject vivoJsonObj = new JsonObject();
         vivoJsonObj.addProperty("distribution", "ospush");
         vivoJsonObj.addProperty("classification", 1);

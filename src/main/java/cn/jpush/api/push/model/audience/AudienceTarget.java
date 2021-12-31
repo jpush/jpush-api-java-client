@@ -114,7 +114,7 @@ public class AudienceTarget implements PushModel {
     }
 
     public static AudienceTarget fromJsonElement(JsonArray jsonArray, AudienceType type) {
-        Set<String> stringSet = new HashSet<>();
+        Set<String> stringSet = new HashSet<String>();
         if (jsonArray != null) {
             for (int i=0; i<jsonArray.size(); i++) {
                 stringSet.add(jsonArray.get(i).getAsString());

@@ -19,7 +19,7 @@ public class GroupMessageDetailResult extends BaseResult {
     private static final Type RECEIVED_TYPE = new TypeToken<List<Received>>() {}.getType();
 
     @Expose
-    public List<Received> received_list = new ArrayList<>();
+    public List<Received> received_list = new ArrayList<Received>();
 
     public static class Received {
         @Expose

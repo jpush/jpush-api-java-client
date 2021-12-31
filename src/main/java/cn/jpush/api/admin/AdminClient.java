@@ -115,8 +115,8 @@ public class AdminClient {
         NativeHttpClient client = (NativeHttpClient) mHttpClient;
         String url = mBasePath + mV1AppPath + "/" + appKey + "/certificate";
 
-        Map<String, String> fileMap = new HashMap<>();
-        Map<String, String> textMap = new HashMap<>();
+        Map<String, String> fileMap = new HashMap<String, String>();
+        Map<String, String> textMap = new HashMap<String, String>();
 
         if(devCertificateFile != null) {
             textMap.put("devCertificatePassword", devCertificatePassword);

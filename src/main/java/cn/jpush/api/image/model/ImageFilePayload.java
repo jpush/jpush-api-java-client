@@ -22,7 +22,7 @@ public class ImageFilePayload {
     private String jiguangFileName;
 
     public Map<String, String> toFileMap() {
-        HashMap<String, String> fileMap = new HashMap<>();
+        HashMap<String, String> fileMap = new HashMap<String, String>();
         if (null != oppoFileName) {
             fileMap.put(OPPO_IMAGE_FILE, oppoFileName);
         }

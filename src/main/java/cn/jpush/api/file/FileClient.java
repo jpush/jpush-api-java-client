@@ -53,7 +53,7 @@ public class FileClient {
         NativeHttpClient client = (NativeHttpClient) _httpClient;
         String typeStr = type.value();
         String url = _baseUrl + _filesPath + "/" + typeStr;
-        Map<String, String> fileMap = new HashMap<>();
+        Map<String, String> fileMap = new HashMap<String,String>();
         fileMap.put("filename", filename);
         String response = client.formUploadByPost(url, null, fileMap, null);
         LOG.info("uploadFile:{}", response);

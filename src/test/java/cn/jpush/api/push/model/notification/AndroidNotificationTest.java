@@ -11,7 +11,6 @@ import com.google.gson.JsonPrimitive;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Category(FastTests.class)
 public class AndroidNotificationTest {
@@ -68,7 +67,7 @@ public class AndroidNotificationTest {
     @Test
     public void testCustomParam() {
 
-        Map<String, String> customParams = new HashMap<>();
+        Map<String, String> customParams = new HashMap<String, String>();
         customParams.put("custom_field1", "field1");
         customParams.put("custom_field2", "field2");
         customParams.put("custom_field3", "field3");

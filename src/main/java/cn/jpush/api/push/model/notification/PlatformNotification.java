@@ -36,7 +36,7 @@ public abstract class PlatformNotification implements PushModel {
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
-        customData = new LinkedHashMap<>();
+        customData = new LinkedHashMap<String, JsonPrimitive>();
     }
 
     public PlatformNotification(Object alert, Map<String, String> extras,
@@ -142,7 +142,7 @@ public abstract class PlatformNotification implements PushModel {
         protected Map<String, JsonPrimitive> customData;
 
         public Builder () {
-            customData = new LinkedHashMap<>();
+            customData = new LinkedHashMap<String, JsonPrimitive>();
         	theBuilder = getThis();
         }
 

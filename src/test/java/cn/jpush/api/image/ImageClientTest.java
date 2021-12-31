@@ -73,9 +73,9 @@ public class ImageClientTest extends BaseTest {
                 .setXiaomiFileName("dir/xiaomiXX.jpg")
                 .build();
         ImageUploadResult imageUploadResult = spyClient.uploadImage(payload);
-        HashMap<String, String> textMap = new HashMap<>();
+        HashMap<String, String> textMap = new HashMap<String, String>();
         textMap.put("image_type", "2");
-        HashMap<String, String> fileMap = new HashMap<>();
+        HashMap<String, String> fileMap = new HashMap<String, String>();
         fileMap.put("oppo_file", "oppoXX.jpg");
         fileMap.put("xiaomi_file", "dir/xiaomiXX.jpg");
         verify(mockIHttpClient).formUploadByPost("https://api.jpush.cn/v3/images/byfiles", textMap, fileMap, null);
@@ -136,7 +136,7 @@ public class ImageClientTest extends BaseTest {
                 .setXiaomiFileName("dir/xiaomiXX.jpg")
                 .build();
         ImageUploadResult imageUploadResult = spyClient.modifyImage(mediaId, payload);
-        HashMap<String, String> fileMap = new HashMap<>();
+        HashMap<String, String> fileMap = new HashMap<String, String>();
         fileMap.put("oppo_file", "oppoXX.jpg");
         fileMap.put("xiaomi_file", "dir/xiaomiXX.jpg");
         verify(mockIHttpClient).formUploadByPut("https://api.jpush.cn/v3/images/byfiles/" + mediaId, null, fileMap, null);
