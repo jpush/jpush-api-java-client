@@ -23,6 +23,8 @@ public class ScheduleClient {
     private String hostName;
     private String schedulePath;
 
+    private PushClient pushClient;
+
     // If not present, true by default.
     private int apnsProduction;
 
@@ -81,6 +83,8 @@ public class ScheduleClient {
         schedulePath = (String) conf.get(ClientConfig.SCHEDULE_PATH);
         apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
         timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
+        //createSchedule接口需要用到这个类
+        pushClient = new PushClient(masterSecret, appKey, ClientConfig.getInstance());
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
@@ -104,7 +108,6 @@ public class ScheduleClient {
         // 调用getCidList方法来获取cid并赋值到payload中
         String cid = payload.getCid();
         if (cid == null) {
-            PushClient pushClient = new PushClient(masterSecret, appKey);
             CIDResult cidResult = pushClient.getCidList(1 , "schedule");
             payload.setCid(cidResult.cidlist.get(0));
         }

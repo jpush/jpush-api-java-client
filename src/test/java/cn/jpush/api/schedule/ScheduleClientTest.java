@@ -60,10 +60,12 @@ public class ScheduleClientTest extends BaseTest {
      * Method: deleteSchedule(String scheduleId)
      */
     @Test
-    public void testScheduleMethods(String masterSecret, String appKey) {
+    public void testScheduleMethods() {
+        String masterSecret = MASTER_SECRET;
+        String appKey = APP_KEY;
         String name = "test_schedule";
         TriggerPayload trigger = TriggerPayload.newBuilder()
-                .setSingleTime("2105-07-30 12:00:00")
+                .setSingleTime("2022-07-30 12:00:00")
                 .buildSingle();
 
         PushPayload push = PushPayload.alertAll("test schedule");
