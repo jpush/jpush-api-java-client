@@ -46,20 +46,26 @@ public class FileClient {
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
     }
 
-    public FileUploadResult uploadFile(FileType type, String filename)
+    public FileUploadResult uploadFile(FileType type, String filename, Integer ttl)
             throws APIConnectionException, APIRequestException {
         Preconditions.checkArgument(type != null, "type should not be null");
         Preconditions.checkArgument(StringUtils.isNotEmpty(filename), "filename should not be null");
+        Preconditions.checkArgument(ttl >= 1 && ttl <= 720,"TTL is not in the range of 1 to 720");
         NativeHttpClient client = (NativeHttpClient) _httpClient;
         String typeStr = type.value();
         String url = _baseUrl + _filesPath + "/" + typeStr;
         Map<String, String> fileMap = new HashMap<String,String>();
         fileMap.put("filename", filename);
+        fileMap.put("ttl",String.valueOf(ttl));
         String response = client.formUploadByPost(url, null, fileMap, null);
         LOG.info("uploadFile:{}", response);
         return _gson.fromJson(response,
                 new TypeToken<FileUploadResult>() {
                 }.getType());
+    }
+
+    public FileUploadResult uploadFile(FileType type, String filename) throws APIConnectionException, APIRequestException {
+        return uploadFile(type,filename,720);
     }
 
     public FileModelPage queryEffectFiles() throws APIConnectionException, APIRequestException {
