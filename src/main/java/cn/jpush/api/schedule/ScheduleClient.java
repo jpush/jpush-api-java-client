@@ -84,7 +84,7 @@ public class ScheduleClient {
         apnsProduction = (Integer) conf.get(ClientConfig.APNS_PRODUCTION);
         timeToLive = (Long) conf.get(ClientConfig.TIME_TO_LIVE);
         //createSchedule接口需要用到这个类
-        pushClient = new PushClient(masterSecret, appKey, ClientConfig.getInstance());
+        pushClient = new PushClient(masterSecret, appKey, conf);
 
         String authCode = ServiceHelper.getBasicAuthorization(appKey, masterSecret);
         this._httpClient = new NativeHttpClient(authCode, proxy, conf);
