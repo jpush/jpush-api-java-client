@@ -57,6 +57,10 @@ public class PushClient {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
 
+    public PushClient(String masterSecret, String appKey,ClientConfig clientConfig){
+        this(masterSecret,appKey,null,clientConfig);
+    }
+
     /**
      * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig} instead of this constructor.
      *
