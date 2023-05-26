@@ -10,6 +10,7 @@ import cn.jiguang.common.utils.StringUtils;
 import cn.jiguang.common.utils.sm2.SM2Util;
 import cn.jpush.api.push.model.*;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.live_activity.LiveActivity;
 import com.google.gson.*;
 
 import java.util.List;
@@ -45,7 +46,8 @@ public class PushClient {
     // encrypt type, the default value is empty
     private String _encryptType;
 
-    public PushClient() {}
+    public PushClient() {
+    }
 
     /**
      * Create a Push Client.
@@ -57,8 +59,8 @@ public class PushClient {
         this(masterSecret, appKey, null, ClientConfig.getInstance());
     }
 
-    public PushClient(String masterSecret, String appKey,ClientConfig clientConfig){
-        this(masterSecret,appKey,null,clientConfig);
+    public PushClient(String masterSecret, String appKey, ClientConfig clientConfig) {
+        this(masterSecret, appKey, null, clientConfig);
     }
 
     /**
@@ -377,6 +379,12 @@ public class PushClient {
         if (_timeToLive >= 0) {
             pushPayload.resetOptionsTimeToLive(_timeToLive);
         }
+    }
+
+
+    public PushResult sendLiveActivity(LiveActivity liveActivity) throws APIConnectionException, APIRequestException {
+        ResponseWrapper response = _httpClient.sendPost(_baseUrl + _pushPath, liveActivity.toJSON().toString());
+        return BaseResult.fromResponse(response, PushResult.class);
     }
 
 }
