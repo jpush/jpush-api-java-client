@@ -24,6 +24,7 @@ public class Notification3rd implements PushModel{
     private static final String URI_ACTIVITY = "uri_activity";
     private static final String URI_ACTION = "uri_action";
     private static final String BADGE_ADD_NUM = "badge_add_num";
+    private static final String BADGE_SET_NUM = "badge_set_num";
     private static final String BADGE_CLASS = "badge_class";
     private static final String SOUND = "sound";
     private static final String EXTRAS = "extras";
@@ -35,6 +36,7 @@ public class Notification3rd implements PushModel{
     private final String uri_activity;
     private final String uri_action;
     private final int badge_add_num;
+    private final int badge_set_num;
     private final String badge_class;
     private final String sound;
     private final Map<String, String> extras;
@@ -43,7 +45,7 @@ public class Notification3rd implements PushModel{
     private final Map<String, JsonObject> jsonExtras;
 
     private Notification3rd(String title, String content, String channel_id,
-                            String uri_activity, String uri_action, int badge_add_num,
+                            String uri_activity, String uri_action, int badge_add_num,int badge_set_num,
                             String badge_class, String sound,
                             Map<String, String> extras,
                             Map<String, Number> numberExtras,
@@ -55,6 +57,7 @@ public class Notification3rd implements PushModel{
         this.uri_activity = uri_activity;
         this.uri_action = uri_action;
         this.badge_add_num = badge_add_num;
+        this.badge_set_num = badge_set_num;
         this.badge_class = badge_class;
         this.sound = sound;
         this.extras = extras;
@@ -95,6 +98,10 @@ public class Notification3rd implements PushModel{
 
         if (0 != badge_add_num) {
             json.addProperty(BADGE_ADD_NUM, badge_add_num);
+        }
+
+        if (0 != badge_set_num) {
+            json.addProperty(BADGE_SET_NUM, badge_set_num);
         }
 
         if (null != badge_class) {
@@ -164,6 +171,7 @@ public class Notification3rd implements PushModel{
         private String uri_activity;
         private String uri_action;
         private int badge_add_num;
+        private int badge_set_num;
         private String badge_class;
         private String sound;
         protected Map<String, String> extrasBuilder;
@@ -198,6 +206,11 @@ public class Notification3rd implements PushModel{
 
         public Builder setBadgeAddNum(int badge_add_num) {
             this.badge_add_num = badge_add_num;
+            return this;
+        }
+
+        public Builder setBadgeSetNum(int badge_set_num) {
+            this.badge_set_num = badge_set_num;
             return this;
         }
 
@@ -263,7 +276,7 @@ public class Notification3rd implements PushModel{
         public Notification3rd build() {
             Preconditions.checkArgument(content != null && content != "", "content should not be null or empty");
 
-            return new Notification3rd(title, content, channel_id, uri_activity, uri_action, badge_add_num,
+            return new Notification3rd(title, content, channel_id, uri_activity, uri_action, badge_add_num, badge_set_num,
                     badge_class, sound, extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }

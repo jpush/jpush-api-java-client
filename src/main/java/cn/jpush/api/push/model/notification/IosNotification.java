@@ -14,13 +14,15 @@ import cn.jiguang.common.ServiceHelper;
  * 支持 APNs 默认的几个参数：
  * <ul>
  * <li>alert: 继承自父类 PlatformNotification 的 alert 属性；本类设置则覆盖。</li>
- * <li>badge: 支持 setBadge(int) 方法来设置；支持 incrBadge(int) 方法来增加。</li>
  * <li>sound: 支持 setSound(string) 方法来设置声音文件。或者 setSound(JSON object) 对应官方payload结构 </li>
+ * <li>badge: 支持 setBadge(int) 方法来设置；支持 incrBadge(int) 方法来增加。</li>
  * <li>content-available: 用来支持后台推送。如果该值赋值为 1，表示开启后台推送。</li>
  * <li>mutable-content: 通知扩展</li>
  * <li>category: IOS 8 才支持。设置 APNs payload 中的 "category" 字段值</li>
  * <li>mutable-content: 通知扩展</li>
  * <li>extras: JSON object. 支持更多的自定义字段信息。</li>
+ * <li>thread-id: string. ios 的远程通知通过该属性来对通知进行分组，同一个 thread-id 的通知归为一组。</li>
+ * <li>interruption-level: string. ios 15 的通知级别，取值只能是 active,critical,passive,time-sensitive 中的一个，详情参考：UNNotificationInterruptionLevel。</li>
  * </ul>
  * <br>
  * 需要特别留意的是，JPush SDK 会对以下几个值有特别的默认设置考虑：
@@ -41,7 +43,8 @@ public class IosNotification extends PlatformNotification {
     private static final String MUTABLE_CONTENT = "mutable-content";
     private static final String CATEGORY = "category";
     private static final String THREAD_ID = "thread-id";
-    
+    private static final String INTERRUPTION_LEVEL = "interruption-level";
+
     private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
             + "and can be prefixed with + to add, - to minus";
 
@@ -54,10 +57,11 @@ public class IosNotification extends PlatformNotification {
     private final String category;
     private final boolean mutableContent;
     private final String threadId;
+    private final String interruptionLevel;
 
     private IosNotification(Object alert, Object sound, String badge,
             boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
-            String category, boolean mutableContent,String threadId,
+            String category, boolean mutableContent,String threadId,String interruptionLevel,
             Map<String, String> extras, 
             Map<String, Number> numberExtras, 
             Map<String, Boolean> booleanExtras, 
@@ -73,6 +77,7 @@ public class IosNotification extends PlatformNotification {
         this.category = category;
         this.mutableContent = mutableContent;
         this.threadId = threadId;
+        this.interruptionLevel = interruptionLevel;
     }
     
     public static Builder newBuilder() {
@@ -124,6 +129,9 @@ public class IosNotification extends PlatformNotification {
         if (null != threadId) {
         	json.add(THREAD_ID, new JsonPrimitive(threadId));
         }
+        if (null != interruptionLevel) {
+        	json.add(INTERRUPTION_LEVEL, new JsonPrimitive(interruptionLevel));
+        }
 
         return json;
     }
@@ -138,6 +146,7 @@ public class IosNotification extends PlatformNotification {
         private String category;
         private boolean mutableContent;
         private String threadId;
+        private String interruptionLevel;
 
         @Override
         protected Builder getThis() {
@@ -220,10 +229,15 @@ public class IosNotification extends PlatformNotification {
         	return this;
         }
 
+        public Builder setInterruptionLevel(String interruptionLevel) {
+        	this.interruptionLevel = interruptionLevel;
+        	return this;
+        }
+
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable, 
-                    soundDisabled, badgeDisabled, category, mutableContent, threadId,
+                    soundDisabled, badgeDisabled, category, mutableContent, threadId, interruptionLevel,
             		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, super.customData);
         }
     }

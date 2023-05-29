@@ -11,6 +11,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 参考文档：https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push#options
+ *
+ * <p><b>Options</b></p>
+ * <br>
+ * <ul>
+ * <li>sendno: 推送序号 </li>
+ * <li>time_to_live: 离线消息保留时长 (秒) </li>
+ * <li>override_msg_id: 要覆盖的消息 ID </li>
+ * <li>apns_production: APNs 是否生产环境 </li>
+ * <li>apns_collapse_id: 更新 iOS 通知的标识符 </li>
+ * <li>big_push_duration: 定速推送时长 (分钟) </li>
+ * <li>third_party_channel: 推送请求下发通道 </li>
+ * <li>classification: 消息类型分类，极光不对指定的消息类型进行判断或校准，会以开发者自行指定的消息类型适配 Android 厂商通道。不填默认为 0 </li>
+ * </ul>
+ */
 public class Options implements PushModel {
 
     private static final String SENDNO = "sendno";
@@ -20,6 +36,7 @@ public class Options implements PushModel {
     private static final String BIG_PUSH_DURATION = "big_push_duration";
     private static final String APNS_COLLAPSE_ID = "apns_collapse_id";
     private static final String THIRD_PARTH_CHANNEl = "third_party_channel";
+    private static final String CLASSIFICATION = "classification";
 
     private static final long NONE_TIME_TO_LIVE = -1;
 
@@ -30,38 +47,12 @@ public class Options implements PushModel {
     // minutes
     private int bigPushDuration;
     private String apnsCollapseId;
-    private final Map<String, JsonPrimitive> customData;
-
-
+    private int classification;
     /**
-     * {
-     *     "third_party_channel":{
-     *         "xiaomi":{
-     *             "distribution":"ospush",
-     *             "channel_id":"*******"
-     *         },
-     *         "huawei":{
-     *             "distribution":"jpush"
-     *         },
-     *         "meizu":{
-     *             "distribution":"jpush"
-     *         },
-     *         "fcm":{
-     *             "distribution":"ospush"
-     *         },
-     *         "oppo":{
-     *             "distribution":"ospush",
-     *             "channel_id":"*******"
-     *         },
-     *         "vivo":{
-     *             "distribution":"ospush",
-     *             "classification":0 // 2020/06 新增，和vivo官方字段含义一致 0 代表运营消息，1 代表系统消息，不填vivo官方默认为0
-     *                                // 使用此字段时，需使用setThirdPartyChannelV2方法，因为此值只能为整数形式
-     *         }
-     *     }
-     * }
+     * 参考：https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push#third_party_channel-%E8%AF%B4%E6%98%8E
      */
     private Map<String, JsonObject> thirdPartyChannel;
+    private final Map<String, JsonPrimitive> customData;
 
     private Options(int sendno,
                     long overrideMsgId,
@@ -69,6 +60,7 @@ public class Options implements PushModel {
                     boolean apnsProduction,
                     int bigPushDuration,
                     String apnsCollapseId,
+                    int classification,
                     Map<String, JsonObject> thirdPartyChannel,
                     Map<String, JsonPrimitive> customData) {
         this.sendno = sendno;
@@ -77,6 +69,7 @@ public class Options implements PushModel {
         this.apnsProduction = apnsProduction;
         this.bigPushDuration = bigPushDuration;
         this.apnsCollapseId = apnsCollapseId;
+        this.classification = classification;
         this.thirdPartyChannel = thirdPartyChannel;
         this.customData = customData;
     }
@@ -132,6 +125,8 @@ public class Options implements PushModel {
             json.add(APNS_COLLAPSE_ID, new JsonPrimitive(apnsCollapseId));
         }
 
+        json.add(CLASSIFICATION, new JsonPrimitive(classification));
+
         if (null != thirdPartyChannel && thirdPartyChannel.size() > 0) {
             JsonObject partyChannel = new JsonObject();
             for (Map.Entry<String, JsonObject> entry : thirdPartyChannel.entrySet()) {
@@ -158,6 +153,7 @@ public class Options implements PushModel {
         private boolean apnsProduction = false;
         private int bigPushDuration = 0;
         private String apnsCollapseId;
+        private int classification;
         private Map<String, JsonObject> thirdPartyChannel;
         private Map<String, JsonPrimitive> customData;
 
@@ -188,6 +184,11 @@ public class Options implements PushModel {
 
         public Builder setBigPushDuration(int bigPushDuration) {
             this.bigPushDuration = bigPushDuration;
+            return this;
+        }
+
+        public Builder setClassification(int classification) {
+            this.classification = classification;
             return this;
         }
 
@@ -248,7 +249,7 @@ public class Options implements PushModel {
         }
 
         public Builder addCustom(String key, Number value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<String, JsonPrimitive>();
             }
@@ -257,7 +258,7 @@ public class Options implements PushModel {
         }
 
         public Builder addCustom(String key, String value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<String, JsonPrimitive>();
             }
@@ -266,7 +267,7 @@ public class Options implements PushModel {
         }
 
         public Builder addCustom(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (customData == null) {
                 customData = new LinkedHashMap<String, JsonPrimitive>();
             }
@@ -284,7 +285,7 @@ public class Options implements PushModel {
                 sendno = ServiceHelper.generateSendno();
             }
 
-            return new Options(sendno, overrideMsgId, timeToLive, apnsProduction, bigPushDuration, apnsCollapseId, thirdPartyChannel, customData);
+            return new Options(sendno, overrideMsgId, timeToLive, apnsProduction, bigPushDuration, apnsCollapseId, classification, thirdPartyChannel, customData);
         }
     }
 
