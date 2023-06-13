@@ -21,6 +21,13 @@ public class LiveActivityTest {
                 .iOSEvent(LiveActivityEvent.UPDATE)
                 .iOSContentState("eventStr", "更新")
                 .iOSContentState("eventTime", System.currentTimeMillis())
+                .iOSContentState("eventBool", true)
+                // 需要联系商务开通 alternate_set 才能使用
+                // .iOSAlertTitle("alertTitle")
+                // .iOSAlertAlternateTitle("alertAlternateTitle")
+                // .iOSAlertBody("alertBody")
+                // .iOSAlertAlternateBody("alertAlternateBody")
+                // .iOSAlertSound("alertSound")
                 .build();
         System.out.println("send liveActivity param:" + liveActivity.toJSON());
 
