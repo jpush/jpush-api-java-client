@@ -1,3 +1,7 @@
+# 温馨提示
+极光已推出新版本的 SDK 供广大用户使用，当前版本后续将不推荐使用，请移步仓库 [jiguang-sdk-java-v5](https://github.com/jpush/jiguang-sdk-java-v5) 了解更多。
+
+
 [![GitHub version](https://badge.fury.io/gh/jpush%2Fjpush-api-java-client.svg)](http://badge.fury.io/gh/jpush%2Fjpush-api-java-client)
 
 # JPush API Java Library
