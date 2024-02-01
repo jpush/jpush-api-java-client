@@ -79,6 +79,8 @@ public class FileClientTest extends BaseTest {
     @Test
     public void testDeleteFile() {
         FileClient fileClient = new FileClient(MASTER_SECRET, APP_KEY);
+
+
         try {
             fileClient.deleteFile(fileId);
         } catch (APIConnectionException e) {
@@ -91,4 +93,8 @@ public class FileClientTest extends BaseTest {
             LOG.info("Msg ID: " + e.getMsgId());
         }
     }
+
+
+
+
 }
