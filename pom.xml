@@ -299,8 +299,8 @@
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<!-- 手动release -->
-					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+					<!-- 自动release -->
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
 
