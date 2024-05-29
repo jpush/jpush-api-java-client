@@ -12,7 +12,7 @@ import cn.jiguang.common.utils.Preconditions;
 /**
  * https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push/#platform
  *
- * JPush 当前支持 Android, iOS, QuickApp，Windows Phone 四个平台的推送。其关键字分别为："android", "ios", "quickapp","winphone"。
+ * JPush 当前支持 Android, iOS, QuickApp, HMOS 四个平台的推送。其关键字分别为："android", "ios", "quickapp","hmos"。
  * 使用方法，只需要在PushPayload中调用setPlatform方法。如：setPlatform(Platform.android_ios())
  * 如需要全平台推送，只需要setPlatform(Platform.all())
  */
@@ -47,8 +47,8 @@ public class Platform implements PushModel {
         return newBuilder().addDeviceType(DeviceType.QuickApp).build();
     }
     
-    public static Platform winphone() {
-        return newBuilder().addDeviceType(DeviceType.WinPhone).build();
+    public static Platform hmos() {
+        return newBuilder().addDeviceType(DeviceType.HMOS).build();
     }
     
     public static Platform android_ios() {
@@ -58,17 +58,17 @@ public class Platform implements PushModel {
                 .build();
     }
     
-    public static Platform android_winphone() {
+    public static Platform android_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.Android)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
     
-    public static Platform ios_winphone() {
+    public static Platform ios_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.IOS)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
 
@@ -86,10 +86,10 @@ public class Platform implements PushModel {
                 .build();
     }
 
-    public static Platform quickapp_winphone() {
+    public static Platform quickapp_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.QuickApp)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
 
@@ -101,27 +101,27 @@ public class Platform implements PushModel {
                 .build();
     }
 
-    public static Platform android_ios_winphone() {
+    public static Platform android_ios_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.Android)
                 .addDeviceType(DeviceType.IOS)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
 
-    public static Platform android_quickapp_winphone() {
+    public static Platform android_quickapp_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.Android)
                 .addDeviceType(DeviceType.QuickApp)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
 
-    public static Platform ios_quickapp_winphone() {
+    public static Platform ios_quickapp_hmos() {
         return newBuilder()
                 .addDeviceType(DeviceType.IOS)
                 .addDeviceType(DeviceType.QuickApp)
-                .addDeviceType(DeviceType.WinPhone)
+                .addDeviceType(DeviceType.HMOS)
                 .build();
     }
     

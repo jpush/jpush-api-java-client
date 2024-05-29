@@ -64,15 +64,15 @@ public class NotificationTest {
     }
     
     @Test
-    public void testAlert_winphone() {
+    public void testAlert_hmos() {
         Notification notification = Notification.newBuilder()
-                .addPlatformNotification(WinphoneNotification.alert("alert"))
+                .addPlatformNotification(HmosNotification.alert("alert"))
                 .build();
         JsonObject json = new JsonObject();
-        JsonObject winphone = new JsonObject();
-        winphone.add("alert", new JsonPrimitive("alert"));
+        JsonObject hmos = new JsonObject();
+        hmos.add("alert", new JsonPrimitive("alert"));
         json.addProperty("ai_opportunity", false);
-        json.add("winphone", winphone);
+        json.add("hmos", hmos);
         Assert.assertEquals("", json, notification.toJSON());
     }
     

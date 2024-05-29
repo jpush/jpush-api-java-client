@@ -10,33 +10,33 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 @Category(FastTests.class)
-public class WinphoneNotificationTest {
+public class HmosNotificationTest {
 
     @Test
     public void testEmpty() {
-        WinphoneNotification winphone = WinphoneNotification.newBuilder().build();
-        Assert.assertEquals("", new JsonObject(), winphone.toJSON());
+        HmosNotification hmos = HmosNotification.newBuilder().build();
+        Assert.assertEquals("", new JsonObject(), hmos.toJSON());
     }
     
     @Test
     public void testQuickAlert() {
-        WinphoneNotification winphone = WinphoneNotification.alert("aaa");
+        HmosNotification hmos = HmosNotification.alert("aaa");
         JsonObject json = new JsonObject();
         json.add("alert", new JsonPrimitive("aaa"));
-        Assert.assertEquals("", json, winphone.toJSON());
+        Assert.assertEquals("", json, hmos.toJSON());
     }
 
     @Test
     public void testTitle() {
-        WinphoneNotification winphone = WinphoneNotification.newBuilder().setTitle("title").build();
+        HmosNotification hmos = HmosNotification.newBuilder().setTitle("title").build();
         JsonObject json = new JsonObject();
         json.add("title", new JsonPrimitive("title"));
-        Assert.assertEquals("", json, winphone.toJSON());
+        Assert.assertEquals("", json, hmos.toJSON());
     }
     
     @Test
     public void testExtra() {
-        WinphoneNotification winphone = WinphoneNotification.newBuilder()
+        HmosNotification hmos = HmosNotification.newBuilder()
                 .addExtra("key2", 222)
                 .addExtra("key", "value").build();
         JsonObject json = new JsonObject();
@@ -44,7 +44,7 @@ public class WinphoneNotificationTest {
         extra.add("key", new JsonPrimitive("value"));
         extra.add("key2", new JsonPrimitive(222));
         json.add("extras", extra);
-        Assert.assertEquals("", json, winphone.toJSON());
+        Assert.assertEquals("", json, hmos.toJSON());
     }
     
 

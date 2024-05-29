@@ -13,7 +13,9 @@ import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.*;
+import com.google.gson.JsonObject;
 import io.netty.handler.codec.http.HttpMethod;
+import lombok.SneakyThrows;
 import org.junit.Test;
 
 import cn.jiguang.common.connection.HttpProxy;
@@ -229,6 +231,33 @@ public class PushClientTest extends BaseTest {
                         .build()
                 ).build();
         System.out.println(notification.toJSON());
+    }
+
+    @Test
+    @SneakyThrows
+    public void testHmos(){
+        JsonObject intentJson = new JsonObject();
+        intentJson.addProperty("url","scheme://hmos?key1=val1&key2=val2");
+        Notification notification = Notification.newBuilder()
+                .addPlatformNotification(HmosNotification.newBuilder()
+                        .setAlert("hmos内容")
+                        .setTitle("hmos标题")
+                        .setCategory("IM")
+                        .setLarge_icon("https://www.jiguang.cn/largeIcon.jpg")
+                        .setIntent(intentJson)
+                        .setBadge_add_num(1)
+                        .setTest_message(false)
+                        .setReceipt_id("receipt_id_2024")
+                        .addExtra("a","a")
+                        .build()
+                ).build();
+        JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY);
+        PushPayload payload = PushPayload.newBuilder()
+                .setAudience(Audience.all())
+                .setPlatform(Platform.hmos())
+                .setNotification(notification)
+                .build();
+        jpushClient.sendPush(payload);
     }
 
 }

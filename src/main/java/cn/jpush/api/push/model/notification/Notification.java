@@ -99,10 +99,11 @@ public class Notification implements PushModel {
                 .build();
     }
 
-    public static Notification winphone(String alert, Map<String, String> extras) {
+    public static Notification hmos(String alert, String title, Map<String, String> extras) {
         return newBuilder()
-                .addPlatformNotification(WinphoneNotification.newBuilder()
+                .addPlatformNotification(HmosNotification.newBuilder()
                     .setAlert(alert)
+                    .setTitle(title)
                     .addExtras(extras)
                     .build())
                 .build();

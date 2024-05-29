@@ -14,7 +14,7 @@ import cn.jiguang.common.utils.Preconditions;
  * 使用说明
  * notification_3rd 只针对开通了厂商通道的用户生效；
  * notification 和 notification_3rd 不能同时有内容，如果这两块同时有内容，则会返回错误提示；
- * notification_3rd 的内容对 iOS 和 WinPhone 平台无效，只针对 Android 平台生效；
+ * notification_3rd 的内容对 iOS 和 HMOS 平台无效，只针对 Android 平台生效；
  * notification_3rd 是用作补发厂商通知的内容，只有当 message 部分有内容，才允许传递此字段，且要两者都不为空时，才会对离线的厂商设备转发厂商通道的通知。
  */
 public class Notification3rd implements PushModel{

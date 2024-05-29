@@ -30,7 +30,7 @@ public class BaseMockTest implements IMockTest {
     static {
         SUPPORT_PLATFORM.add("android");
         SUPPORT_PLATFORM.add("ios");
-        SUPPORT_PLATFORM.add("winphone");
+        SUPPORT_PLATFORM.add("hmos");
         
         SUPPORT_AUDIENCE.add("tag");
         SUPPORT_AUDIENCE.add("tag_and");

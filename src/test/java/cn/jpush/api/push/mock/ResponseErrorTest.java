@@ -112,13 +112,13 @@ public class ResponseErrorTest extends BaseMockTest {
     }
     
     @Test
-    public void invalidParams_notification_winphone() {
+    public void invalidParams_notification_hmos() {
         JsonObject payload = new JsonObject();
         payload.add("platform", Platform.all().toJSON());
         payload.add("audience", Audience.all().toJSON());
         
         JsonObject notification = new JsonObject();
-        notification.add("winphone", new JsonPrimitive(ALERT));
+        notification.add("hmos", new JsonPrimitive(ALERT));
         payload.add("notification", notification);
         
         System.out.println("json string: " + payload.toString());
@@ -219,15 +219,15 @@ public class ResponseErrorTest extends BaseMockTest {
     }
     
     @Test
-    public void lackOfParams_notification_winphone_empty() {
+    public void lackOfParams_notification_hmos_empty() {
         JsonObject payload = new JsonObject();
         payload.add("platform", Platform.all().toJSON());
         payload.add("audience", Audience.all().toJSON());
         
         JsonObject notification = new JsonObject();
-        JsonObject winphone = new JsonObject();
+        JsonObject hmos = new JsonObject();
         
-        notification.add("winphone", winphone);
+        notification.add("hmos", hmos);
         payload.add("notification", notification);
         
         System.out.println("json string: " + payload.toString());
@@ -275,16 +275,16 @@ public class ResponseErrorTest extends BaseMockTest {
     }
     
     @Test
-    public void lackOfParams_notification_winphone_noalert() {
+    public void lackOfParams_notification_hmos_noalert() {
         JsonObject payload = new JsonObject();
         payload.add("platform", Platform.all().toJSON());
         payload.add("audience", Audience.all().toJSON());
         
         JsonObject notification = new JsonObject();
-        JsonObject winphone = new JsonObject();
-        winphone.add("title", new JsonPrimitive("title"));
+        JsonObject hmos = new JsonObject();
+        hmos.add("title", new JsonPrimitive("title"));
         
-        notification.add("winphone", winphone);
+        notification.add("hmos", hmos);
         payload.add("notification", notification);
         
         System.out.println("json string: " + payload.toString());

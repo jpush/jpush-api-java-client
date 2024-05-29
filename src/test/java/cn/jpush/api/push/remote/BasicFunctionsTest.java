@@ -2,7 +2,6 @@ package cn.jpush.api.push.remote;
 
 import static org.junit.Assert.assertTrue;
 
-import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,7 +16,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import cn.jpush.api.push.model.notification.WinphoneNotification;
+import cn.jpush.api.push.model.notification.HmosNotification;
 
 @Category(SlowTests.class)
 public class BasicFunctionsTest extends BaseRemotePushTest {
@@ -88,12 +87,12 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
     }
     
     @Test
-    public void sendSimpleNotification_Pwp_Nwp() throws Exception {
+    public void sendSimpleNotification_Phmos_Nhmos() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
-                .setPlatform(Platform.winphone())
+                .setPlatform(Platform.hmos())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("Pwp Nwp alert"))
+                        .addPlatformNotification(HmosNotification.alert("Phmos Nhmos alert"))
                         .build())
                 .build();
         try {
@@ -104,12 +103,12 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
     }
     
     @Test
-    public void sendSimpleNotification_Pall_Nwp() throws Exception {
+    public void sendSimpleNotification_Pall_Nhmos() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("Pall Nwp alert"))
+                        .addPlatformNotification(HmosNotification.alert("Pall Nhmos alert"))
                         .build())
                 .build();
         try {
@@ -125,11 +124,11 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.newBuilder()
                         .addDeviceType(DeviceType.IOS)
-                        .addDeviceType(DeviceType.WinPhone)
+                        .addDeviceType(DeviceType.HMOS)
                         .addDeviceType(DeviceType.Android).build())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
-                        .addPlatformNotification(WinphoneNotification.alert("Pall Nall wp alert"))
+                        .addPlatformNotification(HmosNotification.alert("Pall Nall hmos alert"))
                         .addPlatformNotification(IosNotification.alert("Pall Nall ios alert"))
                         .addPlatformNotification(AndroidNotification.alert("Pall Nall android alert"))
                         .build())
@@ -169,18 +168,6 @@ public class BasicFunctionsTest extends BaseRemotePushTest {
             e.printStackTrace();
         }
     }
-    
-    //@Test
-    public void sendSimpleMessage_Pwinphone() throws Exception {
-        PushPayload payload = PushPayload.newBuilder()
-                .setPlatform(Platform.winphone())
-                .setAudience(Audience.all())
-                .setMessage(Message.content("Pwp msg"))
-                .build();
-        PushResult result = _client.sendPush(payload);
-        assertTrue(result.isResultOK());
-    }
-    
 	
     @Test
     public void sendSimpleMessageAndNotification_Pall() throws Exception {

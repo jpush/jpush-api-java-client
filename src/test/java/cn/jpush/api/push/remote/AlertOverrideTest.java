@@ -14,7 +14,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import cn.jpush.api.push.model.notification.WinphoneNotification;
+import cn.jpush.api.push.model.notification.HmosNotification;
 
 @Category(SlowTests.class)
 public class AlertOverrideTest extends BaseRemotePushTest {
@@ -28,7 +28,7 @@ public class AlertOverrideTest extends BaseRemotePushTest {
                         .setAlert("alert")
                         .addPlatformNotification(AndroidNotification.alert("android alert"))
                         .addPlatformNotification(IosNotification.alert("ios alert"))
-                        .addPlatformNotification(WinphoneNotification.alert("winphone alert"))
+                        .addPlatformNotification(HmosNotification.alert("hmos alert"))
                         .build())
                 .build();
         PushResult result = _client.sendPush(payload);
@@ -67,13 +67,13 @@ public class AlertOverrideTest extends BaseRemotePushTest {
     }
     
     @Test
-    public void sendAlert_wp() throws Exception {
+    public void sendAlert_hmos() throws Exception {
         PushPayload payload = PushPayload.newBuilder()
-                .setPlatform(Platform.winphone())
+                .setPlatform(Platform.hmos())
                 .setAudience(Audience.all())
                 .setNotification(Notification.newBuilder()
                         .setAlert("alert")
-                        .addPlatformNotification(WinphoneNotification.alert("winphone alert"))
+                        .addPlatformNotification(HmosNotification.alert("hmos alert"))
                         .build())
                 .build();
         try {
