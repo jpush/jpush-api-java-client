@@ -22,18 +22,20 @@ public class Message implements PushModel {
     private static final String MSG_CONTENT = "msg_content";
     private static final String TITLE = "title";
     private static final String CONTENT_TYPE = "content_type";
+    private static final String TEST_MESSAGE = "test_message";
     private static final String EXTRAS = "extras";
 
     private final String msgContent;
     private final String title;
     private final String contentType;
+    private final Boolean testMessage;
     private final Map<String, String> extras;
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
     private final Map<String, JsonPrimitive> customData;
 
-    private Message(String title, String msgContent, String contentType,
+    private Message(String title, String msgContent, String contentType, Boolean testMessage,
                     Map<String, String> extras,
                     Map<String, Number> numberExtras,
                     Map<String, Boolean> booleanExtras,
@@ -42,6 +44,7 @@ public class Message implements PushModel {
         this.title = title;
         this.msgContent = msgContent;
         this.contentType = contentType;
+        this.testMessage = testMessage;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
@@ -68,6 +71,9 @@ public class Message implements PushModel {
         }
         if (null != contentType) {
             json.add(CONTENT_TYPE, new JsonPrimitive(contentType));
+        }
+        if (null != testMessage) {
+            json.add(TEST_MESSAGE, new JsonPrimitive(testMessage));
         }
 
         JsonObject extrasObject = null;
@@ -118,6 +124,7 @@ public class Message implements PushModel {
         private String title;
         private String msgContent;
         private String contentType;
+        private Boolean testMessage;
         private Map<String, String> extrasBuilder;
         private Map<String, Number> numberExtrasBuilder;
         private Map<String, Boolean> booleanExtrasBuilder;
@@ -136,6 +143,11 @@ public class Message implements PushModel {
 
         public Builder setContentType(String contentType) {
             this.contentType = contentType;
+            return this;
+        }
+
+        public Builder setTestMessage(Boolean testMessage) {
+            this.testMessage = testMessage;
             return this;
         }
 
@@ -226,7 +238,7 @@ public class Message implements PushModel {
         public Message build() {
             Preconditions.checkArgument(!(null == msgContent),
                     "msgContent should be set");
-            return new Message(title, msgContent, contentType,
+            return new Message(title, msgContent, contentType, testMessage,
                     extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder, customData);
         }
     }
